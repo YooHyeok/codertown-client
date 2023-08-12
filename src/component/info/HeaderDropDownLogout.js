@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { HeaderDropDownContext } from "./Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 
-import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import { useDispatch } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
 export default function HeaderDropDownLogout() {
 

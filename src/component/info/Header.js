@@ -43,7 +43,7 @@ export default function Header() {
     
     const dietLogin = () => {
         console.log("로그인 정보", token , userId)
-        if(token == '' || userId == '') {
+        /* if(token == '' || userId == '') {
             alert('로그인이 필요한 페이지입니다. \n 로그인 페이지로 이동합니다.');
             document.location.href = '/login';
             return;
@@ -51,23 +51,11 @@ export default function Header() {
         if(token != '' && userId != '') {
             document.location.href ='/dietScheduler';
             return;
-        }
+        } */
     }
 
     return (
             <div style={style}>
-                {/* <ul className="nav-items-1 " >
-                    <li className="nav-item">
-                        {<Link style={linkStyle} to={'/'} id="logo"><b>C</b>ook<b>Crew</b><img src={require('./elephant-header.png')} alt='' style={{width:"160px", marginTop:"-20px"}}/></Link>}
-                        <Link style={linkStyle} to={'/'} id="logo">
-                            <div>
-                                <img className="inline" style={{width:"80px", marginTop:"-0px"}} src={require('./elephant-header.png')} alt='' />
-                                <div style={{height:"30px", padding:"-20px", margin:"-24px"}}>CoderTown</div>
-                            </div>
-                            </Link>
-                        {<Link to={'/'} id="logo"><b>C</b>oder<b>Town</b></Link>}
-                    </li>
-                </ul> */}
                 <ul className="nav-items-1">
                     <li className="nav-item">
                         <Link style={linkStyle} to={'/'} id="logo" className="logo-link">
