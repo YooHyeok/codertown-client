@@ -74,7 +74,7 @@ export default function Header() {
                         {/* 메인 로고 영역 */}
                         <Link style={linkStyle} to={'/'} id="logo" className="logo-link">
                             <div className="logo-container">
-                                <img className="inline logo-image" src={require('./elephant-header.png')} alt='' />
+                                <img className="inline logo-image" src='/elephant-header.png' alt='' />
                                 <div style={linkStyle} className="logo-text"><b>C</b>oder<b>Town</b></div>
                             </div>
                         </Link>
