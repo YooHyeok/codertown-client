@@ -1,4 +1,4 @@
-import './Header.css';
+// import './Header.css';
 import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
