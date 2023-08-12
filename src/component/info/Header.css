@@ -1,0 +1,19 @@
+.Header {
+    text-align: center;
+    top:120px;
+}
+
+.profile-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 0 30px 30px 30px;
+    height: 130px;
+  
+  }
+  .profile{
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    /* border: 15px solid rgb(163, 151, 198); */
+    border-radius: 50%;
+  }

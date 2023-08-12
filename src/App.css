@@ -1,4 +1,132 @@
+
 .App {
+  text-align: center;
+  top:120px;
+}
+
+.nav-items {
+  list-style: none;
+  margin: 0px auto;
+}
+.nav-items-1 {
+  width:10%;
+  height:80px;
+  float:left;
+  list-style: none;
+  margin: 0px auto;
+}
+.nav-items2 {
+  width:50%;
+  /* float:inherit; */
+  display:inline-block;
+  list-style: none;
+  text-align: left;
+  margin: 0px;
+}
+.nav-items3 {
+  width:20%;
+  float:right;
+  /* display:inline-block; */
+  list-style: none;
+  margin: 0px auto;
+}
+.nav-item {
+  display: inline-block;
+  height: 80px;
+  padding: 0 10px;
+  /* text-align: center; */
+  min-width: 80px;
+  margin: 0 10px;
+  line-height: 80px;
+}
+.nav-item-dropdown{
+  display: inline-block;
+  /* height: 80px; */
+  padding: 0 10px;
+  /* text-align: center; */
+  min-width: 80px;
+  margin: 0 10px;
+  line-height: 80px;
+}
+
+.nav-item > a {
+  /* font-size: x-small; */
+  font-size: x-large !important;
+  text-decoration: none;
+  /* color: darkgray; */
+  color: black;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 80px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 16px;
+}
+
+.footer-items-0 {
+  list-style: none;
+  /* margin: 0px auto; */
+  width:17%;
+  height:220px !important;
+  float: left;
+  padding:0;
+}
+.footer-items-1 {
+  list-style: none;
+  margin: 0px auto;
+  width:53%;
+  height:220px !important;
+  float: left;
+  padding:0;
+}
+.footer-items-2 {
+  list-style: none;
+  margin: 0px auto;
+  width:30%;
+  height:220px !important;
+  float: right;
+  padding:0;
+}
+.footer-item {
+  display: inline-block;
+  height: 220px;
+  padding: 0 10px;
+  /* text-align: center; */
+  min-width: 220px;
+  margin: 0 10px;
+  line-height: 30px;
+}
+.footer-item > a {
+  font-size: x-small;
+  text-decoration: none;
+  color: darkgray;
+}
+
+#logo {
+  font-size: large;
+  color: black;
+  margin-right: 100px;
+}
+
+.main {
+  top: 100px;
+  width: 100%;
+  height: 100%;
+}
+/* .App {
   text-align: center;
 }
 
@@ -36,3 +164,4 @@
     transform: rotate(360deg);
   }
 }
+ */
