@@ -16,18 +16,18 @@ export default function Footer() {
                 <li tyle={{paddingTop:"20px"}} className="footer-item inline ">
                     {/* <Link to={'/'} id="logo"><img className='inline w-32' src={require('../../resources/img/logo/cookcrew.png')} alt=''/></Link> */}
                     {/* <Link to={'/'}><img style={{width:"240px"}} src={require('../../resources/img/logo/cookcrew3.png')} alt='' /></Link> */}
-                    <span>Copyright© By 2023. CookCrew All Rights Reserved.</span>
+                    <span>Copyright© By 2023. CoderTown All Rights Reserved.</span>
                 </li>
             </ul>
             <ul className="footer-items-2" >
                 <li className="footer-item" style={{paddingTop:"40px"}}>
-                    {/* <h5>프로젝트 참여 </h5><br/>
+                    <h5>프로젝트 참여 </h5><br/>
                     <span>
                         <a style={{width:"20px"}} className="inline-block social-icon" href="https://github.com/YooHyeok" target="_blank">
                             <SiGithub className="inline"/> 
                         </a>
                         유재혁 : webdevyoo@gmail.com</span><br/>
-                    <span>
+                    {/* <span>
                         <a style={{width:"20px"}} className="inline-block social-icon" href="https://github.com/mdmdr8" target="_blank">
                             <SiGithub className="inline"/> 
                         </a>

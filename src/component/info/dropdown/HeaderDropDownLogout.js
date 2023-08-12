@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { HeaderDropDownContext } from "./Header";
+import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 
 import { useDispatch } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.

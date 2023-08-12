@@ -1,4 +1,7 @@
-
+ /* DropDown Link 밑줄 제거 */
+.dropdown-menu > a {
+  text-decoration: none;
+}
 .App {
   text-align: center;
   top:120px;
