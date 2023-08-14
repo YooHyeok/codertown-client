@@ -12,14 +12,15 @@
   margin: 0px auto;
 }
 .nav-items-1 {
-  width:10%;
+  width:17.3%;
   height:80px;
   float:left;
   list-style: none;
   margin: 0px auto;
+  padding-left: 0;
 }
 .nav-items2 {
-  width:50%;
+  width:64%;
   /* float:inherit; */
   display:inline-block;
   list-style: none;
@@ -27,7 +28,7 @@
   margin: 0px;
 }
 .nav-items3 {
-  width:20%;
+  width:18%;
   float:right;
   /* display:inline-block; */
   list-style: none;

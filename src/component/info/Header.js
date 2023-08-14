@@ -5,6 +5,7 @@ import HeaderDropDownLogin from "./dropdown/HeaderDropDownLogin";
 import HeaderDropDownLogout from "./dropdown/HeaderDropDownLogout";
 import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
 import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
+import { Lightbulb } from 'react-bootstrap-icons';
 
 export const HeaderDropDownContext = createContext();
 export default function Header() {
@@ -79,7 +80,8 @@ export default function Header() {
                             </div>
                         </Link>
                     </li>
-                    </ul>
+                </ul>
+                <img src='/header-spring.png' style={{height:"50px", position: 'absolute', top: '55px', zIndex: '1' }} />
                 <ul className="nav-items2">
                     <li className="nav-item">
                         {/* Recruit 드롭다운 */}
@@ -94,14 +96,19 @@ export default function Header() {
                         </HeaderDropDownContext.Provider>
                     </li>
                 </ul>
+                <img src='/header-spring.png' style={{height:"50px", position: 'absolute', top: '55px', zIndex: '1' }} />
                 <ul className="nav-items3">
+                    {/* 푸시알림 드롭다운 */}
+                    <li className="nav-item-dropdown">
+                        <Lightbulb className="inline" size={30}  style={{color:"black"}}/>
+                    </li>
                     {/* 로그인 드롭다운 */}
-                    <HeaderDropDownContext.Provider value={contextValue}>
-                        <li className="nav-item-dropdown">
+                    <li className="nav-item-dropdown">
+                         <HeaderDropDownContext.Provider value={contextValue}>
                             {token == '' && <HeaderDropDownLogin/>}
                             {userId != '' && <HeaderDropDownLogout />}
-                        </li>
-                    </HeaderDropDownContext.Provider>
+                        </HeaderDropDownContext.Provider>
+                    </li>
                 </ul>
             </div>
     )
