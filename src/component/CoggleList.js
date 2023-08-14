@@ -34,8 +34,18 @@ export default function CoggleList() {
     
 
     return <div style={divStyle}>
-                <div>
-                    <h1 style={{margin:"30px"}}><b>코글</b></h1>
+                <div style = {{display:"flex"}}>
+                    <div>
+                        <h1 style={{margin:"30px 20px 30px 10px"}}><b>코글</b></h1>
+                    </div>
+                    <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
+                        <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
+                            style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
+                            <option value={"T"} >TechQue</option>
+                            <option value={"C"} >Carrier</option>
+                            <option value={"D"} >DevLife</option>
+                        </select>
+                    </div>
                 </div>
                 <div style={{borderTop: '0.1px solid lightgray'}}>
                     <Table striped >
