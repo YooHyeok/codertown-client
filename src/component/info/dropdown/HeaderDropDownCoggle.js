@@ -14,9 +14,9 @@ export default function HeaderDropDownCoggle() {
         <span style={{color:"black", fontSize:"24px"}}>Coggle</span>
       </DropdownToggle>
       <DropdownMenu >
-        <Link to={'/'}><DropdownItem style={{ lineHeight: "25px" }}><b>TechQue</b></DropdownItem></Link>
-        <Link to={'/'}><DropdownItem style={{ lineHeight: "25px" }}><b>Carrier</b></DropdownItem></Link>
-        <Link to={'/'}><DropdownItem style={{ lineHeight: "25px" }}><b>DevLife</b></DropdownItem></Link>
+        <Link to={'/techque'}><DropdownItem style={{ lineHeight: "25px" }}><b>TechQue</b></DropdownItem></Link>
+        <Link to={'/carrier'}><DropdownItem style={{ lineHeight: "25px" }}><b>Carrier</b></DropdownItem></Link>
+        <Link to={'/devlife'}><DropdownItem style={{ lineHeight: "25px" }}><b>DevLife</b></DropdownItem></Link>
       </DropdownMenu>
     </Dropdown>
   );

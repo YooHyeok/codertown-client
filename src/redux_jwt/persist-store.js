@@ -13,7 +13,7 @@ const persistConfig = {
 function reducer(currentState, action) {
     if (currentState == undefined) {
         return ({
-            Authorization: '',
+            Authorization: 'null',
             UserId: ''
         })
     }
