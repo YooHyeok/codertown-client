@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 import LoginModal from './LoginModal';
+import SignUpModal from './SignUpModal';
 
 export const HeaderLoginContext = createContext();
+export const HeaderSignUpContext = createContext();
 export default function HeaderDropDownLogin() {
 
 
@@ -21,6 +23,16 @@ export default function HeaderDropDownLogin() {
     loginShow: loginShow
     , loginToggle: loginToggle.bind(this)
   }
+  /* 회원가입 모달 */
+  const [signUpShow, setSignUpShow] = useState(false);
+  const signUpToggle = () => {
+    setSignUpShow(!signUpShow)
+  }
+  /* 회원가입 모달  context */
+  const signUpModal = {//user와 set함수를 함께 넘긴다.
+    signUpShow: signUpShow
+    , signUpToggle: signUpToggle.bind(this)
+  }
 
   return (
     <Dropdown id="ok" isOpen={context.dropdownOpenLogin} fade="true" toggle={context.toggleLogin}>
@@ -32,13 +44,19 @@ export default function HeaderDropDownLogin() {
         {/* <Link to={'/login'}><DropdownItem style={{ lineHeight: "25px" }}><b>로그인</b></DropdownItem></Link> */}
         <DropdownItem style={{ lineHeight: "25px" }} onClick={(e)=>{e.preventDefault(); loginToggle();}}><b>로그인</b></DropdownItem>
         <DropdownItem style={{ lineHeight: "25px" }} divider />
-        <Link to={'/join'}><DropdownItem style={{ lineHeight: "25px" }}><b>회원가입</b></DropdownItem></Link>
+        {/* <Link to={'/join'}><DropdownItem style={{ lineHeight: "25px" }}><b>회원가입</b></DropdownItem></Link> */}
+        <DropdownItem style={{ lineHeight: "25px" }} onClick={(e)=>{e.preventDefault(); signUpToggle();}}><b>회원가입</b></DropdownItem>
 
       </DropdownMenu>
       {loginShow && 
         <HeaderLoginContext.Provider value={loginModal}>
         <LoginModal />
       </HeaderLoginContext.Provider>
+      }
+      {signUpShow && 
+        <HeaderSignUpContext.Provider value={signUpModal}>
+        <SignUpModal />
+      </HeaderSignUpContext.Provider>
       }
     </Dropdown>
   );

@@ -1,6 +1,7 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Col, Input } from 'reactstrap';
 import {useContext} from 'react';
 import { HeaderLoginContext } from './HeaderDropDownLogin';
+import { Link } from 'react-router-dom';
 
 export default function LoginModal() {
     const context = useContext(HeaderLoginContext);
@@ -20,7 +21,7 @@ export default function LoginModal() {
                 <span style={{textAlign:"center !important"}}>로그인</span>
                 </ModalHeader>
             <ModalBody>
-                <div style={{margin:"20px auto", paddingLeft:"30px"}}>
+                <div style={{margin:"20px auto", marginBottom:"-40px", paddingLeft:"30px"}}>
                     <FormGroup row style={{paddingLeft:"20px"}}>
                         <Label htmlFor='email' sm={2}>이&nbsp;&nbsp;메&nbsp;&nbsp;일</Label>
                         <Col sm={8}>
@@ -36,12 +37,18 @@ export default function LoginModal() {
                     <FormGroup row style={{paddingLeft:"20px"}}>
                         <Col sm={10}>
                             <Input type='checkbox' name='rememberMe' id='rememberMe' /> &nbsp;Remember Me
+                            <div style={{width:"350px", position:"relative", top:"-20px"}}>
+                                <Link style={{float:"right"}}>회원가입</Link> <br/>
+                                <Link style={{float:"right"}}>아이디/패스워드 찾기</Link>
+                            </div>
                         </Col>
                     </FormGroup>
+
                 </div>
             </ModalBody>
-            <ModalFooter >
+            <ModalFooter style={{width:"500px"}}>
                 <Button color="secondary" onClick={context.loginToggle} style={{margin:"0 auto", width:"350px"}}>로그인</Button>
+                
             </ModalFooter>
             </Modal>
         </div>
