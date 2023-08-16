@@ -103,10 +103,11 @@ export default function Header() {
                         <Lightbulb className="inline" size={30}  style={{color:"black"}}/>
                     </li>
                     {/* 로그인 드롭다운 */}
-                    <li className="nav-item-dropdown">
+                    <li className="nav-item-dropdown" style={{display:"inline-flex"}}>
                          <HeaderDropDownContext.Provider value={contextValue}>
-                            {token == '' && <HeaderDropDownLogin/>}
+                            {token == '' && <HeaderDropDownLogin/> }
                             {userId != '' && <HeaderDropDownLogout />}
+                            <HeaderDropDownLogout />
                         </HeaderDropDownContext.Provider>
                     </li>
                 </ul>
