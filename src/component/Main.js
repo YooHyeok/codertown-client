@@ -1,3 +1,6 @@
+import { Messenger } from 'react-bootstrap-icons';
+
+
 export default function MagnetFill() {
     const divStyle = {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
@@ -11,5 +14,7 @@ export default function MagnetFill() {
         , top: '100'
       };
 
-    return <div style={divStyle}>메인페이지</div>
+    return <div style={divStyle}>메인페이지
+
+    </div>
 }

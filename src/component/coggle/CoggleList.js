@@ -43,6 +43,7 @@ export default function CoggleList() {
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
                         <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
                             style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
+                            <option value={""} >전체</option>
                             <option value={"T"} >TechQue</option>
                             <option value={"C"} >Carrier</option>
                             <option value={"D"} >DevLife</option>
