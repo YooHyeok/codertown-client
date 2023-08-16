@@ -26,8 +26,7 @@
   margin: 0 auto;
   width: 150px;
   height: 150px;
-  /* border: 15px solid rgb(163, 151, 198); */
-  border-radius: 50%;
+  border-radius: 100%;
 }
 .content-wrap{
   margin-bottom: 10%;

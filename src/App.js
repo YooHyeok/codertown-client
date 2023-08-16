@@ -10,7 +10,7 @@ import Main from './component/Main';
 import CoggleList from './component/CoggleList';
 import CokkiriList from './component/CokkiriList';
 import Mammoth from './component/Mammoth';
-import MyPage from './component/MyPage';
+import MyPage from './component/mypage/MyPage';
 
 function App() {
   return (
