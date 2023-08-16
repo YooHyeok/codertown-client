@@ -22,12 +22,17 @@ export default function HeaderDropDownLogin() {
   const signUpToggle = () => {
     setSignUpShow(!signUpShow)
   }
+  const signInterToggle = () => {
+    setSignUpShow(!signUpShow)
+    setLoginShow(!loginShow)
+  }
   /* 로그인/회원가입 Context */
   const signUpInContext = {//user와 set함수를 함께 넘긴다.
     loginShow: loginShow
     , loginToggle: loginToggle.bind(this),
     signUpShow: signUpShow
     , signUpToggle: signUpToggle.bind(this)
+    , signInterToggle: signInterToggle.bind(this)
   }
 
   return (
