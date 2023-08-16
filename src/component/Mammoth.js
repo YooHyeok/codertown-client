@@ -6,7 +6,7 @@ import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 
-export default function CokkiriList() {
+export default function Mammoth() {
     const divStyle = {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '750px'
@@ -41,10 +41,10 @@ export default function CokkiriList() {
                 </div>
                 <div style={{display:"flex"}}>
                     <div>
-                        <h1 style={{margin:"30px 15px 30px 0px", width:"85px"}}><b>코끼리</b></h1>
+                        <h1 style={{margin:"30px 15px 30px 0px", width:"85px"}}><b>맘모스</b></h1>
                     </div>
                     <div style={{width:"140px", height:"32px", paddingTop: "45px"}}>
-                        <span style ={{display:"flex", width:"140px"}}>코딩하는 사람 끼리</span>
+                        <span style ={{display:"flex", width:"140px"}}>맘맞는사람 모여서 스터디</span>
                         {/* <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
                             style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
                             <option value={"Cokkiri"} >코끼리</option>
@@ -100,35 +100,35 @@ export default function CokkiriList() {
                         
                     </Table>
                 </div>
-                <div style={{float:"right"}} >
-                    <Button color='secondary'>글쓰기</Button>
-                </div>
-                <div style={{ clear:"both", textAlign:"center"}}>
-                    {(() => {
-                        const array = [];
-                        for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
-                            if (i == pageInfo.curPage) {
-                            array.push(
-                                <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
-                            )
-                            } else {
-                            array.push(
-                                <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
-                            )
+                    <div style={{float:"right"}} >
+                        <Button color='secondary'>글쓰기</Button>
+                    </div>
+                    <div style={{ clear:"both", textAlign:"center"}}>
+                        {(() => {
+                            const array = [];
+                            for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+                                if (i == pageInfo.curPage) {
+                                array.push(
+                                    <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                                )
+                                } else {
+                                array.push(
+                                    <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                                )
+                                }
                             }
-                        }
-                        if(pageInfo.curPage != 1)
-                        array.unshift(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
+                            if(pageInfo.curPage != 1)
+                            array.unshift(
+                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
 
-                        )
-                        if(pageInfo.curPage != Math.max(pageInfo.allPage))
-                        array.push(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
+                            )
+                            if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                            array.push(
+                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
 
-                        )
-                        return array;
-                        })()}
+                            )
+                            return array;
+                            })()}
+                    </div>
                 </div>
-            </div>
 }
