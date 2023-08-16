@@ -252,7 +252,73 @@ export default function MyPage() {
                         <TabPane tabId="3">
                             <Row>
                             <Col sm="12">
-                                <h4>Tab 3 Contents</h4>
+                                <div style={{borderTop: '0.1px solid lightgray', margin:"30px auto"}}>
+                                    <Table >
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>카테고리</th>
+                                                <th>제목</th>
+                                                <th>작성일자</th>
+                                                <th>수정일자</th>
+                                                <th>
+                                                    <BsFillSuitHeartFill style={{width:"20px",height:"20px",margin:"0 auto"}}/>
+                                                </th>
+                                                <th>
+                                                    조회수                                            
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        {console.log(coggleList)}
+
+                                        <tbody style={{overflow:"auto"}}>
+                                            {/* {this.repeatTrTd()} */}
+                                            {coggleList.map((obj) => {
+                                                console.log(obj);
+                                                return (
+                                                    <tr key={obj.coggleNo}>
+                                                    <td>{obj.coggleNo}</td>
+                                                    <td>{obj.coggleNo}</td>
+                                                    <td>{obj.title}</td>
+                                                    <td>{obj.firstRegDate}</td>
+                                                    <td>{obj.firstRegDate}</td>
+                                                    <td>{obj.like}</td>
+                                                    <td>{obj.count}</td>
+                                                </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                        {/* map은 각각의 요소마다 return한다. */}
+                                        
+                                    </Table>
+                                </div>
+                                <div style={{marginTop:"50px", textAlign:"center"}}>
+                                    {(() => {
+                                        const array = [];
+                                        for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+                                            if (i == pageInfo.curPage) {
+                                            array.push(
+                                                <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                                            )
+                                            } else {
+                                            array.push(
+                                                <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                                            )
+                                            }
+                                        }
+                                        if(pageInfo.curPage != 1)
+                                        array.unshift(
+                                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
+
+                                        )
+                                        if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                                        array.push(
+                                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
+
+                                        )
+                                        return array;
+                                        })()}
+                                </div>
                             </Col>
                             </Row>
                         </TabPane>
