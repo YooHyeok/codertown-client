@@ -97,35 +97,36 @@ export default function CoggleList() {
                         
                     </Table>
                 </div>
-                    <div style={{float:"right"}} >
-                        <Button color='secondary'>글쓰기</Button>
-                    </div>
-                    <div style={{ clear:"both", textAlign:"center"}}>
-                        {(() => {
-                            const array = [];
-                            for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
-                                if (i == pageInfo.curPage) {
-                                array.push(
-                                    <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
-                                )
-                                } else {
-                                array.push(
-                                    <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
-                                )
-                                }
-                            }
-                            if(pageInfo.curPage != 1)
-                            array.unshift(
-                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
-
-                            )
-                            if(pageInfo.curPage != Math.max(pageInfo.allPage))
-                            array.push(
-                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
-
-                            )
-                            return array;
-                            })()}
-                    </div>
+                <div style={{float:"right"}} >
+                    <Button color='secondary'>글쓰기</Button>
                 </div>
+                <div style={{ clear:"both", textAlign:"center"}}>
+                    {(() => {
+                        const array = [];
+                        for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+                            if (i == pageInfo.curPage) {
+                            array.push(
+                                <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                            )
+                            } else {
+                            array.push(
+                                <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                            )
+                            }
+                        }
+                        if(pageInfo.curPage != 1)
+                        array.unshift(
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
+
+                        )
+                        if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                        array.push(
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
+
+                        )
+                        return array;
+                        })()}
+                </div>
+            </div>
+            
 }
