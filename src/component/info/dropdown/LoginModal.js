@@ -1,5 +1,5 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Col, Input } from 'reactstrap';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import { HeaderLoginContext } from './HeaderDropDownLogin';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,6 @@ export default function LoginModal() {
         // , position: "fixed"
         // , transform: "translate(15%,-50%)"
     }
-
     return(
         <div>
             <Modal isOpen={context.loginShow} toggle={context.loginToggle} style={modalStyle}>
@@ -38,7 +37,7 @@ export default function LoginModal() {
                         <Col sm={10}>
                             <Input type='checkbox' name='rememberMe' id='rememberMe' /> &nbsp;Remember Me
                             <div style={{width:"350px", position:"relative", top:"-20px"}}>
-                                <Link style={{float:"right"}}>회원가입</Link> <br/>
+                                <Link style={{float:"right"}} onClick={(e)=>{e.preventDefault(); context.signUpToggle();}}>회원가입</Link> <br/>
                                 <Link style={{float:"right"}}>아이디/패스워드 찾기</Link>
                             </div>
                         </Col>

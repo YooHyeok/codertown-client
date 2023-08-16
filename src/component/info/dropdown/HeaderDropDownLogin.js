@@ -1,6 +1,5 @@
 import { useContext, createContext, useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 import LoginModal from './LoginModal';
@@ -18,18 +17,15 @@ export default function HeaderDropDownLogin() {
   const loginToggle = () => {
     setLoginShow(!loginShow)
   }
-  /* 로그인 모달  context */
-  const loginModal = {//user와 set함수를 함께 넘긴다.
-    loginShow: loginShow
-    , loginToggle: loginToggle.bind(this)
-  }
   /* 회원가입 모달 */
   const [signUpShow, setSignUpShow] = useState(false);
   const signUpToggle = () => {
     setSignUpShow(!signUpShow)
   }
-  /* 회원가입 모달  context */
-  const signUpModal = {//user와 set함수를 함께 넘긴다.
+  /* 로그인/회원가입 Context */
+  const signUpInContext = {//user와 set함수를 함께 넘긴다.
+    loginShow: loginShow
+    , loginToggle: loginToggle.bind(this),
     signUpShow: signUpShow
     , signUpToggle: signUpToggle.bind(this)
   }
@@ -49,12 +45,12 @@ export default function HeaderDropDownLogin() {
 
       </DropdownMenu>
       {loginShow && 
-        <HeaderLoginContext.Provider value={loginModal}>
+        <HeaderLoginContext.Provider value={signUpInContext}>
         <LoginModal />
       </HeaderLoginContext.Provider>
       }
       {signUpShow && 
-        <HeaderSignUpContext.Provider value={signUpModal}>
+        <HeaderSignUpContext.Provider value={signUpInContext}>
         <SignUpModal />
       </HeaderSignUpContext.Provider>
       }
