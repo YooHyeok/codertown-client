@@ -14,8 +14,8 @@ export default function HeaderDropDownRecruit() {
         <span style={{color:"black", fontSize:"24px"}}>Recruit</span>
       </DropdownToggle>
       <DropdownMenu >
-        <Link to={'/'}><DropdownItem style={{ lineHeight: "25px" }}><b>Cokkiri</b></DropdownItem></Link>
-        <Link to={'/'}><DropdownItem style={{ lineHeight: "25px" }}><b>Mammoth</b></DropdownItem></Link>
+        <Link to={'/cokkiri'}><DropdownItem style={{ lineHeight: "25px" }}><b>Cokkiri</b></DropdownItem></Link>
+        <Link to={'/mammoth'}><DropdownItem style={{ lineHeight: "25px" }}><b>Mammoth</b></DropdownItem></Link>
       </DropdownMenu>
     </Dropdown>
   );
