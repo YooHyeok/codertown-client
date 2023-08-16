@@ -10,7 +10,7 @@ import Main from './component/Main';
 import CoggleList from './component/CoggleList';
 import CokkiriList from './component/CokkiriList';
 import Mammoth from './component/Mammoth';
-import Mypage from './component/Mypage';
+import MyPage from './component/MyPage';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               <Route exact path='/devlife' element={<CoggleList />} />
               <Route exact path='/cokkiri' element={<CokkiriList />} />
               <Route exact path='/mammoth' element={<Mammoth />} />
-              <Route exact path='/mypage' element={<Mypage />} />
+              <Route exact path='/mypage' element={<MyPage />} />
         </Routes>
         <Footer/>
       </BrowserRouter>
