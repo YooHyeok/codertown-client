@@ -2,10 +2,10 @@ import { useContext, createContext, useState } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
-import LoginModal from './LoginModal';
-import SignUpModal from './SignUpModal';
-import SignUpSimpleModal from './SignUpSimpleModal';
-import FindUserModal from './FindUserModal';
+import LoginModal from '../modal/LoginModal';
+import SignUpModal from '../modal/SignUpModal';
+import SignUpSimpleModal from '../modal/SignUpSimpleModal';
+import FindUserModal from '../modal/FindUserModal';
 
 export const HeaderLoginContext = createContext();
 export const HeaderSignUpContext = createContext();

@@ -1,6 +1,6 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Row, Col, Input} from 'reactstrap';
 import {useContext} from 'react';
-import { HeaderSignUpContext } from './HeaderDropDownLogin';
+import { HeaderSignUpContext } from '../dropdown/HeaderDropDownLogin';
 
 
 export default function SignUpModal() {

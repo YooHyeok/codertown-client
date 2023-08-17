@@ -9,8 +9,8 @@ import Footer from './component/info/Footer';
 import Main from './component/Main';
 import CoggleList from './component/coggle/CoggleList';
 import CoggleWrite from './component/coggle/CoggleWrite';
-import CokkiriList from './component/CokkiriList';
-import Mammoth from './component/Mammoth';
+import CokkiriList from './component/recruit/CokkiriList';
+import Mammoth from './component/recruit/Mammoth';
 import DirectMessengerButton from './component/DirectMessengerButton';
 import MyPage from './component/mypage/MyPage';
 
