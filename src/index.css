@@ -18,6 +18,6 @@ code {
   font-style: normal;
 }
 
-*, .fc-toolbar-title{
+.header, .footer, * {
   font-family: 'KOTRAHOPE';
 }

@@ -1,12 +1,12 @@
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Col, Input} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Row, Col, Input} from 'reactstrap';
 import {useContext} from 'react';
 import { HeaderSignUpContext } from './HeaderDropDownLogin';
 
 export default function SignUpModal() {
     const context = useContext(HeaderSignUpContext);
     const modalStyle = { 
-        width: "500px",
-        height: "500px",
+        width: "320px",
+        // height: "500px",
         top: "20%"
         // , left: "30%"
         // , position: "fixed"
@@ -19,25 +19,45 @@ export default function SignUpModal() {
                     <span style={{textAlign:"center !important"}}>간편 회원가입</span>
                 </ModalHeader>
                 <ModalBody>
-                    <Form style={{margin:"20px auto", paddingLeft:"20px"}}>
-                        <FormGroup row >
-                            <Label style={{width:"95px"}} htmlFor='email' sm={2}>이&nbsp;&nbsp;메&nbsp;&nbsp;일</Label>
-                            <Col sm={8} style={{display:"flex"}}>
-                                <Input type='text' name='email' id='email' style={{width:"213px"}}/>&nbsp;
-                                <Button outline color='secondary' className="CheckBtn" onClick={(e)=>{e.preventDefault();}}>중복 확인</Button>
-                            </Col>
+                    <Form >
+                        <FormGroup >
+                            <Row>
+                                <Col sm={12} >
+                                    <Label htmlFor='email' sm={2}>이메일</Label>
+                                    <span>&#10004; 사용가능</span>
+                                    <span>&#10060; 사용불가</span>
+                                    <Button style={{float:"right"}} outline color='secondary' size="sm" className="existsBtn" onClick={(e)=>{e.preventDefault();}}>중복 확인</Button>
+                                    <Input type='text' name='email' id='email' />
+                                </Col>
+                            </Row>
                         </FormGroup>
-                        <FormGroup row style={{paddingLeft:"0px"}}>
-                            <Label style={{width:"95px"}} htmlFor='password' sm={2}>패스워드</Label>
-                            <Col sm={8}>
-                                <Input type='text' name='password' id='password' />
-                            </Col>
+                        <FormGroup >
+                            <Row>
+                                <Col sm={12}>
+                                    <Label htmlFor='email' sm={2}>인증번호</Label>
+                                    <span>&#10004; 인증완료</span>
+                                    <span>&#10060; 인증실패</span>
+                                    <Button style={{float:"right"}} outline color='secondary' size="sm" className="emailAuthBtn" onClick={(e)=>{e.preventDefault();}}>인증</Button>
+                                    <Input type='text' name='emailAuthNumber' id='emailAuthNumber' />&nbsp;
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col sm={12}>
+                                    <Label htmlFor='password' sm={2}>패스워드</Label>
+                                    <span>&#10060; 패스워드 양식에 어긋납니다</span>
+                                    <Input type='text' name='password' id='password' placeholder='특수문자, 대문자를 각각 1자 이상 포함한 12자리' />
+                                </Col>
+                                <Col sm={12}>
+                                    <Label htmlFor='password2' sm={2}>재입력</Label>
+                                    <span>&#10004; 패스워드 일치</span>
+                                    <span>&#10060; 패스워드 불일치</span>
+                                    <Input type='text' name='password2' id='password' />
+                                    
+                                </Col>
+                            </Row>
                         </FormGroup>
-                        <FormGroup row style={{paddingLeft:"0px"}}>
-                            <Label style={{width:"95px"}} htmlFor='password2' sm={2}>패스워드 확인</Label>
-                            <Col sm={8}>
-                                <Input type='text' name='password2' id='password' />
-                            </Col>
+                        <FormGroup>
+                            
                         </FormGroup>
                     </Form>
                 </ModalBody>
