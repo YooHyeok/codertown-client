@@ -2,6 +2,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 import {useContext} from 'react';
 import { HeaderSignUpContext } from './HeaderDropDownLogin';
 
+
 export default function SignUpModal() {
     const context = useContext(HeaderSignUpContext);
     const modalStyle = { 
@@ -12,10 +13,9 @@ export default function SignUpModal() {
         // , position: "fixed"
         // , transform: "translate(15%,-50%)"
     }
-
     return(
-            <Modal isOpen={context.signUpShow} toggle={context.loginShow == true ? context.signInterToggle : context.signUpToggle} style={modalStyle}>
-                <ModalHeader toggle={context.loginShow == true ? context.signInterToggle : context.signUpToggle} >
+            <Modal isOpen={context.signUpShow} toggle={context.signUpToggle} style={modalStyle}>
+                <ModalHeader toggle={context.signUpToggle} >
                     <span style={{textAlign:"center !important"}}>회원가입</span>
                 </ModalHeader>
                 <ModalBody>
@@ -23,21 +23,26 @@ export default function SignUpModal() {
                     <FormGroup >
                         <Row>
                             <Col>
-                                <Button color="success" onClick={context.loginShow == true ? context.signInterToggle : context.signUpToggle} style={{width:"285px"}}>네이버로 시작하기</Button>
+                                <Button color="success" onClick={(e)=>{e.preventDefault();}} style={{width:"285px"}}>네이버로 시작하기</Button>
                             </Col>
                         </Row>
                     </FormGroup>
                     <FormGroup >
                         <Row>
                             <Col>
-                                <Button color="warning" onClick={context.loginShow == true ? context.signInterToggle : context.signUpToggle} style={{width:"285px"}}>카카오로 시작하기</Button>
+                                <Button color="warning" onClick={(e)=>{e.preventDefault();}} style={{width:"285px"}}>카카오로 시작하기</Button>
                             </Col>
                         </Row>
                     </FormGroup>
                 </Form>
                 </ModalBody>
                 <ModalFooter >
-                    <Button outline color="secondary" onClick={context.loginShow == true ? context.signInterToggle : context.signUpToggle} style={{width:"285px"}}>ID / PW 회원가입</Button>
+                    <Button outline color="secondary" style={{width:"285px"}}
+                        onClick={(e)=>{
+                            e.preventDefault();
+                            context.signUpToggle(); //현재 토글 닫기.
+                            context.signUpSimpleToggle(); // 간편 회원가입 토글 열기.
+                    }}>ID / PW 회원가입</Button>
                 </ModalFooter>
             </Modal>
     )

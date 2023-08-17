@@ -37,7 +37,12 @@ export default function LoginModal() {
                             <Row>
                                 <Col sm={12}>
                                     <Input type='checkbox' name='rememberMe' id='rememberMe' /> &nbsp;Remember Me
-                                    <Link style={{float:"right"}} onClick={(e)=>{e.preventDefault(); context.signUpToggle();}}>회원가입</Link> <br/>
+                                    <Link style={{float:"right"}} 
+                                          onClick={(e)=>{
+                                            e.preventDefault();
+                                            context.loginToggle(); //현재 토글 닫기.
+                                            context.signUpToggle(); // 회원가입 토글 열기.
+                                    }}>회원가입</Link> <br/>
                                     <Link style={{float:"right"}}>아이디/패스워드 찾기</Link>
                                 </Col>
                             </Row>
@@ -45,7 +50,7 @@ export default function LoginModal() {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={context.loginToggle} style={{margin:"0 auto", width:"350px"}}>로그인</Button>
+                    <Button color="secondary" onClick={(e)=>{e.preventDefault();}} style={{margin:"0 auto", width:"350px"}}>로그인</Button>
                 </ModalFooter>
             </Modal>
     )

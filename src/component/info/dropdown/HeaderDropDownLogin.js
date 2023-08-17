@@ -4,6 +4,7 @@ import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
+import SignUpSimpleModal from './SignUpSimpleModal';
 
 export const HeaderLoginContext = createContext();
 export const HeaderSignUpContext = createContext();
@@ -22,17 +23,27 @@ export default function HeaderDropDownLogin() {
   const signUpToggle = () => {
     setSignUpShow(!signUpShow)
   }
-  const signInterToggle = () => {
-    setSignUpShow(!signUpShow)
-    setLoginShow(!loginShow)
+  
+  /* 간편 회원가입 모달 */
+  const [signUpSimpleShow, setSignUpSimpleShow] = useState(false);
+  const signUpSimpleToggle = () => {
+    setSignUpSimpleShow(!signUpSimpleShow)
   }
+
+  /* const signInterToggle = () => {
+    setSignUpShow(!signUpShow)
+    setSignUpSimpleShow(!signUpSimpleShow)
+    setLoginShow(!loginShow)
+  } */
   /* 로그인/회원가입 Context */
   const signUpInContext = {//user와 set함수를 함께 넘긴다.
-    loginShow: loginShow
-    , loginToggle: loginToggle.bind(this),
-    signUpShow: signUpShow
+    loginShow: loginShow 
+    , loginToggle: loginToggle.bind(this)
+    , signUpShow: signUpShow
     , signUpToggle: signUpToggle.bind(this)
-    , signInterToggle: signInterToggle.bind(this)
+    // , signInterToggle: signInterToggle.bind(this)
+    , signUpSimpleShow: signUpSimpleShow
+    , signUpSimpleToggle: signUpSimpleToggle.bind(this)
   }
 
   return (
@@ -57,6 +68,11 @@ export default function HeaderDropDownLogin() {
       {signUpShow && 
         <HeaderSignUpContext.Provider value={signUpInContext}>
         <SignUpModal />
+      </HeaderSignUpContext.Provider>
+      }
+      {signUpSimpleShow && 
+        <HeaderSignUpContext.Provider value={signUpInContext}>
+        <SignUpSimpleModal />
       </HeaderSignUpContext.Provider>
       }
     </Dropdown>
