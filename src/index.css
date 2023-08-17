@@ -14,10 +14,27 @@ code {
 @font-face {
   font-family: 'KOTRAHOPE';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
-  font-weight: lighter;
+  font-weight: bolder;
   font-style: normal;
 }
 
-.header, .footer, * {
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
   font-family: 'KOTRAHOPE';
+  font-weight: bolder;
+}
+
+.card-body, 
+.card-body>*, 
+th, td, 
+td>select
+td>button>span{
+  font-family: 'Pretendard-Regular';
+  font-size:13px;
 }

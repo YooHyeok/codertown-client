@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 /* 컴포넌트 */
 import Header from './component/info/Header';
 import Footer from './component/info/Footer';
-import Main from './component/Main';
+import Main from './component/main/Main';
 import Coggle from './component/coggle/Coggle';
 import CoggleWrite from './component/coggle/CoggleWrite';
 import Cokkiri from './component/recruit/Cokkiri';

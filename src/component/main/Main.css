@@ -1,0 +1,14 @@
+.body {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* Tab - Nav영역 Pills 속성 CSS */
+.custom-nav .nav-link {
+background-color: white;
+color: gray;
+}
+.custom-nav .nav-link.active {
+background-color: white;
+color: black;
+}
