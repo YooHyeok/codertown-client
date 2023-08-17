@@ -7,9 +7,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './component/info/Header';
 import Footer from './component/info/Footer';
 import Main from './component/Main';
-import CoggleList from './component/coggle/CoggleList';
+import Coggle from './component/coggle/Coggle';
 import CoggleWrite from './component/coggle/CoggleWrite';
-import CokkiriList from './component/recruit/CokkiriList';
+import Cokkiri from './component/recruit/Cokkiri';
 import Mammoth from './component/recruit/Mammoth';
 import DirectMessengerButton from './component/DirectMessengerButton';
 import MyPage from './component/mypage/MyPage';
@@ -22,11 +22,11 @@ function App() {
         <DirectMessengerButton/>
         <Routes>
               <Route exact path='/' element={<Main />} />
-              <Route exact path='/techque' element={<CoggleList />} />
-              <Route exact path='/carrier' element={<CoggleList />} />
-              <Route exact path='/devlife' element={<CoggleList />} />
+              <Route exact path='/techque' element={<Coggle />} />
+              <Route exact path='/carrier' element={<Coggle />} />
+              <Route exact path='/devlife' element={<Coggle />} />
               <Route exact path='/coggle-write' element={<CoggleWrite />} />
-              <Route exact path='/cokkiri' element={<CokkiriList />} />
+              <Route exact path='/cokkiri' element={<Cokkiri />} />
               <Route exact path='/mammoth' element={<Mammoth />} />
               <Route exact path='/mypage' element={<MyPage />} />
         </Routes>
