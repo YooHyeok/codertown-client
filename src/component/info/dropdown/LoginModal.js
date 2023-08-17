@@ -43,7 +43,12 @@ export default function LoginModal() {
                                             context.loginToggle(); //현재 토글 닫기.
                                             context.signUpToggle(); // 회원가입 토글 열기.
                                     }}>회원가입</Link> <br/>
-                                    <Link style={{float:"right"}}>아이디/패스워드 찾기</Link>
+                                    <Link style={{float:"right"}}
+                                          onClick={(e)=>{
+                                            e.preventDefault();
+                                            context.loginToggle(); //현재 토글 닫기.
+                                            context.findUserToggle(); // 간편 회원가입 토글 열기.
+                                    }}>아이디/패스워드 찾기</Link>
                                 </Col>
                             </Row>
                         </FormGroup>

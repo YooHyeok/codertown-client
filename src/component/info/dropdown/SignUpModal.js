@@ -6,16 +6,17 @@ import { HeaderSignUpContext } from './HeaderDropDownLogin';
 export default function SignUpModal() {
     const context = useContext(HeaderSignUpContext);
     const modalStyle = { 
-        width: "320px",
+        width: "325px",
         // height: "500px",
         top: "20%"
         // , left: "30%"
         // , position: "fixed"
         // , transform: "translate(15%,-50%)"
     }
+
     return(
             <Modal isOpen={context.signUpShow} toggle={context.signUpToggle} style={modalStyle}>
-                <ModalHeader toggle={context.signUpToggle} >
+            <ModalHeader toggle={context.signUpToggle} >
                     <span style={{textAlign:"center !important"}}>회원가입</span>
                 </ModalHeader>
                 <ModalBody>

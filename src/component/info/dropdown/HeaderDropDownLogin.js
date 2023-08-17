@@ -5,6 +5,7 @@ import { PersonCircle } from 'react-bootstrap-icons';
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
 import SignUpSimpleModal from './SignUpSimpleModal';
+import FindUserModal from './FindUserModal';
 
 export const HeaderLoginContext = createContext();
 export const HeaderSignUpContext = createContext();
@@ -30,20 +31,22 @@ export default function HeaderDropDownLogin() {
     setSignUpSimpleShow(!signUpSimpleShow)
   }
 
-  /* const signInterToggle = () => {
-    setSignUpShow(!signUpShow)
-    setSignUpSimpleShow(!signUpSimpleShow)
-    setLoginShow(!loginShow)
-  } */
+    /* 아이디/패스워드 찾기 모달 */
+    const [findUserShow, setFindUserShow] = useState(false);
+    const findUserToggle = () => {
+      setFindUserShow(!findUserShow)
+    }
+
   /* 로그인/회원가입 Context */
   const signUpInContext = {//user와 set함수를 함께 넘긴다.
     loginShow: loginShow 
     , loginToggle: loginToggle.bind(this)
     , signUpShow: signUpShow
     , signUpToggle: signUpToggle.bind(this)
-    // , signInterToggle: signInterToggle.bind(this)
     , signUpSimpleShow: signUpSimpleShow
     , signUpSimpleToggle: signUpSimpleToggle.bind(this)
+    , findUserShow: findUserShow
+    , findUserToggle: findUserToggle.bind(this)
   }
 
   return (
@@ -73,6 +76,11 @@ export default function HeaderDropDownLogin() {
       {signUpSimpleShow && 
         <HeaderSignUpContext.Provider value={signUpInContext}>
         <SignUpSimpleModal />
+      </HeaderSignUpContext.Provider>
+      }
+      {findUserShow && 
+        <HeaderSignUpContext.Provider value={signUpInContext}>
+        <FindUserModal />
       </HeaderSignUpContext.Provider>
       }
     </Dropdown>
