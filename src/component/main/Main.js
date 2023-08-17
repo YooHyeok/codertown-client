@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 import AllCardList from './AllCardList';
+import CokkiriCardList from './CokkiriCardList';
+import MammothCardList from './MammothCardList';
 import './Main.css';
 
 export default function Main() {
@@ -33,15 +35,6 @@ export default function Main() {
           setTabChange({activeTab: tab})
       }
   }
-  const [coggleList , setCoggleList] = useState([]);
-  useEffect(() => {
-    /* coggleList 목데이터 */
-    const mockCoggleList = [];
-    for (let j = 0; j < 30; j++) {
-        mockCoggleList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-    }
-    setCoggleList(mockCoggleList)
-  }, [])
 
   return (
   <div className="body">
@@ -68,7 +61,7 @@ export default function Main() {
       {/* ============== 탭 컨텐츠 영역 ============== */}
       <div style={tabStyle}>
         <TabContent activeTab={tabChange.activeTab}>
-          
+
             <TabPane tabId="1">
               {/* Recruit 전체 리스트 */}
               <AllCardList/>
@@ -76,10 +69,12 @@ export default function Main() {
 
             <TabPane tabId="2">
               {/* Recruit 코끼리 리스트 */}
+              <CokkiriCardList/>
             </TabPane>
 
             <TabPane tabId="3">
               {/* Recruit 맘모스 리스트 */}
+              <MammothCardList/>
             </TabPane>
         </TabContent>
         </div>
