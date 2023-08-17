@@ -99,7 +99,10 @@ export default function CoggleList() {
                     </Table>
                 </div>
                 <div style={{float:"right"}} >
-                    <Button color='secondary'>글쓰기</Button>
+                    <Button color='secondary' onClick={(e)=>{
+                        e.preventDefault();
+                        document.location.href="/coggle-write";
+                    }}>글쓰기</Button>
                 </div>
                 <div style={{ clear:"both", textAlign:"center"}}>
                     {(() => {

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 
 export default function CoggleWrite() {
@@ -10,6 +11,7 @@ export default function CoggleWrite() {
         , padding: '30px'
         , top: '100'
       };
+      const navigate = useNavigate();
     return(
         <div style={divStyle}>
                 <div style = {{display:"flex"}}>
@@ -47,7 +49,7 @@ export default function CoggleWrite() {
                                 style={{width:"730px", height:"500px", overflow: "auto"}}/>
                                 <br/>
                                 <div style={{float:"right"}} >
-                                <Button color='secondary' outline>취소</Button>&nbsp;&nbsp;
+                                <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;
                                 <Button color='secondary' onClick={(e)=>{e.preventDefault();}}>저장</Button>
                                 </div>
                             </Col>
