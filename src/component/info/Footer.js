@@ -9,7 +9,7 @@ export default function Footer() {
         textAlign : "left"
     }
     return(
-        <div style={style} >
+        <div className="footer" style={style} >
             <div className="footer-items-0" />
             <p style={{fontSize:"40px"}} className="logo-text"><b>C</b>oder<b>Town</b></p>
             <p></p>

@@ -69,7 +69,7 @@ export default function Header() {
     }
 
     return (
-            <div style={style}>
+            <div className="header" style={style}>
                 <ul className="nav-items-1">
                     <li className="nav-item">
                         {/* 메인 로고 영역 */}
