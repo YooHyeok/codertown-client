@@ -33,7 +33,7 @@ export default function CoggleWrite() {
                         글쓰기
                     </div>
                 </div>
-                <div style={{borderTop: '0.1px solid lightgray'}}>
+                <div style={{borderTop: '0px solid lightgray'}}>
                     <Form style={{width:"824px", height:"610px", margin:"30px auto"}}>
                         <FormGroup row >
                             <Col sm={2}>
@@ -57,7 +57,7 @@ export default function CoggleWrite() {
                                 {/* <Input type='textarea' name='password2' id='password' 
                                 style={{width:"730px", height:"500px", overflow: "auto"}}/> */}
                                 <Coggle.Provider value={context} >
-                                    <ToastEditor/>
+                                    <ToastEditor props={'coggle'}/>
                                 </Coggle.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >

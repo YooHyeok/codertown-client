@@ -8,15 +8,26 @@ import 'prismjs/themes/prism.css';
 import Prism from 'prismjs';
 
 import { Coggle } from './coggle/CoggleWrite.js'
+import { Mammoth } from './recruit/MammothWrite.js'
 
-export default function ToastEditor() {
-  const context = useContext(Coggle);
+export default function ToastEditor({props}) {
+  const coggleContext = useContext(Coggle);
+  const mammothContext = useContext(Mammoth);
   
   const editorRef = useRef();
   
   const onChange = () => {
-    context.setToastHtml(editorRef.current?.getInstance().getHTML());
-    context.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+    switch (props) {
+      case 'coggle' : 
+        coggleContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        coggleContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        break;
+      case 'mammoth' : 
+        mammothContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        mammothContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        break;
+    }
+
   };
 
   return(
