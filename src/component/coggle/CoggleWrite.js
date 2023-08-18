@@ -34,24 +34,22 @@ export default function CoggleWrite() {
                     </div>
                 </div>
                 <div style={{borderTop: '0.1px solid lightgray'}}>
-                    <Form style={{width:"824px", height:"700px", margin:"30px auto"}}>
+                    <Form style={{width:"824px", height:"610px", margin:"30px auto"}}>
                         <FormGroup row >
+                            <Col sm={2}>
                             <Label style={{width:"95px"}} htmlFor='password' sm={2}>카테고리</Label>
-                            <Col sm={1}>
                             <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
-                                style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
-                                <option value={""} >전체</option>
+                                style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
                                 <option value={"T"} >TechQue</option>
                                 <option value={"C"} >Carrier</option>
                                 <option value={"D"} >DevLife</option>
                             </select>
                             </Col>
-                        </FormGroup>
-                        <FormGroup row >
+                            <Col sm={10}>
                             <Label style={{width:"95px"}} htmlFor='email' sm={2}>제&nbsp;&nbsp;목</Label>
-                            <Col sm={7}>
                                 <Input type='text' name='email' id='email' />
                             </Col>
+                            
                         </FormGroup>
                         <FormGroup row>
                             <Label htmlFor='password2' sm={11}>내용 (에디터 교체 예정) </Label>
