@@ -46,7 +46,7 @@ export default function CoggleWrite() {
                             </select>
                             </Col>
                             <Col sm={10}>
-                            <Label style={{width:"95px"}} htmlFor='email' sm={2}>제&nbsp;&nbsp;목</Label>
+                            <Label style={{width:"95px"}} htmlFor='email' sm={2}>제목</Label>
                                 <Input type='text' name='email' id='email' />
                             </Col>
                             

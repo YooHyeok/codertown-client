@@ -10,6 +10,7 @@ import Main from './component/main/Main';
 import Coggle from './component/coggle/Coggle';
 import CoggleWrite from './component/coggle/CoggleWrite';
 import Cokkiri from './component/recruit/Cokkiri';
+import CokkiriWrite from './component/recruit/CokkiriWrite';
 import Mammoth from './component/recruit/Mammoth';
 import MammothWrite from './component/recruit/MammothWrite';
 import DirectMessengerButton from './component/DirectMessengerButton';
@@ -28,6 +29,7 @@ function App() {
               <Route exact path='/devlife' element={<Coggle />} />
               <Route exact path='/coggle-write' element={<CoggleWrite />} />
               <Route exact path='/cokkiri' element={<Cokkiri />} />
+              <Route exact path='/cokkiri-write' element={<CokkiriWrite />} />
               <Route exact path='/mammoth' element={<Mammoth />} />
               <Route exact path='/mammoth-write' element={<MammothWrite />} />
               <Route exact path='/mypage' element={<MyPage />} />

@@ -45,6 +45,11 @@ export default function Mammoth() {
                     </div>
                     <div style={{width:"140px", height:"32px", paddingTop: "45px"}}>
                         <span style ={{display:"flex", width:"140px"}}>맘맞는사람 모여서 스터디</span>
+                        {/* <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
+                            style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
+                            <option value={"Cokkiri"} >코끼리</option>
+                            <option value={"Mammoth"} >맘모스</option>
+                        </select> */}
                     </div>
                     <div style={{width:"900px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>

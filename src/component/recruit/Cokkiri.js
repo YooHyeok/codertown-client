@@ -101,7 +101,10 @@ export default function Cokkiri() {
                     </Table>
                 </div>
                 <div style={{float:"right"}} >
-                    <Button color='secondary'>글쓰기</Button>
+                    <Button color='secondary'onClick={(e)=>{
+                        e.preventDefault();
+                        document.location.href="/cokkiri-write";
+                    }}>글쓰기</Button>
                 </div>
                 <div style={{ clear:"both", textAlign:"center"}}>
                     {(() => {
