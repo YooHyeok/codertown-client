@@ -38,7 +38,7 @@ export default function CoggleWrite() {
                         <FormGroup row >
                             <Col sm={2}>
                             <Label style={{width:"95px"}} htmlFor='password' sm={2}>카테고리</Label>
-                            <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
+                            <select name="" id="mealSelect" onChange={(e)=>{}}
                                 style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
                                 <option value={"T"} >TechQue</option>
                                 <option value={"C"} >Carrier</option>

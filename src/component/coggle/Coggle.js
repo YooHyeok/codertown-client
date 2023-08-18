@@ -41,7 +41,7 @@ export default function Coggle() {
                         <h1 style={{margin:"30px 20px 30px 10px"}}><b>코글</b></h1>
                     </div>
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
-                        <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
+                        <select name="" id="mealSelect" onChange={(e)=>{}}
                             style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
                             <option value={""} >전체</option>
                             <option value={"T"} >TechQue</option>
