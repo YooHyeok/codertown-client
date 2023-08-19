@@ -54,8 +54,9 @@ export default function CoggleWrite() {
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
                                     <option value={"1"} >PM</option>
                                     <option value={"2"} >디자인/퍼블리싱</option>
-                                    <option value={"3"} >프론트엔드</option>
-                                    <option value={"4"} >백엔드</option>
+                                    <option value={"3"} >퍼블리셔</option>
+                                    <option value={"4"} >프론트엔드</option>
+                                    <option value={"5"} >백엔드</option>
                                 </select>
                             </Col>
                             {/* <Col sm={4}/> */}
