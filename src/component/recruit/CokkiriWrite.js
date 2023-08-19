@@ -52,10 +52,10 @@ export default function CoggleWrite() {
                                 <Label htmlFor='password' sm={6}>파트 추가</Label>
                                 <select name="" id="mealSelect" onChange={(e)=>{}}
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
-                                    <option value={"D"} >PM</option>
-                                    <option value={"D"} >백엔드</option>
-                                    <option value={"T"} >프론트엔드</option>
-                                    <option value={"C"} >디자인/퍼블리싱</option>
+                                    <option value={"1"} >PM</option>
+                                    <option value={"2"} >디자인/퍼블리싱</option>
+                                    <option value={"3"} >프론트엔드</option>
+                                    <option value={"4"} >백엔드</option>
                                 </select>
                             </Col>
                             {/* <Col sm={4}/> */}
