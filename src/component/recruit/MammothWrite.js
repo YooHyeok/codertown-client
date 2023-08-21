@@ -4,7 +4,7 @@ import { useState, createContext } from 'react';
 import ToastEditor from '../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
 
-export const Mammoth = createContext();
+export const MammothWriteContext = createContext();
 export default function MammothWrite() {
 
     const bodyStyle = {
@@ -76,9 +76,9 @@ export default function MammothWrite() {
                         <FormGroup row>
                             <Label htmlFor='' sm={11}>내용 (에디터 교체 예정) </Label>
                             <Col>
-                                <Mammoth.Provider value={context} >
-                                    <ToastEditor props={'mammoth'} />
-                                </Mammoth.Provider>
+                                <MammothWriteContext.Provider value={context} >
+                                    <ToastEditor props={'mammoth_write'} />
+                                </MammothWriteContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
                                 <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;

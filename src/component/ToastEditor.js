@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useEffect } from "react";
 //토스트 에디터 : npm i --save @toast-ui/editor @toast-ui/react-editor --force
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
@@ -6,25 +6,50 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import 'prismjs/themes/prism.css';
 import Prism from 'prismjs';
+import axios from "axios";
 
-import { Coggle } from './coggle/CoggleWrite.js'
-import { Mammoth } from './recruit/MammothWrite.js'
+import { CoggleWriteContext } from './coggle/CoggleWrite.js'
+import { CokkiriWriteContext } from './recruit/CokkiriWrite.js'
+import { MammothWriteContext } from './recruit/MammothWrite.js'
 
 export default function ToastEditor({props}) {
-  const coggleContext = useContext(Coggle);
-  const mammothContext = useContext(Mammoth);
+  const coggleWriteContext = useContext(CoggleWriteContext);
+  const cokkiriWriteContext = useContext(CokkiriWriteContext);
+  const mammothWriteContext = useContext(MammothWriteContext);
   
   const editorRef = useRef();
   
+  useEffect(()=> {
+    /**
+     * Edit - 수정 페이지 입력란 DB데이터 초기화
+     */
+    axios.get(``)
+    .then((response)=> {
+      console.log(response.data.content); //내용
+    editorRef.current?.getInstance().setHTML(response.data.content);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    
+  },[])
+
+  /**
+   * 입력시 전역변수 value 초기화
+   */
   const onChange = () => {
     switch (props) {
-      case 'coggle' : 
-        coggleContext.setToastHtml(editorRef.current?.getInstance().getHTML());
-        coggleContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+      case 'coggle_write' : 
+        coggleWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        coggleWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
-      case 'mammoth' : 
-        mammothContext.setToastHtml(editorRef.current?.getInstance().getHTML());
-        mammothContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+      case 'cokkiri_write' : 
+        cokkiriWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        cokkiriWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        break;
+      case 'mammoth_write' : 
+        mammothWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        mammothWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
     }
 

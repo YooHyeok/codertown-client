@@ -3,8 +3,8 @@ import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext } from 'react';
 import ToastEditor from '../ToastEditor.js'
 
-export const Cokkiri = createContext();
-export default function CoggleWrite() {
+export const CokkiriWriteContext = createContext();
+export default function CokkiriWrite() {
     const divStyle = {
         width: '950px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '100%'
@@ -81,9 +81,9 @@ export default function CoggleWrite() {
                             <Col>
                                 {/* <Input type='textarea' name='password2' id='password' 
                                 style={{width:"730px", height:"500px", overflow: "auto"}}/> */}
-                                <Cokkiri.Provider value={context} >
-                                    <ToastEditor props={'cokkiri'}/>
-                                </Cokkiri.Provider>
+                                <CokkiriWriteContext.Provider value={context} >
+                                    <ToastEditor props={'cokkiri_write'}/>
+                                </CokkiriWriteContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
                                 <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;
