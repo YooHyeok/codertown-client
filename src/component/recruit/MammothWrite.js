@@ -8,11 +8,11 @@ export const Mammoth = createContext();
 export default function MammothWrite() {
 
     const bodyStyle = {
-        width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
+        width: '950px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '100%'
         , textAlign: 'left'
         , margin: '50px auto'
-        , marginBottom: '150px'
+        , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
       };
@@ -55,8 +55,8 @@ export default function MammothWrite() {
                         글쓰기
                     </div>
                 </div>
-                <div style={{borderTop: '0px solid lightgray'}}>
-                    <Form style={{width:"824px", height:"760px", margin:"30px auto"}}>
+                <div style={{width:"900px", height:"1000px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
+                    <Form style={{width:"825px", margin:"30px auto"}}>
                         <FormGroup row >
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
