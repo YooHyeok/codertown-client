@@ -58,7 +58,7 @@ export default function CoggleWrite() {
                                 {/* <Input type='textarea' name='password2' id='password' 
                                 style={{width:"730px", height:"500px", overflow: "auto"}}/> */}
                                 <CoggleWriteContext.Provider value={context} >
-                                    <ToastEditor props={'coggle_write'}/>
+                                    <ToastEditor props={{mode:'write'}}/>
                                 </CoggleWriteContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
