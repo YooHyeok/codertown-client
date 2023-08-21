@@ -47,7 +47,7 @@ export default function CokkiriEdit() {
                         <h1 style={{margin:"30px 20px 30px 10px"}}><b>코끼리</b></h1>
                     </div>
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
-                        글쓰기
+                        글수정
                     </div>
                 </div>
                 {/* 입력 폼 영역 */}
