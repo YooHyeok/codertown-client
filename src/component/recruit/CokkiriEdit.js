@@ -27,13 +27,34 @@ export default function CokkiriEdit() {
     const location = useLocation();
     const { no } = location.state == null ? '' : location.state;
 
-    const [cokkiri, setCokkiri] = useState({})
+    const [cokkiri, setCokkiri] = useState(
+        {   
+            title: null,
+            content: "updatevalue",
+            link: "updatevalue",
+            objectWeek: 4,
+            subject: "abcde",
+            teamname: "fghij",
+            projectParts: []
+        }
+             )
 
     useEffect(()=> {
-        axios.get(``)
+        axios.get('/cokkiri-detail/3')
         .then((response)=> {
             console.log(response.data);
-            setCokkiri(response.data)
+            setCokkiri({...cokkiri,     
+                        title: response.data.cokkiriDto.title, 
+                        content: response.data.cokkiriDto.content,
+                        link: response.data.cokkiriDto.link,
+                        objectWeek: response.data.projectDto.objectWeek,
+                        subject: response.data.projectDto.subject,
+                        teamName: response.data.projectDto.teamName,
+                        projectParts: response.data.projectDto.projectParts
+                        }
+                                    
+            )
+            console.log(cokkiri)
         })
         .catch((error) => {
             console.log(error);
@@ -56,15 +77,15 @@ export default function CokkiriEdit() {
                         <FormGroup row>
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
-                                <Input type='text' name='title' id='title' value={cokkiri.cokkiriDto}/>
+                                <Input type='text' name='title' id='title' value={cokkiri.title}/>
                             </Col>
                             <Col sm={3}>
                             <Label htmlFor='password' sm={6}>프로젝트 주제</Label>
-                                <Input type='text' name='projectSubject' id='projectSubject' value={cokkiri.projectSubject}/>
+                                <Input type='text' name='subject' id='subject' value={cokkiri.subject}/>
                             </Col>
                             <Col sm={3}>
                             <Label htmlFor='email' sm={6}>팀(프로젝트) 이름</Label>
-                                <Input type='text' name='teamname' id='teamname' value={cokkiri.teamname}/>
+                                <Input type='text' name='teamName' id='teamName' value={cokkiri.teamName}/>
                             </Col>
                             <Col sm={3} >
                                 <Label htmlFor='projectPart' sm={6}>파트 추가</Label>
@@ -99,7 +120,7 @@ export default function CokkiriEdit() {
                                 {/* <Input type='textarea' name='password2' id='password' 
                                 style={{width:"730px", height:"500px", overflow: "auto"}}/> */}
                                 <CokkiriEditContext.Provider value={context} >
-                                    <ToastEditor props={{mode:'edit', content:''}}/>
+                                    <ToastEditor props={{mode:'edit', content:cokkiri.content}}/>
                                 </CokkiriEditContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
