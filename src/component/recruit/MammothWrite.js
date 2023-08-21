@@ -55,6 +55,7 @@ export default function MammothWrite() {
                         글쓰기
                     </div>
                 </div>
+                {/* 입력 폼 영역 */}                
                 <div style={{width:"900px", height:"1000px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                     <Form style={{width:"825px", margin:"30px auto"}}>
                         <FormGroup row >
