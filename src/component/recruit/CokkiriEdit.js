@@ -34,7 +34,7 @@ export default function CokkiriEdit() {
             link: "updatevalue",
             objectWeek: 4,
             subject: "abcde",
-            teamname: "fghij",
+            teamName: "fghij",
             projectParts: []
         }
              )
@@ -72,24 +72,32 @@ export default function CokkiriEdit() {
                     </div>
                 </div>
                 {/* 입력 폼 영역 */}
-                <div style={{width:"900px", height:"1000px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
+                <div style={{width:"900px", height:"1095px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                     <Form style={{width:"825px", margin:"30px auto"}}>
                         <FormGroup row>
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
                                 <Input type='text' name='title' id='title' value={cokkiri.title}/>
                             </Col>
-                            <Col sm={3}>
-                            <Label htmlFor='password' sm={6}>프로젝트 주제</Label>
-                                <Input type='text' name='subject' id='subject' value={cokkiri.subject}/>
+                            <Col sm={6}>
+                            <Label htmlFor='password' sm={6}>프로젝트 상세 주제</Label>
+                                <Input type='text' name='subject' id='subject' value={cokkiri.subject} placeholder='ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스' />
                             </Col>
-                            <Col sm={3}>
-                            <Label htmlFor='email' sm={6}>팀(프로젝트) 이름</Label>
-                                <Input type='text' name='teamName' id='teamName' value={cokkiri.teamName}/>
+                            <Col sm={4}>
+                            <Label htmlFor='email' sm={6}>팀 이름</Label>
+                                <Input type='text' name='teamName' id='teamName' value={cokkiri.teamName} />
+                            </Col>
+                            <Col sm={2}>
+                            <Label htmlFor='email' sm={5}>목표 기간</Label>
+                                <Input type='number' name='objectWeek' id='objectWeek' value={cokkiri.objectWeek} placeholder={'주 단위 입력'}/>
+                            </Col>
+                            <Col sm={6}>
+                            <Label htmlFor='email' sm={6}>링크</Label>
+                                <Input type='text' name='link' id='link' value={cokkiri.link} placeholder='카카오톡 / 디스코드 / 구글폼 등 (생략 가능)'/>
                             </Col>
                             <Col sm={3} >
-                                <Label htmlFor='projectPart' sm={6}>파트 추가</Label>
-                                <select name="projectPart" id="projectPart" onChange={(e)=>{}}
+                                <Label htmlFor='part' sm={6}>파트 추가</Label>
+                                <select name="part" id="part" onChange={(e)=>{}}
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
                                     <option value={"1"} >PM</option>
                                     <option value={"2"} >디자인/퍼블리싱</option>
@@ -100,19 +108,21 @@ export default function CokkiriEdit() {
                             </Col>
                             {/* <Col sm={4}/> */}
                             <Col sm={3}>
-                                <Label htmlFor='recruitCount' sm={12}>파트별 모집 인원</Label>
+                                <Label htmlFor='location' sm={12}>파트별 모집 인원</Label>
                                 <div style={{display:'flex', width:'180px'}}>
-                                    <Input style={{float:'left'}} type='number' name='recruitCount' id='recruitCount' min={1} />
+                                    <Input style={{float:'left'}} type='number' name='location' id='location' min={1} />
                                     &nbsp;<Button style={{float:'right', width:'80px', height:'38px'}} outline color='secondary' onClick={(e)=>{e.preventDefault();}} >추가</Button>
                                 </div>
                             </Col>
+                            
+                        </FormGroup>
+                        <FormGroup row>
                             <Col style={{width:'140px'}}>
-                                <Label htmlFor='partControl' sm={12}>파트 추가/제거</Label>
+                                <Label htmlFor='location' sm={12}>추가 파트 미리보기 및 제거</Label>
                                 <div style={{display:'flex', width:'825px', height:'38px', border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
                                     map으로 처리한다.
                                 </div>
                             </Col>
-                            
                         </FormGroup>
                         <FormGroup row>
                             <Label htmlFor='content' sm={11}>내용 (에디터 교체 예정) </Label>
