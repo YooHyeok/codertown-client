@@ -5,7 +5,7 @@ import HeaderDropDownLogin from "./dropdown/HeaderDropDownLogin";
 import HeaderDropDownLogout from "./dropdown/HeaderDropDownLogout";
 import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
 import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
-import { Lightbulb } from 'react-bootstrap-icons';
+import HeaderDropDownPushAlarm from "./dropdown/HeaderDropDownPushAlarm";
 
 export const HeaderDropDownContext = createContext();
 export default function Header() {
@@ -27,6 +27,7 @@ export default function Header() {
     const [dropdownOpenLogOut, setDropdownOpenLogOut] = useState(false);
     const [dropdownOpenRecruit, setDropdownOpenRecruit] = useState(false);
     const [dropdownOpenCoggle, setDropdownOpenCoggle] = useState(false);
+    const [dropdownOpenPushAlarm, setDropdownOpenPushAlarm] = useState(false);
 
     const toggleLogin = () => {
         setDropdownOpenLogin(!dropdownOpenLogin);
@@ -40,16 +41,21 @@ export default function Header() {
     const toggleCoggle = () => {
         setDropdownOpenCoggle(!dropdownOpenCoggle);
     }
+    const togglePushAlarm = () => {
+        setDropdownOpenPushAlarm(!dropdownOpenPushAlarm);
+    }
 
     const contextValue = {
         dropdownOpenLogin: dropdownOpenLogin,
         dropdownOpenLogOut: dropdownOpenLogOut,
         dropdownOpenRecruit: dropdownOpenRecruit,
         dropdownOpenCoggle: dropdownOpenCoggle,
+        dropdownOpenPushAlarm: dropdownOpenPushAlarm,
         toggleLogin: toggleLogin.bind(this),
         toggleLogOut: toggleLogOut.bind(this),
         toggleRecruit: toggleRecruit.bind(this),
-        toggleCoggle: toggleCoggle.bind(this)
+        toggleCoggle: toggleCoggle.bind(this),
+        togglePushAlarm: togglePushAlarm.bind(this)
     }
 
     const token = useSelector( state=> state.Authorization );
@@ -100,7 +106,10 @@ export default function Header() {
                 <ul className="nav-items3">
                     {/* 푸시알림 드롭다운 */}
                     <li className="nav-item-dropdown">
-                        <Lightbulb className="inline" size={30}  style={{color:"black"}}/>
+                    <HeaderDropDownContext.Provider value={contextValue}>
+                            <HeaderDropDownPushAlarm/>
+                    </HeaderDropDownContext.Provider>
+                        
                     </li>
                     {/* 로그인 드롭다운 */}
                     <li className="nav-item-dropdown" style={{display:"inline-flex"}}>
