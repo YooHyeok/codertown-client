@@ -28,10 +28,11 @@ code {
 * {
   font-family: 'KOTRAHOPE';
   font-weight: bolder;
-}
+} 
 
 .card-body, 
 .card-body>*, 
+.toastui-editor-contents>p, /* 토스트 에디터 */
 th, td, 
 td>select
 td>button>span{
