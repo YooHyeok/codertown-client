@@ -8,6 +8,7 @@ import Header from './component/info/Header';
 import Footer from './component/info/Footer';
 import Main from './component/main/Main';
 import Coggle from './component/coggle/Coggle';
+import CoggleDetail from './component/coggle/CoggleDetail';
 import CoggleWrite from './component/coggle/CoggleWrite';
 import Cokkiri from './component/recruit/Cokkiri';
 import CokkiriDetail from './component/recruit/CokkiriDetail';
@@ -30,6 +31,7 @@ function App() {
               <Route exact path='/techque' element={<Coggle />} />
               <Route exact path='/carrier' element={<Coggle />} />
               <Route exact path='/devlife' element={<Coggle />} />
+              <Route exact path='/coggle-detail' element={<CoggleDetail />} />
               <Route exact path='/coggle-write' element={<CoggleWrite />} />
               <Route exact path='/cokkiri' element={<Cokkiri />} />
               <Route exact path='/cokkiri-write' element={<CokkiriWrite />} />
