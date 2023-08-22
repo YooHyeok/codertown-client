@@ -83,30 +83,30 @@
 .footer-items-0 {
   list-style: none;
   /* margin: 0px auto; */
-  width:17%;
-  height:220px !important;
+  width:19%;
+  height:250px !important;
   float: left;
   padding:0;
 }
 .footer-items-1 {
   list-style: none;
   margin: 0px auto;
-  width:53%;
-  height:220px !important;
+  width:55%;
+  height:250px !important;
   float: left;
   padding:0;
 }
 .footer-items-2 {
   list-style: none;
   margin: 0px auto;
-  width:30%;
+  width:23%;
   height:220px !important;
   float: right;
   padding:0;
 }
 .footer-item {
   display: inline-block;
-  height: 220px;
+  height: 250px;
   padding: 0 10px;
   /* text-align: center; */
   min-width: 220px;
