@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import ToastEditor from '../../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
+import axios from "axios";
 
 export const MammothEditContext = createContext();
 export default function MammothEdit() {
@@ -19,9 +20,26 @@ export default function MammothEdit() {
       const navigate = useNavigate();
 
     const [mammoth, setMammoth] = useState({
-        nickname: '', id: '', password: '', postcode: '', location: '', addrDetail: '', email: ''
+        title: '', location: '', link: '', content:''
     });
 
+    useEffect(()=> {
+    axios.get('/mammoth-detail/4')
+    .then((response)=> {
+        console.log(response.data);
+        setMammoth({...mammoth,     
+                    title: response.data.title, 
+                    content: response.data.content,
+                    link: response.data.link,
+                    location: response.data.location
+                    }
+                                
+        )
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    },[])
     /**
      * Toast Editor
      */
@@ -45,6 +63,7 @@ export default function MammothEdit() {
             setModalShow(false)
         }
     }
+
     return(
         <div style={bodyStyle}>
                 <div style = {{display:"flex"}}>
@@ -61,23 +80,23 @@ export default function MammothEdit() {
                         <FormGroup row >
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
-                                <Input type='text' name='title' id='title' />
+                                <Input type='text' name='title' id='title' value={mammoth.title}/>
                             </Col>
                             <Col style={{width:'850px'}}>
                             <Label htmlFor='location' sm={2}>모임 장소</Label>
-                                <Input style={{float:'left', width:"750px"}} type='text' name='location' id='location' value={mammoth.address} />
+                                <Input style={{float:'left', width:"750px"}} type='text' name='location' id='location' value={mammoth.location} />
                                 <Button style={{float:'right'}} outline color='secondary' onClick={modalToggle}>주소 찾기</Button>
                             </Col>
                             <Col sm={12}>
                             <Label htmlFor='link' sm={2}>오픈 채팅</Label>
-                                <Input type='text' name='link' id='link' />
+                                <Input type='text' name='link' id='link' value={mammoth.link}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label htmlFor='' sm={11}>내용 (에디터 교체 예정) </Label>
                             <Col>
                                 <MammothEditContext.Provider value={context} >
-                                    <ToastEditor props={'mammoth_write'} />
+                                    <ToastEditor props={{mode:'edit', content:mammoth.content}} />
                                 </MammothEditContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
