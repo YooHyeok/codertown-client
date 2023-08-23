@@ -17,6 +17,7 @@ import CokkiriEdit from './component/recruit/cokkiri/CokkiriEdit';
 import Mammoth from './component/recruit/mammoth/Mammoth';
 import MammothDetail from './component/recruit/mammoth/MammothDetail';
 import MammothWrite from './component/recruit/mammoth/MammothWrite';
+import MammothEdit from './component/recruit/mammoth/MammothEdit';
 import DirectMessengerButton from './component/DirectMessengerButton';
 import MyPage from './component/mypage/MyPage';
 
@@ -40,7 +41,7 @@ function App() {
               <Route exact path='/mammoth' element={<Mammoth />} />
               <Route exact path='/mammoth-detail' element={<MammothDetail />} />
               <Route exact path='/mammoth-write' element={<MammothWrite />} />
-              <Route exact path='/mammoth-eidt' element={<MammothWrite />} />
+              <Route exact path='/mammoth-edit' element={<MammothEdit />} />
               <Route exact path='/mypage' element={<MyPage />} />
         </Routes>
         <Footer/>

@@ -10,7 +10,9 @@ import { useLocation } from 'react-router-dom';
 
 import { CoggleWriteContext } from './coggle/CoggleWrite.js'
 import { CokkiriWriteContext } from './recruit/cokkiri/CokkiriWrite.js'
+import { CokkiriEditContext } from './recruit/cokkiri/CokkiriEdit.js'
 import { MammothWriteContext } from './recruit/mammoth/MammothWrite.js'
+import { MammothEditContext } from './recruit/mammoth/MammothEdit.js'
 
 /**
  * @param {*} props : {mode : 'write'/'edit', page : 'xxxx_write'}
@@ -19,7 +21,9 @@ import { MammothWriteContext } from './recruit/mammoth/MammothWrite.js'
 export default function ToastEditor({props}) {
   const coggleWriteContext = useContext(CoggleWriteContext);
   const cokkiriWriteContext = useContext(CokkiriWriteContext);
+  const cokkiriEditContext = useContext(CokkiriEditContext);
   const mammothWriteContext = useContext(MammothWriteContext);
+  const mammothEditContext = useContext(MammothEditContext);
   
   const editorRef = useRef();
   const location = useLocation();
