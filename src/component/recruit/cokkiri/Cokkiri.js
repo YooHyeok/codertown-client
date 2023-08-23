@@ -95,7 +95,7 @@ export default function Cokkiri() {
                                 return (
                                 <tr key={obj.recruitDto.recruitNo}>
                                     <td>{obj.recruitDto.recruitNo}</td>
-                                    <td><Link to={'/cokkiri-detail/'+obj.recruitDto.recruitNo}>{obj.recruitDto.title}</Link></td>
+                                    <td><Link to={`/cokkiri-detail/${obj.recruitDto.recruitNo}`}>{obj.recruitDto.title}</Link></td>
                                     <td>{obj.recruitDto.writer.nickname}</td>
                                     <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                                     <td>{obj.recruitDto.like}</td>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
 import _ from 'lodash'; // Lodash 라이브러리
+import { Link, useParams } from 'react-router-dom';
 
 export default function CokkiriDetail() {
     const divStyle = {
@@ -16,7 +17,7 @@ export default function CokkiriDetail() {
         , top: '100'
       };
 
-
+    const { cokkiriNo } = useParams();
     const [cokkiri, setCokkiri] = useState(
         {   
             title: null,
@@ -32,7 +33,7 @@ export default function CokkiriDetail() {
              )
 
     useEffect(()=> {
-        axios.get('/cokkiri-detail/2')
+        axios.get(`/cokkiri-detail/${cokkiriNo}`)
         .then((response)=> {
             console.log(response.data);
             setCokkiri({...cokkiri,     
