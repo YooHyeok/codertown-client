@@ -34,11 +34,10 @@ export default function ToastEditor({props}) {
      * Edit - 수정 페이지 입력란 DB데이터 초기화
      * props mode속성이 edit이고 content속성이 존재할때 작동한다.
      */
-    console.log(props.content)
-    if (props.mode === 'edit' && props.content != undefined) {
+    if (props.mode === 'edit') {
       editorRef.current?.getInstance().setHTML(props.content);
     }
-  },[])
+  },[props.content])
 
   /**
    * onChange Event

@@ -28,39 +28,106 @@ export default function CokkiriEdit() {
     const cokkiriNo = location.state?.cokkiriNo;
     const { no } = location.state == null ? '' : location.state;
 
-    const [cokkiri, setCokkiri] = useState(
-        {   
-            title: null,
-            content: "updatevalue",
-            link: "updatevalue",
-            objectWeek: 4,
-            subject: "abcde",
-            teamName: "fghij",
-            projectParts: []
-        }
-             )
+    /* 코끼리 출력/저장 배열 */
+    const [cokkiri, setCokkiri] = useState({
+        recruitNo: cokkiriNo,
+        cokkiriTitle: '',
+        projectSubject: '',
+        projectTitle: '',
+        teamname: '',
+        objectWeek: '',
+        link: '',
+        delete: '',
+        content: '',
+        projectParts: []
+    })
 
-    useEffect(()=> {
-        axios.get('/cokkiri-detail/'+cokkiriNo)
+    /* 파트 추가/제거용 변수 */
+    const [partNo, setPartNo] = useState('1');
+    const [partName, setPartName] = useState('PM');
+    const [recruitCount, setRecruitCount] = useState('');
+
+    /* 삭제를 위한 원본 파트 배열 */
+    const [originalProjectParts, setOriginalProjectParts] = useState([]);
+
+    /* 저장용 배열 객체 - projectPartUpdate */
+    const [projectPartUpdate, setProjectPartUpdate] = useState({
+        update: [],
+        delete: [],
+        insert: []
+    });
+    /* 저장용 코끼리 객체 - cokkiriUpdate */
+    const [cokkiriUpdate, setCokkiriUpdate] = useState({
+        recruitNo: cokkiriNo,
+        cokkiriTitle: '',
+        projectSubject: '',
+        teamname: '',
+        objectWeek: '',
+        link: '',
+        delete: '',
+        content: '',
+    });
+
+    /* 저장용 통합 객체 */
+    const [saveUpdateObject, setSaveUpdateObject] = useState({
+        cokkiriUpdate: cokkiri,
+        projectPartUpdate: projectPartUpdate,
+    });
+
+    /* 입력란 데이터 변경 함수 */
+    const InputChange = (e) => {
+        setCokkiri({...cokkiri, [e.target.name] : e.target.value})
+    }
+
+    const saveAxoisPost = async (saveUpdateObject) => {
+        console.log(saveUpdateObject);
+        await  axios.post('/cokkiri-update',saveUpdateObject)
         .then((response)=> {
-            console.log(response.data);
-            setCokkiri({...cokkiri,     
-                        title: response.data.cokkiriDto.title, 
-                        content: response.data.cokkiriDto.content,
-                        link: response.data.cokkiriDto.link,
-                        objectWeek: response.data.projectDto.objectWeek,
-                        subject: response.data.projectDto.subject,
-                        teamName: response.data.projectDto.teamName,
-                        projectParts: response.data.projectDto.projectParts
-                        }
-                                    
-            )
-            console.log(cokkiri)
+            document.location.href='/cokkiri-detail/'+cokkiriNo
         })
         .catch((error) => {
             console.log(error);
         })
-    },[])
+
+    }
+    /* 저장 기능 */
+    const submit = (e) => {
+        setSaveUpdateObject({...saveUpdateObject, cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate})
+
+        // setProjectPartUpdate((saveUpdateObject) => (
+        //     {...saveUpdateObject, cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate}
+        //  )); 
+        saveAxoisPost(saveUpdateObject)
+    }
+
+    
+
+    useEffect(()=> {
+        axios.get('/cokkiri-detail/'+cokkiriNo)
+        .then((response)=> {
+            setCokkiri({...cokkiri,     
+                cokkiriTitle: response.data.cokkiriDto.title, 
+                content: response.data.cokkiriDto.content,
+                link: response.data.cokkiriDto.link,
+                objectWeek: response.data.projectDto.objectWeek,
+                projectSubject: response.data.projectDto.subject,
+                teamname: response.data.projectDto.teamName,
+                projectParts: response.data.projectDto.projectParts
+                        }
+                                    
+            )
+            setOriginalProjectParts(response.data.projectDto.projectParts)
+            // console.log(cokkiri)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    },[saveUpdateObject])
+
+    
+    useEffect(()=> {
+        // console.log(cokkiri.projectParts)
+    },[cokkiri])
 
     return(
         <div style={divStyle}>
@@ -78,30 +145,38 @@ export default function CokkiriEdit() {
                         <FormGroup row>
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
-                                <Input type='text' name='title' id='title' value={cokkiri.title}/>
+                                <Input type='text' name='cokkiriTitle' id='title' value={cokkiri.cokkiriTitle} 
+                                onChange={InputChange}/>
                             </Col>
                             <Col sm={6}>
                             <Label htmlFor='password' sm={6}>프로젝트 상세 주제</Label>
-                                <Input type='text' name='subject' id='subject' value={cokkiri.subject} placeholder='ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스' />
+                                <Input type='text' name='projectSubject' id='subject' value={cokkiri.projectSubject} placeholder='ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스' 
+                                onChange={InputChange}/>
                             </Col>
                             <Col sm={4}>
                             <Label htmlFor='email' sm={6}>팀 이름</Label>
-                                <Input type='text' name='teamName' id='teamName' value={cokkiri.teamName} />
+                                <Input type='text' name='teamname' id='teamName' value={cokkiri.teamname} 
+                                onChange={InputChange}/>
                             </Col>
                             <Col sm={2}>
                             <Label htmlFor='email' sm={5}>목표 기간</Label>
-                                <Input type='number' name='objectWeek' id='objectWeek' value={cokkiri.objectWeek} placeholder={'주 단위 입력'}/>
+                                <Input type='number' name='objectWeek' id='objectWeek' value={cokkiri.objectWeek} placeholder={'주 단위 입력'}
+                                onChange={InputChange}/>
                             </Col>
                             <Col sm={6}>
                             <Label htmlFor='email' sm={6}>링크</Label>
-                                <Input type='text' name='link' id='link' value={cokkiri.link} placeholder='카카오톡 / 디스코드 / 구글폼 등 (생략 가능)'/>
+                                <Input type='text' name='link' id='link' value={cokkiri.link} placeholder='카카오톡 / 디스코드 / 구글폼 등 (생략 가능)'
+                                onChange={InputChange}/>
                             </Col>
                             <Col sm={3} >
                                 <Label htmlFor='part' sm={6}>파트 추가</Label>
-                                <select name="part" id="part" onChange={(e)=>{}}
+                                <select name="part" id="part" onChange={(e)=>{
+                                    setPartNo(e.target.value);
+                                    setPartName(e.target.options[e.target.selectedIndex].textContent)
+                                }}
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
                                     <option value={"1"} >PM</option>
-                                    <option value={"2"} >디자인/퍼블리싱</option>
+                                    <option value={"2"} >디자이너</option>
                                     <option value={"3"} >퍼블리셔</option>
                                     <option value={"4"} >프론트엔드</option>
                                     <option value={"5"} >백엔드</option>
@@ -109,34 +184,108 @@ export default function CokkiriEdit() {
                             </Col>
                             {/* <Col sm={4}/> */}
                             <Col sm={3}>
-                                <Label htmlFor='location' sm={12}>파트별 모집 인원</Label>
+                                <Label htmlFor='recruitCount' sm={12}>파트별 모집 인원</Label>
                                 <div style={{display:'flex', width:'180px'}}>
-                                    <Input style={{float:'left'}} type='number' name='location' id='location' min={1} />
-                                    &nbsp;<Button style={{float:'right', width:'80px', height:'38px'}} outline color='secondary' onClick={(e)=>{e.preventDefault();}} >추가</Button>
+                                    <Input style={{float:'left'}} type='text' name='recruitCount' id='recruitCount' min={1}
+                                    onChange={(e)=>{
+                                        setRecruitCount(e.target.value)
+                                    }}/>
+                                    &nbsp;<Button style={{float:'right', width:'80px', height:'38px'}} outline color='secondary' onClick={(e)=>{
+                                        // e.preventDefault();
+                                        if( recruitCount == '') {
+                                            alert('모집 인원이 입력되지 않았습니다. 모집 인원을 입력해 주세요.');
+                                            return false;
+                                        }
+                                        /* 5개 이상 등록 불가 */
+                                        if(cokkiri.projectParts.length > 4) {alert('최대 개수 5개를 초과하였습니다.'); return;}
+                                        /* 중복 불가 - Array.prototype.some() */
+                                        if(cokkiri.projectParts.some(part => part.partNo == partNo)) {alert('이미 추가된 파트입니다. 중복으로 추가할 수 없습니다.'); return;}
+                                            /* 화면단 데이터 처리 - 배열을 복사하여 처리한다. - prevCokkiri : 원본 배열  */
+                                            let projectPartAdd = {partNo: partNo, partName: partName, recruitCount: recruitCount};
+                                            setCokkiri((prevCokkiri) => (
+                                                {...prevCokkiri,
+                                                 projectParts: [...prevCokkiri.projectParts, /* 원본배열에 배열요소를 추가하고 원본배열에 다시 덮어씌운다. */
+                                                 projectPartAdd]
+                                                })
+                                              );
+                                            /* 저장시 사용될 insert배열에 추가 */
+                                            setProjectPartUpdate((prevUpdate) => (
+                                                    {...prevUpdate, insert: [...prevUpdate.insert, projectPartAdd]}
+                                            )); 
+
+                                        }} >추가</Button>
                                 </div>
                             </Col>
                             
                         </FormGroup>
                         <FormGroup row>
                             <Col style={{width:'140px'}}>
-                                <Label htmlFor='location' sm={12}>추가 파트 미리보기 및 제거</Label>
-                                <div style={{display:'flex', width:'825px', height:'38px', border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
-                                    map으로 처리한다.
+                            <Label htmlFor='location' sm={12}>추가 파트 미리보기 (최대 5개 중복 불가)</Label>
+                                {/* 추가될 영역 */}
+                                <div style={{display:'flex', width:'100%', height:'50px', margin:'0 auto', backgroundColor:'#f7f9fc', border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
+                                    {/* 반복될 추가 요소 */}
+                                    {cokkiri.projectParts.map((projectPart)=>{
+                                        console.log(cokkiri.projectParts)
+                                        return(
+                                        <div key={cokkiri.projectParts.projectPartNo} style={{display:'flex', width:'120px', height:'39px', backgroundColor:'white', margin:"5px", border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
+                                            <div style={{width:'73px', margin:'5px', textAlign:'center'}}>
+                                                <span>{projectPart.partName} {projectPart.recruitCount}명</span>
+                                                </div>
+                                            <div>
+                                            <Button size='sm'style={{width:'30px', margin:'3px'}}
+                                                onClick={(e) =>{
+                                                    /**
+                                                     * 출력용 데이터 제어
+                                                     * 파트 번호가 일치하지 않는 파트요소를 걸러낸 배열을 새롭게 저장한다.
+                                                     */
+                                                    const updatedParts = cokkiri.projectParts.filter(part => {
+                                                        return part.partNo !== projectPart.partNo;
+                                                    });
+                                                    setCokkiri({...cokkiri, projectParts:updatedParts})
+                                                    /**
+                                                     * 저장용 배열 제어
+                                                     * projetPartUpdate 배열에 삭제된 데이터 추가
+                                                     * 1. 삭제한 데이터가 원본 데이터에 존재하는 경우 기존 데이터에 데이터를 추가하고 덮어 씌운다.
+                                                     * 2. 삭제한 데이터가 원본 데이터에 존재하지 않는(새로 추가된 데이터의)경우 기존 데이터를 덮어 씌운다.
+                                                     */
+                                                    setProjectPartUpdate((prevUpdate) => {
+                                                        const foundPart = originalProjectParts.find(part => part.partNo === projectPart.partNo);
+                                                        
+                                                        if (foundPart !== undefined) {
+                                                            return { /* undefined가 아닐경우 기존 데이터에 추가된 데이터로 덮어씌운다. */
+                                                            ...prevUpdate,
+                                                            delete: [...prevUpdate.delete, foundPart]
+                                                            };
+                                                        } 
+                                                        return prevUpdate; /* undefind일 경우 기존 데이터를 덮어씌운다. */
+                                                        
+                                                    });
+                                                console.log(projectPartUpdate)
+                                                    /**
+                                                     * 원본 파트 배열 제어
+                                                     * originalProjectParts 배열에 삭제된 데이터를 제외한 데이터로 덮어씌운다. 
+                                                     */
+                                                    setOriginalProjectParts(originalProjectParts.filter(part => {
+                                                        return part.partNo !== projectPart.partNo;
+                                                    }));
+                                                    console.log(originalProjectParts)
+
+                                                }}> - </Button></div>
+                                        </div>)
+                                    })}
                                 </div>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label htmlFor='content' sm={11}>내용 (에디터 교체 예정) </Label>
                             <Col>
-                                {/* <Input type='textarea' name='password2' id='password' 
-                                style={{width:"730px", height:"500px", overflow: "auto"}}/> */}
                                 <CokkiriEditContext.Provider value={context} >
                                     <ToastEditor props={{mode:'edit', content:cokkiri.content}}/>
                                 </CokkiriEditContext.Provider>
                                 <br/>
                                 <div style={{float:"right"}} >
                                 <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;
-                                <Button color='secondary' onClick={(e)=>{e.preventDefault();}}>저장</Button>
+                                <Button color='secondary' onClick={(e)=>{submit(e);}}>저장</Button>
                                 </div>
                             </Col>
                         </FormGroup>

@@ -29,6 +29,8 @@ export default function CokkiriWrite() {
 
     const [projectParts, setProjectParts] = useState([]);
 
+    const [isShaking, setIsShaking] = useState(false);
+    const inputStyle = isShaking ? { border: '2px solid red' } : {};
 
     return(
         <div style={divStyle}>
@@ -82,10 +84,22 @@ export default function CokkiriWrite() {
                             <Col sm={3}>
                                 <Label htmlFor='recruitCount' sm={12}>파트별 모집 인원</Label>
                                 <div style={{display:'flex', width:'180px'}}>
-                                    <Input style={{float:'left'}} type='text' name='recruitCount' id='recruitCount' value={recruitCount} min={1}
+                                    <Input style={ isShaking ? { border: '2px solid red' } : {float:'left'}} type='number' name='recruitCount' id='recruitCount' value={recruitCount} min={'1'} max={'9'}
                                     onChange={(e)=>{
+                                        console.log(typeof e.target.value)
+                                        
+                                        /* if (e.target.value != null && (e.target.value < 1 || e.target.value > 9)) {
+                                            setRecruitCount('');
+                                            setIsShaking(true);
+                                            setTimeout(() => {
+                                                setIsShaking(false);
+                                            }, 300); // 흔들기 효과를 일시적으로 보여주기 위한 시간
+                                            return;
+                                        } */
                                         setRecruitCount(e.target.value)
-                                    }}/>
+                                        setIsShaking(false);
+                                    }}
+                                    />
                                     &nbsp;<Button style={{float:'right', width:'80px', height:'38px'}} outline color='secondary' onClick={(e)=>{
                                         // e.preventDefault();
                                         if( recruitCount == '') {
