@@ -9,8 +9,8 @@ import Prism from 'prismjs';
 import { useLocation } from 'react-router-dom';
 
 import { CoggleWriteContext } from './coggle/CoggleWrite.js'
-import { CokkiriWriteContext } from './recruit/CokkiriWrite.js'
-import { MammothWriteContext } from './recruit/MammothWrite.js'
+import { CokkiriWriteContext } from './recruit/cokkiri/CokkiriWrite.js'
+import { MammothWriteContext } from './recruit/mammoth/MammothWrite.js'
 
 /**
  * @param {*} props : {mode : 'write'/'edit', page : 'xxxx_write'}

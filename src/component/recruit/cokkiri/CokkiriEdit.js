@@ -1,7 +1,7 @@
 import { useNavigate, useLocation  } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
-import ToastEditor from '../ToastEditor.js'
+import ToastEditor from '../../ToastEditor.js'
 import axios from "axios";
 
 export const CokkiriEditContext = createContext();

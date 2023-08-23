@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { useState, createContext } from 'react';
-import ToastEditor from '../ToastEditor.js'
+import ToastEditor from '../../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
 
 export const MammothWriteContext = createContext();

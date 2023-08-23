@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
-import ToastEditor from '../ToastEditor.js'
+import ToastEditor from '../../ToastEditor.js'
 
 export const CokkiriWriteContext = createContext();
 export default function CokkiriWrite() {
