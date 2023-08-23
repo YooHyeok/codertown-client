@@ -20,7 +20,7 @@ export default function HeaderDropDownPushAlarm() {
     return(
             pushAlarmList.map((obj, index) => {
               return (
-                <Link to={'/cokkiri'} style={{height:'98px !important', textDecoration:'none'}}>
+                <Link style={{height:'98px !important', textDecoration:'none'}}>
                   {index != 0 && <DropdownItem divider />} {/* 첫번째 인자가 아닌 경우 출력 */}
                 <DropdownItem style={{ lineHeight: "25px"}}>
                   <div style={{width:'320px', height:'75px'}}>
@@ -50,7 +50,7 @@ export default function HeaderDropDownPushAlarm() {
       </DropdownToggle>
       <DropdownMenu style={{width:"365px", height:"495px"}}>
         {/* 드롭다운 헤더 */}
-        <Link to={'/cokkiri'}>
+        <Link>
           <DropdownItem style={{ lineHeight: "25px" }}><b>새 소식</b></DropdownItem>
         </Link>
           <DropdownItem divider />
