@@ -20,7 +20,7 @@ export default function HeaderDropDownPushAlarm() {
     return(
             pushAlarmList.map((obj, index) => {
               return (
-                <Link style={{height:'98px !important', textDecoration:'none'}}>
+                <Link key={index} style={{height:'98px !important', textDecoration:'none'}}>
                   {index != 0 && <DropdownItem divider />} {/* 첫번째 인자가 아닌 경우 출력 */}
                 <DropdownItem style={{ lineHeight: "25px"}}>
                   <div style={{width:'320px', height:'75px'}}>
