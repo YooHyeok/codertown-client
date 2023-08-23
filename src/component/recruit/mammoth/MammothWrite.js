@@ -19,7 +19,7 @@ export default function MammothWrite() {
       const navigate = useNavigate();
 
     const [mammoth, setMammoth] = useState({
-        nickname: '', id: '', password: '', postcode: '', location: '', addrDetail: '', email: ''
+        title: '', location: '', link: '', content:''
     });
 
     /**
@@ -65,7 +65,7 @@ export default function MammothWrite() {
                             </Col>
                             <Col style={{width:'850px'}}>
                             <Label htmlFor='location' sm={2}>모임 장소</Label>
-                                <Input style={{float:'left', width:"750px"}} type='text' name='location' id='location' value={mammoth.address} />
+                                <Input style={{float:'left', width:"750px"}} type='text' name='location' id='location' value={mammoth.location} />
                                 <Button style={{float:'right'}} outline color='secondary' onClick={modalToggle}>주소 찾기</Button>
                             </Col>
                             <Col sm={12}>
@@ -74,7 +74,7 @@ export default function MammothWrite() {
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label htmlFor='' sm={11}>내용 (에디터 교체 예정) </Label>
+                            <Label htmlFor='content' sm={11}>내용 (에디터 교체 예정) </Label>
                             <Col>
                                 <MammothWriteContext.Provider value={context} >
                                     <ToastEditor props={'mammoth_write'} />

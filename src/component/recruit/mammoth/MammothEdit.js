@@ -93,7 +93,7 @@ export default function MammothEdit() {
                             </Col>
                         </FormGroup>
                         <FormGroup row>
-                            <Label htmlFor='' sm={11}>내용 (에디터 교체 예정) </Label>
+                            <Label htmlFor='content' sm={11}>내용 (에디터 교체 예정) </Label>
                             <Col>
                                 <MammothEditContext.Provider value={context} >
                                     <ToastEditor props={{mode:'edit', content:mammoth.content}} />
