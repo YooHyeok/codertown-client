@@ -1,15 +1,16 @@
+import { Link } from 'react-router-dom';
 
-// import axios from "axios";
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
+import axios from "axios";
 
 export default function Cokkiri() {
     const divStyle = {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '750px'
+        , height: '100%'
         , textAlign: 'left'
         , margin: '100px auto'
         , marginBottom: '50px'
@@ -17,7 +18,7 @@ export default function Cokkiri() {
         , top: '100'
       };
 
-    const [coggleList , setCoggleList] = useState([])
+    const [cokkiriList , setCokkiriList] = useState([])
     const [pageInfo, setPageInfo] = useState({
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
@@ -25,13 +26,20 @@ export default function Cokkiri() {
     const pageRequest = (e) => {
     console.log("e.target.value : " + e.target.value);
     }
+
+    
+
     useEffect(() => {
-        /* coggleList 목데이터 */
-        const mockCoggleList = [];
-        for (let j = 0; j < 10; j++) {
-            mockCoggleList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-        }
-        setCoggleList(mockCoggleList)
+        axios.get('/recruit/1/Cokkiri')
+        .then((response)=> {
+            console.log("아아아아")
+            console.log(response.data);
+            setCokkiriList(response.data.recruitList)
+            setPageInfo(response.data.pageInfo)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
       }, [])
     
 
@@ -78,21 +86,21 @@ export default function Cokkiri() {
                                 </th>
                             </tr>
                         </thead>
-                        {console.log(coggleList)}
+                        {console.log(cokkiriList)}
 
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
-                            {coggleList.map((obj) => {
+                            {cokkiriList.map((obj) => {
                                 console.log(obj);
                                 return (
-                                    <tr key={obj.coggleNo}>
-                                    <td>{obj.coggleNo}</td>
-                                    <td>{obj.title}</td>
-                                    <td>{obj.writer}</td>
-                                    <td>{obj.firstRegDate}</td>
-                                    <td>{obj.like}</td>
-                                    <td>{obj.count}</td>
-                                </tr>
+                                <tr key={obj.recruitDto.recruitNo}>
+                                    <td>{obj.recruitDto.recruitNo}</td>
+                                    <td><Link to={'/cokkiri-detail/'+obj.recruitDto.recruitNo}>{obj.recruitDto.title}</Link></td>
+                                    <td>{obj.recruitDto.writer.nickname}</td>
+                                    <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
+                                    <td>{obj.recruitDto.like}</td>
+                                    <td>{obj.recruitDto.count}</td>
+                                </tr> 
                                 )
                             })}
                         </tbody>
