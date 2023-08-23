@@ -4,7 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
 import _ from 'lodash'; // Lodash 라이브러리
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 export default function CokkiriDetail() {
     const divStyle = {
@@ -16,7 +16,8 @@ export default function CokkiriDetail() {
         , padding: '30px'
         , top: '100'
       };
-
+    /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+    const navigate = useNavigate();
     const { cokkiriNo } = useParams();
     const [cokkiri, setCokkiri] = useState(
         {   
@@ -73,7 +74,9 @@ export default function CokkiriDetail() {
                             <span>{cokkiri.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                         </div>
                         <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
-                            <Button color='secondary'>수정</Button>&nbsp;&nbsp;
+                            <Button color='secondary' onClick={(e)=>{
+                                navigate('/cokkiri-edit', { state: { cokkiriNo } });
+                            }}>수정</Button>&nbsp;&nbsp;
                             <Button color='danger'>삭제</Button>
                         </div>
                     </div>
@@ -86,7 +89,7 @@ export default function CokkiriDetail() {
                     </div>
                     {/* 프로젝트 상세정보 영역 */}
                     <div style={{width:"475px", height:"100%", float:'right'}}>
-                        <div style={{width:"475px", minHeight:'500px', border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
+                        <div style={{width:"475px", minHeight:'300px', border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                             <Form style={{width:"450px", margin:"30px"}}>
                                 <FormGroup row>
                                     <Col sm={11} >
@@ -123,7 +126,7 @@ export default function CokkiriDetail() {
                                                     <tr key={obj.partNo}>
                                                         <td>{obj.partName}</td>
                                                         <td>{obj.recruitCount}</td>
-                                                        <td>{obj.currentCount}</td>
+                                                        <td>{obj.recruitCount - obj.currentCount}</td>
                                                     </tr>
                                                 )
                                             })}

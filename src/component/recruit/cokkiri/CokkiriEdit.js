@@ -25,6 +25,7 @@ export default function CokkiriEdit() {
     }
 
     const location = useLocation();
+    const cokkiriNo = location.state?.cokkiriNo;
     const { no } = location.state == null ? '' : location.state;
 
     const [cokkiri, setCokkiri] = useState(
@@ -40,7 +41,7 @@ export default function CokkiriEdit() {
              )
 
     useEffect(()=> {
-        axios.get('/cokkiri-detail/3')
+        axios.get('/cokkiri-detail/'+cokkiriNo)
         .then((response)=> {
             console.log(response.data);
             setCokkiri({...cokkiri,     
