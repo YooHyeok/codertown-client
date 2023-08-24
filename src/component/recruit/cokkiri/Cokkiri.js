@@ -22,12 +22,12 @@ export default function Cokkiri() {
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
 
-    const [keyword , setKeyword] = useState('')
-
+      const [keyword , setKeyword] = useState('')
     const inputChange = (e) => {
         setKeyword(e.target.value);
     }
     const pageRequest = (e) => {
+        console.log(e.target.value)
         serverRequest(e.target.value, keyword);
     }
 
@@ -74,7 +74,7 @@ export default function Cokkiri() {
                         </FormGroup>
                     </div>
                 </div>
-                <div style={{borderTop: '0.1px solid lightgray'}}>
+                <div style={{borderTop: '0.1px solid lightgray', height:"420px"}}>
                     <Table >
                         <thead>
                             <tr>
@@ -132,15 +132,17 @@ export default function Cokkiri() {
                             )
                             }
                         }
-                        if(pageInfo.curPage != 1)
+                        // if(pageInfo.curPage != 1)
                         array.unshift(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
-
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
+                                if(pageInfo.curPage === 1) return;
+                                pageRequest(e)}}>{"<"}</Button>&nbsp;&nbsp;</span>
                         )
-                        if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                        // if(pageInfo.curPage != Math.max(pageInfo.allPage))
                         array.push(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
-
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
+                                if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
+                                pageRequest(e)}}>{">"}</Button>&nbsp;&nbsp;</span>
                         )
                         return array;
                         })()}

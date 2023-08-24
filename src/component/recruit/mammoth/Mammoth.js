@@ -85,7 +85,7 @@ export default function Mammoth() {
                         </FormGroup>
                     </div>
                 </div>
-                <div style={{borderTop: '0.1px solid lightgray'}}>
+                <div style={{borderTop: '0.1px solid lightgray', height:"420px"}}>
                     <Table >
                         <thead>
                             <tr>
@@ -143,18 +143,20 @@ export default function Mammoth() {
                                 )
                                 }
                             }
-                            if(pageInfo.curPage != 1)
+                            // if(pageInfo.curPage != 1)
                             array.unshift(
-                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
-
+                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
+                                    if(pageInfo.curPage === 1) return;
+                                    pageRequest(e)}}>{"<"}</Button>&nbsp;&nbsp;</span>
                             )
-                            if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                            // if(pageInfo.curPage != Math.max(pageInfo.allPage))
                             array.push(
-                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
-
+                                <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
+                                    if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
+                                    pageRequest(e)}}>{">"}</Button>&nbsp;&nbsp;</span>
                             )
-                            return array;
-                            })()}
+                                return array;
+                                })()}
                     </div>
                 </div>
 }

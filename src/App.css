@@ -1,6 +1,7 @@
  /* DropDown Link 밑줄 제거 */
-.dropdown-menu > a {
+.dropdown-menu > a, td > a {
   text-decoration: none;
+  color: black;
 }
 .App {
   text-align: center;
