@@ -25,7 +25,7 @@ export default function CokkiriDetail() {
             writer: {},
             nickname: "fghij",
             content: "updatevalue",
-            link: "updatevalue",
+            link: "",
             objectWeek: 4,
             subject: "abcde",
             teamName: "fghij",
@@ -106,7 +106,13 @@ export default function CokkiriDetail() {
                                     </Col>
                                     <Col sm={11}>
                                     <Label htmlFor='email' sm={6}>링크</Label>
-                                        <Input type='text' name='link' id='link' value={cokkiri.link} readOnly/>
+                                    <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={cokkiri.link} readOnly onClick={(e)=>{
+                                        let link = cokkiri.link;
+                                        if(link == null || link == '') {alert('링크가 비어있습니다.'); return;}
+                                        if(link[0] != 'h')  link = 'http://'+ link;
+                                        window.open(link, '_blank')
+                                    }
+                                    } />
                                     </Col>                            
                                 </FormGroup>
                                 <FormGroup row>
