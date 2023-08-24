@@ -102,8 +102,7 @@ export default function CokkiriEdit() {
         setReRenderFlag(true);
     }
 
-    
-
+    /* 페이지 첫 진입시 데이터 출력용 랜더링 */
     useEffect(()=> {
         axios.get('/cokkiri-detail/'+cokkiriNo)
         .then((response)=> {
@@ -246,7 +245,6 @@ export default function CokkiriEdit() {
                                                      */
                                                     setProjectPartUpdate((prevUpdate) => {
                                                         const foundPart = originalProjectParts.find(part => part.partNo === projectPart.partNo);
-                                                        
                                                         if (foundPart !== undefined) {
                                                             return { /* undefined가 아닐경우 기존 데이터에 추가된 데이터로 덮어씌운다. */
                                                             ...prevUpdate,
@@ -260,10 +258,7 @@ export default function CokkiriEdit() {
                                                      * 원본 파트 배열 제어
                                                      * originalProjectParts 배열에 삭제된 데이터를 제외한 데이터로 덮어씌운다. 
                                                      */
-                                                    setOriginalProjectParts(originalProjectParts.filter(part => {
-                                                        return part.partNo !== projectPart.partNo;
-                                                    }));
-
+                                                    setOriginalProjectParts(originalProjectParts.filter(part => part.partNo !== projectPart.partNo));
                                                 }}> - </Button></div>
                                         </div>)
                                     })}
