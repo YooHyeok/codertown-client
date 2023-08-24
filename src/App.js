@@ -29,9 +29,7 @@ function App() {
         <DirectMessengerButton/>
         <Routes>
               <Route exact path='/' element={<Main />} />
-              <Route exact path='/techque' element={<Coggle />} />
-              <Route exact path='/carrier' element={<Coggle />} />
-              <Route exact path='/devlife' element={<Coggle />} />
+              <Route exact path='/coggle' element={<Coggle />} />
               <Route exact path='/coggle-detail' element={<CoggleDetail />} />
               <Route exact path='/coggle-write' element={<CoggleWrite />} />
               <Route exact path='/cokkiri' element={<Cokkiri />} />

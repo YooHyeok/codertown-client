@@ -96,10 +96,14 @@ export default function Header() {
                         </HeaderDropDownContext.Provider>
                     </li>
                     <li className="nav-item">
+                        <Link to={'/coggle'} style={{ lineHeight: "25px" }}>
+                            <span style={{position:'relative', top:'4px' }}>Coggle</span>
+                        </Link>
+
                         {/* 코글 드롭다운 */}
-                        <HeaderDropDownContext.Provider value={contextValue}>
+                        {/* <HeaderDropDownContext.Provider value={contextValue}>
                             <HeaderDropDownCoggle/>
-                        </HeaderDropDownContext.Provider>
+                        </HeaderDropDownContext.Provider> */}
                     </li>
                 </ul>
                 <img src='/header-spring.png' style={{height:"50px", position: 'absolute', top: '55px', zIndex: '1' }} />
