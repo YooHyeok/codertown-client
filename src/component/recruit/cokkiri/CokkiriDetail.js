@@ -57,6 +57,22 @@ export default function CokkiriDetail() {
         })
     },[])
 
+    /* func - 삭제 기능 */
+    const del = (e) => {
+        alert("삭제 하시겠습니까?");
+
+        const formData = new FormData();
+        formData.append('recruitNo', cokkiriNo);
+
+        axios.post('/recruit-delete', formData)
+        .then((response)=> {
+            document.location.href="/cokkiri";
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     return(
         <div style={divStyle}>
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
@@ -77,7 +93,7 @@ export default function CokkiriDetail() {
                             <Button color='secondary' onClick={(e)=>{
                                 navigate('/cokkiri-edit', { state: { cokkiriNo } });
                             }}>수정</Button>&nbsp;&nbsp;
-                            <Button color='danger'>삭제</Button>
+                            <Button color='danger' onClick={del}>삭제</Button>
                         </div>
                     </div>
                 </div>
