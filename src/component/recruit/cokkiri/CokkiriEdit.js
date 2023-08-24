@@ -19,7 +19,7 @@ export default function CokkiriEdit() {
 
     const location = useLocation();
     const cokkiriNo = location.state?.cokkiriNo;
-    const { no } = location.state == null ? '' : location.state;
+    // const { no } = location.state == null ? '' : location.state;
 
     /* state - 토스트 에디터 change를 위한 변수 */
     const [toastHtml, setToastHtml] = useState('');

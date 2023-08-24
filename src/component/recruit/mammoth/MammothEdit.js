@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
 import ToastEditor from '../../ToastEditor.js'
@@ -17,14 +17,17 @@ export default function MammothEdit() {
         , padding: '30px'
         , top: '100'
       };
-      const navigate = useNavigate();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const mammothNo = location.state?.mammothNo;
 
     const [mammoth, setMammoth] = useState({
-        title: '', location: '', link: '', content:''
+        recruitNo: mammothNo, title: '', location: '', link: '', content:''
     });
 
     useEffect(()=> {
-    axios.get('/mammoth-detail/4')
+    axios.get('/mammoth-detail/'+mammothNo)
     .then((response)=> {
         console.log(response.data);
         setMammoth({...mammoth,     
@@ -40,6 +43,45 @@ export default function MammothEdit() {
         console.log(error);
     })
     },[])
+
+    /* func - 입력란 데이터 변경 함수 */
+    const InputChange = (e) => {
+        setMammoth({...mammoth, [e.target.name] : e.target.value})
+    }
+
+
+
+    /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
+    const [reRenderFlag, setReRenderFlag] = useState(false);
+
+
+    /**
+     * 컴포넌트 리렌더링 후에 axios를 호출한다.
+     * 저장버튼이 클릭되고 Event가 종료되는 시점
+     * 즉, 리랜더링 되는 시점에 호스트 서버와 통신한다.
+     * 누적되어 있던 state 변경내역들 실제 적용된다.
+     */
+    useEffect(() => {
+        if (reRenderFlag) {
+        // axios 호출
+            console.log(mammoth)
+            axios.post('/mammoth-update', mammoth)
+            .then((response)=> {
+                document.location.href='/mammoth-detail/'+mammothNo
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }, [reRenderFlag]);
+
+    /* func - 저장 기능 */
+    const submit = (e) => {
+        setMammoth({...mammoth, content : toastHtml}) // 내용 초기화
+        alert("저장 하시겠습니까?");
+        setReRenderFlag(true);
+    }
+
     /**
      * Toast Editor
      */
@@ -80,7 +122,7 @@ export default function MammothEdit() {
                         <FormGroup row >
                             <Col sm={12}>
                             <Label htmlFor='title' sm={2}>제목</Label>
-                                <Input type='text' name='title' id='title' value={mammoth.title}/>
+                                <Input type='text' name='title' id='title' value={mammoth.title} onChange={InputChange}/>
                             </Col>
                             <Col style={{width:'850px'}}>
                             <Label htmlFor='location' sm={2}>모임 장소</Label>
@@ -89,7 +131,7 @@ export default function MammothEdit() {
                             </Col>
                             <Col sm={12}>
                             <Label htmlFor='link' sm={2}>오픈 채팅</Label>
-                                <Input type='text' name='link' id='link' value={mammoth.link}/>
+                                <Input type='text' name='link' id='link' value={mammoth.link} onChange={InputChange}/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -101,7 +143,7 @@ export default function MammothEdit() {
                                 <br/>
                                 <div style={{float:"right"}} >
                                 <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;
-                                <Button color='secondary' onClick={(e)=>{e.preventDefault();}}>저장</Button>
+                                <Button color='secondary' onClick={(e)=>{submit(e);}}>저장</Button>
                                 </div>
                             </Col>
                         </FormGroup>
