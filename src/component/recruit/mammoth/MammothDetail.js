@@ -49,6 +49,23 @@ export default function MammothDetail() {
         })
     },[])
 
+    
+    /* func - 삭제 기능 */
+    const del = (e) => {
+        alert("삭제 하시겠습니까?");
+
+        const formData = new FormData();
+        formData.append('recruitNo', mammothNo);
+
+        axios.post('/recruit-delete', formData)
+        .then((response)=> {
+            document.location.href="/mammoth";
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
     return(
         <div style={divStyle}>
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
@@ -69,7 +86,7 @@ export default function MammothDetail() {
                         <Button color='secondary' onClick={(e)=>{
                                 navigate('/mammoth-edit', { state: { mammothNo } });
                             }}>수정</Button>&nbsp;&nbsp;
-                            <Button color='danger'>삭제</Button>
+                            <Button color='danger' onClick={del}>삭제</Button>
                         </div>
                     </div>
                 </div>
