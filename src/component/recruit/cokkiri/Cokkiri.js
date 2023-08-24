@@ -9,10 +9,10 @@ import axios from "axios";
 
 export default function Cokkiri() {
     const divStyle = {
-        width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '100%'
+        width: '1200px'
+        , height: '700px'
         , textAlign: 'left'
-        , margin: '100px auto'
+        , margin: '150px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -44,22 +44,14 @@ export default function Cokkiri() {
     
 
     return <div style={divStyle}>
-                <div>
-                    <h1 style={{ textAlign:"center"}}><b>Recruit</b></h1>
-                </div>
-                <div style={{display:"flex"}}>
-                    <div>
-                        <h1 style={{margin:"30px 15px 30px 0px", width:"85px"}}><b>코끼리</b></h1>
+
+                <div style={{display:"flex", margin:'0 auto'}}>
+                    <div style={{width:"155px", display:"flex"}}>
+                        <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>코</b></h1>
+                        <span style ={{display:"flex", width:"65px", paddingTop: "45px"}}>딩하는 사람</span>
+                        <h1 style={{width:"60px", margin:"30px 0px 30px 0px"}}><b>끼리</b></h1>
                     </div>
-                    <div style={{width:"140px", height:"32px", paddingTop: "45px"}}>
-                        <span style ={{display:"flex", width:"140px"}}>코딩하는 사람 끼리</span>
-                        {/* <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
-                            style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
-                            <option value={"Cokkiri"} >코끼리</option>
-                            <option value={"Mammoth"} >맘모스</option>
-                        </select> */}
-                    </div>
-                    <div style={{width:"900px"}}>
+                    <div style={{width:"985px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
                                 <Input type="text" onKeyDown={(e)=>{}} onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />

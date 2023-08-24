@@ -8,10 +8,10 @@ import { Search } from 'react-bootstrap-icons';
 
 export default function Mammoth() {
     const divStyle = {
-        width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '750px'
+        width: '1200px'
+        , height: '700px'
         , textAlign: 'left'
-        , margin: '100px auto'
+        , margin: '150px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -36,22 +36,24 @@ export default function Mammoth() {
     
 
     return <div style={divStyle}>
-                <div>
-                    <h1 style={{ textAlign:"center"}}><b>Recruit</b></h1>
-                </div>
-                <div style={{display:"flex"}}>
+                {/* <div style={{display:"flex"}}>
                     <div>
                         <h1 style={{margin:"30px 15px 30px 0px", width:"85px"}}><b>맘모스</b></h1>
                     </div>
                     <div style={{width:"140px", height:"32px", paddingTop: "45px"}}>
                         <span style ={{display:"flex", width:"140px"}}>맘맞는사람 모여서 스터디</span>
-                        {/* <select name="" id="mealSelect" value={{}} onChange={(e)=>{}}
-                            style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
-                            <option value={"Cokkiri"} >코끼리</option>
-                            <option value={"Mammoth"} >맘모스</option>
-                        </select> */}
+                    </div> */}
+                <div style={{display:"flex", margin:'0 auto'}}>
+                    <div style={{width:"300px", display:"flex"}}>
+                        <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>맘</b></h1>
+                        <span style ={{display:"flex", width:"60px", paddingTop: "50px"}}>맞는 사람</span>
+                        <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>모</b></h1>
+                        <span style ={{display:"flex", width:"30px", paddingTop: "50px"}}>여서</span>
+                        <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>스</b></h1>
+                        <span style ={{display:"flex", width:"65px", paddingTop: "50px"}}>터디</span>
+
                     </div>
-                    <div style={{width:"900px"}}>
+                    <div style={{width:"9850px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
                                 <Input type="text" onKeyDown={(e)=>{}} onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
