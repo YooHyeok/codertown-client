@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
 import ToastEditor from '../../ToastEditor.js'
+import axios from "axios";
 
 export const CokkiriWriteContext = createContext();
 export default function CokkiriWrite() {
@@ -22,6 +23,7 @@ export default function CokkiriWrite() {
         setToastHtml: setToastHtml.bind(this),
         setMarkdown: setMarkdown.bind(this)
     }
+
     const [partNo, setPartNo] = useState('1');
     const [partName, setPartName] = useState('PM');
     const [recruitCount, setRecruitCount] = useState('');
@@ -31,6 +33,55 @@ export default function CokkiriWrite() {
 
     const [isShaking, setIsShaking] = useState(false);
     const inputStyle = isShaking ? { border: '2px solid red' } : {};
+
+
+    /* state - 코끼리 저장 객체 */
+    const [cokkiri, setCokkiri] = useState({
+        writer: 'webdevyoo@gmail.com', //로그인 한 사용자 계정
+        cokkiriTitle: '',
+        projectSubject: '',
+        projectTitle: '',
+        teamname: '',
+        objectWeek: '',
+        link: '',
+        content: '',
+        projectParts: []
+    })
+
+    /* func - 입력란 데이터 변경 함수 */
+    const InputChange = (e) => {
+        setCokkiri({...cokkiri, [e.target.name] : e.target.value})
+    }
+
+    /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
+    const [reRenderFlag, setReRenderFlag] = useState(false);
+
+    /**
+     * 컴포넌트 리렌더링 후에 axios를 호출한다.
+     * 저장버튼이 클릭되고 Event가 종료되는 시점
+     * 즉, 리랜더링 되는 시점에 호스트 서버와 통신한다.
+     * 누적되어 있던 state 변경내역들 실제 적용된다.
+     */
+    useEffect(() => {
+        if (reRenderFlag) {
+        console.log(cokkiri);
+        // axios 호출
+            axios.post('/cokkiri-save', cokkiri)
+            .then((response)=> {
+                document.location.href='/cokkiri'
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }, [reRenderFlag]);
+
+    /* func - 저장 기능 */
+    const submit = () => {
+        setCokkiri({...cokkiri, projectParts : projectParts, content : toastHtml});
+        alert("저장 하시겠습니까?");
+        setReRenderFlag(true);
+    }
 
     return(
         <div style={divStyle}>
@@ -47,30 +98,30 @@ export default function CokkiriWrite() {
                     <Form style={{width:"825px", margin:"30px auto"}}>
                         <FormGroup row>
                             <Col sm={12}>
-                            <Label htmlFor='title' sm={2}>제목</Label>
-                                <Input type='text' name='title' id='title' />
+                            <Label htmlFor='cokkiriTitle' sm={2}>제목</Label>
+                                <Input type='text' name='cokkiriTitle' id='cokkiriTitle' onChange={InputChange}/>
                             </Col>
                             <Col sm={6}>
-                            <Label htmlFor='password' sm={6}>프로젝트 상세 주제</Label>
-                                <Input type='text' name='subject' id='subject' placeholder='ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스' />
+                            <Label htmlFor='projectSubject' sm={6}>프로젝트 상세 주제</Label>
+                                <Input type='text' name='projectSubject' id='projectSubject' placeholder='ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스'  onChange={InputChange}/>
                             </Col>
                             <Col sm={4}>
-                            <Label htmlFor='email' sm={6}>팀 이름</Label>
-                                <Input type='text' name='teamName' id='teamName' />
+                            <Label htmlFor='teamname' sm={6}>팀 이름</Label>
+                                <Input type='text' name='teamname' id='teamname'  onChange={InputChange}/>
                             </Col>
                             <Col sm={2}>
-                            <Label htmlFor='email' sm={5}>목표 기간</Label>
-                                <Input type='number' name='objectWeek' id='objectWeek' placeholder={'주 단위 입력'}/>
+                            <Label htmlFor='objectWeek' sm={5}>목표 기간</Label>
+                                <Input type='number' name='objectWeek' id='objectWeek' placeholder={'주 단위 입력'} onChange={InputChange}/>
                             </Col>
                             <Col sm={6}>
-                            <Label htmlFor='email' sm={6}>링크</Label>
-                                <Input type='text' name='link' id='link' placeholder='카카오톡 / 디스코드 / 구글폼 등 (생략 가능)'/>
+                            <Label htmlFor='link' sm={6}>링크</Label>
+                                <Input type='text' name='link' id='link' placeholder='카카오톡 / 디스코드 / 구글폼 등 (생략 가능)' onChange={InputChange}/>
                             </Col>
                             <Col sm={3} >
                                 <Label htmlFor='part' sm={6}>파트 추가</Label>
                                 <select name="part" id="part" onChange={(e)=>{
                                     setPartNo(e.target.value);
-                                    setPartName(e.target.options[e.target.selectedIndex].textContent)
+                                    setPartName(e.target.options[e.target.selectedIndex].textContent) //옵션 text노드 추출후 저장
                                 }}
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
                                     <option value={"1"} >PM</option>
@@ -154,7 +205,7 @@ export default function CokkiriWrite() {
                                 <br/>
                                 <div style={{float:"right"}} >
                                 <Button color='secondary' outline onClick={(e)=>{e.preventDefault(); navigate(-1);}}>취소</Button>&nbsp;&nbsp;
-                                <Button color='secondary' onClick={(e)=>{e.preventDefault();}}>저장</Button>
+                                <Button color='secondary' onClick={submit}>저장</Button>
                                 </div>
                             </Col>
                         </FormGroup>
