@@ -18,6 +18,8 @@ export default function Cokkiri() {
       };
 
     const [cokkiriList , setCokkiriList] = useState([])
+    const [articleCount , setArticleCount] = useState('') // 게시글 갯수
+
     const [pageInfo, setPageInfo] = useState({
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
@@ -27,7 +29,6 @@ export default function Cokkiri() {
         setKeyword(e.target.value);
     }
     const pageRequest = (e) => {
-        console.log(e.target.value)
         serverRequest(e.target.value, keyword);
     }
 
@@ -38,6 +39,7 @@ export default function Cokkiri() {
     const serverRequest = (page, keyword) => {
         axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}`)
         .then((response)=> {
+            setArticleCount(response.data.articleCount)
             setCokkiriList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)
         })
@@ -58,10 +60,11 @@ export default function Cokkiri() {
     return <div style={divStyle}>
 
                 <div style={{display:"flex", margin:'0 auto'}}>
-                    <div style={{width:"155px", display:"flex"}}>
+                    <div style={{width:"300px", display:"flex"}}>
                         <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>코</b></h1>
-                        <span style ={{display:"flex", width:"65px", paddingTop: "45px"}}>딩하는 사람</span>
-                        <h1 style={{width:"60px", margin:"30px 0px 30px 0px"}}><b>끼리</b></h1>
+                        <span style ={{display:"flex", width:"65px", paddingTop: "50px"}}>딩하는 사람</span>
+                        <h1 style={{width:"60px", margin:"30px 10px 30px 0px"}}><b>끼리</b></h1>
+                        <span style ={{display:"flex", width:"65px", paddingTop: "50px", color:'gray'}}>{articleCount}개</span>
                     </div>
                     <div style={{width:"985px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
@@ -90,12 +93,9 @@ export default function Cokkiri() {
                                 </th>
                             </tr>
                         </thead>
-                        {console.log(cokkiriList)}
-
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {cokkiriList.map((obj) => {
-                                console.log(obj);
                                 return (
                                 <tr key={obj.recruitDto.recruitNo}>
                                     <td>{obj.recruitDto.recruitNo}</td>

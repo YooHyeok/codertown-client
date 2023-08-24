@@ -18,6 +18,7 @@ export default function Mammoth() {
       };
 
     const [mammothList , setMammothList] = useState([])
+    const [articleCount , setArticleCount] = useState('') // 게시글 갯수
     const [pageInfo, setPageInfo] = useState({
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
@@ -38,7 +39,7 @@ export default function Mammoth() {
     const serverRequest = (page) => {
         axios.get(`/recruit?page=${page}&dType=Mammoth&keyword=${keyword}`)
         .then((response)=> {
-            console.log(response.data.recruitList)
+            setArticleCount(response.data.articleCount)
             setMammothList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)
         })
@@ -65,13 +66,15 @@ export default function Mammoth() {
                         <span style ={{display:"flex", width:"140px"}}>맘맞는사람 모여서 스터디</span>
                     </div> */}
                 <div style={{display:"flex", margin:'0 auto'}}>
-                    <div style={{width:"300px", display:"flex"}}>
+                    <div style={{width:"290px", display:"flex"}}>
                         <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>맘</b></h1>
                         <span style ={{display:"flex", width:"60px", paddingTop: "50px"}}>맞는 사람</span>
                         <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>모</b></h1>
                         <span style ={{display:"flex", width:"30px", paddingTop: "50px"}}>여서</span>
                         <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>스</b></h1>
-                        <span style ={{display:"flex", width:"65px", paddingTop: "50px"}}>터디</span>
+                        <span style ={{display:"flex", width:"35px", paddingTop: "50px"}}>터디</span>
+                        <span style ={{display:"flex", width:"65px", paddingTop: "50px", color:'gray'}}>{articleCount}개</span>
+
 
                     </div>
                     <div style={{width:"9850px"}}>
@@ -101,12 +104,9 @@ export default function Mammoth() {
                                 </th>
                             </tr>
                         </thead>
-                        {console.log(mammothList)}
-
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {mammothList.map((obj) => {
-                                console.log(obj);
                                 return (
                                     <tr key={obj.recruitDto.recruitNo}>
                                     <td>{obj.recruitDto.recruitNo}</td>
@@ -155,8 +155,8 @@ export default function Mammoth() {
                                     if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
                                     pageRequest(e)}}>{">"}</Button>&nbsp;&nbsp;</span>
                             )
-                                return array;
-                                })()}
+                            return array;
+                            })()}
                     </div>
                 </div>
 }
