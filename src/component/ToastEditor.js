@@ -44,19 +44,23 @@ export default function ToastEditor({props}) {
    * 입력시 전역변수 value 초기화 (수정/삭제 공통)
    */
   const onChange = () => {
+    console.log(editorRef.current?.getInstance().getHTML())
     switch (location.pathname) { // url을 기준으로 context선택 및 전역변수 초기화
-      case 'coggle-write' : 
+      case '/coggle-write' : 
         coggleWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         coggleWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
-        case 'cokkiri-write' : 
+      case '/cokkiri-write' : 
         cokkiriWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         cokkiriWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
-        console.log(editorRef.current?.getInstance().getHTML())
         break;
-      case 'mammoth-write' : 
+      case '/mammoth-write' : 
         mammothWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         mammothWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        break;
+      case '/cokkiri-edit' : 
+        cokkiriEditContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        cokkiriEditContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
     }
 

@@ -17,18 +17,21 @@ export default function CokkiriEdit() {
       };
       const navigate = useNavigate();
 
-    const [toastHtml, setToastHtml] = useState('');
-    const [toastMarkdown, setMarkdown] = useState('');
-    const context = {
-        setToastHtml: setToastHtml.bind(this),
-        setMarkdown: setMarkdown.bind(this)
-    }
-
     const location = useLocation();
     const cokkiriNo = location.state?.cokkiriNo;
     const { no } = location.state == null ? '' : location.state;
 
-    /* 코끼리 출력/저장 배열 */
+    /* state - 토스트 에디터 change를 위한 변수 */
+    const [toastHtml, setToastHtml] = useState('');
+    const [toastMarkdown, setMarkdown] = useState('');
+
+    /* context - 토스트 에디터 chnge를 위한 context객체 */
+    const context = {
+        setToastHtml: setToastHtml.bind(this),
+        setMarkdown: setMarkdown.bind(this),
+    }
+
+    /* state - 코끼리 출력/저장 객체 */
     const [cokkiri, setCokkiri] = useState({
         recruitNo: cokkiriNo, //저장용
         cokkiriTitle: '',
@@ -41,42 +44,62 @@ export default function CokkiriEdit() {
         projectParts: []
     })
 
-    /* 파트 추가/제거용 변수 */
+    /* state - 파트 추가/제거용 변수 */
     const [partNo, setPartNo] = useState('1');
     const [partName, setPartName] = useState('PM');
     const [recruitCount, setRecruitCount] = useState('');
 
-    /* 삭제를 위한 원본 파트 배열 */
+    /* state - 삭제를 위한 원본 파트 배열 */
     const [originalProjectParts, setOriginalProjectParts] = useState([]);
 
-    /* 저장용 배열 객체 - projectPartUpdate */
+    /* state - 저장용 배열 객체 - projectPartUpdate */
     const [projectPartUpdate, setProjectPartUpdate] = useState({
         update: [],
         delete: [],
         insert: []
     });
 
-    /* 저장용 통합 객체 */
+    /* state - 저장용 통합 객체 */
     const [saveUpdateObject, setSaveUpdateObject] = useState({
         cokkiriUpdate: cokkiri,
         projectPartUpdate: projectPartUpdate,
     });
 
-    /* 입력란 데이터 변경 함수 */
+    /* func - 입력란 데이터 변경 함수 */
     const InputChange = (e) => {
         setCokkiri({...cokkiri, [e.target.name] : e.target.value})
     }
 
-    /* 저장 기능 */
+
+
+    /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
+    const [reRenderFlag, setReRenderFlag] = useState(false);
+
+
+    /**
+     * 컴포넌트 리렌더링 후에 axios를 호출한다.
+     * 저장버튼이 클릭되고 Event가 종료되는 시점
+     * 즉, 리랜더링 되는 시점에 호스트 서버와 통신한다.
+     * 누적되어 있던 state 변경내역들 실제 적용된다.
+     */
+    useEffect(() => {
+        if (reRenderFlag) {
+        // axios 호출
+            axios.post('/cokkiri-update', {cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate})
+            .then((response)=> {
+                document.location.href='/cokkiri-detail/'+cokkiriNo
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    }, [reRenderFlag]);
+
+    /* func - 저장 기능 */
     const submit = (e) => {
-        console.log(toastHtml)
-        axios.post('/cokkiri-update', {cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate})
-        .then((response)=> {
-            // document.location.href='/cokkiri-detail/'+cokkiriNo
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        setCokkiri({...cokkiri, content : toastHtml}) // 내용 초기화
+        alert("저장 하시겠습니까?");
+        setReRenderFlag(true);
     }
 
     
@@ -96,17 +119,12 @@ export default function CokkiriEdit() {
                                     
             )
             setOriginalProjectParts(response.data.projectDto.projectParts)
-            // console.log(cokkiri)
         })
         .catch((error) => {
             console.log(error);
         })
-    },[saveUpdateObject])
+    },[])
 
-    
-    useEffect(()=> {
-        // console.log(cokkiri.projectParts)
-    },[cokkiri])
 
     return(
         <div style={divStyle}>
@@ -204,7 +222,6 @@ export default function CokkiriEdit() {
                                 <div style={{display:'flex', width:'100%', height:'50px', margin:'0 auto', backgroundColor:'#f7f9fc', border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
                                     {/* 반복될 추가 요소 */}
                                     {cokkiri.projectParts.map((projectPart)=>{
-                                        console.log(cokkiri.projectParts)
                                         return(
                                         <div key={cokkiri.projectParts.projectPartNo} style={{display:'flex', width:'120px', height:'39px', backgroundColor:'white', margin:"5px", border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
                                             <div style={{width:'73px', margin:'5px', textAlign:'center'}}>
@@ -239,7 +256,6 @@ export default function CokkiriEdit() {
                                                         return prevUpdate; /* undefind일 경우 기존 데이터를 덮어씌운다. */
                                                         
                                                     });
-                                                console.log(projectPartUpdate)
                                                     /**
                                                      * 원본 파트 배열 제어
                                                      * originalProjectParts 배열에 삭제된 데이터를 제외한 데이터로 덮어씌운다. 
@@ -247,7 +263,6 @@ export default function CokkiriEdit() {
                                                     setOriginalProjectParts(originalProjectParts.filter(part => {
                                                         return part.partNo !== projectPart.partNo;
                                                     }));
-                                                    console.log(originalProjectParts)
 
                                                 }}> - </Button></div>
                                         </div>)
