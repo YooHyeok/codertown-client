@@ -28,7 +28,6 @@ export default function Cokkiri() {
         setKeyword(e.target.value);
     }
     const pageRequest = (e) => {
-        console.log(e.target.value)
         serverRequest(e.target.value, keyword);
     }
 
