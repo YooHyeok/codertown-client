@@ -91,13 +91,25 @@ export default function Header() {
                 <ul className="nav-items2">
                     <li className="nav-item">
                         {/* Recruit 드롭다운 */}
-                        <HeaderDropDownContext.Provider value={contextValue}>
+                        {/* <HeaderDropDownContext.Provider value={contextValue}>
                             <HeaderDropDownRecruit/>
-                        </HeaderDropDownContext.Provider>
+                        </HeaderDropDownContext.Provider> */}
+                        <Link to={'/cokkiri'} style={{ lineHeight: "25px" }}>
+                            <span style={{position:'relative', top:'4px' }}>코끼리</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        {/* Recruit 드롭다운 */}
+                        {/* <HeaderDropDownContext.Provider value={contextValue}>
+                            <HeaderDropDownRecruit/>
+                        </HeaderDropDownContext.Provider> */}
+                        <Link to={'/mammoth'} style={{ lineHeight: "25px" }}>
+                            <span style={{position:'relative', top:'4px' }}>맘모스</span>
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <Link to={'/coggle'} style={{ lineHeight: "25px" }}>
-                            <span style={{position:'relative', top:'4px' }}>Coggle</span>
+                            <span style={{position:'relative', top:'4px' }}>코글</span>
                         </Link>
 
                         {/* 코글 드롭다운 */}
