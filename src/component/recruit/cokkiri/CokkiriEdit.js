@@ -30,14 +30,13 @@ export default function CokkiriEdit() {
 
     /* 코끼리 출력/저장 배열 */
     const [cokkiri, setCokkiri] = useState({
-        recruitNo: cokkiriNo,
+        recruitNo: cokkiriNo, //저장용
         cokkiriTitle: '',
         projectSubject: '',
         projectTitle: '',
         teamname: '',
         objectWeek: '',
         link: '',
-        delete: '',
         content: '',
         projectParts: []
     })
@@ -56,17 +55,6 @@ export default function CokkiriEdit() {
         delete: [],
         insert: []
     });
-    /* 저장용 코끼리 객체 - cokkiriUpdate */
-    const [cokkiriUpdate, setCokkiriUpdate] = useState({
-        recruitNo: cokkiriNo,
-        cokkiriTitle: '',
-        projectSubject: '',
-        teamname: '',
-        objectWeek: '',
-        link: '',
-        delete: '',
-        content: '',
-    });
 
     /* 저장용 통합 객체 */
     const [saveUpdateObject, setSaveUpdateObject] = useState({
@@ -79,25 +67,16 @@ export default function CokkiriEdit() {
         setCokkiri({...cokkiri, [e.target.name] : e.target.value})
     }
 
-    const saveAxoisPost = async (saveUpdateObject) => {
-        console.log(saveUpdateObject);
-        await  axios.post('/cokkiri-update',saveUpdateObject)
+    /* 저장 기능 */
+    const submit = (e) => {
+        console.log(toastHtml)
+        axios.post('/cokkiri-update', {cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate})
         .then((response)=> {
-            document.location.href='/cokkiri-detail/'+cokkiriNo
+            // document.location.href='/cokkiri-detail/'+cokkiriNo
         })
         .catch((error) => {
             console.log(error);
         })
-
-    }
-    /* 저장 기능 */
-    const submit = (e) => {
-        setSaveUpdateObject({...saveUpdateObject, cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate})
-
-        // setProjectPartUpdate((saveUpdateObject) => (
-        //     {...saveUpdateObject, cokkiriUpdate: cokkiri, projectPartUpdate:projectPartUpdate}
-        //  )); 
-        saveAxoisPost(saveUpdateObject)
     }
 
     

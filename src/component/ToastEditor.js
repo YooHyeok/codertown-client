@@ -37,7 +37,7 @@ export default function ToastEditor({props}) {
     if (props.mode === 'edit') {
       editorRef.current?.getInstance().setHTML(props.content);
     }
-  },[props.content])
+  },[props.content]) //
 
   /**
    * onChange Event
@@ -49,9 +49,10 @@ export default function ToastEditor({props}) {
         coggleWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         coggleWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
-      case 'cokkiri-write' : 
+        case 'cokkiri-write' : 
         cokkiriWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         cokkiriWriteContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        console.log(editorRef.current?.getInstance().getHTML())
         break;
       case 'mammoth-write' : 
         mammothWriteContext.setToastHtml(editorRef.current?.getInstance().getHTML());
