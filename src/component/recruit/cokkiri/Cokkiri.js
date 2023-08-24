@@ -24,22 +24,30 @@ export default function Cokkiri() {
       });
 
     const pageRequest = (e) => {
-    console.log("e.target.value : " + e.target.value);
+        serverRequest(e.target.value);
     }
 
-    
-
-    useEffect(() => {
-        axios.get('/recruit/1/Cokkiri')
+    /**
+     * 코끼리 목록 출력 - 호스트 서버 통신 메소드
+     * @param {} page : 선택된 페이지 정보 파라미터
+     */
+    const serverRequest = (page) => {
+        axios.get('/recruit/'+page+'/Cokkiri')
         .then((response)=> {
-            console.log("아아아아")
-            console.log(response.data);
             setCokkiriList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)
         })
         .catch((error) => {
             console.log(error);
         })
+    }
+
+    /**
+     * useEffect - 페이지 진입시 리랜더링
+     * serverRequest()를 호출하여 호스트 서버와 통신한다.
+     */
+    useEffect(() => {
+        serverRequest(1)
       }, [])
     
 
