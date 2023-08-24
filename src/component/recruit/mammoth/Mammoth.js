@@ -1,10 +1,10 @@
-
-// import axios from "axios";
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
+import axios from "axios";
 
 export default function Mammoth() {
     const divStyle = {
@@ -17,21 +17,37 @@ export default function Mammoth() {
         , top: '100'
       };
 
-    const [coggleList , setCoggleList] = useState([])
+    const [mammothList , setMammothList] = useState([])
     const [pageInfo, setPageInfo] = useState({
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
 
-    const pageRequest = (e) => {
-    console.log("e.target.value : " + e.target.value);
+      const pageRequest = (e) => {
+        serverRequest(e.target.value);
     }
+
+    /**
+     * 코끼리 목록 출력 - 호스트 서버 통신 메소드
+     * @param {} page : 선택된 페이지 정보 파라미터
+     */
+    const serverRequest = (page) => {
+        axios.get('/recruit/'+page+'/Mammoth')
+        .then((response)=> {
+            console.log(response.data.recruitList)
+            setMammothList(response.data.recruitList)
+            setPageInfo(response.data.pageInfo)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    /**
+     * useEffect - 페이지 진입시 리랜더링
+     * serverRequest()를 호출하여 호스트 서버와 통신한다.
+     */
     useEffect(() => {
-        /* coggleList 목데이터 */
-        const mockCoggleList = [];
-        for (let j = 0; j < 10; j++) {
-            mockCoggleList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-        }
-        setCoggleList(mockCoggleList)
+        serverRequest(1)
       }, [])
     
 
@@ -80,20 +96,20 @@ export default function Mammoth() {
                                 </th>
                             </tr>
                         </thead>
-                        {console.log(coggleList)}
+                        {console.log(mammothList)}
 
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
-                            {coggleList.map((obj) => {
+                            {mammothList.map((obj) => {
                                 console.log(obj);
                                 return (
-                                    <tr key={obj.coggleNo}>
-                                    <td>{obj.coggleNo}</td>
-                                    <td>{obj.title}</td>
-                                    <td>{obj.writer}</td>
-                                    <td>{obj.firstRegDate}</td>
-                                    <td>{obj.like}</td>
-                                    <td>{obj.count}</td>
+                                    <tr key={obj.recruitDto.recruitNo}>
+                                    <td>{obj.recruitDto.recruitNo}</td>
+                                    <td><Link to={`/mammoth-detail/${obj.recruitDto.recruitNo}`}>{obj.recruitDto.title}</Link></td>
+                                    <td>{obj.recruitDto.writer.nickname}</td>
+                                    <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
+                                    <td>{obj.recruitDto.like}</td>
+                                    <td>{obj.recruitDto.count}</td>
                                 </tr>
                                 )
                             })}
