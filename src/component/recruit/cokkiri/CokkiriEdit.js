@@ -97,9 +97,11 @@ export default function CokkiriEdit() {
 
     /* func - 저장 기능 */
     const submit = (e) => {
+        console.log(toastHtml)
+        console.log(toastMarkdown)
         setCokkiri({...cokkiri, content : toastHtml}) // 내용 초기화
         alert("저장 하시겠습니까?");
-        setReRenderFlag(true);
+        // setReRenderFlag(true);
     }
 
     /* 페이지 첫 진입시 데이터 출력용 랜더링 */

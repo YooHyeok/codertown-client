@@ -22,16 +22,22 @@ export default function Cokkiri() {
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
 
+    const [keyword , setKeyword] = useState('')
+
+    const inputChange = (e) => {
+        setKeyword(e.target.value);
+    }
     const pageRequest = (e) => {
-        serverRequest(e.target.value);
+        console.log(e.target.value)
+        serverRequest(e.target.value, keyword);
     }
 
     /**
      * 코끼리 목록 출력 - 호스트 서버 통신 메소드
      * @param {} page : 선택된 페이지 정보 파라미터
      */
-    const serverRequest = (page) => {
-        axios.get('/recruit/'+page+'/Cokkiri')
+    const serverRequest = (page, keyword) => {
+        axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}`)
         .then((response)=> {
             setCokkiriList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)
@@ -46,7 +52,7 @@ export default function Cokkiri() {
      * serverRequest()를 호출하여 호스트 서버와 통신한다.
      */
     useEffect(() => {
-        serverRequest(1)
+        serverRequest(1, keyword)
       }, [])
     
 
@@ -61,8 +67,8 @@ export default function Cokkiri() {
                     <div style={{width:"985px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
-                                <Input type="text" onKeyDown={(e)=>{}} onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
-                                <Button outline className="d-flex align-items-center" onClick={(e)=>{}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
+                                <Input type="text" value={keyword} onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
+                                <Button outline className="d-flex align-items-center" onClick={(e)=>{serverRequest(1, keyword);}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
                                     <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
                                 </Button>
                             </InputGroup>

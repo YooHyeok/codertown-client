@@ -22,8 +22,13 @@ export default function Mammoth() {
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
 
-      const pageRequest = (e) => {
-        serverRequest(e.target.value);
+    const [keyword , setKeyword] = useState('')
+
+    const inputChange = (e) => {
+        setKeyword(e.target.value);
+    }
+    const pageRequest = (e) => {
+    serverRequest(e.target.value, keyword);
     }
 
     /**
@@ -31,7 +36,7 @@ export default function Mammoth() {
      * @param {} page : 선택된 페이지 정보 파라미터
      */
     const serverRequest = (page) => {
-        axios.get('/recruit/'+page+'/Mammoth')
+        axios.get(`/recruit?page=${page}&dType=Mammoth&keyword=${keyword}`)
         .then((response)=> {
             console.log(response.data.recruitList)
             setMammothList(response.data.recruitList)
@@ -47,7 +52,7 @@ export default function Mammoth() {
      * serverRequest()를 호출하여 호스트 서버와 통신한다.
      */
     useEffect(() => {
-        serverRequest(1)
+        serverRequest(1, keyword)
       }, [])
     
 
@@ -72,8 +77,8 @@ export default function Mammoth() {
                     <div style={{width:"9850px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
-                                <Input type="text" onKeyDown={(e)=>{}} onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
-                                <Button outline className="d-flex align-items-center" onClick={(e)=>{}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
+                            <Input type="text" value={keyword} onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
+                                <Button outline className="d-flex align-items-center" onClick={(e)=>{serverRequest(1, keyword);}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
                                     <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
                                 </Button>
                             </InputGroup>
