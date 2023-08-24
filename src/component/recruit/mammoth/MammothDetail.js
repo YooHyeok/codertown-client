@@ -2,6 +2,7 @@ import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 export default function MammothDetail() {
     const divStyle = {
@@ -14,20 +15,22 @@ export default function MammothDetail() {
         , top: '100'
       };
 
-
+    /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+    const navigate = useNavigate();
+    const { mammothNo } = useParams();
     const [mammoth, setMammoth] = useState(
         {   
             title: null,
             writer: {},
-            nickname: "닉네임",
-            content: '내용입니다.',
-            link: "updatevalue",
+            nickname: '',
+            content: '',
+            link: '',
             location: ''
         }
              )
 
     useEffect(()=> {
-        axios.get('/mammoth-detail/4')
+        axios.get(`/mammoth-detail/${mammothNo}`)
         .then((response)=> {
             console.log(response.data);
             setMammoth({...mammoth,     
@@ -40,7 +43,6 @@ export default function MammothDetail() {
                         }
                                     
             )
-            console.log(mammoth)
         })
         .catch((error) => {
             console.log(error);
@@ -58,13 +60,15 @@ export default function MammothDetail() {
                 {/* 글 제목 */}
                 <div style = {{width:'1200px', margin: '50px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
                     <div style={{width:'1200px',margin:"30px 20px 10px 10px"}}>
-                        <h3 ><b>광명 모각코 구합니다!!!!!!!!!! </b></h3>
+                        <h3 ><b>{mammoth.title}</b></h3>
                         <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                         <div>
                             <span>{mammoth.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                         </div>
                         <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
-                            <Button color='secondary'>수정</Button>&nbsp;&nbsp;
+                        <Button color='secondary' onClick={(e)=>{
+                                navigate('/mammoth-edit', { state: { mammothNo } });
+                            }}>수정</Button>&nbsp;&nbsp;
                             <Button color='danger'>삭제</Button>
                         </div>
                     </div>
@@ -98,7 +102,14 @@ export default function MammothDetail() {
                                     </Col> */}
                                     <Col sm={12}>
                                     <Label htmlFor='email' sm={6}>링크</Label>
-                                        <Input type='text' name='link' id='link' value ={mammoth.link} readOnly/>
+                                        {/* <Input type='text' name='link' id='link' value ={mammoth.link} readOnly/> */}
+                                        <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={mammoth.link} readOnly onClick={(e)=>{
+                                        let link = mammoth.link;
+                                        if(link == null || link == '') {alert('링크가 비어있습니다.'); return;}
+                                        if(link[0] != 'h')  link = 'http://'+ link;
+                                        window.open(link, '_blank')
+                                    }
+                                    } />
                                     </Col>                            
                                 </FormGroup>
                             </Form>

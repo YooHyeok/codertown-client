@@ -37,7 +37,7 @@ function App() {
               <Route exact path='/cokkiri-detail/:cokkiriNo' element={<CokkiriDetail />} />
               <Route exact path='/cokkiri-edit' element={<CokkiriEdit />} />
               <Route exact path='/mammoth' element={<Mammoth />} />
-              <Route exact path='/mammoth-detail' element={<MammothDetail />} />
+              <Route exact path='/mammoth-detail/:mammothNo' element={<MammothDetail />} />
               <Route exact path='/mammoth-write' element={<MammothWrite />} />
               <Route exact path='/mammoth-edit' element={<MammothEdit />} />
               <Route exact path='/mypage' element={<MyPage />} />

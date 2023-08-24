@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
-import _ from 'lodash'; // Lodash 라이브러리
+// import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
 export default function CokkiriDetail() {
