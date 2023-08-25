@@ -16,6 +16,7 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     const textEditDiv = useRef('');
     const textAddDiv = useRef('');
     const contentDiv = useRef('');
+    const navigateDiv = useRef('');
     const addResizeHeight = () => {
         console.log("응")
         addTextarea.current.style.height = 'auto';
@@ -39,9 +40,11 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     };
     const addTextAreaShow = () => {
         textAddDiv.current.style.display ='block';
+        navigateDiv.current.style.display ='none';
     };
     const addTextAreaNone = () => {
         textAddDiv.current.style.display ='none';
+        navigateDiv.current.style.display ='block';
         addTextarea.current.style.height = '55px';
         addTextarea.current.value = null;
     };
@@ -58,10 +61,10 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                     <div>
                         <p>{content}</p>
                     </div>
-                    <div>
-                    <span style={{cursor: 'pointer'}} onClick={addTextAreaShow}>댓글 </span>
-                    <span style={{cursor: 'pointer'}} onClick={editTextAreaShow}> 수정 </span>
-                    <span style={{cursor: 'pointer'}}> 지우기</span>
+                    <div ref={navigateDiv}>
+                        <span style={{cursor: 'pointer'}} onClick={addTextAreaShow}>댓글 </span>
+                        <span style={{cursor: 'pointer'}} onClick={editTextAreaShow}> 수정 </span>
+                        <span style={{cursor: 'pointer'}}> 지우기</span>
                     </div>
                     {/* 최상위 댓글 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>

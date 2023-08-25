@@ -21,8 +21,13 @@ export default function CoggleDetail() {
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const textarea = useRef('');
     const handleResizeHeight = () => {
-    textarea.current.style.height = 'auto';
-    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+        textarea.current.style.height = 'auto';
+        textarea.current.style.height = textarea.current.scrollHeight + 'px';
+    };
+    /* 댓글영역 - TextArea 취소버튼 클릭시 초기화 */
+    const handleResizeHeightInit = () => {
+        textarea.current.style.height = '55px';
+        textarea.current.value = null;
     };
 
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
@@ -144,10 +149,22 @@ export default function CoggleDetail() {
                     )// 부모 JSX Render return문 종료
                 })} 
                 {/* 최상위 댓글 입력 영역 */}
-                <div style={{width:'1100px', margin:"30px auto", border: '0.1px solid lightgray'}}>
+                <div style={{display:'block', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
+                        <div style={{paddingBottom:'30px'}}>
+                            <div>
+                                <textarea ref={textarea} onChange={handleResizeHeight}
+                                style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            </div>
+                            <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
+                                <Button outline size={'sm'} onClick={handleResizeHeightInit}>취소</Button> &nbsp;
+                                <Button outline size={'sm'}>저장</Button>
+                            </div>
+                        </div>
+                    </div>
+                {/* <div style={{width:'1100px', margin:"30px auto", border: '0.1px solid lightgray'}}>
                     <textarea ref={textarea} onChange={handleResizeHeight}
                     style={{width:'1060px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
-                </div>
+                </div> */}
             </div>
         </div>
         )

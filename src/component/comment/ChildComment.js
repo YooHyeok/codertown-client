@@ -13,6 +13,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
     const textEditDiv = useRef('');
     const textAddDiv = useRef('');
     const contentDiv = useRef('');
+    const navigateDiv = useRef('');
     const addResizeHeight = () => {
         console.log("응")
         addTextarea.current.style.height = 'auto';
@@ -36,9 +37,11 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
     };
     const addTextAreaShow = () => {
         textAddDiv.current.style.display ='block';
+        navigateDiv.current.style.display ='none';
     };
     const addTextAreaNone = () => {
         textAddDiv.current.style.display ='none';
+        navigateDiv.current.style.display ='block';
         addTextarea.current.style.height = '55px';
         addTextarea.current.value = null;
     };
@@ -52,9 +55,11 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                     <div>
                         <p><span style={{color:'gray'}}>@{parentNickname}</span><span>{content}</span></p>
                     </div>
-                    <span onClick={addTextAreaShow}>{'댓글'}</span> 
-                    <span onClick={editTextAreaShow} value='수정'>수정</span> 
-                    <span>{'지우기'}</span>
+                    <div ref={navigateDiv}>
+                        <span onClick={addTextAreaShow}>{'댓글'}</span> 
+                        <span onClick={editTextAreaShow} value='수정'>수정</span> 
+                        <span>{'지우기'}</span>
+                    </div>
                     {/* 최상위 댓글 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
@@ -72,7 +77,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                 <div ref={textEditDiv} style={{display:'none', width:'900px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
-                            <textarea ref={editTextarea} onChange={editResizeHeight} value={content}
+                            <textarea ref={editTextarea} onChange={editResizeHeight}
                             style={{display:'inline', width:'858px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
