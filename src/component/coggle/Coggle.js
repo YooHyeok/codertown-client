@@ -5,6 +5,7 @@ import { Table } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
+import axios from "axios";
 
 export default function Coggle() {
     const divStyle = {
@@ -25,13 +26,37 @@ export default function Coggle() {
     const pageRequest = (e) => {
     console.log("e.target.value : " + e.target.value);
     }
+
+    const [articleCount , setArticleCount] = useState('') // 게시글 갯수
+
+    const [keyword , setKeyword] = useState(null)
+    
+    /**
+     * 코글 목록 출력 - 호스트 서버 통신 메소드
+     * @param {} page : 선택된 페이지 정보 파라미터
+     */
+        const serverRequest = (page, keyword) => {
+            let params = {params: {"page":page, "category": "T", "keyword": keyword}}
+            axios.get('/coggle', params)
+            .then((response)=> {
+                console.log(response.data)
+                setArticleCount(response.data.articleCount)
+                setCoggleList(response.data.coggleList)
+                setPageInfo(response.data.pageInfo)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+
     useEffect(() => {
         /* coggleList 목데이터 */
-        const mockCoggleList = [];
+        /* const mockCoggleList = [];
         for (let j = 0; j < 10; j++) {
             mockCoggleList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
         }
-        setCoggleList(mockCoggleList)
+        setCoggleList(mockCoggleList) */
+        serverRequest(1, keyword)
       }, [])
     
 
@@ -76,20 +101,18 @@ export default function Coggle() {
                                 </th>
                             </tr>
                         </thead>
-                        {console.log(coggleList)}
-
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {coggleList.map((obj) => {
                                 console.log(obj);
                                 return (
                                     <tr key={obj.coggleNo}>
-                                    <td>{obj.coggleNo}</td>
-                                    <td>{obj.title}</td>
-                                    <td>{obj.writer}</td>
-                                    <td>{obj.firstRegDate}</td>
-                                    <td>{obj.like}</td>
-                                    <td>{obj.count}</td>
+                                        <td>{obj.coggleNo}</td>
+                                        <td>{obj.title}</td>
+                                        <td>{obj.writer.nickname}</td>
+                                        <td>{obj.firstRegDate}</td>
+                                        <td>{obj.like}</td>
+                                        <td>{obj.count}</td>
                                 </tr>
                                 )
                             })}
