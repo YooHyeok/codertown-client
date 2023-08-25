@@ -23,7 +23,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
         textInputaDiv.current.style.display ='none';
         contentDiv.current.style.display ='block';
         textarea.current.style.height = '55px';
-        textarea.current.value = null;
+        textarea.current.value = content;
     };
 
     return (
@@ -35,17 +35,14 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
                         <p>{content}</p>
-                        {/* <textarea ref={textarea} onChange={handleResizeHeight} value= {content}
-                                    style={{display:'none', width:'950px', margin:"0px", border: '0.1px solid lightgray'}} 
-                                    placeholder='댓글 내용을 입력하세요'/> */}
                     </div>
                     <span>{'댓글'}</span> <span onClick={textAreaShow} value='수정'>수정</span> <span>{'지우기'}</span>
                 </div>
                 <div ref={textInputaDiv} style={{display:'none', width:'900px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
-                            <textarea ref={textarea} onChange={handleResizeHeight}
-                            style={{display:'inline', width:'860px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            <textarea ref={textarea} onChange={handleResizeHeight} value={content}
+                            style={{display:'inline', width:'858px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'} onClick={textAreaNone}>취소</Button> &nbsp;
