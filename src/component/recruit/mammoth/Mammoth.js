@@ -135,8 +135,9 @@ export default function Mammoth() {
                             for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
                                 if (i == pageInfo.curPage) {
                                 array.push(
-                                    <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
-                                )
+                                    <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={(e)=>{
+                                        if(pageInfo.curPage === i) return;
+                                        pageRequest(e)}}>{i}</Button>&nbsp;&nbsp;</span>                                )
                                 } else {
                                 array.push(
                                     <span key={i}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>

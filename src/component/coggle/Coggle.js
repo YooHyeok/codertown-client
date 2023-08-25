@@ -145,7 +145,7 @@ export default function Coggle() {
                             if (i == pageInfo.curPage) {
                             array.push(
                                 <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={(e)=>{
-                                    if(pageInfo.curPage === 1) return;
+                                    if(pageInfo.curPage === i) return;
                                     pageRequest(e)}}>{i}</Button>&nbsp;&nbsp;</span>
                             )
                             } else {
