@@ -121,7 +121,7 @@ export default function Coggle() {
                                         <td>{obj.coggleNo}</td>
                                         <td>{obj.title}</td>
                                         <td>{obj.writer.nickname}</td>
-                                        <td>{obj.firstRegDate}</td>
+                                        <td>{new Date(obj.firstRegDate).toISOString().split('T')[0]}</td>
                                         <td>{obj.like}</td>
                                         <td>{obj.count}</td>
                                 </tr>
