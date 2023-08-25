@@ -2,6 +2,7 @@
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
+import * as  DateUtil from '../../util/DateUtil.js'
 export default function ChildComment({ commentNo, writer, nickname, content, firstRegDate, children }) {
 
     return (
@@ -10,9 +11,10 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
             <div key={commentNo} style={{width:'1000px', margin:"30px auto"}}>
                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                 <div>
-                    <span>{nickname}</span> <span>{'2023-08-21'}</span>
+                    <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
-                        <p>{content}</p>
+                        {/* <p>{content}</p> */}
+                        <textarea/>
                     </div>
                     <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
                 </div>
@@ -24,7 +26,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                 writer={child.writer}
                 nickname={child.writer.nickname}
                 content={child.content}
-                firstRegDate={child.firstRegDate}
+                firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                 children={child.children}
             />
             ))}

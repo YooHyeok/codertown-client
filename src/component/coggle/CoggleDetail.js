@@ -6,6 +6,7 @@ import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ChildComment from '../comment/ChildComment.js'
 import ParentComment from '../comment/ParentComment.js'
+import * as  DateUtil from '../../util/DateUtil.js'
 
 export default function CoggleDetail() {
     const divStyle = {
@@ -158,18 +159,19 @@ export default function CoggleDetail() {
                                 writer={parent.writer}
                                 nickname={parent.writer.nickname}
                                 content={parent.content}
-                                firstRegDate={formattedTime}
+                                firstRegDate={DateUtil.utcToKrFull(parent.firstRegDate)}
                                 children={parent.children}
                                 />
                         {/* 자식댓글 영역 - 반복추출 */}
                         {parent.children.map((child)=>{
+                            console.log(child.firstRegDate)
                             return (
                             <ChildComment
                                 key={child.commentNo}
                                 writer={child.writer}
                                 nickname={child.writer.nickname}
                                 content={child.content}
-                                firstRegDate={child.firstRegDate}
+                                firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                                 children={child.children}
                                 />)
                         })}
