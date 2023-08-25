@@ -5,6 +5,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ChildComment from '../comment/ChildComment.js'
+import ParentComment from '../comment/ParentComment.js'
 
 export default function CoggleDetail() {
     const divStyle = {
@@ -138,7 +139,7 @@ export default function CoggleDetail() {
                 const formattedTime = `${year}-${month}-${day}, ${hour}:${minute} ${dayPeriod}`;
                 return (
                         <>
-                        <div key={parent.commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+                        {/* <div key={parent.commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
                             <div style={{width:'1100px', margin:"30px auto"}}>
                                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                                 <div>
@@ -151,7 +152,15 @@ export default function CoggleDetail() {
                                     <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+                        <ParentComment
+                                key={parent.commentNo}
+                                writer={parent.writer}
+                                nickname={parent.writer.nickname}
+                                content={parent.content}
+                                firstRegDate={formattedTime}
+                                children={parent.children}
+                                />
                         {/* 자식댓글 영역 - 반복추출 */}
                         {parent.children.map((child)=>{
                             return (
