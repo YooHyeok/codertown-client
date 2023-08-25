@@ -37,6 +37,8 @@ export default function CoggleDetail() {
         }
              )
 
+    const [commentList, setCommentList] = useState([])
+
     useEffect(()=> {
         axios.get(`/coggle-detail/${coggleNo}`)
         .then((response)=> {
@@ -54,8 +56,43 @@ export default function CoggleDetail() {
         .catch((error) => {
             console.log(error);
         })
+
+        axios.get(`/coggle/${coggleNo}/comment`)
+        .then((response)=> {
+            console.log(response.data)
+            setCommentList(response.data)
+            /* setCoggle({  
+                        title: response.data.title, 
+                        writer: response.data.writer,
+                        nickname: response.data.writer.nickname,
+                        category : response.data.category,
+                        categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
+                        title: response.data.title,
+                        content: response.data.content,
+                        }
+            ) */
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     },[])
 
+    /* func - 삭제 기능 */
+    const del = (e) => {
+        alert("삭제 하시겠습니까?");
+
+        const formData = new FormData();
+        formData.append('coggleNo', coggleNo);
+
+        axios.post('/coggle-delete', formData)
+        .then((response)=> {
+            document.location.href="/coggle";
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    
     return(
         <div style={divStyle}>
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
@@ -76,7 +113,7 @@ export default function CoggleDetail() {
                             <Button color='secondary' onClick={(e)=>{
                                 navigate('/coggle-edit', { state: { coggleNo } });
                             }}>수정</Button>&nbsp;&nbsp;
-                            <Button color='danger'>삭제</Button>
+                            <Button color='danger' onClick={del}>삭제</Button>
                         </div>
                     </div>
                 </div>
@@ -91,50 +128,49 @@ export default function CoggleDetail() {
                 </div>
             {/* 댓글 영역 */}
             <div style = {{width:'1200px', margin: '30px auto', borderTop: '0.1px solid lightgray'}}>
-                {/* 최상위 댓글 출력 영역 */}
-                <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-                    <div style={{width:'1100px', margin:"30px auto"}}>
-                        <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                        <div>
-                            <span>{'유혁스쿨'}</span> <span>{'2023-08-21'}</span>
-                            <div>
-                                <p>asdasdasdasdasd</p>
+            {/* 부모댓글 영역 - 반복추출 */}
+            {commentList.map((parent) => {
+                /* options :  날짜-시간 포매팅 형식 */
+                const options = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true};
+                const [ { value: month },, { value: day },, { value: year },, { value: hour },, { value: minute },, { value: dayPeriod } ]
+                 = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date(parent.firstRegDate));
+                const formattedTime = `${year}-${month}-${day}, ${hour}:${minute} ${dayPeriod}`;
+                return (
+                        <>
+                        <div key={parent.commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+                            <div style={{width:'1100px', margin:"30px auto"}}>
+                                <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
+                                <div>
+                                    <span>{parent.writer.nickname}</span> <span style={{color:'gray'}}>
+                                        {formattedTime}
+                                    </span>
+                                    <div>
+                                        <p>{parent.content}</p>
+                                    </div>
+                                    <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
+                                </div>
                             </div>
-                            <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
                         </div>
-                    </div>
-                </div>
-                {/* 자식 댓글 출력 영역 */}
-                <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-                    <div style={{width:'1000px', margin:"30px auto"}}>
-                        <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                        <div>
-                            <span>{'유혁스쿨'}</span> <span>{'2023-08-21'}</span>
-                            <div>
-                                <p>asdasdasdasdasd</p>
-                            </div>
-                            <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
-                        </div>
-                    </div>
-                </div>
-                {/* 최상위 댓글 출력 영역 */}
-                <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-                    <div style={{width:'1100px', margin:"30px auto"}}>
-                        <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                        <div>
-                            <span>{'유혁스쿨'}</span> <span>{'2023-08-21'}</span>
-                            <div>
-                                <p>asdasdasdasdasd</p>
-                            </div>
-                            <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
-                        </div>
-                    </div>
-                </div>
-                {/* 최상위 댓글 입력 영역 */}
-                <div style={{width:'1100px', margin:"30px auto", border: '0.1px solid lightgray'}}>
-                    <textarea ref={textarea} onChange={handleResizeHeight}
-                    style={{width:'1060px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
-                </div>
+                        {/* 자식댓글 영역 - 반복추출 */}
+                        {parent.children.map((child) => {
+                                return (
+                                    <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+                                        <div style={{width:'1000px', margin:"30px auto"}}>
+                                            <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
+                                            <div>
+                                                <span>{child.writer.nickname}</span> <span>{'2023-08-21'}</span>
+                                                <div>
+                                                    <p>{child.content}</p>
+                                                </div>
+                                                <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) // 자식 JSX Render Return문 종료
+                        })}
+                    </>
+                    )// 부모 JSX Render return문 종료
+                })} 
                 
             </div>
         </div>

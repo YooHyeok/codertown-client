@@ -37,7 +37,7 @@ export default function Coggle() {
 
     /* select - onChange 이벤트 종료시점 리랜더링 Flag  */
     const [reRenderFlag, setReRenderFlag] = useState(false);
-    const [category , setCategory] = useState(null)
+    const [category , setCategory] = useState('')
     const selectChange = (e) => {
         setCategory(e.target.value);
         reRenderFlag == false ? setReRenderFlag(true) : setReRenderFlag(false)
