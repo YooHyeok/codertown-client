@@ -9,6 +9,7 @@ import Prism from 'prismjs';
 import { useLocation } from 'react-router-dom';
 
 import { CoggleWriteContext } from './coggle/CoggleWrite.js'
+import { CoggleEditContext } from './coggle/CoggleEdit.js'
 import { CokkiriWriteContext } from './recruit/cokkiri/CokkiriWrite.js'
 import { CokkiriEditContext } from './recruit/cokkiri/CokkiriEdit.js'
 import { MammothWriteContext } from './recruit/mammoth/MammothWrite.js'
@@ -20,6 +21,7 @@ import { MammothEditContext } from './recruit/mammoth/MammothEdit.js'
  */
 export default function ToastEditor({props}) {
   const coggleWriteContext = useContext(CoggleWriteContext);
+  const coggleEditContext = useContext(CoggleEditContext);
   const cokkiriWriteContext = useContext(CokkiriWriteContext);
   const cokkiriEditContext = useContext(CokkiriEditContext);
   const mammothWriteContext = useContext(MammothWriteContext);
@@ -29,6 +31,7 @@ export default function ToastEditor({props}) {
   const location = useLocation();
 
   useEffect(()=> {
+    console.log(props)
     /**
      * Edit - 수정 페이지 입력란 DB데이터 초기화
      * props mode속성이 edit이고 content속성이 존재할때 작동한다.
@@ -63,6 +66,10 @@ export default function ToastEditor({props}) {
       case '/mammoth-edit' : 
         mammothEditContext.setToastHtml(editorRef.current?.getInstance().getHTML());
         mammothEditContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
+        break;
+      case '/coggle-edit' : 
+        coggleEditContext.setToastHtml(editorRef.current?.getInstance().getHTML());
+        coggleEditContext.setMarkdown(editorRef.current?.getInstance().getMarkdown());
         break;
     }
 

@@ -32,7 +32,6 @@ export default function Coggle() {
     const [keyword , setKeyword] = useState(null)
     const inputChange = (e) => {
         setKeyword(e.target.value);
-        console.log(category)
     }
 
 
@@ -40,8 +39,6 @@ export default function Coggle() {
     const [reRenderFlag, setReRenderFlag] = useState(false);
     const [category , setCategory] = useState(null)
     const selectChange = (e) => {
-        console.log("콤보변경")
-        console.log()
         setCategory(e.target.value);
         reRenderFlag == false ? setReRenderFlag(true) : setReRenderFlag(false)
     }
@@ -54,7 +51,6 @@ export default function Coggle() {
         let params = {params: {"page":page, "category": category, "keyword": keyword}}
         axios.get('/coggle', params)
         .then((response)=> {
-            console.log(response.data)
             setArticleCount(response.data.articleCount)
             setCoggleList(response.data.coggleList)
             setPageInfo(response.data.pageInfo)
@@ -65,7 +61,6 @@ export default function Coggle() {
     }
 
       useEffect(() => {
-        console.log(category)
         serverRequest(1, category, keyword)
       }, [reRenderFlag])
     
@@ -115,7 +110,6 @@ export default function Coggle() {
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {coggleList.map((obj) => {
-                                console.log(obj);
                                 return (
                                     <tr key={obj.coggleNo}>
                                         <td>{obj.coggleNo}</td>

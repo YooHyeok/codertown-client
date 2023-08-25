@@ -23,6 +23,8 @@ export default function CoggleDetail() {
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
     };
 
+    /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+    const navigate = useNavigate();
     const { coggleNo } = useParams();
 
     const [coggle, setCoggle] = useState(
@@ -30,7 +32,7 @@ export default function CoggleDetail() {
             title: null,
             writer: {},
             nickname: '',
-            category: '',
+            category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
             content: '',
         }
              )
@@ -38,7 +40,6 @@ export default function CoggleDetail() {
     useEffect(()=> {
         axios.get(`/coggle-detail/${coggleNo}`)
         .then((response)=> {
-            console.log(response.data.category)
             setCoggle({  
                         title: response.data.title, 
                         writer: response.data.writer,
@@ -72,7 +73,9 @@ export default function CoggleDetail() {
                             <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                         </div>
                         <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
-                            <Button color='secondary'>수정</Button>&nbsp;&nbsp;
+                            <Button color='secondary' onClick={(e)=>{
+                                navigate('/coggle-edit', { state: { coggleNo } });
+                            }}>수정</Button>&nbsp;&nbsp;
                             <Button color='danger'>삭제</Button>
                         </div>
                     </div>
