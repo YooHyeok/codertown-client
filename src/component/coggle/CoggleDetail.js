@@ -176,7 +176,11 @@ export default function CoggleDetail() {
                     </>
                     )// 부모 JSX Render return문 종료
                 })} 
-                
+                {/* 최상위 댓글 입력 영역 */}
+                <div style={{width:'1100px', margin:"30px auto", border: '0.1px solid lightgray'}}>
+                    <textarea ref={textarea} onChange={handleResizeHeight}
+                    style={{width:'1060px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                </div>
             </div>
         </div>
         )
