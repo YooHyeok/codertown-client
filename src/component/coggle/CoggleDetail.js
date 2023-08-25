@@ -29,9 +29,9 @@ export default function CoggleDetail() {
         {   
             title: null,
             writer: {},
-            nickname: "",
-            category: '카카카',
-            content: "",
+            nickname: '',
+            category: '',
+            content: '',
         }
              )
 

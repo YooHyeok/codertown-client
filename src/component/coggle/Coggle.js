@@ -141,6 +141,15 @@ export default function Coggle() {
                 <div style={{ clear:"both", textAlign:"center"}}>
                     {(() => {
                         const array = [];
+                        if(articleCount == 0) {
+                            array.push(
+                            <span key={1}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={1} onClick={(e)=>{
+                            e.preventDefault();
+                            }
+                            }>1</Button>&nbsp;&nbsp;</span>
+                        )
+                        return array;
+                        }
                         for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
                             if (i == pageInfo.curPage) {
                             array.push(
@@ -154,13 +163,13 @@ export default function Coggle() {
                             )
                             }
                         }
-                        // if(pageInfo.curPage != 1)
+                        if(articleCount != 0)
                         array.unshift(
                             <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
                                 if(pageInfo.curPage === 1) return;
                                 pageRequest(e)}}>{"<"}</Button>&nbsp;&nbsp;</span>
                         )
-                        // if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                        if(articleCount != 0)
                         array.push(
                             <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
                                 if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
