@@ -4,7 +4,6 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import ChildComment from '../comment/ChildComment.js'
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 
@@ -133,27 +132,7 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '30px auto', borderTop: '0.1px solid lightgray'}}>
             {/* 부모댓글 영역 - 반복추출 */}
             {commentList.map((parent) => {
-                /* options :  날짜-시간 포매팅 형식 */
-                const options = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true};
-                const [ { value: month },, { value: day },, { value: year },, { value: hour },, { value: minute },, { value: dayPeriod } ]
-                 = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date(parent.firstRegDate));
-                const formattedTime = `${year}-${month}-${day}, ${hour}:${minute} ${dayPeriod}`;
                 return (
-                        <>
-                        {/* <div key={parent.commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-                            <div style={{width:'1100px', margin:"30px auto"}}>
-                                <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                                <div>
-                                    <span>{parent.writer.nickname}</span> <span style={{color:'gray'}}>
-                                        {formattedTime}
-                                    </span>
-                                    <div>
-                                        <p>{parent.content}</p>
-                                    </div>
-                                    <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
-                                </div>
-                            </div>
-                        </div> */}
                         <ParentComment
                                 key={parent.commentNo}
                                 writer={parent.writer}
@@ -162,21 +141,6 @@ export default function CoggleDetail() {
                                 firstRegDate={DateUtil.utcToKrFull(parent.firstRegDate)}
                                 children={parent.children}
                                 />
-                        {/* 자식댓글 영역 - 반복추출 */}
-                        {parent.children.map((child)=>{
-                            console.log(child.firstRegDate)
-                            return (
-                            <ChildComment
-                                key={child.commentNo}
-                                writer={child.writer}
-                                nickname={child.writer.nickname}
-                                content={child.content}
-                                firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
-                                children={child.children}
-                                parentNickname={parent.writer.nickname}
-                                />)
-                        })}
-                    </>
                     )// 부모 JSX Render return문 종료
                 })} 
                 {/* 최상위 댓글 입력 영역 */}

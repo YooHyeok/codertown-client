@@ -52,6 +52,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                 </div>
             </div>
         </div>
+        {/* 자식 댓글 컴포넌트 재귀 호출 */}
         {children.map(child => (
             <ChildComment
                 key={child.commentNo}

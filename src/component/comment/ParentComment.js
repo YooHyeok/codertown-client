@@ -1,7 +1,8 @@
-import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRef } from 'react';
 import { Button } from 'reactstrap';
+import ChildComment from '../comment/ChildComment.js'
+import * as  DateUtil from '../../util/DateUtil.js'
 
 /**
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
@@ -32,6 +33,7 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     useEffect(()=> {
     },[])
     return (
+        <>
         <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
             <div style={{width:'1100px', margin:"30px auto"}}>
                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
@@ -56,5 +58,20 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                 </div>
             </div>
         </div>
+        {/* 자식 댓글 컴포넌트 호출 */}
+        {children.map((child)=>{
+            console.log(child.firstRegDate)
+            return (
+            <ChildComment
+                key={child.commentNo}
+                writer={child.writer}
+                nickname={child.writer.nickname}
+                content={child.content}
+                firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
+                children={child.children}
+                parentNickname={nickname}
+                />)
+        })}
+        </>
     );
 }
