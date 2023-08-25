@@ -4,6 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import ChildComment from '../comment/ChildComment.js'
 
 export default function CoggleDetail() {
     const divStyle = {
@@ -152,21 +153,16 @@ export default function CoggleDetail() {
                             </div>
                         </div>
                         {/* 자식댓글 영역 - 반복추출 */}
-                        {parent.children.map((child) => {
-                                return (
-                                    <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-                                        <div style={{width:'1000px', margin:"30px auto"}}>
-                                            <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                                            <div>
-                                                <span>{child.writer.nickname}</span> <span>{'2023-08-21'}</span>
-                                                <div>
-                                                    <p>{child.content}</p>
-                                                </div>
-                                                <span>{'댓글'}</span> <span>{'수정'}</span> <span>{'지우기'}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) // 자식 JSX Render Return문 종료
+                        {parent.children.map((child)=>{
+                            return (
+                            <ChildComment
+                                key={child.commentNo}
+                                writer={child.writer}
+                                nickname={child.writer.nickname}
+                                content={child.content}
+                                firstRegDate={child.firstRegDate}
+                                children={child.children}
+                                />)
                         })}
                     </>
                     )// 부모 JSX Render return문 종료
