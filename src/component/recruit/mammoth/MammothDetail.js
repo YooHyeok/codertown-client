@@ -32,7 +32,6 @@ export default function MammothDetail() {
     useEffect(()=> {
         axios.get(`/mammoth-detail/${mammothNo}`)
         .then((response)=> {
-            console.log(response.data);
             setMammoth({...mammoth,     
                         title: response.data.title, 
                         content: response.data.content,

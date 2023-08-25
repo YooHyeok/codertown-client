@@ -68,7 +68,6 @@ export default function MammothWrite() {
      */
     useEffect(() => {
         if (reRenderFlag) {
-        console.log(mammoth);
         // axios 호출
             axios.post('/mammoth-save', mammoth)
             .then((response)=> {

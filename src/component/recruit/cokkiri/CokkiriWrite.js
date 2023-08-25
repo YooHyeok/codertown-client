@@ -64,7 +64,6 @@ export default function CokkiriWrite() {
      */
     useEffect(() => {
         if (reRenderFlag) {
-        console.log(cokkiri);
         // axios 호출
             axios.post('/cokkiri-save', cokkiri)
             .then((response)=> {
@@ -137,8 +136,6 @@ export default function CokkiriWrite() {
                                 <div style={{display:'flex', width:'180px'}}>
                                     <Input style={ isShaking ? { border: '2px solid red' } : {float:'left'}} type='number' name='recruitCount' id='recruitCount' value={recruitCount} min={'1'} max={'9'}
                                     onChange={(e)=>{
-                                        console.log(typeof e.target.value)
-                                        
                                         /* if (e.target.value != null && (e.target.value < 1 || e.target.value > 9)) {
                                             setRecruitCount('');
                                             setIsShaking(true);
@@ -160,7 +157,6 @@ export default function CokkiriWrite() {
                                         /* 5개 이상 등록 불가 */
                                         if(projectParts.length > 4) {alert('최대 개수 5개를 초과하였습니다.'); return;}
                                         /* 중복 불가 - Array.prototype.some() */
-                                        console.log(!projectParts.some(part => part.partNo === partNo))
                                         if(projectParts.some(part => part.partNo === partNo)) {alert('이미 추가된 파트입니다. 중복으로 추가할 수 없습니다.'); return;}
                                             setProjectParts([...projectParts, {partNo:partNo, partName:partName, recruitCount:recruitCount}]);
                                         }} >추가</Button>

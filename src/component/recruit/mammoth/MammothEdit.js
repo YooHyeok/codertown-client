@@ -29,7 +29,6 @@ export default function MammothEdit() {
     useEffect(()=> {
     axios.get('/mammoth-detail/'+mammothNo)
     .then((response)=> {
-        console.log(response.data);
         setMammoth({...mammoth,     
                     title: response.data.title, 
                     content: response.data.content,
@@ -63,8 +62,7 @@ export default function MammothEdit() {
      */
     useEffect(() => {
         if (reRenderFlag) {
-        // axios 호출
-            console.log(mammoth)
+            // axios 호출
             axios.post('/mammoth-update', mammoth)
             .then((response)=> {
                 document.location.href='/mammoth-detail/'+mammothNo
