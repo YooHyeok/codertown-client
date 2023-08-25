@@ -24,40 +24,50 @@ export default function Coggle() {
       });
 
     const pageRequest = (e) => {
-    console.log("e.target.value : " + e.target.value);
+        serverRequest(e.target.value, keyword);
     }
 
     const [articleCount , setArticleCount] = useState('') // 게시글 갯수
 
     const [keyword , setKeyword] = useState(null)
+    const inputChange = (e) => {
+        setKeyword(e.target.value);
+        console.log(category)
+    }
+
+
+    /* select - onChange 이벤트 종료시점 리랜더링 Flag  */
+    const [reRenderFlag, setReRenderFlag] = useState(false);
+    const [category , setCategory] = useState(null)
+    const selectChange = (e) => {
+        console.log("콤보변경")
+        console.log()
+        setCategory(e.target.value);
+        reRenderFlag == false ? setReRenderFlag(true) : setReRenderFlag(false)
+    }
     
     /**
      * 코글 목록 출력 - 호스트 서버 통신 메소드
      * @param {} page : 선택된 페이지 정보 파라미터
      */
-        const serverRequest = (page, keyword) => {
-            let params = {params: {"page":page, "category": "T", "keyword": keyword}}
-            axios.get('/coggle', params)
-            .then((response)=> {
-                console.log(response.data)
-                setArticleCount(response.data.articleCount)
-                setCoggleList(response.data.coggleList)
-                setPageInfo(response.data.pageInfo)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
+    const serverRequest = (page, category, keyword) => {
+        let params = {params: {"page":page, "category": category, "keyword": keyword}}
+        axios.get('/coggle', params)
+        .then((response)=> {
+            console.log(response.data)
+            setArticleCount(response.data.articleCount)
+            setCoggleList(response.data.coggleList)
+            setPageInfo(response.data.pageInfo)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
 
-    useEffect(() => {
-        /* coggleList 목데이터 */
-        /* const mockCoggleList = [];
-        for (let j = 0; j < 10; j++) {
-            mockCoggleList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-        }
-        setCoggleList(mockCoggleList) */
-        serverRequest(1, keyword)
-      }, [])
+      useEffect(() => {
+        console.log(category)
+        serverRequest(1, category, keyword)
+      }, [reRenderFlag])
     
 
     return <div style={divStyle}>
@@ -66,7 +76,7 @@ export default function Coggle() {
                         <h1 style={{margin:"30px 20px 30px 10px"}}><b>코글</b></h1>
                     </div>
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
-                        <select name="" id="mealSelect" onChange={(e)=>{}}
+                        <select name="" id="mealSelect" onChange={selectChange} value={category}
                             style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
                             <option value={""} >전체</option>
                             <option value={"T"} >TechQue</option>
@@ -77,8 +87,8 @@ export default function Coggle() {
                     <div style={{width:"894px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
-                                <Input type="text" onKeyDown={(e)=>{}} onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
-                                <Button outline className="d-flex align-items-center" onClick={(e)=>{}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
+                                <Input type="text" onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
+                                <Button outline className="d-flex align-items-center" onClick={(e)=>{serverRequest(1, category, keyword);}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
                                     <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
                                 </Button>
                             </InputGroup>
