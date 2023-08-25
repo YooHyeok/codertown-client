@@ -5,7 +5,7 @@
 import { useRef } from 'react';
 import { Button } from 'reactstrap';
 import * as  DateUtil from '../../util/DateUtil.js'
-export default function ChildComment({ commentNo, writer, nickname, content, firstRegDate, children }) {
+export default function ChildComment({ commentNo, writer, nickname, content, firstRegDate, children, parentNickname }) {
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const textarea = useRef('');
     const textInputaDiv = useRef('');
@@ -34,7 +34,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                 <div ref={contentDiv}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
-                        <p>{content}</p>
+                        <p><span style={{color:'gray'}}>@{parentNickname}</span><span>{content}</span></p>
                     </div>
                     <span>{'댓글'}</span> <span onClick={textAreaShow} value='수정'>수정</span> <span>{'지우기'}</span>
                 </div>
@@ -60,6 +60,7 @@ export default function ChildComment({ commentNo, writer, nickname, content, fir
                 content={child.content}
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                 children={child.children}
+                parentNickname={nickname}
             />
             ))}
 

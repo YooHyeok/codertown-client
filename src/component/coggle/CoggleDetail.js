@@ -173,6 +173,7 @@ export default function CoggleDetail() {
                                 content={child.content}
                                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                                 children={child.children}
+                                parentNickname={parent.writer.nickname}
                                 />)
                         })}
                     </>
