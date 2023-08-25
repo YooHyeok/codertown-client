@@ -12,7 +12,7 @@ export default function Coggle() {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '700px'
         , textAlign: 'left'
-        , margin: '100px auto'
+        , margin: '150px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -72,8 +72,8 @@ export default function Coggle() {
 
     return <div style={divStyle}>
                 <div style = {{display:"flex"}}>
-                    <div>
-                        <h1 style={{margin:"30px 20px 30px 10px"}}><b>코글</b></h1>
+                    <div style={{width:"70px"}}>
+                        <h1 style={{margin:"30px 20px 30px 0px"}}><b>코글</b></h1>
                     </div>
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
                         <select name="" id="mealSelect" onChange={selectChange} value={category}
@@ -84,6 +84,7 @@ export default function Coggle() {
                             <option value={"D"} >DevLife</option>
                         </select>
                     </div>
+                    <span style ={{display:"flex", width:"65px", paddingTop: "50px", color:'gray'}}>{articleCount}개</span>
                     <div style={{width:"894px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
@@ -143,7 +144,9 @@ export default function Coggle() {
                         for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
                             if (i == pageInfo.curPage) {
                             array.push(
-                                <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={pageRequest}>{i}</Button>&nbsp;&nbsp;</span>
+                                <span key={i}><Button style={{border:"none"}} color='secondary' className='numberbutton' value={i} onClick={(e)=>{
+                                    if(pageInfo.curPage === 1) return;
+                                    pageRequest(e)}}>{i}</Button>&nbsp;&nbsp;</span>
                             )
                             } else {
                             array.push(
@@ -151,15 +154,17 @@ export default function Coggle() {
                             )
                             }
                         }
-                        if(pageInfo.curPage != 1)
+                        // if(pageInfo.curPage != 1)
                         array.unshift(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={pageRequest}>{"<"}</Button>&nbsp;&nbsp;</span>
-
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
+                                if(pageInfo.curPage === 1) return;
+                                pageRequest(e)}}>{"<"}</Button>&nbsp;&nbsp;</span>
                         )
-                        if(pageInfo.curPage != Math.max(pageInfo.allPage))
+                        // if(pageInfo.curPage != Math.max(pageInfo.allPage))
                         array.push(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={pageRequest}>{">"}</Button>&nbsp;&nbsp;</span>
-
+                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
+                                if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
+                                pageRequest(e)}}>{">"}</Button>&nbsp;&nbsp;</span>
                         )
                         return array;
                         })()}
