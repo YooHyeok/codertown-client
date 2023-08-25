@@ -24,7 +24,7 @@ export default function CoggleWrite() {
         setMarkdown: setMarkdown.bind(this)
     }
 
-    /* state - 코끼리 저장 객체 */
+    /* state - 코글 저장 객체 */
     const [coggle, setCoggle] = useState({
         writer: 'webdevyoo@gmail.com', //로그인 한 사용자 계정
         category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.

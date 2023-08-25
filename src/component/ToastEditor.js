@@ -31,7 +31,6 @@ export default function ToastEditor({props}) {
   const location = useLocation();
 
   useEffect(()=> {
-    console.log(props)
     /**
      * Edit - 수정 페이지 입력란 DB데이터 초기화
      * props mode속성이 edit이고 content속성이 존재할때 작동한다.
