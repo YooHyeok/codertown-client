@@ -96,7 +96,7 @@ export default function Coggle() {
                         </FormGroup>
                     </div>
                 </div>
-                <div style={{borderTop: '0.1px solid lightgray'}}>
+                <div style={{borderTop: '0.1px solid lightgray', height:"420px"}}>
                     <Table >
                         <thead>
                             <tr>
