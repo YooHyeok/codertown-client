@@ -30,7 +30,7 @@ function App() {
         <Routes>
               <Route exact path='/' element={<Main />} />
               <Route exact path='/coggle' element={<Coggle />} />
-              <Route exact path='/coggle-detail' element={<CoggleDetail />} />
+              <Route exact path='/coggle-detail/:coggleNo' element={<CoggleDetail />} />
               <Route exact path='/coggle-write' element={<CoggleWrite />} />
               <Route exact path='/cokkiri' element={<Cokkiri />} />
               <Route exact path='/cokkiri-write' element={<CokkiriWrite />} />

@@ -1,5 +1,5 @@
 
-// import axios from "axios";
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
@@ -119,7 +119,7 @@ export default function Coggle() {
                                 return (
                                     <tr key={obj.coggleNo}>
                                         <td>{obj.coggleNo}</td>
-                                        <td>{obj.title}</td>
+                                        <td><Link to={`/coggle-detail/${obj.coggleNo}`}>{obj.title}</Link></td>
                                         <td>{obj.writer.nickname}</td>
                                         <td>{new Date(obj.firstRegDate).toISOString().split('T')[0]}</td>
                                         <td>{obj.like}</td>
