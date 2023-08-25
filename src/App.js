@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 /* 컴포넌트 */
 import Header from './component/info/Header';
@@ -26,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <InitScroll />
         <Header/>
         <DirectMessengerButton/>
         <Routes>
@@ -48,6 +50,16 @@ function App() {
       </BrowserRouter>
     </div>
   );
+}
+
+function InitScroll() {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("useEffect 실행됨");
+    window.scrollTo(0, 0); // 페이지 이동 후 스크롤 위치를 맨 위로 이동
+  }, [location]);
+
 }
 
 export default App;
