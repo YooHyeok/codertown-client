@@ -17,37 +17,48 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     const textAddDiv = useRef('');
     const contentDiv = useRef('');
     const navigateDiv = useRef('');
-    const addResizeHeight = (e) => {
-        console.log(e.target.ref)
-        console.log("응")
-        addTextarea.current.style.height = 'auto';
-        addTextarea.current.style.height = addTextarea.current.scrollHeight + 'px';
-    };
-    const editResizeHeight = () => {
-        console.log("응")
+
+    /* textarea 사이즈 변경 */
+    const resizeHeightControll = (e) => {
+        // 추가 모드
+        if(e.target.name == 'addTextarea') {
+            addTextarea.current.style.height = 'auto';
+            addTextarea.current.style.height = addTextarea.current.scrollHeight + 'px';
+            return;
+        }
+        // 수정 모드
         editTextarea.current.style.height = 'auto';
         editTextarea.current.style.height = editTextarea.current.scrollHeight + 'px';
     };
 
-    const editTextAreaShow = () => {
+    /* textarea를 활성화 시키고 네비 버튼 비활성화 */
+    const textAreaShow = (e) => {
+        // 추가 모드 - 네비 비활성화
+        if(e.target.id == 'addSpan') {
+            textAddDiv.current.style.display ='block';
+            navigateDiv.current.style.display ='none';
+            return
+        }
+        // 수정 모드 - 컨텐트(네비포함) 비활성화
         textEditDiv.current.style.display ='block';
         contentDiv.current.style.display ='none';
     };
-    const editTextAreaNone = () => {
+
+    /* textarea내용 초기화 및 비활성화 시키고 네비 버튼 활성화 */
+    const textAreaNone = (e) => {
+        // 추가 모드
+        if(e.target.name == 'addCancelBtn') {
+            textAddDiv.current.style.display ='none';
+            navigateDiv.current.style.display ='block'; // 네비 활성화
+            addTextarea.current.style.height = '55px';
+            addTextarea.current.value = null;
+            return;
+        }
+        // 수정 모드
         textEditDiv.current.style.display ='none';
-        contentDiv.current.style.display ='block';
+        contentDiv.current.style.display ='block'; // 컨텐트(네비포함) 활성화
         editTextarea.current.style.height = '55px';
         editTextarea.current.value = content;
-    };
-    const addTextAreaShow = () => {
-        textAddDiv.current.style.display ='block';
-        navigateDiv.current.style.display ='none';
-    };
-    const addTextAreaNone = () => {
-        textAddDiv.current.style.display ='none';
-        navigateDiv.current.style.display ='block';
-        addTextarea.current.style.height = '55px';
-        addTextarea.current.value = null;
     };
 
     useEffect(()=> {
@@ -63,19 +74,19 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                         <p>{content}</p>
                     </div>
                     <div ref={navigateDiv}>
-                        <span style={{cursor: 'pointer'}} onClick={addTextAreaShow}>댓글 </span>
-                        <span style={{cursor: 'pointer'}} onClick={editTextAreaShow}> 수정 </span>
-                        <span style={{cursor: 'pointer'}}> 지우기</span>
+                        <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;
+                        <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;
+                        <span style={{cursor: 'pointer'}}>지우기</span>
                     </div>
                     {/* 최상위 댓글 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
                             <div>
-                                <textarea ref={addTextarea} onChange={addResizeHeight}
+                                <textarea ref={addTextarea} name="addTextarea" onChange={resizeHeightControll}
                                 style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
-                                <Button outline size={'sm'} onClick={addTextAreaNone}>취소</Button> &nbsp;
+                                <Button outline size={'sm'} name="addCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
                                 <Button outline size={'sm'}>저장</Button>
                             </div>
                         </div>
@@ -85,11 +96,11 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                 <div ref={textEditDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
-                            <textarea ref={editTextarea} onChange={editResizeHeight}
+                            <textarea ref={editTextarea} name="editTextarea" onChange={resizeHeightControll}
                             style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
-                            <Button outline size={'sm'} onClick={editTextAreaNone}>취소</Button> &nbsp;
+                            <Button outline size={'sm'}  name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
                             <Button outline size={'sm'}>수정</Button>
                         </div>
                     </div>
