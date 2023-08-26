@@ -16,7 +16,8 @@ export default function Header() {
         position: 'fixed',
         left: 0,
         top: 0,
-        zIndex: 1000
+        zIndex: 1000,
+        boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"
     }
 
     const linkStyle = {

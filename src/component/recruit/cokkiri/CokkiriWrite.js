@@ -172,7 +172,7 @@ export default function CokkiriWrite() {
                                     {/* 반복될 추가 요소 */}
                                     {projectParts.map((projectPart)=>{
                                         return(
-                                        <div style={{display:'flex', width:'120px', height:'39px', backgroundColor:'white', margin:"5px", border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)' }}>
+                                        <div style={{display:'flex', width:'120px', height:'39px', backgroundColor:'white', margin:"5px", border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)" }}>
                                             <div style={{width:'73px', margin:'5px', textAlign:'center'}}>
                                                 <span>{projectPart.partName} {projectPart.recruitCount}명</span>
                                                 </div>
