@@ -56,7 +56,6 @@ function InitScroll() {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("useEffect 실행됨");
     window.scrollTo(0, 0); // 페이지 이동 후 스크롤 위치를 맨 위로 이동
   }, [location]);
 

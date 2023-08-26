@@ -17,7 +17,8 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     const textAddDiv = useRef('');
     const contentDiv = useRef('');
     const navigateDiv = useRef('');
-    const addResizeHeight = () => {
+    const addResizeHeight = (e) => {
+        console.log(e.target.ref)
         console.log("응")
         addTextarea.current.style.height = 'auto';
         addTextarea.current.style.height = addTextarea.current.scrollHeight + 'px';
@@ -97,7 +98,6 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
         </div>
         {/* 자식 댓글 컴포넌트 호출 */}
         {children.map((child)=>{
-            console.log(child.firstRegDate)
             return (
             <ChildComment
                 key={child.commentNo}

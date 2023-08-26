@@ -66,7 +66,6 @@ export default function CoggleDetail() {
 
         axios.get(`/coggle/${coggleNo}/comment`)
         .then((response)=> {
-            console.log(response.data)
             setCommentList(response.data)
             /* setCoggle({  
                         title: response.data.title, 
