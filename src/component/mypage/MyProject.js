@@ -52,6 +52,7 @@ export default function MyProject() {
       }, [])
     
 
+
     /**
      * JSX 시작
      */
@@ -101,7 +102,19 @@ export default function MyProject() {
                             <td>{obj.firstRegDate}</td>
                             <td>
                             <select disabled={loginId !== obj.recruitDto.writer.email} ref={selectRef} name="" id="statusSelect" value={{}} onChange={(e)=>{e.preventDefault();}}
-                                style={{display:"inline", width:"50px", paddingRight:"-20px", lineHeight:"normal", height:"20px", fontSize:"15px", border:"none", outline:"none"}}>
+                                style={{
+                                    display:"inline"
+                                // , webkitAppearance: "none"
+                                // , mozAppearance: "none"
+                                , appearance: loginId !== obj.recruitDto.writer.email ? "none" : "show"
+                                , width:"50px"
+                                , paddingRight:"-20px"
+                                , lineHeight:"normal"
+                                , height:"20px"
+                                , fontSize:"15px"
+                                , border:"none"
+                                , outline:"none"
+                            }}>
                                 <option value={"RECRUIT"}>모집</option>
                                 <option value={"RUN"}>진행</option>
                                 <option value={"FAIL"}>무산</option>
@@ -161,4 +174,5 @@ export default function MyProject() {
                         })()}
         </div>
     </>)
+
 }

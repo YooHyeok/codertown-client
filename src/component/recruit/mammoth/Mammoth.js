@@ -9,9 +9,9 @@ import axios from "axios";
 export default function Mammoth() {
     const divStyle = {
         width: '1200px'
-        , height: '700px'
+        , height: '750px'
         , textAlign: 'left'
-        , margin: '150px auto'
+        , margin: '100px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -58,21 +58,22 @@ export default function Mammoth() {
     
 
     return <div style={divStyle}>
-                {/* <div style={{display:"flex"}}>
-                    <div>
-                        <h1 style={{margin:"30px 15px 30px 0px", width:"85px"}}><b>맘모스</b></h1>
-                    </div>
-                    <div style={{width:"140px", height:"32px", paddingTop: "45px"}}>
-                        <span style ={{display:"flex", width:"140px"}}>맘맞는사람 모여서 스터디</span>
-                    </div> */}
+                <div style={{margin:"0 auto", width:"180px", display:"flex"}}>
+                    <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>맘</b></h1>
+                    <span style ={{display:"flex", width:"60px", paddingTop: "50px"}}>맞는 사람</span>
+                    <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>모</b></h1>
+                    <span style ={{display:"flex", width:"30px", paddingTop: "50px"}}>여서</span>
+                    <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>스</b></h1>
+                    <span style ={{display:"flex", width:"35px", paddingTop: "50px"}}>터디</span>
+                </div>
                 <div style={{display:"flex", margin:'0 auto'}}>
                     <div style={{width:"290px", display:"flex"}}>
-                        <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>맘</b></h1>
+                        {/* <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>맘</b></h1>
                         <span style ={{display:"flex", width:"60px", paddingTop: "50px"}}>맞는 사람</span>
                         <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>모</b></h1>
                         <span style ={{display:"flex", width:"30px", paddingTop: "50px"}}>여서</span>
                         <h1 style={{width:"30px", margin:"30px -5px 30px 0px"}}><b>스</b></h1>
-                        <span style ={{display:"flex", width:"35px", paddingTop: "50px"}}>터디</span>
+                        <span style ={{display:"flex", width:"35px", paddingTop: "50px"}}>터디</span> */}
                         <span style ={{display:"flex", width:"65px", paddingTop: "50px", color:'gray'}}>{articleCount}개</span>
 
 

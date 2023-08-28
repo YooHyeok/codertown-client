@@ -11,7 +11,12 @@
 .nav-items {
   list-style: none;
   margin: 0px auto;
+  /* 배율 조정에 따른 크기 조절 */
+  transform-origin: top left; /* 변환 기준점을 좌상단으로 설정 */
+  transform: scale(1); /* 초기 배율 */
+  transition: transform 0.3s ease-in-out; /* 부드러운 변환 애니메이션 적용 */
 }
+
 .nav-items-1 {
   width:17.3%;
   height:80px;

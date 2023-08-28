@@ -9,9 +9,9 @@ import axios from "axios";
 export default function Cokkiri() {
     const divStyle = {
         width: '1200px'
-        , height: '700px'
+        , height: '750px'
         , textAlign: 'left'
-        , margin: '150px auto'
+        , margin: '100px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -58,12 +58,16 @@ export default function Cokkiri() {
     
 
     return <div style={divStyle}>
-
+                <div style={{margin:"0 auto", width:"165px", display:"flex"}}>
+                    <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>코</b></h1>
+                    <span style ={{display:"flex", width:"65px", paddingTop: "50px"}}>딩하는 사람</span>
+                    <h1 style={{width:"60px", margin:"30px 10px 30px 0px"}}><b>끼리</b></h1>
+                </div>
                 <div style={{display:"flex", margin:'0 auto'}}>
                     <div style={{width:"300px", display:"flex"}}>
-                        <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>코</b></h1>
+                        {/* <h1 style={{ width:"30px", margin:"30px 0px 30px 0px"}}><b>코</b></h1>
                         <span style ={{display:"flex", width:"65px", paddingTop: "50px"}}>딩하는 사람</span>
-                        <h1 style={{width:"60px", margin:"30px 10px 30px 0px"}}><b>끼리</b></h1>
+                        <h1 style={{width:"60px", margin:"30px 10px 30px 0px"}}><b>끼리</b></h1> */}
                         <span style ={{display:"flex", width:"65px", paddingTop: "50px", color:'gray'}}>{articleCount}개</span>
                     </div>
                     <div style={{width:"985px"}}>

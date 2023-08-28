@@ -12,7 +12,7 @@ export default function Coggle() {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '700px'
         , textAlign: 'left'
-        , margin: '150px auto'
+        , margin: '200px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'

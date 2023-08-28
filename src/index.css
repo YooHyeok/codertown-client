@@ -36,8 +36,13 @@ code {
 th, td, 
 td>select,
 td>button>span,
-td>a
+td > a
 {
   font-family: 'Pretendard-Regular';
   font-size:13px;
+}
+
+td > a
+{
+  /* text-align: right; */
 }
