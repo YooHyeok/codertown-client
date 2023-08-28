@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {  Button, Table, FormGroup, InputGroup, Input} from 'reactstrap';
-import { BsFillSuitHeartFill } from "react-icons/bs"
+import {  Button, Table, FormGroup, InputGroup, Input, Label} from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import MyPostRecruit from './MyPostRecruit.js'
 import MyPostCoggle from './MyPostCoggle.js'
@@ -11,7 +10,7 @@ export default function MyPost() {
 
     const loginId = "webdevyoo@gmail.com"
 
-    const selectRef = useRef(null);
+    const radioRef = useRef(null);
 
     const [coggleList , setCoggleList] = useState([])
     const [recruitList , setRecruitList] = useState([])
@@ -33,6 +32,11 @@ export default function MyPost() {
     const [option, setOption] = useState('Cokkiri')
     const selectChange = (e) => {
         setOption(e.target.value);
+        if(e.target.value == 'Coggle') {
+            radioRef.current.style.display ='block';
+            return;
+        }
+        radioRef.current.style.display ='none';
     }
 
      /**
@@ -79,7 +83,7 @@ export default function MyPost() {
      */
     return (
     <>
-        <div style = {{display:"flex", height:"50px"}}>
+        <div style = {{display:"flex", height:"60px"}}>
             <div style={{width:"170px", height:"32px", paddingTop: "15px"}}>
                 <select name="" id="mealSelect" onChange={selectChange} value={option}
                     style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
@@ -97,6 +101,16 @@ export default function MyPost() {
                             <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
                         </Button>
                     </InputGroup>
+                    <div ref={radioRef} style={{width:"230px", padding:"3px 23px", display:"none"}}>
+                        <InputGroup style={{width:"208px"}}>
+                            <Input type="checkbox" name="TechQue" onChange={{}}/>
+                            <Label htmlFor='TechQue'>TechQue</Label> &nbsp;
+                            <Input type="checkbox" name="Carrier" onChange={{}}/>
+                            <Label htmlFor='Carrier'>Carrier</Label> &nbsp;
+                            <Input type="checkbox" name="Devlife" onChange={{}}/>
+                            <Label htmlFor='Devlife'>Devlife</Label>
+                        </InputGroup>
+                    </div>
                 </FormGroup>
             </div>
         </div>
