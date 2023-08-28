@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import './MyPage.css';
 import MyInfoEdit from './MyInfoEdit';
 import MyProject from './MyProject';
-import MyCoggle from './MyCoggle';
+import MyPost from './mypost/MyPost';
 
 export default function MyPage() {
 
@@ -54,7 +54,7 @@ export default function MyPage() {
                         </TabPane>
                         <TabPane tabId="3">
                             {/* 나의 게시글 */}
-                            {tabChange.activeTab === '3' && <MyCoggle/>}
+                            {tabChange.activeTab === '3' && <MyPost/>}
                         </TabPane>
                     </TabContent>
             </div >
@@ -66,9 +66,9 @@ export default function MyPage() {
  */
 const bodyStyle = {
     width: '1200px'
-    , height: '730px'
+    , height: '750px'
     , textAlign: 'center'
-    , margin: '100px auto'
+    , margin: '80px auto'
     , marginBottom: '74px'
     , padding: '30px'
     , top: '100'
