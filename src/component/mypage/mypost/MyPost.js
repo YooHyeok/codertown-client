@@ -54,7 +54,7 @@ export default function MyPost() {
             return;
         }
         
-        let params = {params: {"page":page, "category": null, "keyword": keyword}}
+        let params = {params: {"page":page, "category": null, "keyword": keyword, "loginId": loginId}}
         axios.get('/coggle', params)
         .then((response)=> {
             setArticleCount(response.data.articleCount)
