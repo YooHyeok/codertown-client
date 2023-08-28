@@ -10,9 +10,9 @@ import axios from "axios";
 export default function Coggle() {
     const divStyle = {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '700px'
+        , height: '750px'
         , textAlign: 'left'
-        , margin: '200px auto'
+        , margin: '100px auto'
         , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
@@ -66,10 +66,17 @@ export default function Coggle() {
     
 
     return <div style={divStyle}>
+                <div style={{margin:"0 auto", width:"200px"}}>
+                    <h1 style={{ margin:"30px 0px 30px 0px"}}>
+                        <b>코글: {category == "T" ? "기술질문" : 
+                                        category == "C" ? "커리어" : 
+                                                category == "D" ? "개발일상" : "전체"}</b>
+                    </h1>
+                </div>
                 <div style = {{display:"flex"}}>
-                    <div style={{width:"70px"}}>
-                        <h1 style={{margin:"30px 20px 30px 0px"}}><b>코글</b></h1>
-                    </div>
+                    {/* <div style={{width:"70px"}}>
+                        <h1 style={{margin:"30px 20px 30px 0px"}}><b>{''}</b></h1>
+                    </div> */}
                     <div style={{width:"170px", height:"32px", paddingTop: "45px"}}>
                         <select name="" id="mealSelect" onChange={selectChange} value={category}
                             style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
