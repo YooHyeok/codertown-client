@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import {  Button, Table } from 'reactstrap';
+import {  Button, Table, FormGroup, InputGroup, Input} from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
+import { Search } from 'react-bootstrap-icons';
 
 export default function MyCoggle() {
 
@@ -33,7 +34,28 @@ export default function MyCoggle() {
      */
     return (
     <>
-        <Table style={{borderTop: '0.1px solid lightgray', margin:"40px auto"}}>
+        <div style = {{display:"flex", height:"40px"}}>
+            <div style={{width:"170px", height:"32px", paddingTop: "15px"}}>
+                <select name="" id="mealSelect" onChange={{}} value={{}}
+                    style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
+                    <option value={"Cokkiri"} >코끼리</option>
+                    <option value={"Mammoth"} >맘모스</option>
+                    <option value={"Coggle"} >코글</option>
+                </select>
+            </div>
+            <span style ={{display:"flex", width:"65px", paddingTop: "20px", color:'gray'}}>{}개</span>
+            <div style={{width:"894px"}}>
+                <FormGroup style={{float:"right", paddingTop: "10px"}}>
+                    <InputGroup size="s">
+                        <Input type="text" onChange={{}} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
+                        <Button outline className="d-flex align-items-center" onClick={{}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
+                            <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
+                        </Button>
+                    </InputGroup>
+                </FormGroup>
+            </div>
+        </div>
+        <Table style={{borderTop: '0.1px solid lightgray', margin:"20px auto"}}>
             <thead>
                 <tr>
                     <th>No</th>
