@@ -25,7 +25,6 @@ export default function MyInfoEdit() {
      */
     const fileChange = (e) => {
         setUserIn({ ...userin, thumbnail: e.target.files[0] })
-        console.log(e.value);
         readImage(e.target);
 
     }

@@ -8,6 +8,13 @@ import { useDispatch } from 'react-redux'; // redux state값을 읽어온다 토
 
 export default function HeaderDropDownLogout() {
 
+  /**
+   * 로컬 스토리지에 링크를 통해 접속했을 경우 1값으로 초기화시킨다.
+   */
+    const storageTabSet = () => {
+      localStorage.setItem('activeTab', '1');
+    };
+
   const context = useContext(HeaderDropDownContext);
   const dispatch = useDispatch();
 
@@ -23,7 +30,7 @@ export default function HeaderDropDownLogout() {
         <PersonCircle className="inline" size={30} style={{ color: "black" }}/> {/* 추후 프로필사진 출력 */}
       </DropdownToggle>
       <DropdownMenu>
-        <Link to={'/mypage'}><DropdownItem style={{ lineHeight: "25px" }} ><b>마이페이지</b></DropdownItem></Link>
+        <Link to={'/mypage'} onClick={storageTabSet}><DropdownItem style={{ lineHeight: "25px" }} ><b>마이페이지</b></DropdownItem></Link>
         <DropdownItem style={{ lineHeight: "25px" }} divider />
         <Link onClick={logout}><DropdownItem style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem></Link>
       </DropdownMenu>

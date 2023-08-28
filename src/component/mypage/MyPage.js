@@ -13,11 +13,15 @@ export default function MyPage() {
     const [tabChange, setTabChange] = useState({activeTab:'1'});
 
     const tabToggle = (tab) => {
-        console.log(tab)
         if (tabChange.activeTab !== tab) {
             setTabChange({activeTab: tab})
+            localStorage.setItem('activeTab', tab); //탭 변경시 로컬 스토리지에 선택된 탭값으로 초기화
         }
     }
+    
+    useEffect(() => {
+        setTabChange({activeTab: localStorage.getItem('activeTab')});
+      }, [])
 
     /**
      * JSX 시작

@@ -24,7 +24,6 @@ export default function MyPostRecruit({recruitList, dType}) {
                     </tr>
                 </thead>
                 <tbody style={{overflow:"auto"}}>
-                    {console.log(recruitList)}
                     {recruitList.map((obj) => {
                         return (
                         <tr key={obj.recruitDto.recruitNo}>

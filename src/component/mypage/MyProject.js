@@ -18,7 +18,6 @@ export default function MyProject() {
       });
 
     const pageRequest = (e) => {
-        console.log("e.target.value : " + e.target.value);
         serverRequest(e.target.value, keyword);
     }
 
@@ -36,7 +35,6 @@ export default function MyProject() {
         .then((response)=> {
             setArticleCount(response.data.articleCount)
             setRecruitList(response.data.recruitList)
-            console.log(response.data.pageInfo)
             setPageInfo(response.data.pageInfo)
         })
         .catch((error) => {
