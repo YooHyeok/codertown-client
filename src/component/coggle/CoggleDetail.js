@@ -148,7 +148,7 @@ export default function CoggleDetail() {
                     )// 부모 JSX Render return문 종료
                 })} 
                 {/* 최상위 댓글 입력 영역 */}
-                <div style={{display:'block', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
+                <div style={{display:'block', width:'1100px', minHeight:'130px', margin:"30px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
                             <div>
                                 <textarea ref={textarea} onChange={handleResizeHeight}
