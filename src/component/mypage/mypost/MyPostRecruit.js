@@ -30,7 +30,7 @@ export default function MyPostRecruit({recruitList, dType}) {
                         <tr key={obj.recruitDto.recruitNo}>
                             <td>{obj.recruitDto.recruitNo}</td>
                             <td style={{textAlign:'left'}}>
-                                <Link to={`/${dType == 'Cokkiri' ? 'cokkiri' : 'mammoth'}-detail/${obj.recruitDto.recruitNo}`}>
+                                <Link className="postTitle" to={`/${dType == 'Cokkiri' ? 'cokkiri' : 'mammoth'}-detail/${obj.recruitDto.recruitNo}`}>
                                     {obj.recruitDto.title}
                                 </Link>
                             </td>

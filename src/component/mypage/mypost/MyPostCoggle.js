@@ -31,7 +31,7 @@ export default function MyPostRecruit({coggleList}) {
                             <tr key={obj.coggleNo}>
                                 <td>{obj.coggleNo}</td>
                                 <td>{obj.category == 'T' ? 'TechQue' : obj.category == 'C' ? 'Carrier' : 'DevLife'}</td>
-                                <td><Link to={`/coggle-detail/${obj.coggleNo}`}>{obj.title}</Link></td>
+                                <td><Link className="postTitle" to={`/coggle-detail/${obj.coggleNo}`}>{obj.title}</Link></td>
                                 <td>{new Date(obj.firstRegDate).toISOString().split('T')[0]}</td>
                                 <td>{obj.lastModDate == null ? new Date(obj.firstRegDate).toISOString().split('T')[0] : new Date(obj.lastModDate).toISOString().split('T')[0]}</td>
                                 <td>{obj.like}</td>
