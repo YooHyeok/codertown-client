@@ -29,7 +29,7 @@ export default function Coggle() {
 
     const [articleCount , setArticleCount] = useState('') // 게시글 갯수
 
-    const [keyword , setKeyword] = useState()
+    const [keyword , setKeyword] = useState(null)
     const inputChange = (e) => {
         setKeyword(e.target.value);
     }
