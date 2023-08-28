@@ -24,7 +24,7 @@ export default function Cokkiri() {
         allPage: 10, curPage: 1, startPage: 1, endPage: 10
       });
 
-      const [keyword , setKeyword] = useState('')
+    const [keyword , setKeyword] = useState('')
     const inputChange = (e) => {
         setKeyword(e.target.value);
     }

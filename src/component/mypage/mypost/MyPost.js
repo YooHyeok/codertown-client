@@ -84,16 +84,16 @@ export default function MyPost() {
     return (
     <>
         <div style = {{display:"flex", height:"60px"}}>
-            <div style={{width:"170px", height:"32px", paddingTop: "15px"}}>
+            <div style={{width:"150px", height:"32px", paddingTop: "15px"}}>
                 <select name="" id="mealSelect" onChange={selectChange} value={option}
-                    style={{display:"inline", width:"120px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
+                    style={{display:"inline", width:"90px", height:"30px", fontSize:"15px", padding:"0px 20px 0px 12px"}}>
                     <option value={"Cokkiri"} >코끼리</option>
                     <option value={"Mammoth"} >맘모스</option>
                     <option value={"Coggle"} >코글</option>
                 </select>
             </div>
             <span style ={{display:"flex", width:"65px", paddingTop: "20px", color:'gray'}}>{articleCount}개</span>
-            <div style={{width:"894px"}}>
+            <div style={{width:"1000px"}}>
                 <FormGroup style={{float:"right", paddingTop: "10px"}}>
                     <InputGroup size="s">
                         <Input type="text" onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
