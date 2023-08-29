@@ -11,7 +11,7 @@ export default function MyInfoEdit() {
     /**
      * 기본 프로필 사진
      */
-    const [src, setSrc] = useState('/default-profile.png');
+    const [src, setSrc] = useState('/default_profile3.png');
 
     /**
      * 컴포넌트 생명주기 Hook
@@ -49,7 +49,7 @@ export default function MyInfoEdit() {
         <Form style={{ width: "400px", margin: '40px auto'}}>
             {/* 프로필 */}
             <div className="profile-wrap" style={{ marginBottom:"50px"}}>
-                <img className="profile" src={src} alt="profile"/>
+                <img className="profile" src={src} alt="profile" style={{width:'100px', height:'100px', border:"0.1px solid lightgray "}}/>
             </div>
             <FormGroup row >
                 <Col sm={5}>
