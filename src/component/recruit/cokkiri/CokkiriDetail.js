@@ -96,13 +96,13 @@ export default function CokkiriDetail() {
                     </div>
                 </div>
                 {/* 글 내용 */}
-                <div style={{display:'flex',width:'1200px', height:'100%', margin :'0px auto'}}>
+                <div style={{display:'flex',width:'1250px', height:'100%', margin :'0px auto'}}>
                     {/* 토스트 뷰어 영역 */}
-                    <div style={{ width: '725px', minHeight:'600px', border: '0px soild lightgray'}}>
+                    <div style={{ width: '725px', margin:"0px 25px", minHeight:'500px'}}>
                         <Viewer className="toast-viewer" initialValue={cokkiri.content} key={cokkiri.content}/>
                     </div>
                     {/* 프로젝트 상세정보 영역 */}
-                    <div style={{width:"475px", height:"100%", float:'right'}}>
+                    <div style={{width:"475px", height:"100%", float:'right', marginTop:"50px"}}>
                         <div style={{width:"475px", minHeight:'300px', border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                             <Form style={{width:"450px", margin:"30px"}}>
                                 <FormGroup row>
