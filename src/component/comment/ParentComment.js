@@ -133,7 +133,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
             { (status == true) && <div style={{width:'1100px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
             { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
-                <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
+                <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
                 <div ref={contentDiv} style={{display:'block'}}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>

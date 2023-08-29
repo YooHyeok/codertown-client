@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'; // redux state값을 읽어온다 토
 
 export default function HeaderDropDownLogout() {
 
+  const loginId = "webdevyoo@gmail.com";
   /**
    * 로컬 스토리지에 링크를 통해 접속했을 경우 1값으로 초기화시킨다.
    */
@@ -27,7 +28,8 @@ export default function HeaderDropDownLogout() {
   return (
     <Dropdown isOpen={context.dropdownOpenLogOut} fade="true" toggle={context.toggleLogOut}>
       <DropdownToggle caret style={{ backgroundColor: "rgb(0,0,0,0)", border: "none" }}>
-        <PersonCircle className="inline" size={30} style={{ color: "black" }}/> {/* 추후 프로필사진 출력 */}
+        {/* <PersonCircle className="inline" size={30} style={{ color: "black" }}/> */} {/* 추후 프로필사진 출력 */}
+        <img style={{width:'35px', height:'35px'}} className="profile" src={`/profileImage/${loginId}`} alt="profile"/>
       </DropdownToggle>
       <DropdownMenu>
         <Link to={'/mypage'} onClick={storageTabSet}><DropdownItem style={{ lineHeight: "25px" }} ><b>마이페이지</b></DropdownItem></Link>
