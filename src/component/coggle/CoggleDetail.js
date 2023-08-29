@@ -127,7 +127,7 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '0px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
                 <div style={{width:'1200px',margin:"30px 20px 10px 10px"}}>
                     <h5><b>{coggle.title}</b></h5>                            
-                    <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
+                    <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${coggle.writer.email}`} alt="profile"/>
                     <div>
                         <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                     </div>
