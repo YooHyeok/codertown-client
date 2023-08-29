@@ -112,7 +112,7 @@ export default function CoggleEdit() {
                     </div>
                 </div>
                 {/* 입력 폼 영역 */}                
-                <div style={{width:"900px", height:"1000px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
+                <div style={{width:"900px", height:"850px", margin:"0px auto", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                 <Form style={{width:"824px", height:"850px", margin:"30px auto"}}>
                         <FormGroup row >
                             <Col sm={2}>
