@@ -80,9 +80,9 @@ export default function CokkiriDetail() {
                     </div>
                 </div>
                 {/* 글 제목 */}
-                <div style = {{width:'1200px', margin: '50px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
+                <div style = {{width:'1200px', margin: '0px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
                     <div style={{width:'1200px',margin:"30px 20px 10px 10px"}}>
-                        <h3 ><b>{cokkiri.title}</b></h3>
+                        <h5><b>{cokkiri.title}</b></h5>
                         <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                         <div>
                             <span>{cokkiri.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
