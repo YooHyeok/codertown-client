@@ -8,7 +8,7 @@ import axios from "axios";
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
-export default function ParentComment({ commentNo, coggleNo, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
+export default function ParentComment({ commentNo, status, coggleNo, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -25,9 +25,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
 
     /* 댓글 [저장] */
     const submit = () => {
-        console.log(coggleNo)
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:loginId, depth:2, mentionUser: nickname}
-        console.log(saveRequest)
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -42,13 +40,25 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
 
     /* 댓글 [수정] */
     const update = () => {
-        console.log(coggleNo)
-        const saveRequest = {commentNo:commentNo, content:editCommentValue}
-        console.log(saveRequest)
-        axios.post('/coggle/comment-update',saveRequest)
+        const updateRequest = {commentNo:commentNo, content:editCommentValue}
+        axios.post('/coggle/comment-update',updateRequest)
         .then((response)=>{
             if (response.data.success == true) {
                 editTeatAreaOff(); // 수정영역 TextArea OFF
+                commentSearchAxios(); //댓글 조회
+            }
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+    /* 댓글 [삭제] */
+    const del= () => {
+        const deleteRequest = {commentNo:commentNo}
+        axios.post('/coggle/comment-delete',deleteRequest)
+        .then((response)=>{
+            console.log(response.data)
+            if (response.data.success == true) {
                 commentSearchAxios(); //댓글 조회
             }
         })
@@ -120,6 +130,9 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
     return (
         <>
         <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+            { console.log(status)}
+            { (status == true) && <div style={{width:'1100px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
+            { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                 <div ref={contentDiv} style={{display:'block'}}>
@@ -130,7 +143,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
                             <b>
                                 <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
                                 <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
-                                <span style={{cursor: 'pointer'}}>지우기</span>
+                                <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
                             </b>
                         </div>
                     </p>
@@ -162,6 +175,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
                     </div>
                 </div>
             </div>
+            }
         </div>
         {/* 자식 댓글 컴포넌트 호출 */}
         {children.map((child)=>{

@@ -152,11 +152,11 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '30px auto', borderTop: '0.1px solid lightgray'}}>
             {/* 부모댓글 영역 - 반복추출 */}
             {commentList.map((parent) => {
-                console.log(parent)
                 return (
                         <ParentComment
                                 key={parent.commentNo}
                                 commentNo={parent.commentNo}
+                                status={parent.status}
                                 coggleNo={parent.coggleNo}
                                 writer={parent.writer}
                                 nickname={parent.writer.nickname}

@@ -25,9 +25,7 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
 
     /* 댓글 [저장] */
     const submit = () => {
-        console.log(coggleNo)
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:loginId, depth:3, mentionUser: nickname}
-        console.log(saveRequest)
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -42,10 +40,8 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
 
     /* 댓글 [수정] */
     const update = () => {
-        console.log(coggleNo)
-        const saveRequest = {commentNo:commentNo, content:editCommentValue}
-        console.log(saveRequest)
-        axios.post('/coggle/comment-update',saveRequest)
+        const updateRequest = {commentNo:commentNo, content:editCommentValue}
+        axios.post('/coggle/comment-update',updateRequest)
         .then((response)=>{
             if (response.data.success == true) {
                 editTeatAreaOff(); // 수정영역 TextArea OFF
