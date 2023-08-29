@@ -32,7 +32,7 @@ code {
 
 .card-body, 
 .card-body>*, 
-.toastui-editor-contents>p, /* 토스트 에디터 */
+.toastui-editor-contents p, /* 토스트 에디터 */
 th, td, 
 td>select,
 td>button>span,
@@ -45,4 +45,8 @@ td > a
 td > a
 {
   /* text-align: right; */
+}
+
+.toastui-editor-contents p {
+  font-size: 15px;
 }
