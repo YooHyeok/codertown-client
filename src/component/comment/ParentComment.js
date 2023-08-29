@@ -52,12 +52,12 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
             console.log(error);
         })
     };
+
     /* 댓글 [삭제] */
     const del= () => {
         const deleteRequest = {commentNo:commentNo}
         axios.post('/coggle/comment-delete',deleteRequest)
         .then((response)=>{
-            console.log(response.data)
             if (response.data.success == true) {
                 commentSearchAxios(); //댓글 조회
             }
@@ -130,14 +130,13 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
     return (
         <>
         <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
-            { console.log(status)}
             { (status == true) && <div style={{width:'1100px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
             { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                 <div ref={contentDiv} style={{display:'block'}}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
-                    <p style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
+                    <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
                         <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
                         <div ref={navigateDiv}>
                             <b>
@@ -146,7 +145,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
                                 <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
                             </b>
                         </div>
-                    </p>
+                    </div>
                     {/* 최상위 댓글 추가 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
@@ -161,7 +160,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
                         </div>
                     </div>
                 </div>
-                {/* 수정영역 */}
+                {/* 최상위 댓글 수정 입력 영역 */}
                 <div ref={textEditDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
@@ -179,8 +178,6 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
         </div>
         {/* 자식 댓글 컴포넌트 호출 */}
         {children.map((child)=>{
-            console.log(child)
-            console.log(child.writer.nickname)
             return (
             <ChildComment
                 key={child.commentNo}
@@ -193,6 +190,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
                 children={child.children} // 재귀를 위한 Children
                 parentNo={commentNo}
                 mentionUser={child.mentionUser}
+                status={child.status}
                 commentSearchAxios={commentSearchAxios}
                 />)
         })}
