@@ -26,7 +26,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
     /* 댓글 [저장] */
     const submit = () => {
         console.log(coggleNo)
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:loginId}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:loginId, depth:2, mentionUser: nickname}
         console.log(saveRequest)
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
@@ -116,6 +116,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
         editTextarea.current.value = content;
     }
 
+    const processedContent = content.replace(/\n/g, '<br>');
     return (
         <>
         <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
@@ -123,14 +124,16 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
                 <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
                 <div ref={contentDiv} style={{display:'block'}}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
-                    <div>
-                        <p>{content}</p>
-                    </div>
-                    <div ref={navigateDiv}>
-                        <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;
-                        <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;
-                        <span style={{cursor: 'pointer'}}>지우기</span>
-                    </div>
+                    <p style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
+                        <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
+                        <div ref={navigateDiv}>
+                            <b>
+                                <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
+                                <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
+                                <span style={{cursor: 'pointer'}}>지우기</span>
+                            </b>
+                        </div>
+                    </p>
                     {/* 최상위 댓글 추가 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
@@ -162,6 +165,8 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
         </div>
         {/* 자식 댓글 컴포넌트 호출 */}
         {children.map((child)=>{
+            console.log(child)
+            console.log(child.writer.nickname)
             return (
             <ChildComment
                 key={child.commentNo}
@@ -171,9 +176,9 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
                 nickname={child.writer.nickname}
                 content={child.content}
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
-                children={child.children}
-                parentNickname={nickname}
-                parentNo={coggleNo}
+                children={child.children} // 재귀를 위한 Children
+                parentNo={commentNo}
+                mentionUser={child.mentionUser}
                 commentSearchAxios={commentSearchAxios}
                 />)
         })}

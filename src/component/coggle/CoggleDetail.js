@@ -39,7 +39,7 @@ export default function CoggleDetail() {
     /* 댓글 [저장] - 저장 후 재조회 */
     const submit = () => {
         console.log(coggleNo)
-        const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:"webdevyoo@gmail.com"}
+        const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:"yjou7454@gmail.com", depth:1}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) commentSearchAxios(); //댓글 조회

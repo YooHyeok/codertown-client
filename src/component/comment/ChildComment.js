@@ -7,7 +7,7 @@ import { Button } from 'reactstrap';
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
 
-export default function ChildComment({ commentNo, coggleNo, writer, nickname, content, firstRegDate, children, parentNo, parentNickname, commentSearchAxios }) {
+export default function ChildComment({ commentNo, coggleNo, writer, nickname, content, firstRegDate, children, parentNo, mentionUser, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -21,12 +21,12 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
     const [addCommentValue, setAddCommentValue] = useState('');
     const [editCommentValue, setEditCommentValue] = useState(content);
 
-    const loginId = "webdevyoo@gmail.com";
+    const loginId = "yjou7454@gmail.com";
 
     /* 댓글 [저장] */
     const submit = () => {
         console.log(coggleNo)
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:loginId}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:loginId, depth:3, mentionUser: nickname}
         console.log(saveRequest)
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
@@ -115,6 +115,7 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
         editTextarea.current.style.height = '55px';
         editTextarea.current.value = content;
     }
+    const processedContent = content.replace(/\n/g, '<br>');
     return (
         <div>
         <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
@@ -123,12 +124,18 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
                 <div ref={contentDiv}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
-                        <p><span style={{color:'gray'}}>@{parentNickname}</span><span>{content}</span></p>
-                    </div>
-                    <div ref={navigateDiv}>
-                        <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;
-                        <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow} value='수정'>수정</span>&nbsp;
-                        <span style={{cursor: 'pointer'}}>지우기</span>
+                        <p style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
+                        {/* <p> */}
+                            <span style={{color:'gray'}}>@{mentionUser} </span>
+                            <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
+                            <div ref={navigateDiv}>
+                                <b>
+                                    <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;
+                                    <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow} value='수정'>수정</span>&nbsp;
+                                    <span style={{cursor: 'pointer'}}>지우기</span>
+                                </b>
+                            </div>
+                        </p>
                     </div>
                     {/* 최상위 댓글 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
@@ -162,12 +169,16 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
         {children.map(child => (
             <ChildComment
                 key={child.commentNo}
+                commentNo={child.commentNo}
+                coggleNo={coggleNo}
                 writer={child.writer}
                 nickname={child.writer.nickname}
                 content={child.content}
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                 children={child.children}
-                parentNickname={nickname}
+                parentNo={coggleNo}
+                mentionUser={nickname}
+                commentSearchAxios={commentSearchAxios}
             />
             ))}
 
