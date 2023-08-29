@@ -140,9 +140,9 @@ export default function CoggleDetail() {
                 </div>
             </div>
             {/* 글 내용 */}
-            <div style={{width:'1000px', margin :'0px auto'}}>
+            <div style={{width:'1000px', margin :'0px auto', minHeight:'535px'}}>
                 {/* 토스트 뷰어 영역 */}
-                <div style={{ width: '1000px', minHeight:'430px', margin:'10px',}}>
+                <div style={{ width: '1000px', margin:'10px',}}>
                     <Viewer className="toast-viewer" initialValue={coggle.content} key={coggle.content}/>
                 </div>
             </div>

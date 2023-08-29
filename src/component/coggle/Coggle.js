@@ -66,7 +66,7 @@ export default function Coggle() {
     
 
     return <div style={divStyle}>
-                <div style={{margin:"0 auto", width:"200px"}}>
+                <div style={{margin:"0 auto", width:"185px"}}>
                     <h1 style={{ margin:"30px 0px 30px 0px"}}>
                         <b>코글: {category == "T" ? "기술질문" : 
                                         category == "C" ? "커리어" : 

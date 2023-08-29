@@ -7,10 +7,10 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 export default function MammothDetail() {
     const divStyle = {
         width: '100%' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '100%'
+        , height: '850px'
         , textAlign: 'left'
         , margin: '50px auto'
-        , marginBottom: '50px'
+        , marginBottom: '0px'
         , padding: '30px'
         , top: '100'
       };
@@ -39,8 +39,7 @@ export default function MammothDetail() {
                         writer : response.data.writer,
                         nickname: response.data.writer.nickname,
                         location: response.data.location,
-                        }
-                                    
+                        }      
             )
         })
         .catch((error) => {
@@ -96,7 +95,7 @@ export default function MammothDetail() {
                         <Viewer initialValue={mammoth.content} key={mammoth.content}/>
                     </div>
                     {/* 프로젝트 상세정보 영역 */}
-                    <div style={{ width:"475px", minHeight:'450px', height:"100%", float:'right'}}>
+                    <div style={{ width:"475px", minHeight:'450px', height:"100%", float:'right', marginTop: '50px'}}>
                         <div style={{width:"475px", border: '0.1px solid lightgray', borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
                             <Form style={{width:"410px", margin:"40px auto"}}>
                                 <FormGroup row>
