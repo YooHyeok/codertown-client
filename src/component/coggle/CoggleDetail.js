@@ -18,19 +18,51 @@ export default function CoggleDetail() {
         , top: '100'
       };
 
-    /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
+    const [commentValue, setCommentValue] = useState('');
+
     const textarea = useRef('');
-    const handleResizeHeight = () => {
+
+    /* 댓글 [입력] - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
+    const textAreaInputChange = (e) => {
         textarea.current.style.height = 'auto';
         textarea.current.style.height = textarea.current.scrollHeight + 'px';
-    };
-    /* 댓글영역 - TextArea 취소버튼 클릭시 초기화 */
-    const handleResizeHeightInit = () => {
-        textarea.current.style.height = '55px';
-        textarea.current.value = null;
+        setCommentValue(e.target.value);
     };
 
-    /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+    /* 댓글 [취소] - TextArea 취소버튼 클릭시 초기화 */
+    const cancel = () => {
+        textarea.current.style.height = '55px';
+        textarea.current.value = null;
+        setCommentValue(null);
+    };
+
+    /* 댓글 [저장] - 저장 후 재조회 */
+    const submit = () => {
+        console.log(coggleNo)
+        const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:"webdevyoo@gmail.com"}
+        axios.post('/coggle/comment-save',saveRequest)
+        .then((response)=>{
+            if (response.data.success == true) commentSearchAxios(); //댓글 조회
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
+    /**
+     * 댓글 조회 메소드
+     */
+    const commentSearchAxios = () => {
+        axios.get(`/coggle/${coggleNo}/comment`)
+        .then((response)=> {
+            setCommentList(response.data)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { coggleNo } = useParams();
 
@@ -64,23 +96,7 @@ export default function CoggleDetail() {
             console.log(error);
         })
 
-        axios.get(`/coggle/${coggleNo}/comment`)
-        .then((response)=> {
-            setCommentList(response.data)
-            /* setCoggle({  
-                        title: response.data.title, 
-                        writer: response.data.writer,
-                        nickname: response.data.writer.nickname,
-                        category : response.data.category,
-                        categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
-                        title: response.data.title,
-                        content: response.data.content,
-                        }
-            ) */
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        commentSearchAxios(); //댓글 조회
     },[])
 
     /* func - 삭제 기능 */
@@ -136,14 +152,18 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '30px auto', borderTop: '0.1px solid lightgray'}}>
             {/* 부모댓글 영역 - 반복추출 */}
             {commentList.map((parent) => {
+                console.log(parent)
                 return (
                         <ParentComment
                                 key={parent.commentNo}
+                                commentNo={parent.commentNo}
+                                coggleNo={parent.coggleNo}
                                 writer={parent.writer}
                                 nickname={parent.writer.nickname}
                                 content={parent.content}
                                 firstRegDate={DateUtil.utcToKrFull(parent.firstRegDate)}
                                 children={parent.children}
+                                commentSearchAxios={commentSearchAxios}
                                 />
                     )// 부모 JSX Render return문 종료
                 })} 
@@ -151,12 +171,12 @@ export default function CoggleDetail() {
                 <div style={{display:'block', width:'1100px', minHeight:'130px', margin:"30px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
                             <div>
-                                <textarea ref={textarea} onChange={handleResizeHeight}
+                                <textarea ref={textarea} value={commentValue} onChange={textAreaInputChange}
                                 style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
-                                <Button outline size={'sm'} onClick={handleResizeHeightInit}>취소</Button> &nbsp;
-                                <Button outline size={'sm'}>저장</Button>
+                                <Button outline size={'sm'} onClick={cancel}>취소</Button> &nbsp;
+                                <Button outline size={'sm'} onClick={submit}>저장</Button>
                             </div>
                         </div>
                     </div>

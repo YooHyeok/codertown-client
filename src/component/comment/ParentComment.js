@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from 'reactstrap';
 import ChildComment from '../comment/ChildComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
+import axios from "axios";
 
 /**
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
-export default function ParentComment({ commentNo, writer, nickname, content, firstRegDate, children }) {
+export default function ParentComment({ commentNo, coggleNo, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -17,18 +17,59 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     const textAddDiv = useRef('');
     const contentDiv = useRef('');
     const navigateDiv = useRef('');
+    
+    const [addCommentValue, setAddCommentValue] = useState('');
+    const [editCommentValue, setEditCommentValue] = useState(content);
 
-    /* textarea 사이즈 변경 */
-    const resizeHeightControll = (e) => {
+    const loginId = "webdevyoo@gmail.com";
+
+    /* 댓글 [저장] */
+    const submit = () => {
+        console.log(coggleNo)
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:loginId}
+        console.log(saveRequest)
+        axios.post('/coggle/comment-save',saveRequest)
+        .then((response)=>{
+            if (response.data.success == true) {
+                editTeatAreaOff(); // 추가영역 TextArea OFF
+                commentSearchAxios(); //댓글 조회
+            }
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
+    /* 댓글 [수정] */
+    const update = () => {
+        console.log(coggleNo)
+        const saveRequest = {commentNo:commentNo, content:editCommentValue}
+        console.log(saveRequest)
+        axios.post('/coggle/comment-update',saveRequest)
+        .then((response)=>{
+            if (response.data.success == true) {
+                editTeatAreaOff(); // 수정영역 TextArea OFF
+                commentSearchAxios(); //댓글 조회
+            }
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
+    /* 댓글 [입력] Change 이벤트 메소드 */
+    const textAreaInputChange = (e) => {
         // 추가 모드
         if(e.target.name == 'addTextarea') {
             addTextarea.current.style.height = 'auto';
             addTextarea.current.style.height = addTextarea.current.scrollHeight + 'px';
+            setAddCommentValue(e.target.value)
             return;
         }
         // 수정 모드
         editTextarea.current.style.height = 'auto';
         editTextarea.current.style.height = editTextarea.current.scrollHeight + 'px';
+        setEditCommentValue(e.target.value)
     };
 
     /* textarea를 활성화 시키고 네비 버튼 비활성화 */
@@ -48,21 +89,33 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
     const textAreaNone = (e) => {
         // 추가 모드
         if(e.target.name == 'addCancelBtn') {
-            textAddDiv.current.style.display ='none';
-            navigateDiv.current.style.display ='block'; // 네비 활성화
-            addTextarea.current.style.height = '55px';
-            addTextarea.current.value = null;
+            addTeatAreaOff(); // 추가영역 텍스트아리아 OFF
             return;
         }
         // 수정 모드
+        editTeatAreaOff();
+    };
+
+    /**
+     * 추가영역 텍스트아리아 OFF 메소드
+     */
+    const addTeatAreaOff = () => {
+        textAddDiv.current.style.display ='none';
+        navigateDiv.current.style.display ='block'; // 네비 활성화
+        addTextarea.current.style.height = '55px';
+        addTextarea.current.value = null;
+    }
+
+    /**
+     * 수정영역 텍스트아리아 OFF 메소드
+     */
+    const editTeatAreaOff = () => {
         textEditDiv.current.style.display ='none';
         contentDiv.current.style.display ='block'; // 컨텐트(네비포함) 활성화
         editTextarea.current.style.height = '55px';
         editTextarea.current.value = content;
-    };
+    }
 
-    useEffect(()=> {
-    },[])
     return (
         <>
         <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
@@ -78,16 +131,16 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                         <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;
                         <span style={{cursor: 'pointer'}}>지우기</span>
                     </div>
-                    {/* 최상위 댓글 입력 영역 */}
+                    {/* 최상위 댓글 추가 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1100px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
                             <div>
-                                <textarea ref={addTextarea} name="addTextarea" onChange={resizeHeightControll}
+                                <textarea ref={addTextarea} name="addTextarea" value={addCommentValue} onChange={textAreaInputChange}
                                 style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                                 <Button outline size={'sm'} name="addCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
-                                <Button outline size={'sm'}>저장</Button>
+                                <Button outline size={'sm'} onClick={submit}>저장</Button>
                             </div>
                         </div>
                     </div>
@@ -96,12 +149,12 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                 <div ref={textEditDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
-                            <textarea ref={editTextarea} name="editTextarea" onChange={resizeHeightControll}
+                            <textarea ref={editTextarea} name="editTextarea" value={editCommentValue} onChange={textAreaInputChange}
                             style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'}  name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
-                            <Button outline size={'sm'}>수정</Button>
+                            <Button outline size={'sm'} onClick={update}>수정</Button>
                         </div>
                     </div>
                 </div>
@@ -118,6 +171,8 @@ export default function ParentComment({ commentNo, writer, nickname, content, fi
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                 children={child.children}
                 parentNickname={nickname}
+                parentNo={commentNo}
+                commentSearchAxios={commentSearchAxios}
                 />)
         })}
         </>

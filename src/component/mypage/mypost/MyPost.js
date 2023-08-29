@@ -47,7 +47,6 @@ export default function MyPost() {
         if (option == 'Cokkiri' || option == 'Mammoth') {
             axios.get(`/recruit?page=${page}&dType=${option}&keyword=${keyword}&loginId=${loginId}`)
             .then((response)=> {
-                console.log(response)
                 setArticleCount(response.data.articleCount)
                 setRecruitList(response.data.recruitList)
                 setPageInfo(response.data.pageInfo)
@@ -103,11 +102,11 @@ export default function MyPost() {
                     </InputGroup>
                     <div ref={radioRef} style={{width:"230px", padding:"3px 23px", display:"none"}}>
                         <InputGroup style={{width:"208px"}}>
-                            <Input type="checkbox" name="TechQue" onChange={{}}/>
+                            <Input type="checkbox" name="TechQue" onChange={(e)=>{e.preventDefault()}}/>
                             <Label htmlFor='TechQue'>TechQue</Label> &nbsp;
-                            <Input type="checkbox" name="Carrier" onChange={{}}/>
+                            <Input type="checkbox" name="Carrier" onChange={(e)=>{e.preventDefault()}}/>
                             <Label htmlFor='Carrier'>Carrier</Label> &nbsp;
-                            <Input type="checkbox" name="Devlife" onChange={{}}/>
+                            <Input type="checkbox" name="Devlife" onChange={(e)=>{e.preventDefault()}}/>
                             <Label htmlFor='Devlife'>Devlife</Label>
                         </InputGroup>
                     </div>
