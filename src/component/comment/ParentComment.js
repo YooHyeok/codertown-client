@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from 'reactstrap';
 import ChildComment from '../comment/ChildComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
@@ -31,7 +31,7 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
-                editTeatAreaOff(); // 추가영역 TextArea OFF
+                addTeatAreaOff(); // 추가영역 TextArea OFF
                 commentSearchAxios(); //댓글 조회
             }
         })
@@ -165,13 +165,15 @@ export default function ParentComment({ commentNo, coggleNo, writer, nickname, c
             return (
             <ChildComment
                 key={child.commentNo}
+                commentNo={child.commentNo}
+                coggleNo={coggleNo}
                 writer={child.writer}
                 nickname={child.writer.nickname}
                 content={child.content}
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
                 children={child.children}
                 parentNickname={nickname}
-                parentNo={commentNo}
+                parentNo={coggleNo}
                 commentSearchAxios={commentSearchAxios}
                 />)
         })}
