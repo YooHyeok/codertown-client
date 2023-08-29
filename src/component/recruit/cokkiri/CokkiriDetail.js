@@ -12,7 +12,7 @@ export default function CokkiriDetail() {
         , height: '100%'
         , textAlign: 'left'
         , margin: '50px auto'
-        , marginBottom: '50px'
+        , marginBottom: '0px'
         , padding: '30px'
         , top: '100'
       };
@@ -98,7 +98,7 @@ export default function CokkiriDetail() {
                 {/* 글 내용 */}
                 <div style={{display:'flex',width:'1250px', height:'100%', margin :'0px auto'}}>
                     {/* 토스트 뷰어 영역 */}
-                    <div style={{ width: '725px', margin:"0px 25px", minHeight:'500px'}}>
+                    <div style={{ width: '725px', margin:"0px 25px", minHeight:'450px'}}>
                         <Viewer className="toast-viewer" initialValue={cokkiri.content} key={cokkiri.content}/>
                     </div>
                     {/* 프로젝트 상세정보 영역 */}
