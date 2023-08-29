@@ -82,7 +82,7 @@ export default function ToastEditor({props}) {
       ref={editorRef} // DOM 선택용 useRef
       previewStyle="vertical" // 미리보기 스타일 지정
       height="600px" // 에디터 창 높이
-      initialEditType="markdown" //
+      initialEditType="WYSIWIG" // markdown / WYSIWIG
       toolbarItems={[
         // 툴바 옵션 설정
         ['heading', 'bold', 'italic', 'strike'],
