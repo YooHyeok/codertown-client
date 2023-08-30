@@ -150,11 +150,11 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
                         </div>
                     </div>
                     {/* 하위 댓글 추가 입력 영역 */}
-                    <div ref={textAddDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
+                    <div ref={textAddDiv} style={{display:'none', width:'1050px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
                             <div>
                                 <textarea ref={addTextarea} name="addTextarea" value={addCommentValue} onChange={textAreaInputChange}
-                                style={{dominantBaselineisplay:'inline', width:'958px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                                style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                                 <Button outline size={'sm'} name="addCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
@@ -164,11 +164,11 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
                     </div>
                 </div>
                 {/* 하위댓글 수정 입력 영역 */}
-                <div ref={textEditDiv} style={{display:'none', width:'900px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
+                <div ref={textEditDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", marginLeft:'50px', border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
                         <div>
                             <textarea ref={editTextarea} name="editTextarea" value={editCommentValue} onChange={textAreaInputChange}
-                            style={{display:'inline', width:'858px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'} name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
