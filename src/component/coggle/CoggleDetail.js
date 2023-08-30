@@ -42,7 +42,10 @@ export default function CoggleDetail() {
         const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:"yjou7454@gmail.com", depth:1}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
-            if (response.data.success == true) commentSearchAxios(); //댓글 조회
+            if (response.data.success == true) {
+                cancel();
+                commentSearchAxios(); //댓글 조회
+            }
         })
         .catch((error)=>{
             console.log(error);
