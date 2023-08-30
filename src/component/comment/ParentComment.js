@@ -159,7 +159,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
                         <div style={{paddingBottom:'30px'}}>
                             <div>
                                 <textarea ref={addTextareaRef} name="addTextarea" value={addCommentValue} onChange={textAreaInputChange}
-                                style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                                style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                                 <Button outline size={'sm'} name="addCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
@@ -173,7 +173,7 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
                     <div style={{paddingBottom:'30px'}}>
                         <div>
                             <textarea ref={editTextareaRef} name="editTextareaRef" value={editCommentValue} onChange={textAreaInputChange}
-                            style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'}  name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;

@@ -142,7 +142,6 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
             { (status == false) && 
             <div key={commentNo} style={{width:'1000px', margin:"30px auto"}}>
                 <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
-                {/* <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/>  */}
                 <div ref={contentDiv}>
                     <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
@@ -163,7 +162,7 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
                         <div style={{paddingBottom:'30px'}}>
                             <div>
                                 <textarea ref={addTextarea} name="addTextarea" value={addCommentValue} onChange={textAreaInputChange}
-                                style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                                style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
                             <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                                 <Button outline size={'sm'} name="addCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
@@ -177,7 +176,7 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
                     <div style={{paddingBottom:'30px'}}>
                         <div>
                             <textarea ref={editTextarea} name="editTextarea" value={editCommentValue} onChange={textAreaInputChange}
-                            style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'} name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
