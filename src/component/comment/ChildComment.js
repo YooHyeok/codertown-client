@@ -71,17 +71,24 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
     const textAreaInputChange = (e) => {
         // 추가 모드
         if(e.target.name == 'addTextarea') {
-            addTextarea.current.style.height = 'auto';
-            addTextarea.current.style.height = addTextarea.current.scrollHeight + 'px';
+            resizeTextArea(addTextarea);
             setAddCommentValue(e.target.value)
             return;
         }
         // 수정 모드
-        editTextarea.current.style.height = 'auto';
-        editTextarea.current.style.height = editTextarea.current.scrollHeight + 'px';
+        resizeTextArea(editTextarea);
         setEditCommentValue(e.target.value)
     };
 
+    /**
+     * 텍스트아리아 높이 맞춤
+     * @param {*} ref 
+     */
+    const resizeTextArea = (ref) => {
+        ref.current.style.height = 'auto';
+        ref.current.style.height = ref.current.scrollHeight + 'px';
+    }
+        
     /* textarea를 활성화 시키고 네비 버튼 비활성화 */
     const textAreaShow = (e) => {
         // 추가 모드 - 네비 비활성화
@@ -93,6 +100,8 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
         // 수정 모드 - 컨텐트(네비포함) 비활성화
         textEditDiv.current.style.display ='block';
         contentDiv.current.style.display ='none';
+        resizeTextArea(editTextarea); // [수정] 버튼 클릭후 value값에 맞춰 텍스트아리아 높이 조정
+
     };
 
     /* textarea내용 초기화 및 비활성화 시키고 네비 버튼 활성화 */
