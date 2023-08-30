@@ -65,8 +65,6 @@ export default function MyInfoEdit() {
                 <Col sm={3} >
                     <Button outline color='secondary' style={{ width: '100%' }} onClick={(e)=>{e.preventDefault();}}>중복</Button>
                 </Col>
-                    <span id="regnnTrue" style={{ display: "none" }}><p><b>알맞은 형식입니다. 중복 확인을 해주세요.</b></p></span>
-                    <span id="regnnFalse" style={{ display: "none" }}><p><b>첫 글자는 영문자와 4~16자의 영문 대소문자, <br />숫자와 특수기호(_),(-)만 사용가능합니다.</b></p></span>
             </FormGroup>
             {/* 패스워드 */}
             <FormGroup row>
