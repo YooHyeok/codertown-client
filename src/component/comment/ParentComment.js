@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Button } from 'reactstrap';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ChildComment from '../comment/ChildComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
@@ -8,7 +9,7 @@ import axios from "axios";
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
-export default function ParentComment({ commentNo, status, coggleNo, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
+export default function ParentComment({ commentNo, status, coggleNo,coggleWriter, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextareaRef = useRef('');
@@ -21,11 +22,11 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
     const [addCommentValue, setAddCommentValue] = useState('');
     const [editCommentValue, setEditCommentValue] = useState(content);
 
-    const loginId = "webdevyoo@gmail.com";
+    const userId = useSelector( (state) => {return state.UserId} );
 
     /* 댓글 [저장] */
     const submit = () => {
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:loginId, depth:2, mentionUser: nickname}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:userId, depth:2, mentionUser: nickname}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -142,15 +143,17 @@ export default function ParentComment({ commentNo, status, coggleNo, writer, nic
             { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
                 <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
-                <div ref={contentDivRef} style={{display:'block'}}>
-                    <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
+                <div ref={contentDivRef} style={{display:'block'}}> 
+                    <span>{nickname}</span>
+                    <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
                         <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
                         <div ref={naviDivRef}>
                             <b>
-                                <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
-                                <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
-                                <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
+                                <span style={{cursor: 'pointer', color:'gray'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
+                                {userId == writer.email && 
+                                <><span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
+                                <span style={{cursor: 'pointer'}} onClick={del} >지우기</span></>}
                             </b>
                         </div>
                     </div>
