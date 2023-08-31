@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { Form, Label, Input, Button, Col, FormGroup } from 'reactstrap';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import axios from "axios";
 
 export default function MyInfoEdit() {
 
@@ -8,16 +10,24 @@ export default function MyInfoEdit() {
         nickname: '', id: '', password: '', postcode: '', address: '', addrDetail: '', email: '', thumbnail: null
     });
 
+    const userId = useSelector( (state) => {return state.UserId} );
+
     /**
      * 기본 프로필 사진
      */
     const [src, setSrc] = useState('/default_profile3.png');
+    // const [src, setSrc] = useState();
 
     /**
      * 컴포넌트 생명주기 Hook
      */
     useEffect(() => {
-
+        axios.get(`/profileImage/${userId}`)
+        .then((response)=>{
+            console.log(response)
+            if (response.data == '') setSrc('/default_profile3.png')
+            else setSrc(`/profileImage/${userId}`);
+        })
     }, [])
 
     /**

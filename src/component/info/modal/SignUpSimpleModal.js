@@ -13,8 +13,6 @@ export default function SignUpSimpleModal() {
         // , position: "fixed"
         // , transform: "translate(15%,-50%)"
     }
-    const [errorMessage, setErrorMessage] = useState(''); // 입력한 이메일
-    // const [inputEmail, setInputEmail] = useState(''); // 입력한 이메일
     const [email, setEmail] = useState({inputEmail: '', existsEmail:'', authEmail:''}); // 검증된 이메일
     const [certNumber, setCertNumber] = useState({inputCertNumber:'', permitCertNumber:''}); // 입력한 이메일
     const [password, setPassword] = useState(''); //비밀번호
