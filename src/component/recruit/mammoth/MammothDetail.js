@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
 export default function MammothDetail() {
     const divStyle = {
@@ -14,6 +15,9 @@ export default function MammothDetail() {
         , padding: '30px'
         , top: '100'
       };
+
+    const userId = useSelector( (state) => {return state.UserId} );
+    const accessToken = useSelector( (state) => {return state.Authorization} );
 
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
@@ -80,12 +84,14 @@ export default function MammothDetail() {
                         <div>
                             <span>{mammoth.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                         </div>
+                        {/* 수정 삭제 버튼 */}
+                        {userId == mammoth.writer.email &&
                         <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
-                        <Button color='secondary' onClick={(e)=>{
-                                navigate('/mammoth-edit', { state: { mammothNo } });
-                            }}>수정</Button>&nbsp;&nbsp;
+                            <Button color='secondary' onClick={(e)=>{
+                                    navigate('/mammoth-edit', { state: { mammothNo } });
+                                }}>수정</Button>&nbsp;&nbsp;
                             <Button color='danger' onClick={del}>삭제</Button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 {/* 글 내용 */}
@@ -129,9 +135,10 @@ export default function MammothDetail() {
                                 </FormGroup>
                             </Form>
                         </div>
+                        {(accessToken != '' && userId != mammoth.writer.email) &&
                         <div className='study-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
                             <Button color='primary'>스터디 참여 요청 DM 보내기</Button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 {/* 댓글영역 */}
