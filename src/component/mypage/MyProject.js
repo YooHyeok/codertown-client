@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import {  Button, Table, FormGroup, InputGroup, Input, Label} from 'reactstrap';
+import {  Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
 import { Search } from 'react-bootstrap-icons';
 
 import axios from "axios";
@@ -8,7 +10,7 @@ export default function MyProject() {
 
     const selectRef = useRef(null);
 
-    const loginId = "webdevyoo@gmail.com"
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const [recruitList , setRecruitList] = useState([])
     const [articleCount , setArticleCount] = useState('') // 게시글 갯수
@@ -93,18 +95,18 @@ export default function MyProject() {
                         return (
                             <tr key={obj.recruitDto.recruitNo}>
                             <td>{obj.recruitDto.recruitNo}</td>
-                            <td>{loginId === obj.recruitDto.writer.email ? "팀장" : "팀원"}</td>
+                            <td>{userId === obj.recruitDto.writer.email ? "팀장" : "팀원"}</td>
                             <td>{obj.projectDto.teamName}</td>
                             <td>{obj.recruitDto.objectWeek}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>
-                            <select disabled={loginId !== obj.recruitDto.writer.email} ref={selectRef} name="" id="statusSelect" value={{}} onChange={(e)=>{e.preventDefault();}}
+                            <select disabled={userId !== obj.recruitDto.writer.email} ref={selectRef} name="" id="statusSelect" value={{}} onChange={(e)=>{e.preventDefault();}}
                                 style={{
                                     display:"inline"
                                 // , webkitAppearance: "none"
                                 // , mozAppearance: "none"
-                                , appearance: loginId !== obj.recruitDto.writer.email ? "none" : "show"
+                                , appearance: userId !== obj.recruitDto.writer.email ? "none" : "show"
                                 , width:"50px"
                                 , paddingRight:"-20px"
                                 , lineHeight:"normal"

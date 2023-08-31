@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import {  Button, Table, FormGroup, InputGroup, Input, Label} from 'reactstrap';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import { Search } from 'react-bootstrap-icons';
 import MyPostRecruit from './MyPostRecruit.js'
 import MyPostCoggle from './MyPostCoggle.js'
@@ -8,7 +9,7 @@ import axios from "axios";
 export default function MyPost() {
 
 
-    const loginId = "webdevyoo@gmail.com"
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const radioRef = useRef(null);
 
@@ -45,7 +46,7 @@ export default function MyPost() {
      */
      const serverRequest = (page, keyword) => {
         if (option == 'Cokkiri' || option == 'Mammoth') {
-            axios.get(`/recruit?page=${page}&dType=${option}&keyword=${keyword}&loginId=${loginId}`)
+            axios.get(`/recruit?page=${page}&dType=${option}&keyword=${keyword}&loginId=${userId}`)
             .then((response)=> {
                 setArticleCount(response.data.articleCount)
                 setRecruitList(response.data.recruitList)
@@ -57,7 +58,7 @@ export default function MyPost() {
             return;
         }
         
-        let params = {params: {"page":page, "category": null, "keyword": keyword, "loginId": loginId}}
+        let params = {params: {"page":page, "category": null, "keyword": keyword, "loginId": userId}}
         axios.get('/coggle', params)
         .then((response)=> {
             setArticleCount(response.data.articleCount)
