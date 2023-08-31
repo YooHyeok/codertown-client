@@ -16,7 +16,7 @@ export default function SignUpSimpleModal() {
     const [errorMessage, setErrorMessage] = useState(''); // 입력한 이메일
     // const [inputEmail, setInputEmail] = useState(''); // 입력한 이메일
     const [email, setEmail] = useState({inputEmail: '', existsEmail:'', authEmail:''}); // 검증된 이메일
-    const [certNumber, setCertNumber] = useState(''); // 입력한 이메일
+    const [certNumber, setCertNumber] = useState({inputCertNumber:'', permitCertNumber:''}); // 입력한 이메일
     const [password, setPassword] = useState(''); //비밀번호
     const [passwordChk, setPasswordChk] = useState(''); //비밀번호 확인
 
@@ -181,26 +181,33 @@ export default function SignUpSimpleModal() {
             // 사용 가능한 이메일 이라면!
             if (currentValue != '' && emailRegFlag) {
                 setFlag({...flag, emailRegFlag: emailRegFlag, emailExsitsFlag:false});
-                emailForbidRegRef.current.style.display = 'none';
+                emptyRefOff(emailForbidRegRef, emailPermitExistRef);
+
+/*                 emailForbidRegRef.current.style.display = 'none';
+                emailPermitExistRef.current.style.display = 'none'; */
                 return;
             }
 
         }
         if (e.target.name == 'certNumber') {
-            setCertNumber(currentValue); //email 값 초기화
+            setCertNumber({...certNumber, inputCertNumber:currentValue}); //email 값 초기화
             return; // 이후 flag는 중복확인 버튼 클릭이벤트에서 처리한다.
         }
     }
 
     /**
-     * [수정] 버튼 클릭이벤트 함수
+     * 버튼 클릭이벤트 함수
      */
     const clickEvent = (e) => {
         // return; //일시 정지
         let name = e.target.name;
+
+        /* [수정] */
         if (name == 'editBtn') {
             console.log("[수정]")
         }
+
+        /* [중복확인] */
         if (name == 'existBtn') {
             if (email.inputEmail == '') {
                 alert("이메일을 입력해주세요.");
@@ -216,7 +223,6 @@ export default function SignUpSimpleModal() {
             .then((response) => {
                 console.log(response.data.exists)
                 if (response.data.exists) { // 중복된 이메일
-                    setEmail({...email, existsEmail: email.inputEmail});
                     setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailForbidExistRef, emailForbidRegRef, emailPermitExistRef); //첫번째 매개변수만 On한다.
                     console.log(response.data.exists)
@@ -234,22 +240,52 @@ export default function SignUpSimpleModal() {
 
             })
         }
+
+        /* [(재)발급] */
         if (name == 'sendBtn') {
-            console.log("[(재)발급]")
+            if(flag.emailExsitsFlag == true) {
+                alert("메일 전송요청 완료. \n 입력하신 이메일을 확인해주세요.")
+                const formData = new FormData();
+                formData.append('email', email.existsEmail);
+                axios.post('/email-auth' , formData)
+                .then((response) => {
+                    setCertNumber({...certNumber, permitCertNumber:response.data})
+                })
+                .catch((error) => {
+                    alert("메일 전송에 실패했습니다. \n 관리자에게 문의하세요.")
+                })
+            }
+            alert("메일 전송 불가능. \n 입력하신 이메일 중복여부를 확인해주세요.")
+            setFlag({...flag, emailAuthFlag:false});
         }
+
+        /* [인증] */
         if (name == 'authBtn') {
             console.log("[인증]")
+            if (certNumber.inputCertNumber == certNumber.permitCertNumber) {
+                alert('인증번호 완료')
+                setFlag({...flag, emailAuthFlag:true})
+                return;
+            } 
+            alert('인증번호가 일치하지 않습니다. \n 재 발급을 시도해보세요.')
+            setFlag({...flag, emailAuthFlag:false});
+            return;
         }
-        console.log(e)
+
+        /* [가입신청] */
         if (name == 'submit') {
             console.log(flag)
-
+            console.log(email)
             if (!flag.emailRegFlag) {
                 alert("이메일 양식 불량")
                 return;
             }
             if (!flag.emailExsitsFlag) {
                 alert("중복인증 체크")
+                return;
+            }
+            if (!flag.emailAuthFlag) {
+                alert("인증번호 체크")
                 return;
             }
             if (!flag.passwordRegFlag) {
@@ -260,12 +296,11 @@ export default function SignUpSimpleModal() {
                 alert("패스워드 불일치함")
                 return;
             }
-            // submit();
+            submit();
         }
     }
 
     const submit = () => {
-        console.log(flag);
         
     }
     
@@ -297,7 +332,7 @@ export default function SignUpSimpleModal() {
                                     <Label htmlFor='certNumber' sm={3}>인증번호</Label>
                                     <span ref={certPermitRef} style={{display:'none'}}>&#10004; 인증완료</span>
                                     <span ref={certForbidRef} style={{display:'none'}}>&#10060; 인증실패</span>
-                                    <Input type='text' name='certNumber' id='certNumber' value={certNumber} onChange={changeEvent} />
+                                    <Input type='text' name='certNumber' id='certNumber' value={certNumber.inputCertNumber} onChange={changeEvent} />
                                 </Col>
                                 <Col sm={4}style={{width:'77px', paddingLeft:'0px'}}>
                                     <Button name="sendBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent}>(재)발급</Button>
