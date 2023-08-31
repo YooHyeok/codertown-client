@@ -165,6 +165,7 @@ export default function CoggleDetail() {
                                 commentNo={parent.commentNo}
                                 status={parent.status}
                                 coggleNo={parent.coggleNo}
+                                coggleWriter={coggle.writer}
                                 writer={parent.writer}
                                 nickname={parent.writer.nickname}
                                 content={parent.content}

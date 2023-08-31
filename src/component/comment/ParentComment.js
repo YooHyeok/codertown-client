@@ -143,14 +143,16 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
             { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
                 <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
-                <div ref={contentDivRef} style={{display:'block'}}> 
+                <div ref={contentDivRef} style={{display:'block'}}>
+                    {coggleWriter.email == writer.email && 
+                    <span style={{color:'gray'}}>[작성자] </span>} 
                     <span>{nickname}</span>
                     <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
                         <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
                         <div ref={naviDivRef}>
                             <b>
-                                <span style={{cursor: 'pointer', color:'gray'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
+                                <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
                                 {userId == writer.email && 
                                 <><span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
                                 <span style={{cursor: 'pointer'}} onClick={del} >지우기</span></>}
