@@ -41,7 +41,10 @@ export default function CoggleDetail() {
 
     /* 댓글 [저장] - 저장 후 재조회 */
     const submit = () => {
-        console.log(coggleNo)
+        if (userId == '') {
+            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            return;
+        }
         const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:userId, depth:1}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
