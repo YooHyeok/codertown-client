@@ -20,7 +20,7 @@ export default function CoggleDetail() {
       };
 
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const [src, setSrc] = useState('/default-profile2.png')
     const [commentValue, setCommentValue] = useState('');
 
     const textarea = useRef('');
@@ -97,6 +97,7 @@ export default function CoggleDetail() {
                         content: response.data.content,
                         }
             )
+            setSrc(`/profileImage/${response.data.writer.email}`)
         })
         .catch((error) => {
             console.log(error);
@@ -133,7 +134,7 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '0px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
                 <div style={{width:'1200px',margin:"30px 20px 10px 10px"}}>
                     <h5><b>{coggle.title}</b></h5>                            
-                    <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${coggle.writer.email}`} alt="profile"/>
+                    <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                     <div>
                         <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                     </div>
