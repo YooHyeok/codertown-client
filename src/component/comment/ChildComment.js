@@ -4,6 +4,8 @@
  */
 import { useRef, useState } from 'react';
 import { Button } from 'reactstrap';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
 
@@ -21,11 +23,11 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     const [addCommentValue, setAddCommentValue] = useState('');
     const [editCommentValue, setEditCommentValue] = useState(content);
 
-    const loginId = "yjou7454@gmail.com";
+    const userId = useSelector( (state) => {return state.UserId} );
 
     /* 댓글 [저장] */
     const submit = () => {
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:loginId, depth:3, mentionUser: nickname}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: nickname}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -154,8 +156,11 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
                             <div ref={navigateDiv}>
                                 <b>
                                     <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;
-                                    <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow} value='수정'>수정</span>&nbsp;
-                                    <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
+                                    {userId == writer.email && 
+                                    <>
+                                        <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow} value='수정'>수정</span>&nbsp;
+                                        <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
+                                    </>}
                                 </b>
                             </div>
                         </div>
