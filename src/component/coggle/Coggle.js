@@ -5,6 +5,8 @@ import { Table } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
 import axios from "axios";
 
 export default function Coggle() {
@@ -17,6 +19,8 @@ export default function Coggle() {
         , padding: '30px'
         , top: '100'
       };
+
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const [coggleList , setCoggleList] = useState([])
     const [pageInfo, setPageInfo] = useState({
@@ -136,6 +140,10 @@ export default function Coggle() {
                 <div style={{float:"right"}} >
                     <Button color='secondary' onClick={(e)=>{
                         e.preventDefault();
+                        if(userId == '') {
+                            alert('글을 작성하기 위해서는 로그인을 해주세요.');
+                            return;
+                        }
                         document.location.href="/coggle-write";
                     }}>글쓰기</Button>
                 </div>

@@ -93,6 +93,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
         
     /* textarea를 활성화 시키고 네비 버튼 비활성화 */
     const textAreaShow = (e) => {
+        // 비 로그인시 댓글작성 방지
         if (userId == '') {
             alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
             return;
