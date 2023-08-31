@@ -4,6 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 
@@ -17,6 +18,8 @@ export default function CoggleDetail() {
         , padding: '30px'
         , top: '100'
       };
+
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const [commentValue, setCommentValue] = useState('');
 
@@ -39,7 +42,7 @@ export default function CoggleDetail() {
     /* 댓글 [저장] - 저장 후 재조회 */
     const submit = () => {
         console.log(coggleNo)
-        const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:"yjou7454@gmail.com", depth:1}
+        const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:userId, depth:1}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -134,12 +137,14 @@ export default function CoggleDetail() {
                     <div>
                         <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                     </div>
+                    {/* 수정 삭제 버튼 */}
+                    {userId == coggle.writer.email && 
                     <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
                         <Button color='secondary' onClick={(e)=>{
                             navigate('/coggle-edit', { state: { coggleNo } });
                         }}>수정</Button>&nbsp;&nbsp;
                         <Button color='danger' onClick={del}>삭제</Button>
-                    </div>
+                    </div>}
                 </div>
             </div>
             {/* 글 내용 */}
