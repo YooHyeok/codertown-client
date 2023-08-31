@@ -18,7 +18,7 @@ export default function MammothDetail() {
 
     const userId = useSelector( (state) => {return state.UserId} );
     const accessToken = useSelector( (state) => {return state.Authorization} );
-
+    const [src, setSrc] = useState('/default-profile2.png')
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { mammothNo } = useParams();
@@ -45,6 +45,7 @@ export default function MammothDetail() {
                         location: response.data.location,
                         }      
             )
+            setSrc(`/profileImage/${response.data.writer.email}`)
         })
         .catch((error) => {
             console.log(error);
@@ -80,7 +81,7 @@ export default function MammothDetail() {
                 <div style = {{width:'1200px', margin: '0px auto', display:"flex", borderBottom: '0.1px solid lightgray'}}>
                     <div style={{width:'1200px',margin:"30px 20px 10px 10px"}}>
                         <h5><b>{mammoth.title}</b></h5>
-                        <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${mammoth.writer.email}`} alt="profile"/>
+                        <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                         <div>
                             <span>{mammoth.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
                         </div>
