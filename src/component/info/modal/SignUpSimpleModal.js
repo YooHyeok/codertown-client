@@ -76,21 +76,15 @@ export default function SignUpSimpleModal() {
      * @returns 
      */
     const pwdChkEqual = (currentValue, equalPwd, passwordRegFlag) => {
-        console.log(passwordRegFlag)
-        /* 패스워드 일치여부에 대해서도 다시 확인 */
         if (equalPwd != '') {
             let passwordChkFlag = (currentValue != '' && currentValue == equalPwd) ? true : false ;
-            if (passwordChkFlag) { 
-                // 패스워드 일치 true
+            if (passwordChkFlag) { // 패스워드 일치 true
                 validSuccessFail(pwdChkPermitRef, pwdChkForbidRef);
-                // setFlag({...flag, passwordChkFlag: passwordChkFlag}); //Flag에 true저장
                 passwordRegFlag == null ? setFlag({...flag, passwordChkFlag: passwordChkFlag}) : setFlag({...flag, passwordRegFlag:passwordRegFlag, passwordChkFlag: passwordChkFlag});
                 return;
             }
-            if (!passwordChkFlag) {
-                // 패스워드 일치 false
+            if (!passwordChkFlag) {// 패스워드 일치 false
                 validSuccessFail(pwdChkForbidRef, pwdChkPermitRef);
-                // setFlag({...flag, passwordChkFlag: passwordChkFlag}); //Flag에 false저장
                 passwordRegFlag == null ? setFlag({...flag, passwordChkFlag: passwordChkFlag}) : setFlag({...flag, passwordRegFlag:passwordRegFlag, passwordChkFlag: passwordChkFlag});
                 return;
             }
@@ -114,24 +108,19 @@ export default function SignUpSimpleModal() {
             setPassword(currentValue);
             const passwordRegExp = new RegExp(/^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\-])(?=.*[A-Z]).{9,}$/);// 비밀번호에 대한 정규표현식
             let passwordRegFlag = passwordRegExp.test(currentValue) ? true : false;
-            // pwdChkEqual(currentValue, passwordChk) // 패스워드 일치 체크!
             if (currentValue != '') { // 입력된 경우
                 if (passwordRegFlag) { 
                     // 정규표현식 결과 true
-                    // pwdChkEqual(currentValue, passwordChk) // 패스워드 일치 체크!
                     validSuccessFail(pwdPermitRef, pwdForbidRef);
                     setFlag({...flag, passwordRegFlag: passwordRegFlag}); //Flag에 true저장
-                    // pwdChkEqual2(currentValue, passwordRegFlag, passwordChk)
                     pwdChkEqual(currentValue, passwordChk, passwordRegFlag);
                     return;
                     
                 }
                 if (!passwordRegFlag) {
                 // 정규표현식 결과 false
-                    // pwdChkEqual(currentValue, passwordChk) // 패스워드 일치 체크!
                     validSuccessFail(pwdForbidRef, pwdPermitRef);
                     setFlag({...flag, passwordRegFlag:passwordRegFlag}); //Flag에 flase저장            
-                    // pwdChkEqual2(currentValue, passwordRegFlag, passwordChk)
                     pwdChkEqual(currentValue, passwordChk, passwordRegFlag);
                     return;
                 }
@@ -139,10 +128,7 @@ export default function SignUpSimpleModal() {
             }
             if (currentValue == '') {
                 // 백스페이스로 모두 지웠을경우
-                // pwdChkEqual2(currentValue, passwordRegFlag, passwordChk)
                 pwdChkEqual(currentValue, passwordChk, passwordRegFlag);
-
-                // pwdChkEqual(currentValue, passwordChk) // 패스워드 일치 체크!
                 emptyRefOff(pwdPermitRef, pwdForbidRef);
                 setFlag({...flag, passwordRegFlag: passwordRegFlag});
                 return;
@@ -151,23 +137,18 @@ export default function SignUpSimpleModal() {
         /* === 패스워드 확인 유효성 검증 === */
         if (e.target.name == 'passwordChk') {
             setPasswordChk(currentValue);
-            // pwdChkEqual(currentValue, password) //비밀번호 체크!
             pwdChkEqual(currentValue, password, null);
-            if (currentValue == '') {
-                // 백스페이스로 모두 지웠을경우
+            if (currentValue == '') {// 백스페이스로 모두 지웠을경우
                 emptyRefOff(pwdChkPermitRef, pwdChkForbidRef);
                 return;
             }
-            // pwdChkEqual(currentValue, password) //비밀번호 체크!
         }
         if (e.target.name == 'email') {
-            // setFlag({...flag, emailExsitsFlag:false})
+            setCertNumber({...certNumber, permitCertNumber:''}) //수정하는 순간 호스트서버로 부터 제공받은 인증번호 초기화
             setEmail({...email, inputEmail : currentValue, existsEmail: ''}); //email 값 초기화
-            // setEmail({...email, existsEmail: ''}); //입력되면 무조건 초기화
             const emailRegExp = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);// 비밀번호에 대한 정규표현식
             let emailRegFlag = emailRegExp.test(currentValue) ? true : false;
-            if (currentValue == '') {
-                // 백스페이스로 모두 지웠을경우
+            if (currentValue == '') {// 백스페이스로 모두 지웠을경우
                 setFlag({...flag, emailRegFlag: false, emailExsitsFlag:false});
                 emailForbidRegRef.current.style.display = 'none';
                 emptyRefOff(emailPermitExistRef, emailForbidExistRef);
@@ -178,13 +159,9 @@ export default function SignUpSimpleModal() {
                 validThreeCase(emailForbidRegRef, emailPermitExistRef, emailForbidExistRef); //첫번째 매개변수만 On한다.
                 return;
             }
-            // 사용 가능한 이메일 이라면!
-            if (currentValue != '' && emailRegFlag) {
+            if (currentValue != '' && emailRegFlag) {// 사용 가능한 이메일 이라면!
                 setFlag({...flag, emailRegFlag: emailRegFlag, emailExsitsFlag:false});
                 emptyRefOff(emailForbidRegRef, emailPermitExistRef);
-
-/*                 emailForbidRegRef.current.style.display = 'none';
-                emailPermitExistRef.current.style.display = 'none'; */
                 return;
             }
 
@@ -204,7 +181,6 @@ export default function SignUpSimpleModal() {
 
         /* [수정] */
         if (name == 'editBtn') {
-            console.log("[수정]")
         }
 
         /* [중복확인] */
@@ -221,18 +197,15 @@ export default function SignUpSimpleModal() {
             formData.append('email', email.inputEmail);
             axios.post('/email-exists' , formData)
             .then((response) => {
-                console.log(response.data.exists)
                 if (response.data.exists) { // 중복된 이메일
                     setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailForbidExistRef, emailForbidRegRef, emailPermitExistRef); //첫번째 매개변수만 On한다.
-                    console.log(response.data.exists)
                     return;
                 }
                 if (!response.data.exists) { // 사용가능한 이메일
                     setEmail({...email, existsEmail: email.inputEmail});
                     setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailPermitExistRef, emailForbidRegRef, emailForbidExistRef); //첫번째 매개변수만 On한다.
-                    console.log(response.data.exists)
                     return;
                 }
             })
@@ -254,6 +227,7 @@ export default function SignUpSimpleModal() {
                 .catch((error) => {
                     alert("메일 전송에 실패했습니다. \n 관리자에게 문의하세요.")
                 })
+                return;
             }
             alert("메일 전송 불가능. \n 입력하신 이메일 중복여부를 확인해주세요.")
             setFlag({...flag, emailAuthFlag:false});
@@ -261,10 +235,10 @@ export default function SignUpSimpleModal() {
 
         /* [인증] */
         if (name == 'authBtn') {
-            console.log("[인증]")
             if (certNumber.inputCertNumber == certNumber.permitCertNumber) {
-                alert('인증번호 완료')
+                alert('인증 완료')
                 setFlag({...flag, emailAuthFlag:true})
+                setEmail({...email, authEmail: email.existsEmail});
                 return;
             } 
             alert('인증번호가 일치하지 않습니다. \n 재 발급을 시도해보세요.')
@@ -274,8 +248,6 @@ export default function SignUpSimpleModal() {
 
         /* [가입신청] */
         if (name == 'submit') {
-            console.log(flag)
-            console.log(email)
             if (!flag.emailRegFlag) {
                 alert("이메일 양식 불량")
                 return;
@@ -296,12 +268,19 @@ export default function SignUpSimpleModal() {
                 alert("패스워드 불일치함")
                 return;
             }
-            submit();
+            if (flag.emailRegFlag && flag.emailExsitsFlag && flag.emailAuthFlag && flag.passwordRegFlag && flag.passwordChkFlag) submit();
         }
     }
 
     const submit = () => {
-        
+
+        axios.post("/sign-up", {email: email.authEmail, password:password})
+        .then((response) => {
+            if (response.data.code==0) document.location.href='/'
+        })
+        .catch((error) => {
+            console.log(error)
+        })
     }
     
     return(
