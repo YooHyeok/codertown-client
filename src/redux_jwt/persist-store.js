@@ -20,7 +20,8 @@ function reducer(currentState, action) {
     const newState = { ...currentState };
     switch (action.type) {
         case "NEWTOKEN": newState.Authorization = action.data; break;
-        case "USERID": newState.UserId = action.data;
+        case "USERID": newState.UserId = action.data; break;
+        case "NICKNAME": newState.Nickname = action.data;
     }
     return newState;
 }

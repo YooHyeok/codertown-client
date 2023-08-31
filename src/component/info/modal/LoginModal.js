@@ -2,6 +2,9 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, La
 import {useContext, useState} from 'react';
 import { HeaderLoginContext } from '../dropdown/HeaderDropDownLogin';
 import { Link } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+
 import axios from "axios";
 
 export default function LoginModal() {
@@ -17,6 +20,11 @@ export default function LoginModal() {
     const inputChange = (e) => {
         setSignInInfo({...signInInfo, [e.target.name]:e.target.value});
     }
+    const [cookie, setCookie] = useCookies(['refreshToken']);
+    const dispatch = useDispatch();
+
+    const userId = useSelector((state) => {return state.UserId});
+    const accessToken = useSelector((state) => {return state.Authorization});
 
     const submit = () => {
         if(signInInfo.email == ''){
@@ -30,11 +38,28 @@ export default function LoginModal() {
         axios.post('/sign-in', signInInfo)
         .then((response)=>{
             console.log(response.data);
-            if(response.data.siginStatus.code == 0) {
-
+            if(response.data.signStatus.code == -1) {
+                alert('입력하신 회원정보가 일치하지 않습니다. \n 회원 정보를 찾으시려면 아래 아이디/패스워드 찾기를 눌러주세요')
+                return;
+            }
+            if(response.data.signStatus.code == 0) {
+                dispatch({type:"NEWTOKEN", data: response.data.signInResult.createToken})
+                dispatch({type:"USERID", data: response.data.signInResult.email})
+                dispatch({type:"NICKNAME", data: response.data.signInResult.nickname})
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 1); //현재날짜 + 1 = 하루
+                setCookie('refreshToken', response.data.signInResult.refreshToken, {url:'/',expires})
+                if (userId != null && accessToken != null) {
+                    return userId;
+                }
             }
         })
-        .catch()
+        .then((userId)=>{
+            if (userId != null) document.location.href = "/"
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
     }
     return(
             <Modal isOpen={context.loginShow} toggle={context.loginToggle} style={modalStyle}>

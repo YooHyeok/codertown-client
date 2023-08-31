@@ -23,6 +23,7 @@ export default function HeaderDropDownLogout() {
     e.preventDefault();
     dispatch({ type: "NEWTOKEN", data: '' })
     dispatch({ type: "USERID", data: '' })
+    dispatch({ type: "NICKNAME", data: '' })
     document.location.href = '/';
   }
   return (

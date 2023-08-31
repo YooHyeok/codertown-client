@@ -124,7 +124,7 @@ export default function Header() {
                     {/* 푸시알림 드롭다운 */}
                     <li className="nav-item-dropdown">
                     <HeaderDropDownContext.Provider value={contextValue}>
-                            <HeaderDropDownPushAlarm/>
+                        {userId != '' && <HeaderDropDownPushAlarm/>}
                     </HeaderDropDownContext.Provider>
                         
                     </li>
@@ -133,7 +133,6 @@ export default function Header() {
                          <HeaderDropDownContext.Provider value={contextValue}>
                             {token == '' && <HeaderDropDownLogin/> }
                             {userId != '' && <HeaderDropDownLogout />}
-                            <HeaderDropDownLogout />
                         </HeaderDropDownContext.Provider>
                     </li>
                 </ul>
