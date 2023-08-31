@@ -7,7 +7,7 @@ import { Button } from 'reactstrap';
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
 
-export default function ChildComment({ commentNo, coggleNo, writer, nickname, content, firstRegDate, children, parentNo, mentionUser, status, commentSearchAxios }) {
+export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, children, parentNo, mentionUser, status, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -143,7 +143,10 @@ export default function ChildComment({ commentNo, coggleNo, writer, nickname, co
             <div key={commentNo} style={{width:'1000px', margin:"30px auto"}}>
                 <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
                 <div ref={contentDiv}>
-                    <span>{nickname}</span> <span style={{color:'gray'}}>{firstRegDate}</span>
+                    {coggleWriter.email == writer.email && 
+                    <span style={{color:'gray'}}>[작성자] </span>} 
+                    <span>{nickname} </span>
+                    <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div>
                         <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
                             <span style={{color:'gray'}}>@{mentionUser} </span>

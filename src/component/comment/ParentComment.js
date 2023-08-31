@@ -146,7 +146,7 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
                 <div ref={contentDivRef} style={{display:'block'}}>
                     {coggleWriter.email == writer.email && 
                     <span style={{color:'gray'}}>[작성자] </span>} 
-                    <span>{nickname}</span>
+                    <span>{nickname} </span>
                     <span style={{color:'gray'}}>{firstRegDate}</span>
                     <div style={{width:'1000px', margin:'0px 0px 0px 50px'}}>
                         <span dangerouslySetInnerHTML={{ __html: processedContent }}/>
@@ -196,6 +196,7 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
                 key={child.commentNo}
                 commentNo={child.commentNo}
                 coggleNo={coggleNo}
+                coggleWriter={coggleWriter}
                 writer={child.writer}
                 nickname={child.writer.nickname}
                 content={child.content}
