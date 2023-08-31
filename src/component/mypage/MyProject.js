@@ -33,7 +33,7 @@ export default function MyProject() {
      * @param {} page : 선택된 페이지 정보 파라미터
      */
     const serverRequest = (page, keyword) => {
-        axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}`)
+        axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
         .then((response)=> {
             setArticleCount(response.data.articleCount)
             setRecruitList(response.data.recruitList)
