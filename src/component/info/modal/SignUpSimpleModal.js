@@ -14,15 +14,16 @@ export default function SignUpSimpleModal() {
         // , transform: "translate(15%,-50%)"
     }
     const [errorMessage, setErrorMessage] = useState(''); // 입력한 이메일
-    const [inputEmail, setInputEmail] = useState(''); // 입력한 이메일
-    const [emailAuth, setEmailAuth] = useState({authEmail:'', emailAuthFlag: false}); // 입력한 이메일
+    // const [inputEmail, setInputEmail] = useState(''); // 입력한 이메일
+    const [email, setEmail] = useState({inputEmail: '', existsEmail:'', authEmail:''}); // 검증된 이메일
     const [certNumber, setCertNumber] = useState(''); // 입력한 이메일
     const [password, setPassword] = useState(''); //비밀번호
     const [passwordChk, setPasswordChk] = useState(''); //비밀번호 확인
 
-    const [flag, setFlag] = useState({emailRegFlag:false, emailAuthFlag:false, passwordRegFlag:false, passwordChkFlag:false})
-    const [signUpRequest, setSignUpRequest] = useState({email: emailAuth.authEmail, password:password});
+    const [flag, setFlag] = useState({emailRegFlag:false, emailExsitsFlag:false,  emailAuthFlag:false, passwordRegFlag:false, passwordChkFlag:false})
+    const [signUpRequest, setSignUpRequest] = useState({email: email.authEmail, password:password});
 
+    const emailInputRef = useRef();
     const emailPermitExistRef = useRef();
     const emailForbidExistRef = useRef();
     const emailForbidRegRef = useRef();
@@ -160,23 +161,26 @@ export default function SignUpSimpleModal() {
             // pwdChkEqual(currentValue, password) //비밀번호 체크!
         }
         if (e.target.name == 'email') {
-            setInputEmail(currentValue); //email 값 초기화
+            // setFlag({...flag, emailExsitsFlag:false})
+            setEmail({...email, inputEmail : currentValue, existsEmail: ''}); //email 값 초기화
+            // setEmail({...email, existsEmail: ''}); //입력되면 무조건 초기화
             const emailRegExp = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);// 비밀번호에 대한 정규표현식
             let emailRegFlag = emailRegExp.test(currentValue) ? true : false;
             if (currentValue == '') {
                 // 백스페이스로 모두 지웠을경우
+                setFlag({...flag, emailRegFlag: false, emailExsitsFlag:false});
                 emailForbidRegRef.current.style.display = 'none';
                 emptyRefOff(emailPermitExistRef, emailForbidExistRef);
                 return;
             }
-            if (!emailRegFlag) {
-                setFlag({...flag, emailRegFlag: emailRegFlag});
+            if (currentValue != '' && !emailRegFlag) {
+                setFlag({...flag, emailRegFlag: emailRegFlag, emailExsitsFlag:false});
                 validThreeCase(emailForbidRegRef, emailPermitExistRef, emailForbidExistRef); //첫번째 매개변수만 On한다.
                 return;
             }
             // 사용 가능한 이메일 이라면!
-            if (emailRegFlag) {
-                setFlag({...flag, emailRegFlag: emailRegFlag});
+            if (currentValue != '' && emailRegFlag) {
+                setFlag({...flag, emailRegFlag: emailRegFlag, emailExsitsFlag:false});
                 emailForbidRegRef.current.style.display = 'none';
                 return;
             }
@@ -198,7 +202,7 @@ export default function SignUpSimpleModal() {
             console.log("[수정]")
         }
         if (name == 'existBtn') {
-            if (inputEmail == '') {
+            if (email.inputEmail == '') {
                 alert("이메일을 입력해주세요.");
                 return;
             }
@@ -207,24 +211,22 @@ export default function SignUpSimpleModal() {
                 return;
             }
             const formData = new FormData();
-            formData.append('email', inputEmail);
+            formData.append('email', email.inputEmail);
             axios.post('/email-exists' , formData)
             .then((response) => {
                 console.log(response.data.exists)
                 if (response.data.exists) { // 중복된 이메일
-                    setEmailAuth({authEmail: inputEmail, emailAuthFlag: response.data.exists});
-                    setFlag({...flag, emailAuthFlag: !response.data.exists})
+                    setEmail({...email, existsEmail: email.inputEmail});
+                    setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailForbidExistRef, emailForbidRegRef, emailPermitExistRef); //첫번째 매개변수만 On한다.
                     console.log(response.data.exists)
-                    console.log("중복된 이메일",emailAuth)
                     return;
                 }
                 if (!response.data.exists) { // 사용가능한 이메일
-                    setEmailAuth({authEmail: inputEmail, emailAuthFlag: response.data.exists});
-                    setFlag({...flag, emailAuthFlag: !response.data.exists})
+                    setEmail({...email, existsEmail: email.inputEmail});
+                    setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailPermitExistRef, emailForbidRegRef, emailForbidExistRef); //첫번째 매개변수만 On한다.
                     console.log(response.data.exists)
-                    console.log("사용가능 이메일",emailAuth)
                     return;
                 }
             })
@@ -240,13 +242,14 @@ export default function SignUpSimpleModal() {
         }
         console.log(e)
         if (name == 'submit') {
-            
-           /*  if (!flag.emailRegFlag) {
+            console.log(flag)
+
+            if (!flag.emailRegFlag) {
                 alert("이메일 양식 불량")
                 return;
             }
-            if (!flag.emailAuthFlag) {
-                alert("중복인증 안됬음")
+            if (!flag.emailExsitsFlag) {
+                alert("중복인증 체크")
                 return;
             }
             if (!flag.passwordRegFlag) {
@@ -256,8 +259,7 @@ export default function SignUpSimpleModal() {
             if (!flag.passwordChkFlag) {
                 alert("패스워드 불일치함")
                 return;
-            } */
-            console.log(flag)
+            }
             // submit();
         }
     }
@@ -281,10 +283,10 @@ export default function SignUpSimpleModal() {
                                     <span ref={emailForbidRegRef} style={{display:'none'}}>&#10060; 이메일 양식 오류</span>
                                     <span ref={emailForbidExistRef} style={{display:'none'}}>&#10060; 이미 사용중 입니다</span>
                                     <span ref={emailPermitExistRef} style={{display:'none'}}>&#10004; 사용가능</span>
-                                    <Input type='email' name='email' id='email' value={inputEmail} onChange={changeEvent} />
+                                    <Input ref={emailInputRef} type='email' name='email' id='email' value={email.inputEmail} onChange={changeEvent} />
                                 </Col>
                                 <Col sm={4}style={{width:'77px', paddingLeft:'0px'}}>
-                                    <Button name="editBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent}>수정</Button>
+                                    <Button name="editBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent} disabled>수정</Button>
                                     <Button name="existBtn" style={{position:'relative', width:'100%', top:'10px', float:'right'}} outline color='secondary' size="sm" onClick={clickEvent}>중복 확인</Button>
                                 </Col>
                             </Row>
