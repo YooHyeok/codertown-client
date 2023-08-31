@@ -55,7 +55,8 @@ export default function LoginModal() {
             }
         })
         .then((userId)=>{
-            if (userId != null) document.location.href = "/"
+            // if (userId != null) document.location.href = "/"
+            if (userId != null) context.loginToggle();
         })
         .catch((error)=>{
             console.log(error)

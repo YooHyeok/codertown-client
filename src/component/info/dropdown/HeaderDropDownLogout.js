@@ -25,7 +25,7 @@ export default function HeaderDropDownLogout() {
     dispatch({ type: "NEWTOKEN", data: '' })
     dispatch({ type: "USERID", data: '' })
     dispatch({ type: "NICKNAME", data: '' })
-    document.location.href = '/';
+    // document.location.href = '/';
   }
   return (
     <Dropdown isOpen={context.dropdownOpenLogOut} fade="true" toggle={context.toggleLogOut}>
