@@ -93,6 +93,11 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
         
     /* textarea를 활성화 시키고 네비 버튼 비활성화 */
     const textAreaShow = (e) => {
+        if (userId == '') {
+            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            return;
+        }
+        
         // 추가 모드 - 네비 비활성화
         if(e.target.id == 'addSpan') {
             textAddDiv.current.style.display ='block';

@@ -92,6 +92,12 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
 
     /* textarea를 활성화 시키고 네비 버튼 비활성화 */
     const textAreaShow = (e) => {
+        // 비 로그인시 댓글작성 방지
+        if (userId == '') {
+            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            return;
+        }
+
         // 추가 모드 - 네비 비활성화
         if(e.target.id == 'addSpan') {
             textAddDivRef.current.style.display ='block';
@@ -106,6 +112,7 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
 
     /* textarea내용 초기화 및 비활성화 시키고 네비 버튼 활성화 */
     const textAreaNone = (e) => {
+        
         // 추가 모드
         if(e.target.name == 'addCancelBtn') {
             addTeatAreaOff(); // 추가영역 텍스트아리아 OFF
@@ -154,8 +161,10 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
                             <b>
                                 <span style={{cursor: 'pointer'}} id='addSpan' onClick={textAreaShow}>댓글</span>&nbsp;&nbsp;
                                 {userId == writer.email && 
-                                <><span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
-                                <span style={{cursor: 'pointer'}} onClick={del} >지우기</span></>}
+                                <>
+                                    <span style={{cursor: 'pointer'}} id='editSpan' onClick={textAreaShow}>수정</span>&nbsp;&nbsp;
+                                    <span style={{cursor: 'pointer'}} onClick={del} >지우기</span>
+                                </>}
                             </b>
                         </div>
                     </div>
