@@ -2,7 +2,7 @@
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
@@ -24,7 +24,15 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     const [editCommentValue, setEditCommentValue] = useState(content);
 
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const [src, setSrc] = useState('/default_profile3.png');
+    useEffect(() => {
+        axios.get(`/profileImage/${writer.email}`)
+        .then((response)=>{
+            console.log(response)
+            if (response.data == '') setSrc('/default_profile3.png')
+            else setSrc(`/profileImage/${writer.email}`);
+        })
+    }, [])
     /* 댓글 [저장] */
     const submit = () => {
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: nickname}
@@ -149,7 +157,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
             { (status == true) && <div style={{width:'1000px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
             { (status == false) && 
             <div key={commentNo} style={{width:'1000px', margin:"30px auto"}}>
-                <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/${writer.email}`} alt="profile"/>
+                <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                 <div ref={contentDiv}>
                     {coggleWriter.email == writer.email && 
                     <span style={{color:'gray'}}>[작성자] </span>} 
