@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
 
@@ -17,6 +17,7 @@ export default function HeaderDropDownLogout() {
       localStorage.setItem('activeTab', '1');
     };
 
+  const location = useLocation();
   const context = useContext(HeaderDropDownContext);
   const dispatch = useDispatch();
 
@@ -25,7 +26,11 @@ export default function HeaderDropDownLogout() {
     dispatch({ type: "NEWTOKEN", data: '' })
     dispatch({ type: "USERID", data: '' })
     dispatch({ type: "NICKNAME", data: '' })
-    // document.location.href = '/';
+    console.log(location.pathname)
+    if (location.pathname == '/mypage') {
+      document.location.href = '/';
+      return;
+    }
   }
   return (
     <Dropdown isOpen={context.dropdownOpenLogOut} fade="true" toggle={context.toggleLogOut}>
