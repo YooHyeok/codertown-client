@@ -50,3 +50,8 @@ td > a
 .toastui-editor-contents p {
   font-size: 15px;
 }
+
+
+.tooltip-inner {
+  max-width: 100% !important; 
+}

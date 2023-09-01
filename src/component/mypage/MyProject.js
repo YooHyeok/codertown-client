@@ -122,9 +122,9 @@ export default function MyProject() {
                             </select>
                             </td>
                             <td>{obj.count}</td>
-                            <td>
-                                <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"20px" }} onClick={(e)=>{e.preventDefault();}}>
-                                    <span style={{position:"relative", height:"20px", top:"-10px", fontSize:"15px"}}>상세보기</span>
+                            <td style={{ padding:"0.5em"}}>
+                                <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{e.preventDefault();}}>
+                                    <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
                                 </Button>
                             </td>
                         </tr>
