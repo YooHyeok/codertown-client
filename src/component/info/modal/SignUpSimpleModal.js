@@ -32,6 +32,13 @@ export default function SignUpSimpleModal() {
     const certPermitRef = useRef();
     const certForbidRef = useRef();
 
+    const [initBtnDisabled, setInitBtnDisabled] = useState(true);
+    const [emailInputDisabled, setEmailInputDisabled] = useState(false);
+    const [existBtnDisabled, setExistBtnDisabled] = useState(false);
+    const [certNumberDisabled, setCertNumberDisabled] = useState(true);
+    const [authBtnDisabled, setAuthBtnDisabled] = useState(true);
+    const [sendBtnDisabled, setSendBtnDisabled] = useState(true);
+
 
     /**
      * 백스페이스로 모두 지웠을경우
@@ -178,7 +185,18 @@ export default function SignUpSimpleModal() {
         let name = e.target.name;
 
         /* [수정] */
-        if (name == 'editBtn') {
+        if (name == 'initBtn') {
+            if (window.confirm('초기화시 중복확인 본인인증 모두 다시 진행하셔야 합니다. \n 초기화 하시겠습니까?')) {
+                emailPermitExistRef.current.style.display = 'none';
+                setFlag({...flag, emailRegFlag:false, emailExsitsFlag:false, emailAuthFlag: false});
+                setEmail({...email, inputEmail: '', existsEmail:'', authEmail:''});
+                setCertNumber({...certNumber, inputCertNumber: ''});
+                setInitBtnDisabled(true);
+                setEmailInputDisabled(false);
+                setExistBtnDisabled(false);
+                return;
+            }
+            
         }
 
         /* [중복확인] */
@@ -204,6 +222,9 @@ export default function SignUpSimpleModal() {
                     setEmail({...email, existsEmail: email.inputEmail});
                     setFlag({...flag, emailExsitsFlag: !response.data.exists})
                     validThreeCase(emailPermitExistRef, emailForbidRegRef, emailForbidExistRef); //첫번째 매개변수만 On한다.
+                    setSendBtnDisabled(false);
+                    setCertNumberDisabled(false);
+                    setAuthBtnDisabled(false);
                     return;
                 }
             })
@@ -233,10 +254,25 @@ export default function SignUpSimpleModal() {
 
         /* [인증] */
         if (name == 'authBtn') {
+            if( certNumber.inputCertNumber == '' ) {
+                alert('인증번호를 입력해주세요.');
+                return;
+            }
+            if (email.existsEmail == '') {
+                alert('인증번호가 발급된 상태에서 인증되기 전 입력하신 이메일이 수정되었습니다. \n 다시한번 수정하신 메일을 중복 확인 하시 후 번호를 발급받아 주세요.');
+                return;
+            }
             if (certNumber.inputCertNumber == certNumber.permitCertNumber) {
                 alert('인증 완료')
                 setFlag({...flag, emailAuthFlag:true})
                 setEmail({...email, authEmail: email.existsEmail});
+                setInitBtnDisabled(false);
+                setEmailInputDisabled(true);
+                setExistBtnDisabled(true);
+                setCertNumberDisabled(true);
+                setSendBtnDisabled(true);
+                setAuthBtnDisabled(true);
+
                 return;
             } 
             alert('인증번호가 일치하지 않습니다. \n 재 발급을 시도해보세요.')
@@ -246,6 +282,13 @@ export default function SignUpSimpleModal() {
 
         /* [가입신청] */
         if (name == 'submit') {
+            console.log(certNumber)
+            console.log(email)
+            console.log(flag)
+            if (email.inputEmail == '') {
+                alert("이메일을 입력해 주세요")
+                return;
+            }
             if (!flag.emailRegFlag) {
                 alert("이메일 양식 불량")
                 return;
@@ -258,14 +301,24 @@ export default function SignUpSimpleModal() {
                 alert("인증번호 체크")
                 return;
             }
+            if (password == '') {
+                alert("패스워드를 입력해 주세요.")
+                return;
+            }
             if (!flag.passwordRegFlag) {
-                alert("패스워드 표현식 안됨")
+                alert("패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.")
                 return;
             }
+            if (passwordChk == '') {
+                alert("재입력을 입력해 주세요")
+                return;
+            } 
             if (!flag.passwordChkFlag) {
-                alert("패스워드 불일치함")
+                alert("패스워드가 일치하지 않습니다.")
                 return;
             }
+            
+            
             if (flag.emailRegFlag && flag.emailExsitsFlag && flag.emailAuthFlag && flag.passwordRegFlag && flag.passwordChkFlag) submit();
         }
     }
@@ -295,11 +348,11 @@ export default function SignUpSimpleModal() {
                                     <span ref={emailForbidRegRef} style={{display:'none'}}>&#10060; 이메일 양식 오류</span>
                                     <span ref={emailForbidExistRef} style={{display:'none'}}>&#10060; 이미 사용중 입니다</span>
                                     <span ref={emailPermitExistRef} style={{display:'none'}}>&#10004; 사용가능</span>
-                                    <Input ref={emailInputRef} type='email' name='email' id='email' value={email.inputEmail} onChange={changeEvent} />
+                                    <Input ref={emailInputRef} type='email' name='email' id='email' value={email.inputEmail} onChange={changeEvent} disabled={emailInputDisabled}/>
                                 </Col>
                                 <Col sm={4}style={{width:'77px', paddingLeft:'0px'}}>
-                                    <Button name="editBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent} disabled>수정</Button>
-                                    <Button name="existBtn" style={{position:'relative', width:'100%', top:'10px', float:'right'}} outline color='secondary' size="sm" onClick={clickEvent}>중복 확인</Button>
+                                    <Button name="initBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent} disabled={initBtnDisabled}>초기화</Button>
+                                    <Button name="existBtn" style={{position:'relative', width:'100%', top:'10px', float:'right'}} outline color='secondary' size="sm" onClick={clickEvent} disabled={existBtnDisabled}>중복 확인</Button>
                                 </Col>
                             </Row>
                         </FormGroup>
@@ -309,11 +362,11 @@ export default function SignUpSimpleModal() {
                                     <Label htmlFor='certNumber' sm={3}>인증번호</Label>
                                     <span ref={certPermitRef} style={{display:'none'}}>&#10004; 인증완료</span>
                                     <span ref={certForbidRef} style={{display:'none'}}>&#10060; 인증실패</span>
-                                    <Input type='text' name='certNumber' id='certNumber' value={certNumber.inputCertNumber} onChange={changeEvent} />
+                                    <Input type='text' name='certNumber' id='certNumber' value={certNumber.inputCertNumber} onChange={changeEvent} disabled={certNumberDisabled}/>
                                 </Col>
                                 <Col sm={4}style={{width:'77px', paddingLeft:'0px'}}>
-                                    <Button name="sendBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent}>(재)발급</Button>
-                                    <Button name="authBtn" style={{position:'relative', width:'100%', top:'10px', float:'right'}} outline color='secondary' size="sm" onClick={clickEvent}>인증</Button>
+                                    <Button name="sendBtn" style={{float:'right', width:'100%'}} outline color='secondary' size="sm" onClick={clickEvent} disabled={sendBtnDisabled}>(재)발급</Button>
+                                    <Button name="authBtn" style={{position:'relative', width:'100%', top:'10px', float:'right'}} outline color='secondary' size="sm" onClick={clickEvent} disabled={authBtnDisabled}>인증</Button>
                                 </Col>
                             </Row>
                             <Row>
