@@ -26,6 +26,12 @@ export default function LoginModal() {
     const userId = useSelector((state) => {return state.UserId});
     const accessToken = useSelector((state) => {return state.Authorization});
 
+    const inputEnterLogin = (e)=>{
+        console.log(e)
+        if (e.key == 'Enter') {
+            submit();
+        }
+    }
     const submit = () => {
         if(signInInfo.email == ''){
             alert('이메일을 입력해주세요');
@@ -73,13 +79,13 @@ export default function LoginModal() {
                             <Row>
                                 <Col sm={12}>
                                     <Label htmlFor='email' sm={2}>이메일</Label>
-                                    <Input type='text' name='email' id='email' value={signInInfo.email} onChange={inputChange}/>
+                                    <Input type='text' name='email' id='email' value={signInInfo.email} onChange={inputChange} onKeyDown={inputEnterLogin}/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12}>
                                     <Label htmlFor='password' sm={2}>패스워드</Label>
-                                    <Input type='password' name='password' id='password' value={signInInfo.password} onChange={inputChange}/>
+                                    <Input type='password' name='password' id='password' value={signInInfo.password} onChange={inputChange} onKeyDown={inputEnterLogin}/>
                                 </Col>
                             </Row>
                         </FormGroup>
