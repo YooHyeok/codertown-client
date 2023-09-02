@@ -47,11 +47,18 @@ td > a
   /* text-align: right; */
 }
 
+/* Toast Viewr Content FontSize */
 .toastui-editor-contents p {
   font-size: 15px;
 }
 
-
+/* ToolTip 너비, 배경색 */
 .tooltip-inner {
   max-width: 100% !important; 
+  background-color: #6C757D !important;
+}
+
+/* ToolTip 배경 화살표 색 */
+.tooltip-arrow::before {
+  border-bottom-color: #6C757D !important;
 }

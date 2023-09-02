@@ -117,7 +117,7 @@ export default function Cokkiri() {
                                 <tr key={obj.recruitDto.recruitNo}>
                                     <td>{obj.recruitDto.recruitNo}</td>
                                     <td><Link to={`/cokkiri-detail/${obj.recruitDto.recruitNo}`}>{obj.recruitDto.title}</Link></td>
-                                    <td style={{ padding:"0.5em"}} >
+                                    <td style={{ padding:"3px"}} >
                                             <Button style={{fontSize:'10px'}}
                                                     id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)}
                                             >보기</Button>
