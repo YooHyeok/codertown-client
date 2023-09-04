@@ -198,7 +198,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
                     <div style={{paddingBottom:'30px'}}>
                         <div>
                             <textarea ref={editTextarea} name="editTextarea" value={editCommentValue} onChange={textAreaInputChange}
-                            style={{display:'inline', width:'958px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                            style={{display:'inline', width:'958px', height:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
                         <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
                             <Button outline size={'sm'} name="editCancelBtn" onClick={textAreaNone}>취소</Button> &nbsp;
