@@ -34,14 +34,25 @@ export default function DirectMessengerButton() {
     return (<div>
                 <div className="dm-icon-button" style={dmButtonStyle}>
                     <Messenger className="inline" size={30}  style={{width:"35px", height:"35px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
-                    {/* <div style={{width:"40px", height:"35px", background:"white", color:"white", borderRadius:"20%"}}>
-                      <img src='/baby-elephant.png'style={{width:"35px", height:"30px", margin: "2px auto"}}/>
-                    </div> */}
                 </div>
+                {/* 채팅 컴포넌트 */}
                 <div style={dmFrameStyle}>
-                    <iframe style={{position:"relative!important", height:"100%!important", width:"100%!important", border:"none!important"}}>
+                    {/* <iframe style={{position:"relative!important", height:"100%!important", width:"100%!important", border:"none!important"}}>
 asdasdasdasd
-                    </iframe>
+                    </iframe> */}
+                    {/* 채팅 리스트 컴포넌트 */}
+                    <div className="chat-list" style={{width:'450px', height:'500px', backgroundColor:'white', border : "1px solid lightgray"}}>
+
+                    </div>
+                    {/* 채팅방 입장 컴포넌트 */}
+                    <div className="chat-into" style={{width:'450px', height:'500px', backgroundColor:'white', border : "1px solid lightgray"}}>
+                      {/* 채팅방 제목 영역*/}
+                      <div className="chat-into-header" style={{width:'448px', height:'70px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}></div>
+                      {/* 채팅방 대화내용 리스트 영역 */}
+                      <div className="chat-into-body" style={{width:'448px', height:'358px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}></div>
+                      {/* 채팅방 대화 전송 영역 */}
+                      <div className="chat-into-footer" style={{width:'448px', height:'70px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}></div>
+                    </div>
                 </div>
             </div>
     )
