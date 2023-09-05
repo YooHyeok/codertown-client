@@ -62,7 +62,7 @@ export default function DirectMessengerButton() {
     }
 
     const dmButtonOnStyle = {
-        display: 'none'
+        display: 'flex'
         // , flexWrap: 'nowrap'
         // , width: 'auto'
         /* 위치 */
@@ -81,10 +81,10 @@ export default function DirectMessengerButton() {
         , alignItems: 'center'
         , cursor: 'pointer'
         , transition: 'visibility 400ms ease 0s'
-        , animation: '400ms cubic-bezier(0.36, 0, 0, 1) 0s 1 normal both running jiroXv'
+        , boxShadow: 'rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.15) 0px 8px 30px'
       };
       const dmButtonOffStyle = {
-        display: 'flex'
+        display: 'none'
         // , flexWrap: 'nowrap'
         // , width: 'auto'
         /* 위치 */
@@ -115,6 +115,7 @@ export default function DirectMessengerButton() {
         , right: "50px"
         , textAlign:'left'
         , height: "calc(100% - 116px) !important"
+        , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
       };
 
       const dataSource = [
