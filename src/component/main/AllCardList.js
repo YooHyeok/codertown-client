@@ -30,7 +30,7 @@ export default function AllCardList() {
                         <CardSubtitle className="mb-2 text-muted" tag="h6" >목표 기간 | XX주 </CardSubtitle>
                         <CardTitle className="mb-2 text-muted">맘모스/코끼리 글 제목입니다.</CardTitle>
                         <CardText className="mb-2 text-muted"tag="h6">작성자: 유혁스쿨</CardText>
-                        <Button outline size='sm' style={{float:'right'}}>참여정보</Button>
+                        {/* <Button outline size='sm' style={{float:'right'}}>참여정보</Button> */}
                     </CardBody>
                 </Card>
             ))}

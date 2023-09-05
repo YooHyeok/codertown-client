@@ -136,6 +136,87 @@
   width: 100%;
   height: 100%;
 }
+/* ===================================================== 카드 디자인 CSS ======================================================== */
+.css-a6vgi6 {
+  margin: 10px 0px 0px;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -1px;
+  min-height: 50px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.studyItem_schedule__3oAnA {
+  display: flex;
+  font-size: 14px;
+  grid-gap: 8px;
+  gap: 8px;
+  color: #999;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+/* 프로젝트 파트 리스트 ul태그 */
+.main_project_part_list_ul {
+  height: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  grid-gap: 5px;
+  gap: 3px;
+}
+/* 프로젝트 파트 리스트 li태그 */
+.main_project_part_list_li {
+  white-space: nowrap;
+  display: inline-block;
+  padding: 3px 10px;
+  grid-gap: 5px;
+  gap: 5px;
+  height: 22px;
+  background: #f2f4f8;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 16px;
+  color: #3e86f5;
+}
+
+.studyItem_badgeWrapper__3AW7k {
+  display: flex;
+  align-items: center;
+  grid-gap: 3px;
+  gap: 3px;
+}
+.badge_badge__ZfNyB {
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -.04em;
+}
+.badge_study__39LDm {
+  border-radius: 20px;
+  padding: 4px 12px;
+  background: #efefef;
+  color: #656565;
+}
+
+.studyItem_info__OFIQU {
+  display: flex;
+  /* font-size: 14px; */
+  font-weight: 500;
+  justify-content: space-between;
+  letter-spacing: -.04em;
+  margin-top: 8px;
+}
+
+
 /* .App {
   text-align: center;
 }
