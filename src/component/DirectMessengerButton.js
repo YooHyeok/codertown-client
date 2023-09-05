@@ -71,8 +71,8 @@ export default function DirectMessengerButton() {
         , bottom: '150px'
         , right: '100px'
         /* 크기 및 색상 */
-        , width:"60px"
-        , height:"60px"
+        , width:"50px"
+        , height:"50px"
         // , backgroundColor:"#8B00FF"
         , background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"
         , borderRadius:"43%"
@@ -160,7 +160,7 @@ export default function DirectMessengerButton() {
 
     return (<div>
                 <div className="dm-icon-button" style={dmButtonStyle}>
-                    <Messenger className="inline" size={30}  style={{width:"35px", height:"35px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
+                    <Messenger className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
                 </div>
                 {/* 채팅 컴포넌트 */}
                 <div style={dmFrameStyle}>
