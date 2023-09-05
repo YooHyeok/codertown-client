@@ -1,5 +1,5 @@
 import { Button } from 'reactstrap';
-import { Messenger } from 'react-bootstrap-icons';
+import { Messenger, X } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
 import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements";
 
@@ -61,15 +61,15 @@ export default function DirectMessengerButton() {
       
     }
 
-    const dmButtonStyle = {
-        display: 'flex'
+    const dmButtonOnStyle = {
+        display: 'none'
         // , flexWrap: 'nowrap'
         // , width: 'auto'
         /* 위치 */
         , position: 'fixed' //고정
         , zIndex: '10'
-        , bottom: '150px'
-        , right: '100px'
+        , bottom: '50px'
+        , right: '50px'
         /* 크기 및 색상 */
         , width:"50px"
         , height:"50px"
@@ -79,14 +79,40 @@ export default function DirectMessengerButton() {
         , border:'none'
         , justifyContent: 'center'
         , alignItems: 'center'
+        , cursor: 'pointer'
+        , transition: 'visibility 400ms ease 0s'
+        , animation: '400ms cubic-bezier(0.36, 0, 0, 1) 0s 1 normal both running jiroXv'
+      };
+      const dmButtonOffStyle = {
+        display: 'flex'
+        // , flexWrap: 'nowrap'
+        // , width: 'auto'
+        /* 위치 */
+        , position: 'fixed' //고정
+        , zIndex: '10'
+        , bottom: '50px'
+        , right: '50px'
+        /* 크기 및 색상 */
+        , width:"50px"
+        , height:"50px"
+        , background:"linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%)"
+        // , backgroundColor:"rgba(247, 247, 248, 0.9)"
+        , borderRadius:"43%"
+        , border:'none'
+        , justifyContent: 'center'
+        , alignItems: 'center'
+        , cursor: 'pointer'
+        , transition: 'visibility 400ms ease 0s'
+        , animation: '400ms cubic-bezier(0.36, 0, 0, 1) 0s 1 normal both running jiroXv'
+        , boxShadow: 'rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.15) 0px 8px 30px'
       };
 
       const dmFrameStyle = {
         display: 'flex'
         , position: 'fixed' //고정
         , zIndex: '10'
-        , bottom: "216px"
-        , right: "100px"
+        , bottom: "110px"
+        , right: "50px"
         , textAlign:'left'
         , height: "calc(100% - 116px) !important"
       };
@@ -159,8 +185,11 @@ export default function DirectMessengerButton() {
     ]
 
     return (<div>
-                <div className="dm-icon-button" style={dmButtonStyle}>
+                <div className="dm-icon-open-button" style={dmButtonOnStyle}>
                     <Messenger className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
+                </div>
+                <div className="dm-icon-close-button" style={dmButtonOffStyle}>
+                    <X className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%)", color:"rgba(0, 0, 0, 0.6)"}}/>
                 </div>
                 {/* 채팅 컴포넌트 */}
                 <div style={dmFrameStyle}>
