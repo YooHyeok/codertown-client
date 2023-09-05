@@ -1,5 +1,5 @@
 import { Button } from 'reactstrap';
-import { Messenger, X } from 'react-bootstrap-icons';
+import { Messenger, X, ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
 import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements";
 
@@ -7,7 +7,7 @@ import { useRef, useState, useEffect} from 'react';
 
 // npm install react-chat-elements --save --force
 
-export default function DirectMessengerButton() {
+export default function DirectMessengerExample() {
 
     const textareaRef = useRef('');
     const chatContainerRef = useRef('');
@@ -72,7 +72,6 @@ export default function DirectMessengerButton() {
         /* 크기 및 색상 */
         , width:"50px"
         , height:"50px"
-        // , backgroundColor:"#8B00FF"
         , background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"
         , borderRadius:"43%"
         , border:'none'
@@ -93,7 +92,6 @@ export default function DirectMessengerButton() {
         , width:"50px"
         , height:"50px"
         , background:"linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%)"
-        // , backgroundColor:"rgba(247, 247, 248, 0.9)"
         , borderRadius:"43%"
         , border:'none'
         , justifyContent: 'center'
@@ -117,10 +115,10 @@ export default function DirectMessengerButton() {
 
       const dataSource = [
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `profileImage/${'yjou7454@gmail.com'}`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
-          title: 'Kursat', //사용자 이름
-          subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
+          title: 'yjou7454', //사용자 이름
+          subtitle: "프론트앤드 자리 신청 수락요청 메시지", //마지막 대화 내용
           date: new Date(),
           unread: 3, // 읽지 않은 대화 갯수
         },
@@ -183,6 +181,7 @@ export default function DirectMessengerButton() {
     ]
 
     return (<div>
+                {/* 버튼 영역 */}
                 <div ref={chatOpenBtnRef} className="dm-icon-open-button" style={dmButtonOnStyle} onClick={(e)=>{
                   chatOpenBtnRef.current.style.display='none';
                   chatCloseBtnRef.current.style.display='flex';
@@ -197,27 +196,101 @@ export default function DirectMessengerButton() {
                 }}>
                     <X className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%)", color:"rgba(0, 0, 0, 0.6)"}}/>
                 </div>
+
                 {/* 채팅 컴포넌트 */}
                 <div ref={chatComponentRef} style={dmFrameStyle}>
-                    {/* 채팅 리스트 컴포넌트 */}
-                    <div className="chat-list-div" style={{width:'452px', height:'506px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto', }}>
-                      <ChatList className='chat-list' dataSource={dataSource} />
+
+                    {/* 1. 채팅 리스트 컴포넌트 */}
+                    <div className="chat-list-div" style={{width:'450px', height:'513px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+
+                      {/* <ChatList className='chat-list' dataSource={dataSource} /> */}
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left'}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <Button size={'sm'} style={{ margin:'20px  auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="백엔드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="백앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right' }}>
+                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
+                        </div>
+                      </div>
+                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right' }}>
+                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
+                        </div>
+                      </div>
+                      
+                      <div style={{width:'431px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                        <div style={{minWidth:'390px', float:'left',}}>
+                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                        </div>
+                        <div style={{position:'relative', float:'right'}}>
+                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* 채팅방 입장 컴포넌트 */}
-                    <div className="chat-into" style={{width:'450px', height:'506px', backgroundColor:'white', border : "1px solid lightgray"}}>
-                      {/* 채팅방 제목 영역*/}
-                      <div className="chat-into-header" style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
-                        <ChatItem
-                            avatar="https://avatars.githubusercontent.com/u/80540635?v=4"
-                            alt="kursat_avatar"
-                            title="Kursat"
-                            subtitle=""
-                            date={new Date()}
-                            unread={0}
-                          />;
+                    {/* 2. 채팅방 입장 컴포넌트 */}
+                    <div className="chat-into" style={{width:'450px', height:'513px', backgroundColor:'white', border : "1px solid lightgray"}}>
+                      {/* 1. 채팅방 제목 영역*/}
+                      <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
+                          <ChevronLeft style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
+                        <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
+                          <ChatItem
+                              avatar={`profileImage/${'yjou7454@gmail.com'}`}
+                              title="yjou7454"
+                              subtitle=""
+                              date={new Date()}
+                              unread={0}
+                            />
+                        </div>
+                        <div style={{position:'relative', width:'57px', float:'right'}}>
+                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
+                        </div>
                       </div>
-                      {/* 채팅방 대화내용 리스트 영역 */}
+
+                      {/* 1. 채팅방 대화내용 리스트 영역 */}
                       <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
                         {/* 상대방 메시지박스 */}
                         <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
@@ -232,20 +305,18 @@ export default function DirectMessengerButton() {
                         {/* 메시지박스 */}
                         <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
                       </div>
-                      {/* 채팅방 대화 전송 영역 */}
+
+                      {/* 2. 채팅방 대화 전송 영역 */}
                       <div className="chat-into-footer" style={{width:'448px', minHeight:'48px', overflow:'hidden', backgroundColor:'white'/* , borderBottom : "1px solid lightgray" */}}>
-                        <div style={{width:"400px", minHeight:'30px', margin:'0 auto', maxHeight:"112px !important"}}>
-                        {/* <Input placeholder="Type here..." multiline={true} /> */}
-                            {<textarea rows={1} ref={textareaRef} onChange={textAreaInputChange} onKeyDown={(e)=>{
-                              textAreaInputKeyDown(e)
-                            }} value={textareaValue}
-                                  style={{float:'left', display:'flex', width:'360px', height:'30px', maxHeight:"114px", margin:"10px auto", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='내용을 입력하세요'></textarea>}
-                        <div>
-                          <Button size={'sm'} style={{float:'right', margin:'10px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>전송</Button>
-                        </div>
+                        <div style={{width:"430px", minHeight:'30px', margin:'4px auto', maxHeight:"112px !important"}}>
+                            <textarea rows={1} ref={textareaRef} onChange={textAreaInputChange} onKeyDown={textAreaInputKeyDown} value={textareaValue}  placeholder='내용을 입력하세요'
+                              style={{float:'left', display:'flex', width:'385px', height:'30px', maxHeight:"114px", margin:"10px auto", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}}/>
+                            <Button size={'sm'} style={{float:'right', margin:'10px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>전송</Button>
                         </div>
                       </div>
+
                   </div>
+
               </div>
           </div>
     )
