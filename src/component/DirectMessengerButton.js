@@ -44,7 +44,6 @@ export default function DirectMessengerButton() {
         textareaRef.current.style.height = 'auto';
         console.log(textareaRef.current.scrollHeight)
         textareaRef.current.style.height = (30+textareaRef.current.scrollHeight) + 'px';
-        // textareaRef.current.focus();
         chatContainerRef.current.style.height = 'auto';
         chatContainerRef.current.style.height = `calc(408px - ${textareaRef.current.scrollHeight}px)`;
         return;
@@ -53,7 +52,6 @@ export default function DirectMessengerButton() {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault(); // 엔터 키의 기본 동작 방지
         // 여기에 메시지 전송 로직 추가
-        // ...
         console.log(textareaValue)
         // 메시지 전송 후 입력창 초기화
         setTextareaValue('');
@@ -66,13 +64,11 @@ export default function DirectMessengerButton() {
 
     const dmButtonOnStyle = {
         display: 'flex'
-        // , flexWrap: 'nowrap'
-        // , width: 'auto'
         /* 위치 */
         , position: 'fixed' //고정
         , zIndex: '10'
-        , bottom: '50px'
-        , right: '50px'
+        , bottom: '30px'
+        , right: '30px'
         /* 크기 및 색상 */
         , width:"50px"
         , height:"50px"
@@ -88,13 +84,11 @@ export default function DirectMessengerButton() {
       };
       const dmButtonOffStyle = {
         display: 'none'
-        // , flexWrap: 'nowrap'
-        // , width: 'auto'
         /* 위치 */
         , position: 'fixed' //고정
         , zIndex: '10'
-        , bottom: '50px'
-        , right: '50px'
+        , bottom: '30px'
+        , right: '30px'
         /* 크기 및 색상 */
         , width:"50px"
         , height:"50px"
@@ -114,8 +108,8 @@ export default function DirectMessengerButton() {
         display: 'none'
         , position: 'fixed' //고정
         , zIndex: '10'
-        , bottom: "110px"
-        , right: "50px"
+        , bottom: "90px"
+        , right: "30px"
         , textAlign:'left'
         , height: "calc(100% - 116px) !important"
         , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
@@ -206,7 +200,7 @@ export default function DirectMessengerButton() {
                 {/* 채팅 컴포넌트 */}
                 <div ref={chatComponentRef} style={dmFrameStyle}>
                     {/* 채팅 리스트 컴포넌트 */}
-                    <div className="chat-list-div" style={{width:'452px', height:'506px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto', textAlign:'left'}}>
+                    <div className="chat-list-div" style={{width:'452px', height:'506px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto', }}>
                       <ChatList className='chat-list' dataSource={dataSource} />
                     </div>
 
