@@ -12,6 +12,9 @@ export default function DirectMessengerButton() {
     const textareaRef = useRef('');
     const chatContainerRef = useRef('');
     const [textareaValue, setTextareaValue] = useState('')
+    const chatOpenBtnRef = useRef('');
+    const chatCloseBtnRef = useRef('');
+    const chatComponentRef = useRef('');  
 
 
     useEffect(() => {
@@ -108,7 +111,7 @@ export default function DirectMessengerButton() {
       };
 
       const dmFrameStyle = {
-        display: 'flex'
+        display: 'none'
         , position: 'fixed' //고정
         , zIndex: '10'
         , bottom: "110px"
@@ -186,14 +189,22 @@ export default function DirectMessengerButton() {
     ]
 
     return (<div>
-                <div className="dm-icon-open-button" style={dmButtonOnStyle}>
+                <div ref={chatOpenBtnRef} className="dm-icon-open-button" style={dmButtonOnStyle} onClick={(e)=>{
+                  chatOpenBtnRef.current.style.display='none';
+                  chatCloseBtnRef.current.style.display='flex';
+                  chatComponentRef.current.style.display='flex';
+                }}>
                     <Messenger className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
                 </div>
-                <div className="dm-icon-close-button" style={dmButtonOffStyle}>
+                <div ref={chatCloseBtnRef} className="dm-icon-close-button" style={dmButtonOffStyle} onClick={(e)=>{
+                  chatOpenBtnRef.current.style.display='flex';
+                  chatCloseBtnRef.current.style.display='none';
+                  chatComponentRef.current.style.display='none';
+                }}>
                     <X className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%)", color:"rgba(0, 0, 0, 0.6)"}}/>
                 </div>
                 {/* 채팅 컴포넌트 */}
-                <div style={dmFrameStyle}>
+                <div ref={chatComponentRef} style={dmFrameStyle}>
                     {/* 채팅 리스트 컴포넌트 */}
                     <div className="chat-list-div" style={{width:'452px', height:'506px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto', textAlign:'left'}}>
                       <ChatList className='chat-list' dataSource={dataSource} />
