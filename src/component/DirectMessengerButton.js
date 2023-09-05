@@ -17,6 +17,7 @@ export default function DirectMessengerButton() {
     useEffect(() => {
       if (textareaRef.current) {
         textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
       }
     }, [textareaValue]);
 
