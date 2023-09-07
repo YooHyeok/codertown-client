@@ -1,8 +1,6 @@
 import axios from "axios";
 import MammothCard from './MammothCard';
-
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 
 export default function MammothCardList() {
 

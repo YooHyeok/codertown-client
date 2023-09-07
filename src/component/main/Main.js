@@ -12,22 +12,23 @@ import './Main.css';
 
 export default function Main() {
 
+  const divStyle = {
+    width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
+    , minHeight: '670px'
+    , margin: '80px auto'
+  };
+  
   // Tab <Nav> 영역 Style CSS
   const navStyle = {
     width: '350px'
-    , height: '100%'
-    , textAlign: 'left'
-    , margin: '140px 0px -10px 0px'
-    , top: '100'
+    , marginTop: '150px'
   };
 
   // Tab <TabContent> 영역 Style CSS
   const tabStyle = {
     width: '1200px'
-  , height:"100%"
-  , minHeight: '630px'
   , textAlign: 'left'
-  , margin: '50px auto'
+  , margin: '30px auto'
   };
 
   
@@ -43,13 +44,10 @@ export default function Main() {
   }
 
   return (
-  <div className="body">
+  <div /* className="body" */ style={divStyle}>
     {/* ============== 탭 네비 영역 ============== */}
       {/* <div style={{
             width: '1200px'
-          , height:"250px"
-          // , textAlign: 'left'
-          , marginTop: '100px'
           }} >
       <Slider {...{dots: true,infinite: true,speed: 500,slidesToShow: 1,slidesToScroll: 1, accessibility:true, arrows:true}}>
         <div style={{
@@ -99,18 +97,18 @@ export default function Main() {
     </Slider>
     </div> */}
     <div style={navStyle} >
-            <Nav className="custom-nav" style={{position:"relative", width: "350px", height:"40px", top:"10px"}} pills>
+            <Nav className="custom-nav" style={{ width: "350px", height:"40px"}} pills>
               <NavItem style={{height:'40px'}}>
                   <NavLink style={{ height:"30px"}} className={classnames({ active: tabChange.activeTab === '1' })} onClick={() => { tabToggle('1'); }} >
                     <span style={{position: 'relative', top:"-34px", userSelect:"none" }} >전체</span>
                   </NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem style={{height:'40px'}}>
                   <NavLink style={{ height:"30px"}} className={classnames({ active: tabChange.activeTab === '2' })} onClick={() => { tabToggle('2'); }}>
                     <span style={{position: 'relative', top:"-34px", userSelect:"none" }} >코끼리</span>
                   </NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem style={{height:'40px'}}>
                   <NavLink style={{ height:"30px"}} className={classnames({ active: tabChange.activeTab === '3' })} onClick={() => { tabToggle('3'); }}>
                     <span style={{position: 'relative', top:"-34px", userSelect:"none"}} >맘모스</span>
                   </NavLink>

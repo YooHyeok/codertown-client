@@ -1,7 +1,4 @@
-
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 import axios from "axios";
 import CokkiriCard from './CokkiriCard';
 
@@ -9,10 +6,6 @@ export default function CokkiriCardList() {
 
     const [cokkiriCardList , setCokkiriCardList] = useState([]);
     const [keyword , setKeyword] = useState('')
-    const [tooltipOpen, setTooltipOpen] = useState({});
-    const toggleTooltip = (recruitNo) => {
-        setTooltipOpen({...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo],});
-      };
       
     /**
      * 코끼리 목록 출력 - 호스트 서버 통신 메소드
@@ -34,7 +27,6 @@ export default function CokkiriCardList() {
 
     return(
         <div style={{width: "1200px", display: "grid", gridTemplateRows: "repeat(2, 1fr)", gridTemplateColumns: "repeat(4, 1fr)"}}>
-            {console.log(cokkiriCardList)}
             {cokkiriCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
                 <CokkiriCard obj={obj}/>
             ))}

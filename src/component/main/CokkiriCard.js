@@ -6,11 +6,12 @@ export default function CokkiriCard({obj}) {
     const toggleTooltip = (recruitNo) => {
         setTooltipOpen({...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo],});
       };
-      
+
     return (
         <Card  className='card' key={obj.recruitDto.recruitNo} 
                 style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', cursor:'pointer', margin: '0.5rem', marginBottom:'0.8rem'
                 , borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)" }}>
+                    {console.log(obj.recruitDto.recruitNo)}
                     <CardBody className="card-body">
                         <CardSubtitle className="mb-3 text-muted" tag="h6" >
                             <div className="studyItem_badgeWrapper__3AW7k">
@@ -58,7 +59,6 @@ export default function CokkiriCard({obj}) {
                             </thead>
                             <tbody>
                                 {obj.projectDto.projectParts.map((obj) => {
-                                    console.log(obj)
                                     return(
                                         <tr key={obj.partNo}>
                                             <td>{obj.partName}</td>
