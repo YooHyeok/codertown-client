@@ -29,12 +29,6 @@ export default function CokkiriCardList() {
     }
     
     useEffect(() => {
-      /* coggleList 목데이터 */
-      /* const cokkiriList = [];
-      for (let j = 0; j < 30; j++) {
-        cokkiriList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-      }
-      setCokkiriCardList(cokkiriList) */
       serverRequest(1, keyword)
     }, [])
 
