@@ -1,38 +1,31 @@
-
-import {
-    Button, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle
-  } from 'reactstrap';
-
+import axios from "axios";
+import CokkiriCard from './CokkiriCard';
+import MammothCard from './MammothCard';
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
 
 export default function AllCardList() {
 
+    const [keyword , setKeyword] = useState('')
+
     const [allCardList , setAllCardList] = useState([]);
+    const serverRequest = (page, keyword) => {
+        axios.get(`/recruit?page=${page}&size=${20}&dType=&keyword=${keyword}`)
+        .then((response)=> {
+            setAllCardList(response.data.recruitList)
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+    
     useEffect(() => {
-      /* coggleList 목데이터 */
-      const allRecruitList = [];
-      for (let j = 0; j < 30; j++) {
-        allRecruitList.push({coggleNo:j, title: '제목'+j, writer: '작성자'+j, firstRegDate:"2023-08-14", like: j, count: j});
-      }
-      setAllCardList(allRecruitList)
+      serverRequest(1, keyword)
     }, [])
 
     return(
         <div style={{width: "1225px", display: "grid", gridTemplateRows: "repeat(2, 1fr)", gridTemplateColumns: "repeat(4, 1fr)"}}>
-            {allCardList.slice(0, 20).map((c, i) => ( /* slice를 통해 20개만 출력 */
-                <Card key={c.rno} style={{width: '250px', fontSize: '1.125rem', cursor:'pointer', padding: '0.5rem', margin: '1rem', borderRadius:'8%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.1)"}}>
-                    <CardBody className="card-body">
-                        <CardSubtitle className="mb-2 text-muted" tag="h6" >
-                            <Button size='sm' color="warning">맘모스/코끼리 배너위치</Button>
-                        </CardSubtitle>
-                        <CardSubtitle className="mb-2 text-muted" tag="h6" >목표 기간 | XX주 </CardSubtitle>
-                        <CardTitle className="mb-2 text-muted">맘모스/코끼리 글 제목입니다.</CardTitle>
-                        <CardText className="mb-2 text-muted"tag="h6">작성자: 유혁스쿨</CardText>
-                        {/* <Button outline size='sm' style={{float:'right'}}>참여정보</Button> */}
-                    </CardBody>
-                </Card>
+            {allCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
+                obj.recruitDto.category == 'cokkiri' ? <CokkiriCard obj={obj}/> : <MammothCard obj={obj}/> 
             ))}
         </div>
     )

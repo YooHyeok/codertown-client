@@ -123,7 +123,7 @@ export default function Main() {
 
             <TabPane tabId="1">
               {/* Recruit 전체 리스트 */}
-              <AllCardList/>
+              {tabChange.activeTab === '1' && <AllCardList/>}
             </TabPane>
 
             <TabPane tabId="2">
@@ -134,7 +134,7 @@ export default function Main() {
 
             <TabPane tabId="3">
               {/* Recruit 맘모스 리스트 */}
-              <MammothCardList/>
+              {tabChange.activeTab === '3' && <MammothCardList/>}
             </TabPane>
         </TabContent>
         </div>
