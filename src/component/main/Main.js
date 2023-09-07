@@ -25,7 +25,7 @@ export default function Main() {
   const tabStyle = {
     width: '1200px'
   , height:"100%"
-  , minHeight: '620px'
+  , minHeight: '630px'
   , textAlign: 'left'
   , margin: '50px auto'
   };
