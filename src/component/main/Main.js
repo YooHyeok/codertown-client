@@ -17,17 +17,17 @@ export default function Main() {
     width: '350px'
     , height: '100%'
     , textAlign: 'left'
-    , margin: '120px 0px 70px 0px'
+    , margin: '140px 0px -10px 0px'
     , top: '100'
   };
 
   // Tab <TabContent> 영역 Style CSS
   const tabStyle = {
     width: '1200px'
-  , minHeight: '1200px'
   , height:"100%"
+  , minHeight: '620px'
   , textAlign: 'left'
-  , margin: '-50px auto'
+  , margin: '50px auto'
   };
 
   
@@ -100,7 +100,7 @@ export default function Main() {
     </div> */}
     <div style={navStyle} >
             <Nav className="custom-nav" style={{position:"relative", width: "350px", height:"40px", top:"10px"}} pills>
-              <NavItem>
+              <NavItem style={{height:'40px'}}>
                   <NavLink style={{ height:"30px"}} className={classnames({ active: tabChange.activeTab === '1' })} onClick={() => { tabToggle('1'); }} >
                     <span style={{position: 'relative', top:"-34px", userSelect:"none" }} >전체</span>
                   </NavLink>
@@ -128,7 +128,8 @@ export default function Main() {
 
             <TabPane tabId="2">
               {/* Recruit 코끼리 리스트 */}
-              <CokkiriCardList/>
+              {tabChange.activeTab === '2' && <CokkiriCardList/>}
+              
             </TabPane>
 
             <TabPane tabId="3">
