@@ -143,13 +143,13 @@ export default function MyPost() {
                         }
                         if(articleCount != 0)
                         array.unshift(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
+                            <span key={"prev"}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage-1} onClick={(e)=>{
                                 if(pageInfo.curPage === 1) return;
                                 pageRequest(e)}}>{"<"}</Button>&nbsp;&nbsp;</span>
                         )
                         if(articleCount != 0)
                         array.push(
-                            <span ><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
+                            <span key={"next"}><Button style={{border:"none"}} outline color='secondary' className='numberbutton' value={pageInfo.curPage+1} onClick={(e)=>{
                                 if(pageInfo.curPage === Math.max(pageInfo.allPage)) return;
                                 pageRequest(e)}}>{">"}</Button>&nbsp;&nbsp;</span>
                         )

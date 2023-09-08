@@ -20,7 +20,7 @@ export default function CoggleDetail() {
       };
 
     const userId = useSelector( (state) => {return state.UserId} );
-    const [src, setSrc] = useState('/default-profile2.png')
+    const [src, setSrc] = useState('/default_profile3.png')
     const [commentValue, setCommentValue] = useState('');
 
     const textarea = useRef('');

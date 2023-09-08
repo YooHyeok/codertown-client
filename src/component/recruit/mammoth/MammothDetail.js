@@ -18,7 +18,7 @@ export default function MammothDetail() {
 
     const userId = useSelector( (state) => {return state.UserId} );
     const accessToken = useSelector( (state) => {return state.Authorization} );
-    const [src, setSrc] = useState('/default-profile2.png')
+    const [src, setSrc] = useState('/default_profile3.png')
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { mammothNo } = useParams();
@@ -112,7 +112,7 @@ export default function MammothDetail() {
                                     </Col> */}
                                     <Col sm={12} >
                                     <Label htmlFor='password' sm={6}>지역</Label>
-                                        <Input type='text' name='location' id='location' value ={mammoth.location} readOnly/>
+                                        <Input type='text' name='location' id='location' value ={mammoth.location || ''} readOnly/>
                                     </Col>
                                     {/* <Col sm={6}>
                                     <Label htmlFor='email' sm={6}>성별 제한</Label>
@@ -125,7 +125,7 @@ export default function MammothDetail() {
                                     <Col sm={12}>
                                     <Label htmlFor='email' sm={6}>링크</Label>
                                         {/* <Input type='text' name='link' id='link' value ={mammoth.link} readOnly/> */}
-                                        <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={mammoth.link} readOnly onClick={(e)=>{
+                                        <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={mammoth.link || ''} readOnly onClick={(e)=>{
                                         let link = mammoth.link;
                                         if(link == null || link == '') {alert('링크가 비어있습니다.'); return;}
                                         if(link[0] != 'h')  link = 'http://'+ link;

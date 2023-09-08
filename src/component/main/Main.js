@@ -37,7 +37,6 @@ export default function Main() {
   const [tabChange, setTabChange] = useState({activeTab:'1'});
 
   const tabToggle = (tab) => {
-      console.log(tab)
       if (tabChange.activeTab !== tab) {
           setTabChange({activeTab: tab})
       }

@@ -28,7 +28,6 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     useEffect(() => {
         axios.get(`/profileImage/${writer.email}`)
         .then((response)=>{
-            console.log(response)
             if (response.data == '') setSrc('/default_profile3.png')
             else setSrc(`/profileImage/${writer.email}`);
         })

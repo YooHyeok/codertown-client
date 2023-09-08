@@ -27,7 +27,6 @@ export default function LoginModal() {
     const accessToken = useSelector((state) => {return state.Authorization});
 
     const inputEnterLogin = (e)=>{
-        console.log(e)
         if (e.key == 'Enter') {
             submit();
         }
@@ -43,7 +42,6 @@ export default function LoginModal() {
         }
         axios.post('/sign-in', signInInfo)
         .then((response)=>{
-            console.log(response.data);
             if(response.data.signStatus.code == -1) {
                 alert('입력하신 회원정보가 일치하지 않습니다. \n 회원 정보를 찾으시려면 아래 아이디/패스워드 찾기를 눌러주세요')
                 return;
