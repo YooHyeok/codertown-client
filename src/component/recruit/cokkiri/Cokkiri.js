@@ -21,10 +21,6 @@ export default function Cokkiri() {
     const userId = useSelector((state) => { return state.UserId });
 
     const [tooltipOpen, setTooltipOpen] = useState({});
-
-    /* const toolTipToggle = () => {
-        setTooltipOpen(!tooltipOpen);
-    }; */
     const toggleTooltip = (recruitNo) => {
         setTooltipOpen({ ...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo], });
     };
@@ -99,7 +95,7 @@ export default function Cokkiri() {
                     <tr>
                         <th>No</th>
                         <th>제목</th>
-                        <th>지원 현황</th>
+                        {/* <th>지원 현황</th> */}
                         <th>작성자</th>
                         <th>작성일자</th>
                         <th>
@@ -115,8 +111,35 @@ export default function Cokkiri() {
                         return (
                             <tr key={obj.recruitDto.recruitNo}>
                                 <td>{obj.recruitDto.recruitNo}</td>
-                                <td><Link to={`/cokkiri-detail/${obj.recruitDto.recruitNo}`}>{obj.recruitDto.title}</Link></td>
-                                <td style={{ padding: "3px" }} >
+                                <td><Link to={`/cokkiri-detail/${obj.recruitDto.recruitNo}`} 
+                                    id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)}>
+                                    {obj.recruitDto.title}
+                                    </Link>
+                                    <Tooltip style={{ width: "300px" }} placement="bottom" isOpen={tooltipOpen[obj.recruitDto.recruitNo]} target={"Tooltip" + obj.recruitDto.recruitNo}>
+                                        <Table bordered={true} style={{ margin: "5px auto" }} >
+                                            <thead>
+                                                <tr>
+                                                    <th>파트 / 현황</th>
+                                                    <th>모집 인원</th>
+                                                    <th>남은 자리</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {obj.projectDto.projectParts.map((obj) => {
+                                                    return (
+                                                        <tr key={obj.partNo}>
+                                                            <td>{obj.partName}</td>
+                                                            <td>{obj.recruitCount}</td>
+                                                            <td>{obj.recruitCount - obj.currentCount}</td>
+                                                        </tr>
+                                                    )
+                                                })}
+
+                                            </tbody>
+                                        </Table>
+                                    </Tooltip>
+                                </td>
+                                {/* <td style={{ padding: "3px" }} >
                                     <Button style={{ fontSize: '10px' }}
                                         id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)}
                                     >보기</Button>
@@ -144,7 +167,7 @@ export default function Cokkiri() {
                                         </Table>
                                     </Tooltip>
 
-                                </td>
+                                </td> */}
                                 <td>{obj.recruitDto.writer.nickname}</td>
                                 <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                                 <td>{obj.recruitDto.like}</td>

@@ -1,10 +1,14 @@
-import { Table} from 'reactstrap';
+import { Table, Tooltip } from 'reactstrap';
 import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Link } from 'react-router-dom';
+import { useState } from "react";
 
 export default function MyPostRecruit({recruitList, dType}) {
 
-
+    const [tooltipOpen, setTooltipOpen] = useState({});
+    const toggleTooltip = (recruitNo) => {
+        setTooltipOpen({ ...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo], });
+    };
 
     return (
         <div style={{borderTop: '0.1px solid lightgray', height:"420px", margin:"20px auto"}}>
@@ -29,9 +33,34 @@ export default function MyPostRecruit({recruitList, dType}) {
                         <tr key={obj.recruitDto.recruitNo}>
                             <td>{obj.recruitDto.recruitNo}</td>
                             <td style={{textAlign:'left'}}>
-                                <Link to={`/${dType == 'Cokkiri' ? 'cokkiri' : 'mammoth'}-detail/${obj.recruitDto.recruitNo}`}>
+                                <Link id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} 
+                                to={`/${dType == 'Cokkiri' ? 'cokkiri' : 'mammoth'}-detail/${obj.recruitDto.recruitNo}`}>
                                     {obj.recruitDto.title}
                                 </Link>
+                                {(dType == 'Cokkiri' && obj.projectDto ) && 
+                                <Tooltip style={{ width: "300px" }} placement="bottom" isOpen={tooltipOpen[obj.recruitDto.recruitNo]} target={"Tooltip" + obj.recruitDto.recruitNo}>
+                                    <Table bordered={true} style={{ margin: "5px auto" }} >
+                                        <thead>
+                                            <tr>
+                                                <th>파트 / 현황</th>
+                                                <th>모집 인원</th>
+                                                <th>남은 자리</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {obj.projectDto.projectParts.map((obj) => {
+                                                return (
+                                                    <tr key={obj.partNo}>
+                                                        <td>{obj.partName}</td>
+                                                        <td>{obj.recruitCount}</td>
+                                                        <td>{obj.recruitCount - obj.currentCount}</td>
+                                                    </tr>
+                                                )
+                                            })}
+
+                                        </tbody>
+                                    </Table>
+                                </Tooltip>}
                             </td>
                             <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                             <td>{obj.recruitDto.lastModDate == null ? new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0] : new Date(obj.recruitDto.lastModDate).toISOString().split('T')[0]}</td>
