@@ -46,6 +46,7 @@ export default function MammothWrite() {
     }
     const addressHandle = {
         selectAddress: (data) => {
+            console.log(data)
             setMammoth({ ...mammoth, location: data.address, postcode: data.zonecode });
             setModalShow(false)
         }

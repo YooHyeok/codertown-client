@@ -111,7 +111,6 @@ export default function Cokkiri() {
                             </tr>
                         </thead>
                         <tbody style={{overflow:"auto"}}>
-                            {console.log(cokkiriList)}
                             {cokkiriList.map((obj) => {
                                 return (
                                 <tr key={obj.recruitDto.recruitNo}>
@@ -132,7 +131,6 @@ export default function Cokkiri() {
                                             </thead>
                                             <tbody>
                                                 {obj.projectDto.projectParts.map((obj) => {
-                                                    console.log(obj)
                                                     return(
                                                         <tr key={obj.partNo}>
                                                             <td>{obj.partName}</td>

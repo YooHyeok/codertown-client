@@ -13,7 +13,6 @@ export default function HeaderDropDownLogout() {
   useEffect(() => {
       axios.get(`/profileImage/${userId}`)
       .then((response)=>{
-          console.log(response)
           if (response.data == '') setSrc('/default_profile3.png')
           else setSrc(`/profileImage/${userId}`);
       })
@@ -34,7 +33,6 @@ export default function HeaderDropDownLogout() {
     dispatch({ type: "NEWTOKEN", data: '' })
     dispatch({ type: "USERID", data: '' })
     dispatch({ type: "NICKNAME", data: '' })
-    console.log(location.pathname)
     if (location.pathname == '/mypage') {
       document.location.href = '/';
       return;

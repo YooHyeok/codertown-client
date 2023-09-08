@@ -5,9 +5,45 @@ import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements";
 
 import { useRef, useState, useEffect} from 'react';
 
-// npm install react-chat-elements --save --force
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 
+// npm install react-chat-elements --save --force
 export default function DirectMessengerExample() {
+
+  const [client, setClient] = useState(null);
+  const [chat, setChat] = useState('');
+
+  useEffect(() => {
+    // Set up the STOMP client
+    const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
+    const stompClient = Stomp.over(sockJSClient);
+
+    stompClient.connect({}, (frame) => {
+        setClient(stompClient);
+        /* client.send("/dm-pub/proejct-request", {}, JSON.stringify({requsetId: 'webdevyoo@gmail.com',
+        chat: '좀되라'}))
+        stompClient.subscribe('/project-request', (message) => {
+          console.log(message.body);
+      }); */
+    });
+    /* 로그아웃시 연결 종료된다. */
+    return () => {
+        if (stompClient) {
+          stompClient.disconnect(); //연결 종료
+        }
+    }
+  }, []);
+
+
+  const publish = (chat) => {
+    // if (!client.current.connected) return;
+    console.log(chat)
+    console.log(client)
+    client.send("/dm-pub/project-request", {}, textareaValue);
+    setTextareaValue('');
+}
+
 
     const textareaRef = useRef('');
     const chatContainerRef = useRef('');
@@ -26,6 +62,8 @@ export default function DirectMessengerExample() {
       }
     }, [textareaValue]);
 
+
+
   /* 댓글 [입력] Change 이벤트 메소드 */
     const textAreaInputChange = (e) => {
         setTextareaValue(e.target.value)
@@ -36,7 +74,7 @@ export default function DirectMessengerExample() {
           return;
         }
     }
-    const textAreaInputKeyDown= (e) => {
+    const textAreaInputKeyDown= (e, stompClient) => {
       
       if (e.key === 'Enter' && e.shiftKey) {
         e.preventDefault(); // 엔터 키의 기본 동작 방지
@@ -57,6 +95,7 @@ export default function DirectMessengerExample() {
         console.log(textareaValue)
         // 메시지 전송 후 입력창 초기화
         setTextareaValue('');
+        publish(textareaValue);
         chatContainerRef.current.style.height = '380px';
         textareaRef.current.style.height = '30px'; // 초기 높이로 설정
         return;

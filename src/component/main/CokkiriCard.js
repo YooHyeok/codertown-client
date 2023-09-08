@@ -11,7 +11,6 @@ export default function CokkiriCard({obj}) {
         <Card  className='card' key={obj.recruitDto.recruitNo} 
                 style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', cursor:'pointer', margin: '0.5rem', marginBottom:'0.8rem'
                 , borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)" }}>
-                    {console.log(obj.recruitDto.recruitNo)}
                     <CardBody className="card-body">
                         <CardSubtitle className="mb-3 text-muted" tag="h6" >
                             <div className="studyItem_badgeWrapper__3AW7k">
