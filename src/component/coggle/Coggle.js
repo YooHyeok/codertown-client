@@ -128,7 +128,7 @@ export default function Coggle() {
                                         <td>{obj.writer.nickname}</td>
                                         <td>{new Date(obj.firstRegDate).toISOString().split('T')[0]}</td>
                                         <td>{obj.like}</td>
-                                        <td>{obj.count}</td>
+                                        <td>{obj.views}</td>
                                 </tr>
                                 )
                             })}

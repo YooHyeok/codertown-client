@@ -29,6 +29,7 @@ export default function MammothDetail() {
             nickname: '',
             content: '',
             link: '',
+            views: 0,
             location: ''
         }
              )
@@ -42,6 +43,7 @@ export default function MammothDetail() {
                         link: response.data.link,
                         writer : response.data.writer,
                         nickname: response.data.writer.nickname,
+                        views: response.data.views,
                         location: response.data.location,
                         }      
             )
@@ -83,7 +85,7 @@ export default function MammothDetail() {
                         <h5><b>{mammoth.title}</b></h5>
                         <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                         <div>
-                            <span>{mammoth.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
+                            <span>{mammoth.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {mammoth.views}</span>
                         </div>
                         {/* 수정 삭제 버튼 */}
                         {userId == mammoth.writer.email &&

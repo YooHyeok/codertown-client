@@ -32,7 +32,7 @@ export default function MyPage() {
                 <Nav style={navStyle} tabs >
                     <NavItem style={{ height:"50px"}}>
                         <NavLink style={{ height:"50px"}} className={classnames({ active: tabChange.activeTab === '1' })} onClick={() => { tabToggle('1'); }} >
-                            <span style={tabStyle} >내정보 수정</span>
+                            <span style={tabStyle} >나의 프로필</span>
                         </NavLink>
                     </NavItem>
                     <NavItem>
@@ -43,6 +43,11 @@ export default function MyPage() {
                     <NavItem>
                         <NavLink style={{ height:"50px"}} className={classnames({ active: tabChange.activeTab === '3' })} onClick={() => { tabToggle('3'); }}>
                             <span style={tabStyle} >나의 게시글</span>
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={{ height:"50px"}} className={classnames({ active: tabChange.activeTab === '4' })} onClick={() => { tabToggle('4'); }}>
+                            <span style={tabStyle} >나의 북마크</span>
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -59,6 +64,10 @@ export default function MyPage() {
                         <TabPane tabId="3">
                             {/* 나의 게시글 */}
                             {tabChange.activeTab === '3' && <MyPost/>}
+                        </TabPane>
+                        <TabPane tabId="4">
+                            {/* 나의 북마크 */}
+                            {tabChange.activeTab === '4' && <MyPost/>}
                         </TabPane>
                     </TabContent>
             </div >
@@ -82,7 +91,7 @@ const bodyStyle = {
  * 네비영역 CSS
  */
 const navStyle = {
-    width:"500px"
+    width:"665px"
     , margin:"10px auto"
     , height:"50px"
     , borderBottom:"2px solid black"

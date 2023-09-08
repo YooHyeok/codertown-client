@@ -28,12 +28,13 @@ export default function CokkiriDetail() {
         {   
             title: null,
             writer: {},
-            nickname: "fghij",
-            content: "updatevalue",
-            link: "",
-            objectWeek: 4,
-            subject: "abcde",
-            teamName: "fghij",
+            nickname: '',
+            content: '',
+            link: '',
+            views: 0,
+            objectWeek: 0,
+            subject: '',
+            teamName: '',
             projectParts: []
         }
              )
@@ -41,12 +42,14 @@ export default function CokkiriDetail() {
     useEffect(()=> {
         axios.get(`/cokkiri-detail/${cokkiriNo}`)
         .then((response)=> {
+            console.log(response.data.cokkiriDto.views)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
                         nickname: response.data.cokkiriDto.writer.nickname,
                         content: response.data.cokkiriDto.content,
                         link: response.data.cokkiriDto.link,
+                        views: response.data.cokkiriDto.views,
                         objectWeek: response.data.cokkiriDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
@@ -90,7 +93,7 @@ export default function CokkiriDetail() {
                         <h5><b>{cokkiri.title}</b></h5>
                         <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                         <div>
-                            <span>{cokkiri.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
+                            <span>{cokkiri.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {cokkiri.views}</span>
                         </div>
                         {/* 수정 삭제 버튼 */}
                         {userId == cokkiri.writer.email &&

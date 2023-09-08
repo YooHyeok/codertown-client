@@ -14,7 +14,7 @@ export default function Main() {
 
   const divStyle = {
     width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
-    , minHeight: '670px'
+    , minHeight: '690px'
     , margin: '80px auto'
   };
   

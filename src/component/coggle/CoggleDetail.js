@@ -82,6 +82,7 @@ export default function CoggleDetail() {
             nickname: '',
             category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
             content: '',
+            views: 0
         }
              )
 
@@ -98,6 +99,7 @@ export default function CoggleDetail() {
                         categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
                         title: response.data.title,
                         content: response.data.content,
+                        views: response.data.views
                         }
             )
             setSrc(`/profileImage/${response.data.writer.email}`)
@@ -139,7 +141,7 @@ export default function CoggleDetail() {
                     <h5><b>{coggle.title}</b></h5>                            
                     <img style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}} className="profile" src={src} alt="profile"/>
                     <div>
-                        <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {'33'}</span>
+                        <span>{coggle.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {coggle.views}</span>
                     </div>
                     {/* 수정 삭제 버튼 */}
                     {userId == coggle.writer.email && 

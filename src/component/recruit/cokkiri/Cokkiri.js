@@ -148,7 +148,7 @@ export default function Cokkiri() {
                                 <td>{obj.recruitDto.writer.nickname}</td>
                                 <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                                 <td>{obj.recruitDto.like}</td>
-                                <td>{obj.recruitDto.count}</td>
+                                <td>{obj.recruitDto.views}</td>
                             </tr>
                         )
                     })}
