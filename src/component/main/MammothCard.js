@@ -21,7 +21,7 @@ export default function MammothCard({obj}) {
                     <p className="studyItem_scheduleTitle__1KN_9">모임 위치 | {obj.recruitDto.location}</p>
                 </div>
                     <ul className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
-                        <li className="main_project_part_list_li">{obj.recruitDto.link != '' ? '오픈톡' : 'DM'}</li>
+                        <li className="main_project_part_list_li" style={{color:'coral'}}>{obj.recruitDto.link != '' ? '오픈톡' : 'DM'}</li>
                     </ul>
             </CardBody>
 
