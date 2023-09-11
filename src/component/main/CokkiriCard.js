@@ -1,5 +1,6 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
 import { useState } from "react";
+import LikeButton from './LikeButton.js';
 
 export default function CokkiriCard({obj}) {
     const [tooltipOpen, setTooltipOpen] = useState({});
@@ -9,7 +10,7 @@ export default function CokkiriCard({obj}) {
 
     return (
         <Card  className='card' 
-                style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', cursor:'pointer', margin: '0.5rem', marginBottom:'0.8rem'
+                style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', margin: '0.5rem', marginBottom:'0.8rem'
                 , borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)" }}>
                     <CardBody className="card-body">
                         <CardSubtitle className="mb-3 text-muted" tag="h6" >
@@ -17,6 +18,10 @@ export default function CokkiriCard({obj}) {
                                 <div className="badge_badge__ZfNyB">
                                     <div className="badge_study__39LDm">💻 코끼리 - 프로젝트</div>
                                 </div>
+                            </div>
+                            <div style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
+                            <LikeButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
+
                             </div>
                         </CardSubtitle>
                         {/* 제목 */}

@@ -2,14 +2,16 @@ import axios from "axios";
 import CokkiriCard from './CokkiriCard';
 import MammothCard from './MammothCard';
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
 export default function AllCardList() {
 
     const [keyword , setKeyword] = useState('')
+    const userId = useSelector((state) => { return state.UserId });
 
     const [allCardList , setAllCardList] = useState([]);
     const serverRequest = (page, keyword) => {
-        axios.get(`/recruit?page=${page}&size=${20}&dType=&keyword=${keyword}`)
+        axios.get(`/recruit?page=${page}&size=${20}&dType=&keyword=${keyword}&loginId=${userId}&url=${'main'}`)
         .then((response)=> {
             setAllCardList(response.data.recruitList)
         })
