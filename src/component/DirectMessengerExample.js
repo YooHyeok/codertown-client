@@ -21,11 +21,15 @@ export default function DirectMessengerExample() {
 
     stompClient.connect({}, (frame) => {
         setClient(stompClient);
-        /* client.send("/dm-pub/proejct-request", {}, JSON.stringify({requsetId: 'webdevyoo@gmail.com',
-        chat: '좀되라'}))
-        stompClient.subscribe('/project-request', (message) => {
-          console.log(message.body);
-      }); */
+        const messageData = {
+          sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
+          content: '연결 성공',
+      };
+        stompClient.send(`/dm-pub/chat/connect`, {}, JSON.stringify(messageData));
+        stompClient.subscribe('/connected-success', function (e) {
+          //e.body에 전송된 data가 들어있다 JSON Text형태이므로 parsing한 후 props에 접근한다.
+          alert(JSON.parse(e.body).content)
+      });
     });
     /* 로그아웃시 연결 종료된다. */
     return () => {
@@ -35,12 +39,29 @@ export default function DirectMessengerExample() {
     }
   }, []);
 
+  /* 메시지 구독  */
+  useEffect(() => {
+    if (client) {
+        client.subscribe('/connected-success', function (e) {
+          //e.body에 전송된 data가 들어있다
+          console.log("ㅇㅁㄴㄴㅇㅁㅇ")
+          console.log(e)
+          console.log(JSON.parse(e.body))
+          // showMessage(JSON.parse(e .body));
+      });
+    }
+  }, [client]);
 
   const publish = (chat) => {
     // if (!client.current.connected) return;
     console.log(chat)
     console.log(client)
+    const messageData = {
+      sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
+      content: textareaValue,
+  };
     client.send("/dm-pub/project-request", {}, textareaValue);
+    // client.send("/dm-pub/chat/connect", messageData, JSON.stringify(messageData));
     setTextareaValue('');
 }
 
@@ -92,7 +113,6 @@ export default function DirectMessengerExample() {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault(); // 엔터 키의 기본 동작 방지
         // 여기에 메시지 전송 로직 추가
-        console.log(textareaValue)
         // 메시지 전송 후 입력창 초기화
         setTextareaValue('');
         publish(textareaValue);
