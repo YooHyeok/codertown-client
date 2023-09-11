@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from "axios";
+import { type } from '@testing-library/user-event/dist/type';
 
 export default function LoginModal() {
     const context = useContext(HeaderLoginContext);
@@ -59,8 +60,9 @@ export default function LoginModal() {
             }
         })
         .then((userId)=>{
-            // if (userId != null) document.location.href = "/"
-            if (userId != null) context.loginToggle();
+            console.log(userId)
+            if (userId != '') context.loginToggle();
+            if (userId != '') document.location.href = "/"
         })
         .catch((error)=>{
             console.log(error)

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
 import ToastEditor from '../ToastEditor.js'
 import axios from "axios";
 
@@ -24,9 +26,10 @@ export default function CoggleWrite() {
         setMarkdown: setMarkdown.bind(this)
     }
 
+    const userId = useSelector((state) => { return state.UserId });
     /* state - 코글 저장 객체 */
     const [coggle, setCoggle] = useState({
-        writer: 'webdevyoo@gmail.com', //로그인 한 사용자 계정
+        writer: userId, //로그인 한 사용자 계정
         category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
         title: '',
         content: '',

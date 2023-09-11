@@ -1,4 +1,5 @@
 import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
+import LikeButton from './LikeButton.js';
 
 export default function MammothCard({obj}) {
 

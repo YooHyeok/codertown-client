@@ -32,6 +32,7 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 //configureStore에 있는 reducer는 configureStore의 메소드 이다. 위에 만든 함수 reducer 아님!!
 const store = configureStore({
     reducer: persistedReducer,
+
 });
 
 export default store;

@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
 import ToastEditor from '../../ToastEditor.js'
 import axios from "axios";
 
@@ -15,7 +17,8 @@ export default function CokkiriWrite() {
         , padding: '30px'
         , top: '100'
       };
-      const navigate = useNavigate();
+    const navigate = useNavigate();
+    const userId = useSelector((state) => { return state.UserId });
 
     const [toastHtml, setToastHtml] = useState('');
     const [toastMarkdown, setMarkdown] = useState('');
@@ -37,7 +40,7 @@ export default function CokkiriWrite() {
 
     /* state - 코끼리 저장 객체 */
     const [cokkiri, setCokkiri] = useState({
-        writer: 'webdevyoo@gmail.com', //로그인 한 사용자 계정
+        writer: userId, //로그인 한 사용자 계정
         cokkiriTitle: '',
         projectSubject: '',
         projectTitle: '',

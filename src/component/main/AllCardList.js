@@ -22,6 +22,7 @@ export default function AllCardList() {
     
     useEffect(() => {
       serverRequest(1, keyword)
+      
     }, [])
 
     return(
