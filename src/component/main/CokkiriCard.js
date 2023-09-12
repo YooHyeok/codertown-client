@@ -1,6 +1,7 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LikeButton from './LikeButton.js';
+import axios from "axios";
 
 export default function CokkiriCard({obj}) {
     const [tooltipOpen, setTooltipOpen] = useState({});
@@ -8,6 +9,14 @@ export default function CokkiriCard({obj}) {
         setTooltipOpen({...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo],});
       };
 
+    const [src, setSrc] = useState('/default_profile3.png');
+    useEffect(() => {
+        axios.get(`/profileImage/${obj.recruitDto.writer.email}`)
+        .then((response)=>{
+            if (response.data == '') setSrc('/default_profile3.png')
+            else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
+        })
+    }, [])
     return (
         <Card  className='card' 
                 style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', margin: '0.5rem', marginBottom:'0.8rem'
@@ -38,7 +47,7 @@ export default function CokkiriCard({obj}) {
                     </CardBody>
                     <div style={{width:'250px', height:'40px', display:'flex', padding:'5px 16px', borderTop:'1px solid lightgray'}}>
                         <div style={{width:'150px'}}>
-                            <img style={{float:'left', width:'30px', height:'30px', borderRadius:'50%'}}  src={'/default_profile3.png'} alt="profile"/>
+                            <img style={{float:'left', width:'30px', height:'30px', borderRadius:'50%'}}  src={src} alt="profile"/>
                             <p className="text-muted" style={{float:'left', marginLeft:'5px'}}>{obj.recruitDto.writer.nickname}</p>
                           
                         </div>

@@ -1,8 +1,20 @@
 import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
 import LikeButton from './LikeButton.js';
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 export default function MammothCard({obj}) {
-      
+
+    const [src, setSrc] = useState('/default_profile3.png');
+    useEffect(() => {
+        axios.get(`/profileImage/${obj.recruitDto.writer.email}`)
+        .then((response)=>{
+            if (response.data == '') setSrc('/default_profile3.png')
+            else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
+        })
+    }, [])
+
     return (
         <Card className='card' style={{width: '280px', height:'280px',fontSize: '1.125rem', cursor: 'pointer', padding: '0.5rem', margin: '0.5rem', marginBottom:'0.8rem'
             , borderRadius:'2%', boxShadow: "5px 5px 5px rgba(0, 0, 0, 0.2)"}}>
@@ -30,7 +42,7 @@ export default function MammothCard({obj}) {
 
             <div style={{width:'250px', height:'40px', display:'flex', padding:'5px 16px', borderTop:'1px solid lightgray'}}>
                 <div style={{width:'150px'}}>
-                    <img style={{float:'left', width:'30px', height:'30px', borderRadius:'50%'}}  src={'/default_profile3.png'} alt="profile"/>
+                    <img style={{float:'left', width:'30px', height:'30px', borderRadius:'50%'}}  src={src} alt="profile"/>
                     <p className="text-muted" style={{float:'left', marginLeft:'5px'}}>{obj.recruitDto.writer.nickname}</p>
                     
                 </div>
