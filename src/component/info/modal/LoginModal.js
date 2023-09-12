@@ -32,7 +32,7 @@ export default function LoginModal() {
             submit();
         }
     }
-    const submit = () => {
+    const submit = async () => {
         if(signInInfo.email == ''){
             alert('이메일을 입력해주세요');
             return;
@@ -41,7 +41,7 @@ export default function LoginModal() {
             alert('패스워드를 입력해주세요');
             return;
         }
-        axios.post('/sign-in', signInInfo)
+        await axios.post('/sign-in', signInInfo)
         .then((response)=>{
             if(response.data.signStatus.code == -1) {
                 alert('입력하신 회원정보가 일치하지 않습니다. \n 회원 정보를 찾으시려면 아래 아이디/패스워드 찾기를 눌러주세요')
@@ -54,19 +54,12 @@ export default function LoginModal() {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 1); //현재날짜 + 1 = 하루
                 setCookie('refreshToken', response.data.signInResult.refreshToken, {url:'/',expires})
-                if (userId != null && accessToken != null) {
-                    return userId;
-                }
             }
-        })
-        .then((userId)=>{
-            console.log(userId)
-            if (userId != '') context.loginToggle();
-            if (userId != '') document.location.href = "/"
         })
         .catch((error)=>{
             console.log(error)
         })
+        if(userId != null || userId != '') document.location.href = '/';
     }
     return(
             <Modal isOpen={context.loginShow} toggle={context.loginToggle} style={modalStyle}>
