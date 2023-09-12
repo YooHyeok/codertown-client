@@ -14,6 +14,9 @@ export default function MammothCard({obj}) {
                             <div className="badge_study__39LDm">✏️ 맘모스 - 스터디</div>
                         </div>
                     </div>
+                    <div style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
+                        <LikeButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
+                    </div>
                 </CardSubtitle>
                 <CardTitle className="mb-3 text-muted css-a6vgi6" ><b>{obj.recruitDto.title}</b></CardTitle>
                 {/* <CardTitle className="mb-3 text-muted " ><b>외부 링크</b> {'www.naver.com'}</CardTitle> */}
