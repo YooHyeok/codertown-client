@@ -27,7 +27,7 @@ export default function MammothCardList() {
 
     return(
         <div style={{width: "1200px", display: "grid", gridTemplateRows: "repeat(2, 1fr)", gridTemplateColumns: "repeat(4, 1fr)"}}>
-            {mammothCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
+            {mammothCardList != undefined && mammothCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
                 <MammothCard  key={obj.recruitDto.recruitNo} obj={obj}/>
             ))}
         </div>

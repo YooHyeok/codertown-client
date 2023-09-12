@@ -97,7 +97,7 @@ export default function MyProject() {
                             <td>{obj.recruitDto.recruitNo}</td>
                             <td>{userId === obj.recruitDto.writer.email ? "팀장" : "팀원"}</td>
                             <td>{obj.projectDto.teamName}</td>
-                            <td>{obj.recruitDto.objectWeek}</td>
+                            <td>{obj.projectDto.objectWeek}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>

@@ -27,7 +27,7 @@ export default function CokkiriCardList() {
 
     return(
         <div style={{width: "1200px", display: "grid", gridTemplateRows: "repeat(2, 1fr)", gridTemplateColumns: "repeat(4, 1fr)"}}>
-            {cokkiriCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
+            {cokkiriCardList != undefined && cokkiriCardList.slice(0, 20).map((obj, i) => ( /* slice를 통해 20개만 출력 */
                 <CokkiriCard  key={obj.recruitDto.recruitNo} obj={obj}/>
             ))}
         </div>

@@ -50,7 +50,7 @@ export default function CokkiriDetail() {
                         content: response.data.cokkiriDto.content,
                         link: response.data.cokkiriDto.link,
                         views: response.data.cokkiriDto.views,
-                        objectWeek: response.data.cokkiriDto.objectWeek,
+                        objectWeek: response.data.projectDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
                         projectParts: response.data.projectDto.projectParts
@@ -141,7 +141,7 @@ export default function CokkiriDetail() {
                                         <Input type='text' name='teamName' id='teamName' value={cokkiri.teamName || ''} readOnly/>
                                     </Col>
                                     <Col sm={4}>
-                                    <Label htmlFor='email' sm={5}>목표 기간</Label>
+                                    <Label htmlFor='email' sm={6}>목표 기간(주)</Label>
                                         <Input type='number' name='objectWeek' id='objectWeek' value={cokkiri.objectWeek || ''} readOnly/>
                                     </Col>
                                     <Col sm={11}>

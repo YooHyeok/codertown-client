@@ -43,6 +43,7 @@ export default function Mammoth() {
     const serverRequest = (page) => {
         axios.get(`/recruit?page=${page}&dType=Mammoth&keyword=${keyword}`)
         .then((response)=> {
+            console.log(response)
             setArticleCount(response.data.articleCount)
             setMammothList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)

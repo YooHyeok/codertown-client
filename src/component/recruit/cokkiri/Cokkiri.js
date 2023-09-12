@@ -106,7 +106,8 @@ export default function Cokkiri() {
                     </tr>
                 </thead>
                 <tbody style={{ overflow: "auto" }}>
-                    {cokkiriList.map((obj) => {
+                    {console.log(cokkiriList)}
+                    {cokkiriList != undefined && cokkiriList.map((obj) => {
                         return (
                             <tr key={obj.recruitDto.recruitNo}>
                                 <td>{obj.recruitDto.recruitNo}</td>
@@ -124,7 +125,7 @@ export default function Cokkiri() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {obj.projectDto.projectParts.map((obj) => {
+                                                {obj.projectDto != undefined && obj.projectDto.projectParts.map((obj) => {
                                                     return (
                                                         <tr key={obj.partNo}>
                                                             <td>{obj.partName}</td>

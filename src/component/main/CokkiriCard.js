@@ -36,7 +36,7 @@ export default function CokkiriCard({obj}) {
                         <CardTitle className="mb-2 text-muted css-a6vgi6" ><b>{obj.recruitDto.title}</b></CardTitle>
                         {/* 목표기간 */}
                         <div className="studyItem_schedule__3oAnA">
-                            <p className="studyItem_scheduleTitle__1KN_9">목표기간 | {obj.recruitDto.objectWeek}주</p>
+                            <p className="studyItem_scheduleTitle__1KN_9">목표기간 | {obj.projectDto.objectWeek}주</p>
                         </div>
                         {/* 파트 */}
                         <ul id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
