@@ -27,7 +27,7 @@ export default function CokkiriWrite() {
         setMarkdown: setMarkdown.bind(this)
     }
 
-    const [partNo, setPartNo] = useState('1');
+    const [partNo, setPartNo] = useState('2');
     const [partName, setPartName] = useState('PM');
     const [recruitCount, setRecruitCount] = useState('');
 
@@ -122,15 +122,16 @@ export default function CokkiriWrite() {
                             <Col sm={3} >
                                 <Label htmlFor='part' sm={6}>파트 추가</Label>
                                 <select name="part" id="part" onChange={(e)=>{
+                                    console.log(e.target.value)
                                     setPartNo(e.target.value);
                                     setPartName(e.target.options[e.target.selectedIndex].textContent) //옵션 text노드 추출후 저장
                                 }}
                                     style={{display:"inline", width:'188px', height:"38px", padding:"0px 20px 0px 12px",border:'var(--bs-border-width) solid var(--bs-border-color)', borderRadius:'var(--bs-border-radius)'} }>
-                                    <option value={"1"} >PM</option>
-                                    <option value={"2"} >디자이너</option>
-                                    <option value={"3"} >퍼블리셔</option>
-                                    <option value={"4"} >프론트엔드</option>
-                                    <option value={"5"} >백엔드</option>
+                                    <option value={"2"} >PM</option>
+                                    <option value={"3"} >디자이너</option>
+                                    <option value={"4"} >퍼블리셔</option>
+                                    <option value={"5"} >프론트엔드</option>
+                                    <option value={"6"} >백엔드</option>
                                 </select>
                             </Col>
                             {/* <Col sm={4}/> */}
