@@ -56,7 +56,11 @@ export default function CokkiriDetail() {
                         projectParts: response.data.projectDto.projectParts
                         }
             )
-            setSrc(`/profileImage/${response.data.cokkiriDto.writer.email}`)
+            axios.get(`/profileImage/${response.data.cokkiriDto.writer.email}`)
+            .then((response)=>{
+                if (response.data == '') setSrc('/default_profile3.png')
+                else setSrc(`/profileImage/${response.data.cokkiriDto.writer.email}`);
+            })
         })
         .catch((error) => {
             console.log(error);

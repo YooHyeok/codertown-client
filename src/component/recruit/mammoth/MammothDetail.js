@@ -47,10 +47,14 @@ export default function MammothDetail() {
                         location: response.data.location,
                         }      
             )
-            setSrc(`/profileImage/${response.data.writer.email}`)
-        })
-        .catch((error) => {
-            console.log(error);
+            axios.get(`/profileImage/${response.data.writer.email}`)
+            .then((response)=>{
+                if (response.data == '') setSrc('/default_profile3.png')
+                else setSrc(`/profileImage/${response.data.writer.email}`)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         })
     },[])
 
