@@ -1,5 +1,4 @@
 import { Table} from 'reactstrap';
-import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Link } from 'react-router-dom';
 
 export default function MyPostRecruit({coggleList}) {
@@ -17,10 +16,10 @@ export default function MyPostRecruit({coggleList}) {
                         <th>최초 작성일자</th>
                         <th>최종 수정일자</th>
                         <th>
-                            <BsFillSuitHeartFill style={{width:"20px",height:"20px",margin:"0 auto"}}/>
+                            인기💞
                         </th>
                         <th>
-                            조회수                                            
+                            조회👀
                         </th>
                     </tr>
                 </thead>

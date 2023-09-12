@@ -2,7 +2,6 @@ import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
 import LikeButton from './LikeButton.js';
 
 export default function MammothCard({obj}) {
-
       
     return (
         <Card className='card' style={{width: '280px', height:'280px',fontSize: '1.125rem', cursor: 'pointer', padding: '0.5rem', margin: '0.5rem', marginBottom:'0.8rem'

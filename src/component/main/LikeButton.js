@@ -9,22 +9,18 @@ const LikeButton = (props) => {
   const userId = useSelector((state) => { return state.UserId });
   const recruitNo = props.recruitNo;
 
-  console.log(props);
-
   const submit = (e) => {
     if (userId == '') {
       alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
       return;}
     const formData = new FormData();
     formData.append('recruitNo', recruitNo);
-    console.log(userId)
     formData.append('userId', userId);
-    console.log(formData.data)
 
     axios.post('/recruit-like', formData)
       .then((response) => {
         console.log(response.data);
-          alert(response.data ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+          alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
       })
       .catch((error) => {
         console.log(error);

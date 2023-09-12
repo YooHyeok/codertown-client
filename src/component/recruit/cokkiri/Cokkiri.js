@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
-import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input, Tooltip } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
@@ -99,10 +98,10 @@ export default function Cokkiri() {
                         <th>작성자</th>
                         <th>작성일자</th>
                         <th>
-                            <BsFillSuitHeartFill style={{ width: "20px", height: "20px", margin: "0 auto" }} />
+                            인기💞
                         </th>
                         <th>
-                            조회수
+                            조회👀
                         </th>
                     </tr>
                 </thead>
@@ -170,7 +169,7 @@ export default function Cokkiri() {
                                 </td> */}
                                 <td>{obj.recruitDto.writer.nickname}</td>
                                 <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
-                                <td>{obj.recruitDto.like}</td>
+                                <td>{obj.recruitDto.likedCount}</td>
                                 <td>{obj.recruitDto.views}</td>
                             </tr>
                         )

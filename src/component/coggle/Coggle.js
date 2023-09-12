@@ -2,7 +2,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
-import { BsFillSuitHeartFill } from "react-icons/bs"
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
@@ -111,10 +110,10 @@ export default function Coggle() {
                                 <th>작성자</th>
                                 <th>작성일자</th>
                                 <th>
-                                    <BsFillSuitHeartFill style={{width:"20px",height:"20px",margin:"0 auto"}}/>
+                                    인기💞
                                 </th>
                                 <th>
-                                    조회수                                            
+                                    조회👀
                                 </th>
                             </tr>
                         </thead>
