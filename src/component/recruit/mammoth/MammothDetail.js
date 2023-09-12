@@ -47,16 +47,25 @@ export default function MammothDetail() {
                         location: response.data.location,
                         }      
             )
-            axios.get(`/profileImage/${response.data.writer.email}`)
+        })
+    },[])
+
+    /**
+     * 프로필사진 조회 및 초기화
+     * mammoth.writer의 값 변경시 실행
+     */
+    useEffect(()=> {
+        if(Object.keys(mammoth.writer).length !== 0) {
+            axios.get(`/profileImage/${mammoth.writer.email}`)
             .then((response)=>{
                 if (response.data == '') setSrc('/default_profile3.png')
-                else setSrc(`/profileImage/${response.data.writer.email}`)
+                else setSrc(`/profileImage/${mammoth.writer.email}`)
             })
             .catch((error) => {
                 console.log(error);
             })
-        })
-    },[])
+        }
+    },[mammoth.writer])
 
     
     /* func - 삭제 기능 */

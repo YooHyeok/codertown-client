@@ -56,16 +56,28 @@ export default function CokkiriDetail() {
                         projectParts: response.data.projectDto.projectParts
                         }
             )
-            axios.get(`/profileImage/${response.data.cokkiriDto.writer.email}`)
-            .then((response)=>{
-                if (response.data == '') setSrc('/default_profile3.png')
-                else setSrc(`/profileImage/${response.data.cokkiriDto.writer.email}`);
-            })
         })
         .catch((error) => {
             console.log(error);
         })
     },[])
+
+    /**
+     * 프로필사진 조회 및 초기화
+     * cokkiri.writer의 값 변경시 실행
+     */
+    useEffect(()=> {
+        if(Object.keys(cokkiri.writer).length !== 0) {
+            axios.get(`/profileImage/${cokkiri.writer.email}`)
+            .then((response)=>{
+                if (response.data == '') setSrc('/default_profile3.png')
+                else setSrc(`/profileImage/${cokkiri.writer.email}`)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
+    },[cokkiri.writer])
 
     /* func - 삭제 기능 */
     const del = (e) => {

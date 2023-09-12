@@ -103,17 +103,18 @@ export default function MyProject() {
                             <td>
                             <select disabled={userId !== obj.recruitDto.writer.email} ref={selectRef} name="" id="statusSelect" value={{}} onChange={(e)=>{e.preventDefault();}}
                                 style={{
-                                    display:"inline"
-                                // , webkitAppearance: "none"
-                                // , mozAppearance: "none"
-                                , appearance: userId !== obj.recruitDto.writer.email ? "none" : "show"
+                                    display: userId !== obj.recruitDto.writer.email ? "none" : "inline"
+                                , textAlign: "center"
+                                , appearance: "none"
                                 , width:"50px"
                                 , paddingRight:"-20px"
                                 , lineHeight:"normal"
                                 , height:"20px"
                                 , fontSize:"15px"
-                                , border:"none"
-                                , outline:"none"
+                                , borderTop:"none"
+                                , borderLeft:"none"
+                                , borderBottom:"1px solid lightGray"
+                                , borderRight:"1px solid lightGray"
                             }}>
                                 <option value={"RECRUIT"}>모집</option>
                                 <option value={"RUN"}>진행</option>
