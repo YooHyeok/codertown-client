@@ -12,7 +12,7 @@ export default function MyProject() {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-    const [recruitList , setRecruitList] = useState([])
+    const [projectList , setProjectList] = useState([])
     const [articleCount , setArticleCount] = useState('') // 게시글 갯수
 
     const [pageInfo, setPageInfo] = useState({
@@ -33,10 +33,12 @@ export default function MyProject() {
      * @param {} page : 선택된 페이지 정보 파라미터
      */
     const serverRequest = (page, keyword) => {
-        axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
+        // axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
+        axios.get(`/joinedProject?loginId=${userId}`)
         .then((response)=> {
+            console.log(response.data)
+            setProjectList(response.data.projectList)
             setArticleCount(response.data.articleCount)
-            setRecruitList(response.data.recruitList)
             setPageInfo(response.data.pageInfo)
         })
         .catch((error) => {
@@ -91,19 +93,19 @@ export default function MyProject() {
                     </tr>
                 </thead>
                 <tbody style={{overflow:"auto"}}>
-                    { recruitList.map((obj) => {
+                    { projectList.map((obj, i) => {
                         return (
-                            <tr key={obj.recruitDto.recruitNo}>
-                            <td>{obj.recruitDto.recruitNo}</td>
-                            <td>{userId === obj.recruitDto.writer.email ? "팀장" : "팀원"}</td>
+                            <tr key={obj.partDto.partNo}>
+                            <td>{obj.partDto.partNo}</td>
+                            <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
                             <td>{obj.projectDto.teamName}</td>
                             <td>{obj.projectDto.objectWeek}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>{obj.firstRegDate}</td>
                             <td>
-                            <select disabled={userId !== obj.recruitDto.writer.email} ref={selectRef} name="" id="statusSelect" value={{}} onChange={(e)=>{e.preventDefault();}}
+                            <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="" id="statusSelect" value={obj.projectDto.projectStatus} onChange={(e)=>{e.preventDefault();}}
                                 style={{
-                                    display: userId !== obj.recruitDto.writer.email ? "none" : "inline"
+                                    display: obj.partDto.partNo !== 1 ? "none" : "inline"
                                 , textAlign: "center"
                                 , appearance: "none"
                                 , width:"50px"
