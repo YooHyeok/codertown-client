@@ -16,6 +16,7 @@ export default function DirectMessengerExample() {
 
   useEffect(() => {
     // Set up the STOMP client
+    return; // 채팅 연결 임시 중단
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
 
@@ -44,8 +45,6 @@ export default function DirectMessengerExample() {
     if (client) {
         client.subscribe('/connected-success', function (e) {
           //e.body에 전송된 data가 들어있다
-          console.log("ㅇㅁㄴㄴㅇㅁㅇ")
-          console.log(e)
           console.log(JSON.parse(e.body))
           // showMessage(JSON.parse(e .body));
       });
