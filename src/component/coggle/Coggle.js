@@ -120,13 +120,14 @@ export default function Coggle() {
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {coggleList.map((obj) => {
+                                console.log(obj)
                                 return (
                                     <tr key={obj.coggleNo}>
                                         <td>{obj.coggleNo}</td>
                                         <td><Link to={`/coggle-detail/${obj.coggleNo}`}>{obj.title}</Link></td>
                                         <td>{obj.writer.nickname}</td>
                                         <td>{new Date(obj.firstRegDate).toISOString().split('T')[0]}</td>
-                                        <td>{obj.like}</td>
+                                        <td>{obj.isLikedMarkedCount}</td>
                                         <td>{obj.views}</td>
                                 </tr>
                                 )

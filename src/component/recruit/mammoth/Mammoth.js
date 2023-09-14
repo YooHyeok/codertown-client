@@ -102,7 +102,7 @@ export default function Mammoth() {
                                 <th>작성자</th>
                                 <th>작성일자</th>
                                 <th>
-                                    인기💞
+                                    인기📜
                                 </th>
                                 <th>
                                     조회👀
