@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input } from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
 import ToastEditor from '../ToastEditor.js'
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 
 export const CoggleEditContext = createContext();
@@ -20,6 +21,7 @@ export default function CoggleEdit() {
     const navigate = useNavigate();
     const location = useLocation();
     const coggleNo = location.state?.coggleNo;
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const [coggle, setCoggle] = useState(
         {   
@@ -32,7 +34,7 @@ export default function CoggleEdit() {
         });
 
     useEffect(()=> {
-        axios.get('/coggle-detail/'+coggleNo)
+        axios.get(`/coggle-detail/${coggleNo}/${userId}`)
         .then((response)=> {
             setCoggle({...coggle,
                         title: response.data.title, 
