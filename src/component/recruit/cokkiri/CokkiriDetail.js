@@ -4,6 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import BookmarkButton from '../../button/BookmarkButton.js';
 
 // import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -32,6 +33,8 @@ export default function CokkiriDetail() {
             content: '',
             link: '',
             views: 0,
+            isBookmarked: false,
+            isLikedMarkedCount: 0,
             objectWeek: 0,
             subject: '',
             teamName: '',
@@ -40,8 +43,9 @@ export default function CokkiriDetail() {
              )
 
     useEffect(()=> {
-        axios.get(`/cokkiri-detail/${cokkiriNo}`)
+        axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
+            console.log(response.data.cokkiriDto)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -49,12 +53,15 @@ export default function CokkiriDetail() {
                         content: response.data.cokkiriDto.content,
                         link: response.data.cokkiriDto.link,
                         views: response.data.cokkiriDto.views,
+                        isBookmarked: response.data.cokkiriDto.isBookmarked,
+                        isLikedMarkedCount: response.data.cokkiriDto.isLikedMarkedCount,
                         objectWeek: response.data.projectDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
                         projectParts: response.data.projectDto.projectParts
                         }
             )
+            setIsBookmarked(response.data.cokkiriDto.isBookmarked)
         })
         .catch((error) => {
             console.log(error);
@@ -94,6 +101,29 @@ export default function CokkiriDetail() {
         })
     }
 
+    /* 북마크 토글 */
+    const [isBookmarked, setIsBookmarked] = useState(cokkiri.isBookmarked)
+    const toggle = (e) => {
+        if (userId == '') {
+            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            return;}
+        const formData = new FormData();
+        formData.append('recruitNo', cokkiriNo);
+        formData.append('userId', userId);
+    
+        axios.post('/recruit-bookmark-toggle', formData)
+        .then((response) => {
+            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            setIsBookmarked(response.data.success)
+            response.data.success ?  setCokkiri({...cokkiri, isLikedMarkedCount: cokkiri.isLikedMarkedCount+1}): setCokkiri({...cokkiri, isLikedMarkedCount: cokkiri.isLikedMarkedCount-1})
+           
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
+
+
     return(
         <div style={divStyle}>
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
@@ -110,6 +140,7 @@ export default function CokkiriDetail() {
                         <div>
                             <span>{cokkiri.nickname}</span> <br/> <span>{'2023-08-21'}</span> <span>조회수 {cokkiri.views}</span>
                         </div>
+
                         {/* 수정 삭제 버튼 */}
                         {userId == cokkiri.writer.email &&
                         <div className='update-delete-btn-gruop' style={{display:"flex", marginTop:"-40px", float:'right'}}>
@@ -204,16 +235,20 @@ export default function CokkiriDetail() {
                         </div>}
                     </div>
                 </div>
-            {/* 댓글영역 */}
-            {/* <div style = {{width:'1200px', margin: '50px auto', display:"flex", borderTop: '0.1px solid lightgray'}}>
-                <div style={{margin:"30px 20px 10px 10px"}}>
-                    <h3 ><b>이곳은 댓글영역입니다</b></h3>
-                    <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                    <div>
-                        <span>{'유혁스쿨'}</span> <br/> <span>{'2023-08-21'}</span>
-                    </div>
+            {/* 북마크  */}
+            {/* 조회수 & 좋아요기능 & 댓글카운트  */}
+            <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
+                
+                <div style = {{width:'50px', margin: '0px', display:"flex"}}>
+                    <div onClick={toggle} ><BookmarkButton isBookmarked={isBookmarked} /></div>
+                    &nbsp;{cokkiri.isLikedMarkedCount}
                 </div>
-            </div> */}
+                <div style = {{width:'50px', margin: '0px', display:"flex"}}>
+                    <div >👀</div>
+                    &nbsp;{cokkiri.views}
+                </div>
+                
+            </div>
         </div>
         )
 }

@@ -26,24 +26,89 @@ export default function CoggleDetail() {
 
     const textarea = useRef('');
 
-    /* 북마크 토글 */
-    const toggle = (e) => {
-      if (userId == '') {
-        alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
-        return;}
-      const formData = new FormData();
-      formData.append('coggleNo', coggleNo);
-      formData.append('userId', userId);
-  
-      axios.post('/coggle-likemark-toggle', formData)
-        .then((response) => {
-            alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        setCoggle({...coggle, isLikeMarked : !coggle.isLikeMarked})
-    }
+        /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+        const navigate = useNavigate();
+        const { coggleNo } = useParams();
+    
+        const [coggle, setCoggle] = useState(
+            {   
+                title: null,
+                writer: {},
+                nickname: '',
+                category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
+                content: '',
+                isLikeMarked: false,
+                isLikedMarkedCount: 0,
+                views: 0
+            }
+                 )
+    
+    
+        useEffect(()=> {
+            axios.get(`/coggle-detail/${coggleNo}/${userId == '' ? null : userId}`)
+            .then((response)=> {
+                setCoggle({  
+                            title: response.data.title, 
+                            writer: response.data.writer,
+                            nickname: response.data.writer.nickname,
+                            category : response.data.category,
+                            categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
+                            title: response.data.title,
+                            content: response.data.content,
+                            isLikeMarked: response.data.isLikeMarked,
+                            isLikedMarkedCount: response.data.isLikedMarkedCount,
+                            views: response.data.views
+                            }
+                )
+                setSrc(`/profileImage/${response.data.writer.email}`)
+                setIsLikeMarked(response.data.isLikeMarked)
+    
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            commentSearchAxios(); //댓글 조회
+        },[])
+    
+            /* 북마크 토글 */
+            const [isLikeMarked, setIsLikeMarked] = useState(coggle.isLikeMarked)
+    
+            const toggle = (e) => {
+              if (userId == '') {
+                alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+                return;}
+              const formData = new FormData();
+              formData.append('coggleNo', coggleNo);
+              formData.append('userId', userId);
+          
+              axios.post('/coggle-likemark-toggle', formData)
+                .then((response) => {
+                    alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
+                    setIsLikeMarked(response.data.success)
+                    response.data.success ?  setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount+1}): setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount-1})
+        
+                })
+                .catch((error) => {
+                  console.log(error);
+                })
+                // setCoggle({...coggle, isLikeMarked : !coggle.isLikeMarked})
+            }
+    
+        /* func - 삭제 기능 */
+        const del = (e) => {
+            alert("삭제 하시겠습니까?");
+    
+            const formData = new FormData();
+            formData.append('coggleNo', coggleNo);
+    
+            axios.post('/coggle-delete', formData)
+            .then((response)=> {
+                document.location.href="/coggle";
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
 
     /* 댓글 [입력] - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const textAreaInputChange = (e) => {
@@ -77,6 +142,7 @@ export default function CoggleDetail() {
             console.log(error);
         })
     };
+    
 
     
     const [commentList, setCommentList] = useState([])
@@ -95,65 +161,6 @@ export default function CoggleDetail() {
             var childCommnetSumCount = 0;
             response.data.forEach(obj => childCommnetSumCount += obj.children.length)
             setCommentTotalCount(response.data.length+childCommnetSumCount);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    }
-
-    /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
-    const navigate = useNavigate();
-    const { coggleNo } = useParams();
-
-    const [coggle, setCoggle] = useState(
-        {   
-            title: null,
-            writer: {},
-            nickname: '',
-            category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
-            content: '',
-            isLikeMarked: false,
-            isLikedMarkedCount: 0,
-            views: 0
-        }
-             )
-
-
-    useEffect(()=> {
-        axios.get(`/coggle-detail/${coggleNo}/${userId == '' ? null : userId}`)
-        .then((response)=> {
-            setCoggle({  
-                        title: response.data.title, 
-                        writer: response.data.writer,
-                        nickname: response.data.writer.nickname,
-                        category : response.data.category,
-                        categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
-                        title: response.data.title,
-                        content: response.data.content,
-                        isLikeMarked: response.data.isLikeMarked,
-                        isLikedMarkedCount: response.data.isLikedMarkedCount,
-                        views: response.data.views
-                        }
-            )
-            setSrc(`/profileImage/${response.data.writer.email}`)
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-
-        commentSearchAxios(); //댓글 조회
-    },[coggle.isLikeMarked])
-
-    /* func - 삭제 기능 */
-    const del = (e) => {
-        alert("삭제 하시겠습니까?");
-
-        const formData = new FormData();
-        formData.append('coggleNo', coggleNo);
-
-        axios.post('/coggle-delete', formData)
-        .then((response)=> {
-            document.location.href="/coggle";
         })
         .catch((error) => {
             console.log(error);
@@ -193,11 +200,16 @@ export default function CoggleDetail() {
                     <Viewer className="toast-viewer" initialValue={coggle.content} key={coggle.content}/>
                 </div>
             </div>
-            {/* 좋아요기능 & 댓글카운트  */}
+            {/* 조회수 & 좋아요기능 & 댓글카운트  */}
             <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
+                
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
-                    <div onClick={toggle} ><LikeButton coggleNo={coggleNo} isLikeMarked={coggle.isLikeMarked} className='inline' /></div>
+                    <div onClick={toggle} ><LikeButton isLikeMarked={isLikeMarked} className='inline' /></div>
                     &nbsp;{coggle.isLikedMarkedCount}
+                </div>
+                <div style = {{width:'50px', margin: '0px', display:"flex"}}>
+                    <div >👀</div>
+                    &nbsp;{coggle.views}
                 </div>
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-text" viewBox="0 0 16 16">
@@ -205,7 +217,6 @@ export default function CoggleDetail() {
                         <path d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8zm0 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/>
                     </svg>
                     &nbsp;{commentTotalCount}
-                    
                 </div>
             </div>
             {/* 댓글 영역 */}

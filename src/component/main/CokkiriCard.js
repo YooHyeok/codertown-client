@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../button/BookmarkButton.js';
 import axios from "axios";
 
@@ -10,14 +11,36 @@ export default function CokkiriCard({obj}) {
         setTooltipOpen({...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo],});
       };
 
+    const userId = useSelector( (state) => {return state.UserId} );
+
     const [src, setSrc] = useState('/default_profile3.png');
     useEffect(() => {
         axios.get(`/profileImage/${obj.recruitDto.writer.email}`)
         .then((response)=>{
             if (response.data == '') setSrc('/default_profile3.png')
             else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
-        })
+    })
     }, [])
+    /* 북마크 토글 */
+    const [isBookmarked, setIsBookmarked] = useState(obj.recruitDto.isBookmarked);
+    const toggle = (e) => {
+        if (userId == '') {
+            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            return;}
+        const formData = new FormData();
+        formData.append('recruitNo', obj.recruitDto.recruitNo);
+        formData.append('userId', userId);
+    
+        axios.post('/recruit-bookmark-toggle', formData)
+        .then((response) => {
+            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            setIsBookmarked(response.data.success)
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
+
     return (
         <Card  className='card' 
                 style={{width: '280px', height:'280px',fontSize: '1.125rem', padding: '0.5rem', margin: '0.5rem', marginBottom:'0.8rem'
@@ -29,8 +52,8 @@ export default function CokkiriCard({obj}) {
                                     <div className="badge_study__39LDm">💻 코끼리 - 프로젝트</div>
                                 </div>
                             </div>
-                            <div style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
-                                <BookmarkButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
+                            <div onClick={toggle} style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
+                                    <BookmarkButton isBookmarked={isBookmarked} className='inline' />
                             </div>
                         </CardSubtitle>
                         {/* 제목 */}
