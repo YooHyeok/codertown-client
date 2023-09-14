@@ -50,11 +50,6 @@ td > a
   font-size:13px;
 }
 
-td > a
-{
-  /* text-align: right; */
-}
-
 /* Toast Viewr Content FontSize */
 .toastui-editor-contents p {
   font-size: 15px;

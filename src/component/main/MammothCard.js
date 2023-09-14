@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
 import LikeButton from './LikeButton.js';
 import { useState, useEffect } from "react";
@@ -29,7 +30,12 @@ export default function MammothCard({obj}) {
                         <LikeButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
                     </div>
                 </CardSubtitle>
-                <CardTitle className="mb-3 text-muted css-a6vgi6" ><b>{obj.recruitDto.title}</b></CardTitle>
+                <CardTitle className="mb-3 text-muted css-a6vgi6" >
+                <Link to={`/mammoth-detail/${obj.recruitDto.recruitNo}`} 
+                        style={{textDecoration:'none', color:'#212529BF'}}>
+                    <b>{obj.recruitDto.title}</b>
+                </Link>
+                </CardTitle>
                 {/* <CardTitle className="mb-3 text-muted " ><b>외부 링크</b> {'www.naver.com'}</CardTitle> */}
 
                 <div className="studyItem_schedule__3oAnA">
