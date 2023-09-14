@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
 import { useState, useEffect } from "react";
-import LikeButton from './LikeButton.js';
+import BookmarkButton from '../button/BookmarkButton.js';
 import axios from "axios";
 
 export default function CokkiriCard({obj}) {
@@ -30,7 +30,7 @@ export default function CokkiriCard({obj}) {
                                 </div>
                             </div>
                             <div style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
-                                <LikeButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
+                                <BookmarkButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
                             </div>
                         </CardSubtitle>
                         {/* 제목 */}

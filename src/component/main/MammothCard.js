@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
-import LikeButton from './LikeButton.js';
+import BookmarkButton from '../button/BookmarkButton.js';
 import { useState, useEffect } from "react";
 
 import axios from "axios";
@@ -27,7 +27,7 @@ export default function MammothCard({obj}) {
                         </div>
                     </div>
                     <div style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
-                        <LikeButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
+                        <BookmarkButton recruitNo={obj.recruitDto.recruitNo} isLiked={obj.recruitDto.isLiked} /* isLiked={isLikes[idx]} */ className='inline' />
                     </div>
                 </CardSubtitle>
                 <CardTitle className="mb-3 text-muted css-a6vgi6" >
