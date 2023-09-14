@@ -24,7 +24,6 @@ export default function MyPostRecruit({coggleList}) {
                     </tr>
                 </thead>
                 <tbody style={{overflow:"auto"}}>
-                    {console.log(coggleList)}
                     {coggleList.map((obj) => {
                         return (
                             <tr key={obj.coggleNo}>

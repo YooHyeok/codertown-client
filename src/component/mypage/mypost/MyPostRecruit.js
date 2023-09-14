@@ -49,8 +49,6 @@ export default function MyPostRecruit({recruitList, dType}) {
                                         <tbody>
                                             {obj.projectDto.projectParts.filter((obj)=>{
                                                 return obj.partNo !== 1;
-                                            }).filter((obj)=>{
-                                                return obj.partNo !== 1;
                                             }).map((obj) => {
                                                 return (
                                                     <tr key={obj.partNo}>
@@ -67,8 +65,8 @@ export default function MyPostRecruit({recruitList, dType}) {
                             </td>
                             <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                             <td>{obj.recruitDto.lastModDate == null ? new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0] : new Date(obj.recruitDto.lastModDate).toISOString().split('T')[0]}</td>
-                            <td>{obj.recruitDto.like}</td>
-                            <td>{obj.recruitDto.count}</td>
+                            <td>{obj.recruitDto.likedCount}</td>
+                            <td>{obj.recruitDto.views}</td>
                         </tr> 
                         )
                     })}

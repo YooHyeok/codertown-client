@@ -141,35 +141,6 @@ export default function Cokkiri() {
                                         </Table>
                                     </Tooltip>
                                 </td>
-                                {/* <td style={{ padding: "3px" }} >
-                                    <Button style={{ fontSize: '10px' }}
-                                        id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)}
-                                    >보기</Button>
-                                    <Tooltip style={{ width: "300px" }} placement="bottom" isOpen={tooltipOpen[obj.recruitDto.recruitNo]} target={"Tooltip" + obj.recruitDto.recruitNo}>
-                                        <Table bordered={true} style={{ margin: "5px auto" }} >
-                                            <thead>
-                                                <tr>
-                                                    <th>파트 / 현황</th>
-                                                    <th>모집 인원</th>
-                                                    <th>남은 자리</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {obj.projectDto.projectParts.map((obj) => {
-                                                    return (
-                                                        <tr key={obj.partNo}>
-                                                            <td>{obj.partName}</td>
-                                                            <td>{obj.recruitCount}</td>
-                                                            <td>{obj.recruitCount - obj.currentCount}</td>
-                                                        </tr>
-                                                    )
-                                                })}
-
-                                            </tbody>
-                                        </Table>
-                                    </Tooltip>
-
-                                </td> */}
                                 <td>{obj.recruitDto.writer.nickname}</td>
                                 <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
                                 <td>{obj.recruitDto.likedCount}</td>
