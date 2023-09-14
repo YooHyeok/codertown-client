@@ -166,7 +166,9 @@ export default function CokkiriDetail() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {cokkiri.projectParts.map((obj) => {
+                                            {cokkiri.projectParts.filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).map((obj) => {
                                                 
                                                 return(
                                                     <tr key={obj.partNo}>

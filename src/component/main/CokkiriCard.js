@@ -40,7 +40,9 @@ export default function CokkiriCard({obj}) {
                         </div>
                         {/* 파트 */}
                         <ul id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
-                            {obj.projectDto.projectParts.map((obj,index) => (
+                            {obj.projectDto.projectParts.filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).map((obj,index) => (
                                 <li key={'part_li_' + index + '_' + obj.partNo} className="main_project_part_list_li">{obj.partName}</li>
                             ))}
                         </ul>
@@ -71,7 +73,9 @@ export default function CokkiriCard({obj}) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {obj.projectDto.projectParts.map((obj, index) => {
+                                {obj.projectDto.projectParts.filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).map((obj, index) => {
                                     return(
                                         <tr key={'part_tr_' + index + '_' + obj.partNo}>
                                             <td>{obj.partName}</td>

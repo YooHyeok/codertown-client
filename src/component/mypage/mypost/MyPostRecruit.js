@@ -47,7 +47,11 @@ export default function MyPostRecruit({recruitList, dType}) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {obj.projectDto.projectParts.map((obj) => {
+                                            {obj.projectDto.projectParts.filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).map((obj) => {
                                                 return (
                                                     <tr key={obj.partNo}>
                                                         <td>{obj.partName}</td>

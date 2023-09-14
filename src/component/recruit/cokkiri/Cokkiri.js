@@ -125,7 +125,9 @@ export default function Cokkiri() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {obj.projectDto != undefined && obj.projectDto.projectParts.map((obj) => {
+                                                {obj.projectDto != undefined && obj.projectDto.projectParts.filter((obj)=>{
+                                                return obj.partNo !== 1;
+                                            }).map((obj) => {
                                                     return (
                                                         <tr key={obj.partNo}>
                                                             <td>{obj.partName}</td>
