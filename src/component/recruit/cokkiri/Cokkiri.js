@@ -142,7 +142,7 @@ export default function Cokkiri() {
                                 </td>
                                 <td>{obj.recruitDto.writer.nickname}</td>
                                 <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
-                                <td>{obj.recruitDto.likedCount}</td>
+                                <td>{obj.recruitDto.isBookMarkedCount}</td>
                                 <td>{obj.recruitDto.views}</td>
                             </tr>
                         )

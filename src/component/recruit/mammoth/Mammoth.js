@@ -18,7 +18,7 @@ export default function Mammoth() {
         , top: '100'
       };
 
-      const userId = useSelector( (state) => {return state.UserId} );
+    const userId = useSelector( (state) => {return state.UserId} );
 
 
     const [mammothList , setMammothList] = useState([])
@@ -118,7 +118,7 @@ export default function Mammoth() {
                                     <td><Link to={`/mammoth-detail/${obj.recruitDto.recruitNo}`}>{obj.recruitDto.title}</Link></td>
                                     <td>{obj.recruitDto.writer.nickname}</td>
                                     <td>{new Date(obj.recruitDto.firstRegDate).toISOString().split('T')[0]}</td>
-                                    <td>{obj.recruitDto.likedCount}</td>
+                                    <td>{obj.recruitDto.isBookMarkedCount}</td>
                                     <td>{obj.recruitDto.views}</td>
                                 </tr>
                                 )

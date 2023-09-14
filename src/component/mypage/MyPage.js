@@ -63,11 +63,11 @@ export default function MyPage() {
                         </TabPane>
                         <TabPane tabId="3">
                             {/* 나의 게시글 */}
-                            {tabChange.activeTab === '3' && <MyPost/>}
+                            {tabChange.activeTab === '3' && <MyPost tabType={'myPost'}/>}
                         </TabPane>
                         <TabPane tabId="4">
                             {/* 나의 북마크 */}
-                            {tabChange.activeTab === '4' && <MyPost/>}
+                            {tabChange.activeTab === '4' && <MyPost tabType={'myBookMark'}/>}
                         </TabPane>
                     </TabContent>
             </div >

@@ -6,7 +6,7 @@ import MyPostRecruit from './MyPostRecruit.js'
 import MyPostCoggle from './MyPostCoggle.js'
 import axios from "axios";
 
-export default function MyPost() {
+export default function MyPost(props) {
 
 
     const userId = useSelector( (state) => {return state.UserId} );
@@ -46,7 +46,7 @@ export default function MyPost() {
      */
      const serverRequest = (page, keyword) => {
         if (option == 'Cokkiri' || option == 'Mammoth') {
-            axios.get(`/recruit?page=${page}&dType=${option}&keyword=${keyword}&loginId=${userId}`)
+            axios.get(`/recruit?page=${page}&dType=${option}&keyword=${keyword}&loginId=${userId}&url=${props.tabType}`)
             .then((response)=> {
                 setArticleCount(response.data.articleCount)
                 setRecruitList(response.data.recruitList)

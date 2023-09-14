@@ -1,6 +1,7 @@
 import { useNavigate, useLocation  } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ToastEditor from '../../ToastEditor.js'
 import axios from "axios";
 
@@ -15,7 +16,8 @@ export default function CokkiriEdit() {
         , padding: '30px'
         , top: '100'
       };
-      const navigate = useNavigate();
+    const navigate = useNavigate();
+    const userId = useSelector( (state) => {return state.UserId} );
 
     const location = useLocation();
     const cokkiriNo = location.state?.cokkiriNo;
@@ -104,7 +106,7 @@ export default function CokkiriEdit() {
 
     /* 페이지 첫 진입시 데이터 출력용 랜더링 */
     useEffect(()=> {
-        axios.get('/cokkiri-detail/'+cokkiriNo)
+        axios.get(`/cokkiri-detail/${cokkiriNo}/${userId}`)
         .then((response)=> {
             setCokkiri({...cokkiri,     
                 cokkiriTitle: response.data.cokkiriDto.title, 

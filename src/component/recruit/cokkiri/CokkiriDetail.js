@@ -34,7 +34,7 @@ export default function CokkiriDetail() {
             link: '',
             views: 0,
             isBookmarked: false,
-            isLikedMarkedCount: 0,
+            isBookMarkedCount: 0,
             objectWeek: 0,
             subject: '',
             teamName: '',
@@ -54,7 +54,7 @@ export default function CokkiriDetail() {
                         link: response.data.cokkiriDto.link,
                         views: response.data.cokkiriDto.views,
                         isBookmarked: response.data.cokkiriDto.isBookmarked,
-                        isLikedMarkedCount: response.data.cokkiriDto.isLikedMarkedCount,
+                        isBookMarkedCount: response.data.cokkiriDto.isBookMarkedCount,
                         objectWeek: response.data.projectDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
@@ -115,7 +115,7 @@ export default function CokkiriDetail() {
         .then((response) => {
             alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
             setIsBookmarked(response.data.success)
-            response.data.success ?  setCokkiri({...cokkiri, isLikedMarkedCount: cokkiri.isLikedMarkedCount+1}): setCokkiri({...cokkiri, isLikedMarkedCount: cokkiri.isLikedMarkedCount-1})
+            response.data.success ?  setCokkiri({...cokkiri, isBookMarkedCount: cokkiri.isBookMarkedCount+1}): setCokkiri({...cokkiri, isBookMarkedCount: cokkiri.isBookMarkedCount-1})
            
         })
         .catch((error) => {
@@ -235,13 +235,12 @@ export default function CokkiriDetail() {
                         </div>}
                     </div>
                 </div>
-            {/* 북마크  */}
-            {/* 조회수 & 좋아요기능 & 댓글카운트  */}
+            {/* 조회수 & 북마크기능 & 댓글카운트  */}
             <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
                 
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
                     <div onClick={toggle} ><BookmarkButton isBookmarked={isBookmarked} /></div>
-                    &nbsp;{cokkiri.isLikedMarkedCount}
+                    &nbsp;{cokkiri.isBookMarkedCount}
                 </div>
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
                     <div >👀</div>

@@ -4,11 +4,12 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import BookmarkButton from '../../button/BookmarkButton.js';
 
 export default function MammothDetail() {
     const divStyle = {
         width: '100%' //캘린더 width 조절을 위해 부모태그에 설정한다.
-        , height: '850px'
+        , height: '100%'
         , textAlign: 'left'
         , margin: '50px auto'
         , marginBottom: '0px'
@@ -29,24 +30,30 @@ export default function MammothDetail() {
             nickname: '',
             content: '',
             link: '',
+            location: '',
             views: 0,
-            location: ''
+            isBookmarked: false,
+            isBookMarkedCount: 0
         }
              )
 
     useEffect(()=> {
-        axios.get(`/mammoth-detail/${mammothNo}`)
+        axios.get(`/mammoth-detail/${mammothNo}/${userId}`)
         .then((response)=> {
+            console.log(response.data)
             setMammoth({...mammoth,     
                         title: response.data.title, 
                         content: response.data.content,
                         link: response.data.link,
                         writer : response.data.writer,
                         nickname: response.data.writer.nickname,
-                        views: response.data.views,
                         location: response.data.location,
+                        views: response.data.views,
+                        isBookmarked: response.data.isBookmarked,
+                        isBookMarkedCount: response.data.isBookMarkedCount,
                         }      
             )
+            setIsBookmarked(response.data.isBookmarked)
         })
     },[])
 
@@ -81,6 +88,28 @@ export default function MammothDetail() {
         })
         .catch((error) => {
             console.log(error);
+        })
+    }
+
+    /* 북마크 토글 */
+    const [isBookmarked, setIsBookmarked] = useState(mammoth.isBookmarked)
+    const toggle = (e) => {
+        if (userId == '') {
+            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            return;}
+        const formData = new FormData();
+        formData.append('recruitNo', mammothNo);
+        formData.append('userId', userId);
+    
+        axios.post('/recruit-bookmark-toggle', formData)
+        .then((response) => {
+            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            setIsBookmarked(response.data.success)
+            response.data.success ?  setMammoth({...mammoth, isBookMarkedCount: mammoth.isBookMarkedCount+1}): setMammoth({...mammoth, isBookMarkedCount: mammoth.isBookMarkedCount-1})
+           
+        })
+        .catch((error) => {
+        console.log(error);
         })
     }
 
@@ -157,16 +186,19 @@ export default function MammothDetail() {
                         </div>}
                     </div>
                 </div>
-                {/* 댓글영역 */}
-                {/* <div style = {{width:'1200px', margin: '50px auto', display:"flex", borderTop: '0.1px solid lightgray'}}>
-                    <div style={{margin:"30px 20px 10px 10px"}}>
-                        <h3 ><b>이곳은 댓글영역입니다</b></h3>
-                        <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%', float:"left"}}/> 
-                        <div>
-                            <span>{'유혁스쿨'}</span> <br/> <span>{'2023-08-21'}</span>
-                        </div>
-                    </div>
-                </div> */}
+            {/* 조회수 & 북마크기능 & 댓글카운트  */}
+            <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
+                
+                <div style = {{width:'50px', margin: '0px', display:"flex"}}>
+                    <div onClick={toggle} ><BookmarkButton isBookmarked={isBookmarked} /></div>
+                    &nbsp;{mammoth.isBookMarkedCount}
+                </div>
+                <div style = {{width:'50px', margin: '0px', display:"flex"}}>
+                    <div >👀</div>
+                    &nbsp;{mammoth.views}
+                </div>
+                
+            </div>
         </div>
         )
 }

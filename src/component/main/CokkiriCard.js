@@ -21,6 +21,7 @@ export default function CokkiriCard({obj}) {
             else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
     })
     }, [])
+    
     /* 북마크 토글 */
     const [isBookmarked, setIsBookmarked] = useState(obj.recruitDto.isBookmarked);
     const toggle = (e) => {

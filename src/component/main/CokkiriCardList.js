@@ -14,7 +14,7 @@ export default function CokkiriCardList() {
      * @param {} page : 선택된 페이지 정보 파라미터
      */
     const serverRequest = (page, keyword) => {
-        axios.get(`/recruit?page=${page}&size=${20}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}&url=${'main'}`)
+        axios.get(`/recruit?page=${page}&size=${20}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
         .then((response)=> {
             setCokkiriCardList(response.data.recruitList)
         })

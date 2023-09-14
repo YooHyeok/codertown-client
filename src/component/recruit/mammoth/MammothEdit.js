@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ToastEditor from '../../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
 import axios from "axios";
@@ -19,6 +20,8 @@ export default function MammothEdit() {
       };
 
     const navigate = useNavigate();
+    const userId = useSelector( (state) => {return state.UserId} );
+
     const location = useLocation();
     const mammothNo = location.state?.mammothNo;
 
@@ -27,7 +30,7 @@ export default function MammothEdit() {
     });
 
     useEffect(()=> {
-    axios.get('/mammoth-detail/'+mammothNo)
+    axios.get(`/mammoth-detail/${mammothNo}/${userId}`)
     .then((response)=> {
         setMammoth({...mammoth,     
                     title: response.data.title, 
