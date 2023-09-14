@@ -106,7 +106,6 @@ export default function Cokkiri() {
                     </tr>
                 </thead>
                 <tbody style={{ overflow: "auto" }}>
-                    {console.log(cokkiriList)}
                     {cokkiriList != undefined && cokkiriList.map((obj) => {
                         return (
                             <tr key={obj.recruitDto.recruitNo}>
@@ -177,7 +176,6 @@ export default function Cokkiri() {
                 }
                 for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
                     if (i == pageInfo.curPage) {
-                        console.log(i);
                         array.push(
                             <span key={i}><Button style={{ border: "none" }} color='secondary' className='numberbutton' value={i} onClick={(e) => {
                                 if (pageInfo.curPage === i) return;

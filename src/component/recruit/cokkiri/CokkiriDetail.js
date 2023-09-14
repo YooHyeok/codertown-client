@@ -42,7 +42,6 @@ export default function CokkiriDetail() {
     useEffect(()=> {
         axios.get(`/cokkiri-detail/${cokkiriNo}`)
         .then((response)=> {
-            console.log(response.data.cokkiriDto.views)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
