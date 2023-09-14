@@ -7,6 +7,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
+import LikeButton from '../button/LikeButton.js';
 
 export default function CoggleDetail() {
     const divStyle = {
@@ -24,6 +25,25 @@ export default function CoggleDetail() {
     const [commentValue, setCommentValue] = useState('');
 
     const textarea = useRef('');
+
+    /* 북마크 토글 */
+    const toggle = (e) => {
+      if (userId == '') {
+        alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+        return;}
+      const formData = new FormData();
+      formData.append('coggleNo', coggleNo);
+      formData.append('userId', userId);
+  
+      axios.post('/coggle-likemark-toggle', formData)
+        .then((response) => {
+            alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        setCoggle({...coggle, isLikeMarked : !coggle.isLikeMarked})
+    }
 
     /* 댓글 [입력] - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const textAreaInputChange = (e) => {
@@ -82,6 +102,8 @@ export default function CoggleDetail() {
             nickname: '',
             category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
             content: '',
+            isLikeMarked: false,
+            isLikedMarkedCount: 0,
             views: 0
         }
              )
@@ -89,7 +111,7 @@ export default function CoggleDetail() {
     const [commentList, setCommentList] = useState([])
 
     useEffect(()=> {
-        axios.get(`/coggle-detail/${coggleNo}`)
+        axios.get(`/coggle-detail/${coggleNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
             setCoggle({  
                         title: response.data.title, 
@@ -99,6 +121,8 @@ export default function CoggleDetail() {
                         categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
                         title: response.data.title,
                         content: response.data.content,
+                        isLikeMarked: response.data.isLikeMarked,
+                        isLikedMarkedCount: response.data.isLikedMarkedCount,
                         views: response.data.views
                         }
             )
@@ -109,7 +133,7 @@ export default function CoggleDetail() {
         })
 
         commentSearchAxios(); //댓글 조회
-    },[])
+    },[coggle.isLikeMarked])
 
     /* func - 삭제 기능 */
     const del = (e) => {
@@ -159,6 +183,10 @@ export default function CoggleDetail() {
                 <div style={{ width: '1000px', margin:'10px',}}>
                     <Viewer className="toast-viewer" initialValue={coggle.content} key={coggle.content}/>
                 </div>
+            </div>
+            <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
+                <div onClick={toggle} ><LikeButton coggleNo={coggleNo} isLikeMarked={coggle.isLikeMarked} className='inline' /></div>
+                &nbsp;{coggle.isLikedMarkedCount}
             </div>
             {/* 댓글 영역 */}
             <div style = {{width:'1200px', margin: '30px auto', borderTop: '0.1px solid lightgray'}}>

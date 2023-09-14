@@ -17,7 +17,7 @@ const LikeButton = (props) => {
     formData.append('recruitNo', recruitNo);
     formData.append('userId', userId);
 
-    axios.post('/recruit-like', formData)
+    axios.post('/recruit-bookmark-toggle', formData)
       .then((response) => {
         console.log(response.data);
           alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
