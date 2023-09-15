@@ -97,7 +97,7 @@ export default function MyProject() {
         , position: 'absolute' //고정
         , cursor: 'grab'
         , transform: `translate(${position.x}px, ${position.y}px)`
-        , zIndex: '10'
+        , zIndex: '1000'
         , bottom: "200px"
         , right: "700px"
         , textAlign:'left'
