@@ -235,7 +235,7 @@ export default function MyProject() {
             onDragStart={onDragStart}
             >
             <TopTabPanel/>
-            <Button style={{width:'500px', height:'50px'}} onClick={(e)=>{e.preventDefault(); pmsFrame.current.style.display='none';
+            <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); pmsFrame.current.style.display='none';
                  }}>닫기</Button>
         </div>
     </>)
