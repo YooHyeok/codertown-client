@@ -4,7 +4,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import './MyPage.css';
 import MyInfoEdit from './MyInfoEdit';
-import MyProject from './MyProject';
+import MyProject from './myproject/MyProject';
 import MyPost from './mypost/MyPost';
 
 export default function MyPage() {

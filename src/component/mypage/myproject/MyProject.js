@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from "react";
-import {  Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap';
+import { Label, Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
-import { Search } from 'react-bootstrap-icons';
+import { Search } from 'react-bootstrap-icons'; 
+import TopTabPanel from './TopTabPanel.js';
 
 import axios from "axios";
 
+
+  
+
 export default function MyProject() {
+
+/*     const modalStyle = { 
+        width: "500px",
+        // top: "20%"
+    } */
 
     const selectRef = useRef(null);
 
@@ -52,7 +60,51 @@ export default function MyProject() {
         serverRequest(1, keyword)
       }, [])
     
+    const pmsFrame  = useRef('');
 
+
+    /* DIV 영역  드래그 */
+    const [isDragging, setIsDragging] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+
+    const onMouseDown = (e) => {
+        setIsDragging(true);
+        setStartPosition({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y,
+        });
+    };
+
+    const onMouseMove = (e) => {
+        if (!isDragging) return;
+        setPosition({
+        x: e.clientX - startPosition.x,
+        y: e.clientY - startPosition.y,
+        });
+    };
+
+    const onMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const onDragStart = (e) => {
+        e.preventDefault();
+    };
+
+    const pmsFrameStyle = {
+        display: 'none'
+        , position: 'absolute' //고정
+        , cursor: 'grab'
+        , transform: `translate(${position.x}px, ${position.y}px)`
+        , zIndex: '10'
+        , bottom: "200px"
+        , right: "700px"
+        , textAlign:'left'
+        // , height:"557px"
+        , border:'3px solid lightGray'
+        , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
+      };
 
     /**
      * JSX 시작
@@ -125,7 +177,7 @@ export default function MyProject() {
                             </td>
                             <td>{obj.count}</td>
                             <td style={{ padding:"0.5em"}}>
-                                <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{e.preventDefault();}}>
+                                <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{e.preventDefault(); setPosition({ x: 0, y: 0 }); pmsFrame.current.style.display='inline'}}>
                                     <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
                                 </Button>
                             </td>
@@ -175,7 +227,17 @@ export default function MyProject() {
                         return array;
                         })()}
         </div>
-        
+        <div ref={pmsFrame} style={pmsFrameStyle} 
+            className={`draggable ${isDragging ? 'dragging' : ''}`}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onDragStart={onDragStart}
+            >
+            <TopTabPanel/>
+            <Button style={{width:'500px', height:'50px'}} onClick={(e)=>{e.preventDefault(); pmsFrame.current.style.display='none';
+                 }}>닫기</Button>
+        </div>
     </>)
 
 }
