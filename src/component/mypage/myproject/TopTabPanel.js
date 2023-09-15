@@ -63,9 +63,10 @@ export default function TopTabPanel() {
             textColor="inherit"
             variant="fullWidth"
             aria-label="full width tabs example"
+            style={{backgroundColor:'lightgray'}}
           >
-            <Tab label={<h5>{'전체 현황'}</h5>} {...a11yProps(0)} />
-            <Tab label={<h5>{'파트별 현황'}</h5>} {...a11yProps(1)} />
+            <Tab style={{backgroundColor:'#6C757D'}} label={<h5>{'전체 현황'}</h5>} {...a11yProps(0)} />
+            <Tab style={{backgroundColor:'#6C757D'}} label={<h5>{'파트별 현황'}</h5>} {...a11yProps(1)} />
           </Tabs>
         </AppBar>
         <SwipeableViews
