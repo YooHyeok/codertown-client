@@ -79,26 +79,44 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                     <tbody>
                         <tr>
                             <td>PM/기획</td>
-                            <td><p style={{width:"100px", float:"left"}}>[프로필 영역]</p><p style={{width:"120px", float:"left"}}>참여자닉네임1</p> <button style={{display:"block", float:"right"}}>추방</button></td>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>soomincho</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>디자이너</td>
-                            <td><p style={{width:"100px", float:"left"}}>[프로필 영역]</p><p style={{width:"120px", float:"left"}}>참여자닉네임2</p> <button style={{display:"block", float:"right"}}>추방</button></td>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/webdevyoo@gmail.com`} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>webdevyoo</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>퍼블리셔</td>
-                            <td><p style={{width:"100px", float:"left"}}>[프로필 영역]</p><p style={{width:"120px", float:"left"}}>참여자닉네임3</p> <button style={{display:"block", float:"right"}}>추방</button></td>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>prove.ability00</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>프론트엔드</td>
-                            <td><p style={{width:"100px", float:"left"}}>[프로필 영역]</p><p style={{width:"120px", float:"left"}}>참여자닉네임2</p> <button style={{display:"block", float:"right"}}>추방</button></td>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>bard</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
                         </tr>
                         <tr>
                             <td>백엔드</td>
-                            <td><p style={{width:"100px", float:"left"}}>[프로필 영역]</p><p style={{width:"120px", float:"left"}}>참여자닉네임3</p> <button style={{display:"block", float:"right"}}>추방</button></td>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/yjou7454@gmail.com`} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>yjou7454</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
                         </tr>
-
-
                     </tbody>
                 </Table>
             </Typography>
