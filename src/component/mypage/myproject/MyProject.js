@@ -161,13 +161,12 @@ export default function MyProject() {
                     { projectList.map((obj, i) => {
                         return (
                             <tr key={obj.partDto.partNo}>
-                                {console.log(obj.projectDto.projectStatus)}
                                 <td>{obj.projectDto.projectNo}</td>
                                 <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
                                 <td>{obj.projectDto.teamName}</td>
                                 <td>{obj.projectDto.objectWeek}</td>
-                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다': obj.projectDto.lastClosingDate }</td>
-                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다 ': obj.projectDto.expectedEndDate }</td>
+                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다' : obj.projectDto.lastClosingDate }</td>
+                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다' : obj.projectDto.expectedEndDate }</td>
                                 <td>
                                 <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="" id="statusSelect" value={obj.projectDto.projectStatus} onChange={(e)=>{e.preventDefault();}}
                                     style={{
