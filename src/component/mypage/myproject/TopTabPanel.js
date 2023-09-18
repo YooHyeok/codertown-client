@@ -43,7 +43,7 @@ function TabPanel(props) {
     };
   }
  
-export default function TopTabPanel() {
+export default function TopTabPanel(props) {
 
     const theme = useTheme();
     const [value, setValue] = useState(0);
@@ -79,11 +79,11 @@ export default function TopTabPanel() {
         >
           <TabPanel value={value} index={0} dir={theme.direction} style={{overflow:'auto', height:465}}>
             {/* 전체 현황 Accordian컴포넌트 */}
-            <TopTabAccordian/>
+            <TopTabAccordian projectDto={props.projectDto}/>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction} style={{height:465}}>
             {/* 파트별 현황 SpdePanel컴포넌트 */}
-            <SideTabPanel/>
+            <SideTabPanel projectDto={props.projectDto}/>
           </TabPanel>
             
         </SwipeableViews>

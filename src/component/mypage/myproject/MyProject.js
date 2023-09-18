@@ -60,8 +60,10 @@ export default function MyProject() {
         serverRequest(1, keyword)
       }, [])
     
-    const pmsFrame  = useRef('');
-
+    const pmsFrame  = useRef([]);
+    const handlePmsFrameRef = (index) => (el) => {
+        pmsFrame[index] = el;
+    };
 
     /* DIV 영역  드래그 */
     const [isDragging, setIsDragging] = useState(false);
@@ -147,41 +149,58 @@ export default function MyProject() {
                     { projectList.map((obj, i) => {
                         return (
                             <tr key={obj.partDto.partNo}>
-                            <td>{obj.partDto.partNo}</td>
-                            <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
-                            <td>{obj.projectDto.teamName}</td>
-                            <td>{obj.projectDto.objectWeek}</td>
-                            <td>{obj.firstRegDate}</td>
-                            <td>{obj.firstRegDate}</td>
-                            <td>
-                            <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="" id="statusSelect" value={obj.projectDto.projectStatus} onChange={(e)=>{e.preventDefault();}}
-                                style={{
-                                    display: obj.partDto.partNo !== 1 ? "none" : "inline"
-                                , textAlign: "center"
-                                , appearance: "none"
-                                , width:"50px"
-                                , paddingRight:"-20px"
-                                , lineHeight:"normal"
-                                , height:"20px"
-                                , fontSize:"15px"
-                                , borderTop:"none"
-                                , borderLeft:"none"
-                                , borderBottom:"1px solid lightGray"
-                                , borderRight:"1px solid lightGray"
-                            }}>
-                                <option value={"RECRUIT"}>모집</option>
-                                <option value={"RUN"}>진행</option>
-                                <option value={"FAIL"}>무산</option>
-                                <option value={"CLOSED"}>완료</option>
-                            </select>
-                            </td>
-                            <td>{obj.count}</td>
-                            <td style={{ padding:"0.5em"}}>
-                                <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{e.preventDefault(); setPosition({ x: 0, y: 0 }); pmsFrame.current.style.display='inline'}}>
-                                    <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
-                                </Button>
-                            </td>
-                        </tr>
+                                <td>{obj.partDto.partNo}</td>
+                                <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
+                                <td>{obj.projectDto.teamName}</td>
+                                <td>{obj.projectDto.objectWeek}</td>
+                                <td>{obj.firstRegDate}</td>
+                                <td>{obj.firstRegDate}</td>
+                                <td>
+                                <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="" id="statusSelect" value={obj.projectDto.projectStatus} onChange={(e)=>{e.preventDefault();}}
+                                    style={{
+                                        display: obj.partDto.partNo !== 1 ? "none" : "inline"
+                                    , textAlign: "center"
+                                    , appearance: "none"
+                                    , width:"50px"
+                                    , paddingRight:"-20px"
+                                    , lineHeight:"normal"
+                                    , height:"20px"
+                                    , fontSize:"15px"
+                                    , borderTop:"none"
+                                    , borderLeft:"none"
+                                    , borderBottom:"1px solid lightGray"
+                                    , borderRight:"1px solid lightGray"
+                                }}>
+                                    <option value={"RECRUIT"}>모집</option>
+                                    <option value={"RUN"}>진행</option>
+                                    <option value={"FAIL"}>무산</option>
+                                    <option value={"CLOSED"}>완료</option>
+                                </select>
+                                </td>
+                                <td>{obj.count}</td>
+                                <td style={{ padding:"0.5em"}}>
+                                    <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{
+                                        e.preventDefault(); 
+                                        // setPosition({ x: 0, y: 0 }); 
+                                        console.log(pmsFrame[0])
+                                        pmsFrame[i].style.display='inline'
+                                    }}>
+                                        <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
+                                    </Button>
+                                    {/* PMS Div */}
+                                    <div ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
+                                        className={`draggable ${isDragging ? 'dragging' : ''}`}
+                                        onMouseDown={onMouseDown}
+                                        onMouseMove={onMouseMove}
+                                        onMouseUp={onMouseUp}
+                                        onDragStart={onDragStart}
+                                        >
+                                        <TopTabPanel projectDto={obj.projectDto}/>
+                                        <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); pmsFrame[i].style.display='none';
+                                            }}>닫기</Button>
+                                    </div>
+                                </td>
+                            </tr>
                         )
                     }) }
                 </tbody>
@@ -227,17 +246,7 @@ export default function MyProject() {
                         return array;
                         })()}
         </div>
-        <div ref={pmsFrame} style={pmsFrameStyle} 
-            className={`draggable ${isDragging ? 'dragging' : ''}`}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-            onDragStart={onDragStart}
-            >
-            <TopTabPanel/>
-            <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); pmsFrame.current.style.display='none';
-                 }}>닫기</Button>
-        </div>
+        
     </>)
 
 }

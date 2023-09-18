@@ -38,7 +38,7 @@ function TabPanel(props) {
     };
   }
 
-  export default function SideTabPanel() {
+  export default function SideTabPanel(props) {
 
     const [value, setValue] = useState(0);
   
@@ -59,22 +59,16 @@ function TabPanel(props) {
                 
             }}
             >
-           
-            <TabPanel value={value} index={0} style={{overflow:'auto', width: 370}}>
-                <SideTabAccordian/>
-            </TabPanel>
-            <TabPanel value={value} index={1} style={{overflow:'auto', width: 370}}>
-                <SideTabAccordian/>
-            </TabPanel>
-            <TabPanel value={value} index={2} style={{overflow:'auto', width: 370}}>
-                <SideTabAccordian/>
-            </TabPanel>
-            <TabPanel value={value} index={3} style={{overflow:'auto', width: 370}}>
-                <SideTabAccordian/>
-            </TabPanel>
-            <TabPanel value={value} index={4} style={{overflow:'auto', width: 370}}>
-                <SideTabAccordian/>
-            </TabPanel>
+           {/* 내용 */}
+           {props.projectDto.projectParts.filter((obj)=>{
+                  return obj.partNo !== 1;
+                }).map((obj, i)=>{
+                  return(
+                <TabPanel value={value} index={i} style={{overflow:'auto', width: 370}}>
+                  <SideTabAccordian projectPart={obj}/>
+              </TabPanel>
+              )
+           })}
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -83,11 +77,15 @@ function TabPanel(props) {
                 aria-label="Vertical tabs example"
                 sx={{ borderLeft: 1, borderColor: 'divider', margin: '25px 0px 0px 0px' }}
             >
-                <Tab label={<h4>{'PM/기획'}</h4>} {...a11yProps(0)} />
-                <Tab label={<h4>{'디자이너'}</h4>} {...a11yProps(1)} />
-                <Tab label={<h4>{'퍼블리셔'}</h4>} {...a11yProps(2)} />
-                <Tab label={<h4>{'프론트엔드'}</h4>} {...a11yProps(3)} />
-                <Tab label={<h4>{'백엔드'}</h4>} {...a11yProps(4)} />
+              {/* 사이드바 */}
+              {props.projectDto.projectParts.filter((obj)=>{
+                    return obj.partNo !== 1;
+                  }).map((obj, i)=>{
+                    return(
+                      <Tab key={obj.partNo} label={<h4>{obj.partName}</h4>} {...a11yProps(i)} />
+                    )
+                  })
+              }
             </Tabs>
         </Box>
     );

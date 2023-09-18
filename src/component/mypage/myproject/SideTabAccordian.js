@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 
-  export default function SideTabAccordian() {
+  export default function SideTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
   
     const handleChange = (panel) => (event, newExpanded) => {
@@ -27,11 +27,12 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                            </tr>
+                          {console.log(props.projectPart)}
+                                <tr key={props.projectPart.partNo}>
+                                  <td>{props.projectPart.recruitCount}</td>
+                                  <td>{props.projectPart.currentCount}</td>
+                                  <td>{props.projectPart.recruitCount-props.projectPart.currentCount}</td>
+                              </tr>
                         </tbody>
                     </Table>
             </Typography>
@@ -46,31 +47,21 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
             <Table bordered>
                     <thead>
                         <tr>
-                            <th>이름</th>
+                            <th>참여자</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                      {props.projectPart.userProjectDtoList.map((obj)=>{
+                        return (
+                          <tr key={obj.userProjectNo}>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>yjk7454</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
+                            <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                            <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
+                            <button style={{display:"block", float:"right"}}>추방</button>
+                          </td>
                         </tr>
-                        <tr>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/webdevyoo@gmail.com`} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>webdevyoo</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/yjou7454@gmail.com`} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>yjou7454</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
+                        );
+                      })}
                     </tbody>
                 </Table>
             </Typography>
