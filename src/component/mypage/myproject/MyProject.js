@@ -155,9 +155,10 @@ export default function MyProject() {
                 </thead>
                 <tbody style={{overflow:"auto"}}>
                     { projectList.map((obj, i) => {
+                        console.log(projectList)
                         return (
                             <tr key={obj.partDto.partNo}>
-                                <td>{obj.partDto.partNo}</td>
+                                <td>{obj.projectDto.projectNo}</td>
                                 <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
                                 <td>{obj.projectDto.teamName}</td>
                                 <td>{obj.projectDto.objectWeek}</td>
