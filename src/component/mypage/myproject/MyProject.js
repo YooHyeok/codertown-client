@@ -108,7 +108,8 @@ export default function MyProject() {
         , cursor: 'grab'
         , transform: `translate(${position.x}px, ${position.y}px)`
         , zIndex: '1000'
-        , bottom: "200px"
+        , top: "100px"
+        // , bottom: "200px"
         , right: "700px"
         , textAlign:'left'
         // , height:"557px"
@@ -155,7 +156,6 @@ export default function MyProject() {
                 </thead>
                 <tbody style={{overflow:"auto"}}>
                     { projectList.map((obj, i) => {
-                        console.log(projectList)
                         return (
                             <tr key={obj.partDto.partNo}>
                                 <td>{obj.projectDto.projectNo}</td>
@@ -191,7 +191,6 @@ export default function MyProject() {
                                     <Button color='secondary' style={{ width: '70px', padding:"0.5em", height:"25px" }} onClick={(e)=>{
                                         e.preventDefault(); 
                                         // setPosition({ x: 0, y: 0 }); 
-                                        console.log(pmsFrame[0])
                                         // pmsFrame[i].style.display='inline'
                                         if (openPMSIndex === i) {
                                             handleClosePMSFrame();

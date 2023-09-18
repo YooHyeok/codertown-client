@@ -27,7 +27,6 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                             </tr>
                         </thead>
                         <tbody>
-                          {console.log(props.projectPart)}
                                 <tr key={props.projectPart.partNo}>
                                   <td>{props.projectPart.recruitCount}</td>
                                   <td>{props.projectPart.currentCount}</td>

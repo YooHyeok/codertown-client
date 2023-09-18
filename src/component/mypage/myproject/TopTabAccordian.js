@@ -51,7 +51,7 @@ import { useEffect } from "react";
             </Table>
         <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header">
-            <Typography><h4>프로젝트 총 인원 현황</h4></Typography>
+            <Typography><h4>전체 인원 현황</h4></Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
@@ -84,7 +84,7 @@ import { useEffect } from "react";
         </Accordion>
         <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2d-content" id="panel2d-header">
-            <Typography><h4>프로젝트 참여자 전체 리스트</h4></Typography>
+            <Typography><h4>참여자 전체 리스트</h4></Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>

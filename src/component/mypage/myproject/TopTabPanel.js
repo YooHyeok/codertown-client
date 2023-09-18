@@ -77,7 +77,7 @@ export default function TopTabPanel(props) {
           index={value}
           onChangeIndex={handleChangeIndex}
         >
-          <TabPanel value={value} index={0} dir={theme.direction} style={{overflow:'auto', height:465}}>
+          <TabPanel value={value} index={0} dir={theme.direction} style={{overflow:'auto', height:557}}>
             {/* 전체 현황 Accordian컴포넌트 */}
             <TopTabAccordian projectDto={props.projectDto}/>
           </TabPanel>
