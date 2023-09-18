@@ -3,6 +3,7 @@ import { Label, Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap'
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import { Search } from 'react-bootstrap-icons'; 
 import TopTabPanel from './TopTabPanel.js';
+import { X } from 'react-bootstrap-icons';
 
 import axios from "axios";
 
@@ -112,8 +113,10 @@ export default function MyProject() {
         // , bottom: "200px"
         , right: "700px"
         , textAlign:'left'
-        // , height:"557px"
-        , border:'3px solid lightGray'
+        // , border:'3px solid lightGray'
+        , border:'3px solid rgb(104, 97, 236)'
+        , borderRadius:'0.7%'
+        , background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"
         , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
       };
 
@@ -202,18 +205,21 @@ export default function MyProject() {
                                     </Button>
                                     {/* PMS Div */}
                                     {openPMSIndex === i && 
-                                    <div  key={`pms-frame-${i}`} ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
+                                    <div key={`pms-frame-${i}`} ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
                                         className={`draggable ${isDragging ? 'dragging' : ''}`}
                                         onMouseDown={onMouseDown}
                                         onMouseMove={onMouseMove}
                                         onMouseUp={onMouseUp}
                                         onDragStart={onDragStart}
                                         >
+                                        <span style={{color:'white', fontSize:'18px'}}>&nbsp;{obj.projectDto.teamName}</span>
+                                        <X onClick={(e)=>{/* pmsFrame[i].style.display='none'; */ handleClosePMSFrame();}}
+                                        style={{width:"20px", height:"20px", float:'right', margin:'2px',border:'1px solid white', background:"linear-gradient(red 20%, rgba(247, 247, 248, 0.9) 130%)", color:"white"}}/>
                                         <TopTabPanel projectDto={obj.projectDto}/>
-                                        <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); 
+                                        {/* <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); 
                                         // pmsFrame[i].style.display='none';
                                         handleClosePMSFrame();
-                                            }}>닫기</Button>
+                                            }}>닫기</Button> */}
                                     </div>
                                     }
                                 </td>
