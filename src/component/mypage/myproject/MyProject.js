@@ -65,10 +65,18 @@ export default function MyProject() {
         pmsFrame[index] = el;
     };
 
-    /* DIV 영역  드래그 */
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+    const [openPMSIndex, setOpenPMSIndex] = useState(null);
+
+    const handleOpenPMSFrame = (index) => {
+        setOpenPMSIndex(index);
+      };
+    
+      const handleClosePMSFrame = () => {
+        setOpenPMSIndex(null);
+      };
 
     const onMouseDown = (e) => {
         setIsDragging(true);
@@ -95,7 +103,7 @@ export default function MyProject() {
     };
 
     const pmsFrameStyle = {
-        display: 'none'
+        display: 'inline'
         , position: 'absolute' //고정
         , cursor: 'grab'
         , transform: `translate(${position.x}px, ${position.y}px)`
@@ -183,12 +191,18 @@ export default function MyProject() {
                                         e.preventDefault(); 
                                         // setPosition({ x: 0, y: 0 }); 
                                         console.log(pmsFrame[0])
-                                        pmsFrame[i].style.display='inline'
-                                    }}>
+                                        // pmsFrame[i].style.display='inline'
+                                        if (openPMSIndex === i) {
+                                            handleClosePMSFrame();
+                                          } else {
+                                            handleOpenPMSFrame(i);
+                                          }
+                                        }}>
                                         <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
                                     </Button>
                                     {/* PMS Div */}
-                                    <div ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
+                                    {openPMSIndex === i && 
+                                    <div  key={`pms-frame-${i}`} ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
                                         className={`draggable ${isDragging ? 'dragging' : ''}`}
                                         onMouseDown={onMouseDown}
                                         onMouseMove={onMouseMove}
@@ -196,9 +210,12 @@ export default function MyProject() {
                                         onDragStart={onDragStart}
                                         >
                                         <TopTabPanel projectDto={obj.projectDto}/>
-                                        <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); pmsFrame[i].style.display='none';
+                                        <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); 
+                                        // pmsFrame[i].style.display='none';
+                                        handleClosePMSFrame();
                                             }}>닫기</Button>
                                     </div>
+                                    }
                                 </td>
                             </tr>
                         )
