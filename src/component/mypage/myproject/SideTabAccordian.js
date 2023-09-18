@@ -51,7 +51,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                         </tr>
                     </thead>
                     <tbody>
-                      {props.projectPart.userProjectDtoList.map((obj)=>{
+                      {props.projectPart.userProjectDtoList.length > 0 && props.projectPart.userProjectDtoList.map((obj)=>{
                         return (
                           <tr key={obj.userProjectNo}>
                             <td>
@@ -62,6 +62,48 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                         </tr>
                         );
                       })}
+                      {props.projectPart.userProjectDtoList.length <= 0 &&
+                          <tr key={0}>
+                            <td>
+                              참여자가 없습니다.
+                          </td>
+                        </tr>
+                      }
+                        {/* <tr>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>soomincho</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/webdevyoo@gmail.com`} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>webdevyoo</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>prove.ability00</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>bard</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/yjou7454@gmail.com`} alt="profile"/>
+                              <span style={{width:"120px", float:"left"}}>yjou7454</span>
+                              <button style={{display:"block", float:"right"}}>추방</button>
+                            </td>
+                        </tr> */}
                     </tbody>
                 </Table>
             </Typography>
