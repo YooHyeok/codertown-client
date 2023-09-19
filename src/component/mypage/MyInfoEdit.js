@@ -7,7 +7,6 @@ export default function MyInfoEdit() {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-    const [defaultSrc, setDefaultSrc] = useState('');
     const [profileInputValue, setProfileInputValue] = useState({
         profileSrc:'', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
     })
@@ -17,48 +16,16 @@ export default function MyInfoEdit() {
      */
     useEffect(() => {
         /* 프로필 조회 */
-        /* axios.get(`/profileImage/${userId}`)
-        .then((response)=>{
-            if (response.data == '/default_profile.png') {
-                console.log(response.data)
-                setDefaultSrc('/default_profile.png')
-                setProfileInputValue({profileSrc:'/default_profile.png'})
-            }
-            else {
-                setDefaultSrc(`/profileImage/${userId}`)
-                setProfileInputValue({...profileInputValue, profileSrc:`/profileImage/${userId}`})
-            }
-            
-        }) */
         const formData = new FormData();
         formData.append('loginEmail', userId)
         axios.post('/user-info', formData)
         .then(response => {
             console.log(response.data.profileUrl)
-            setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:response.data.profileUrl})
+            setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:`data:image/png;base64,${response.data.profileUrl}`})
         })
         .catch(error =>{
         })
     }, [])
-
-    /**
-     * 컴포넌트 생명주기 Hook
-     */
-    useEffect(() => {
-        /* 프로필 데이터를 받아온 후 user정보 조회 */
-        if (defaultSrc != '') {
-            const formData = new FormData();
-            formData.append('loginEmail', userId)
-            axios.post('/user-info', formData)
-            .then(response => {
-                console.log(response.data.profileSrc)
-                setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:response.data.attachFile})
-            })
-            .catch(error =>{
-            })
-        }
-        
-    }, [defaultSrc])
 
     /**
      * 첨부파일
@@ -286,7 +253,7 @@ export default function MyInfoEdit() {
         formData.append('loginEmail',userId)
         formData.append('nickname', profileInputValue.changeNickname)
         formData.append('password', profileInputValue.changePwd)
-        formData.append('attachFile', profileInputValue.attachFile)
+        formData.append('profileUrl', profileInputValue.profileSrc)
         axios.post('/user-update', formData)
             .then(response => {
                 document.location.href='/mypage'
@@ -305,7 +272,7 @@ export default function MyInfoEdit() {
             <FormGroup row  style={{margin:'20px auto', width:'200px', height:'150px'}} >
                 <Col sm={12}>
                     <input ref={fileInputRef} type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ display:'none'}}/> 
-                    <img className="profile" src={`data:image/png;base64,${profileInputValue.profileSrc}`} alt="profile" onClick={handleImageClick}/>
+                    <img className="profile" src={profileInputValue.profileSrc} alt="profile" onClick={handleImageClick}/>
                     <img style={{filter: 'hue-rotate(6deg)', position:'relative', bottom:'45px', left:'55px', width:'32px', height:'32px'}} src="/free-icon-pencil.png" alt="profile edit"/>
                 </Col>
             </FormGroup>
