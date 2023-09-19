@@ -120,7 +120,6 @@ export default function Coggle() {
                         <tbody style={{overflow:"auto"}}>
                             {/* {this.repeatTrTd()} */}
                             {coggleList.map((obj) => {
-                                console.log(obj)
                                 return (
                                     <tr key={obj.coggleNo}>
                                         <td>{obj.coggleNo}</td>

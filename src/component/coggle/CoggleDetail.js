@@ -60,7 +60,7 @@ export default function CoggleDetail() {
                             views: response.data.views
                             }
                 )
-                setSrc(`/profileImage/${response.data.writer.email}`)
+                setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
                 setIsLikeMarked(response.data.isLikeMarked)
     
             })

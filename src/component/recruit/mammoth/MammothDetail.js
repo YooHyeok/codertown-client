@@ -40,7 +40,6 @@ export default function MammothDetail() {
     useEffect(()=> {
         axios.get(`/mammoth-detail/${mammothNo}/${userId}`)
         .then((response)=> {
-            console.log(response.data)
             setMammoth({...mammoth,     
                         title: response.data.title, 
                         content: response.data.content,
@@ -53,26 +52,11 @@ export default function MammothDetail() {
                         isBookMarkedCount: response.data.isBookMarkedCount,
                         }      
             )
+            /* 프로필사진 초기화 */
+            setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
             setIsBookmarked(response.data.isBookmarked)
         })
     },[])
-
-    /**
-     * 프로필사진 조회 및 초기화
-     * mammoth.writer의 값 변경시 실행
-     */
-    useEffect(()=> {
-        if(Object.keys(mammoth.writer).length !== 0) {
-            axios.get(`/profileImage/${mammoth.writer.email}`)
-            .then((response)=>{
-                if (response.data == '') setSrc('/default_profile.png')
-                else setSrc(`/profileImage/${mammoth.writer.email}`)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
-    },[mammoth.writer])
 
     
     /* func - 삭제 기능 */

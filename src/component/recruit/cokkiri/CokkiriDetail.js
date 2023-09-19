@@ -21,7 +21,6 @@ export default function CokkiriDetail() {
       };
     const userId = useSelector( (state) => {return state.UserId} );
     const accessToken = useSelector( (state) => {return state.Authorization} );
-    const [src, setSrc] = useState('/default_profile.png')
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { cokkiriNo } = useParams();
@@ -40,12 +39,12 @@ export default function CokkiriDetail() {
             teamName: '',
             projectParts: []
         }
-             )
-
+    )
+        
+    const [src, setSrc] = useState('/default_profile.png')
     useEffect(()=> {
         axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
-            console.log(response.data.cokkiriDto)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -61,29 +60,14 @@ export default function CokkiriDetail() {
                         projectParts: response.data.projectDto.projectParts
                         }
             )
+            /* 프로필사진 초기화 */
+            setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
             setIsBookmarked(response.data.cokkiriDto.isBookmarked)
         })
         .catch((error) => {
             console.log(error);
         })
     },[])
-
-    /**
-     * 프로필사진 조회 및 초기화
-     * cokkiri.writer의 값 변경시 실행
-     */
-    useEffect(()=> {
-        if(Object.keys(cokkiri.writer).length !== 0) {
-            axios.get(`/profileImage/${cokkiri.writer.email}`)
-            .then((response)=>{
-                if (response.data == '') setSrc('/default_profile.png')
-                else setSrc(`/profileImage/${cokkiri.writer.email}`)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-        }
-    },[cokkiri.writer])
 
     /* func - 삭제 기능 */
     const del = (e) => {
