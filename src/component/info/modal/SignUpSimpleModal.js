@@ -18,8 +18,27 @@ export default function SignUpSimpleModal() {
     const [password, setPassword] = useState(''); //비밀번호
     const [passwordChk, setPasswordChk] = useState(''); //비밀번호 확인
 
+    /* 첨부 file */
+    const [file, setFile] = useState(null);
+    useEffect(() => {
+        // 특정 경로에 있는 파일을 읽어 Blob 객체 생성
+        const filePath = '/default_profile.png';  // 파일 경로
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', filePath, true);
+        xhr.responseType = 'blob';
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const blob = new Blob([xhr.response]);
+            console.log(blob)
+            setFile(blob);
+          }
+        };
+        xhr.send();
+      }, []);
+
     const [flag, setFlag] = useState({emailRegFlag:false, emailExsitsFlag:false,  emailAuthFlag:false, passwordRegFlag:false, passwordChkFlag:false})
     const [signUpRequest, setSignUpRequest] = useState({email: email.authEmail, password:password});
+
 
     const emailInputRef = useRef();
     const emailPermitExistRef = useRef();
@@ -282,9 +301,6 @@ export default function SignUpSimpleModal() {
 
         /* [가입신청] */
         if (name == 'submit') {
-            console.log(certNumber)
-            console.log(email)
-            console.log(flag)
             if (email.inputEmail == '') {
                 alert("이메일을 입력해 주세요")
                 return;
@@ -324,13 +340,13 @@ export default function SignUpSimpleModal() {
     }
 
     const submit = () => {
-        const filePath = '/public/default_profile.png';  // 파일 경로
-
-        // 파일 추가
+        const filePath = '/default_profile.png';  // 파일 경로
+        
         const formData = new FormData();
         formData.append('email', email.authEmail)
         formData.append('password', password)
-        formData.append('attachFile', new File([filePath], 'default_profile'));
+        formData.append('attachFile', file)
+        console.log(formData)
         // axios.post("/sign-up", {email: email.authEmail, password:password, attachFile})
         axios.post("/sign-up", formData)
         .then((response) => {

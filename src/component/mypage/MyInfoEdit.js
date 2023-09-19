@@ -7,7 +7,7 @@ export default function MyInfoEdit() {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-    const [defaultSrc, setDefaultSrc] = useState('/default_profile.png');
+    const [defaultSrc, setDefaultSrc] = useState('');
     const [profileInputValue, setProfileInputValue] = useState({
         profileSrc:'/default_profile.png', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
     })
@@ -19,7 +19,8 @@ export default function MyInfoEdit() {
         /* 프로필 조회 */
         axios.get(`/profileImage/${userId}`)
         .then((response)=>{
-            if (response.data == '') {
+            if (response.data == '/default_profile.png') {
+                console.log(response.data)
                 setDefaultSrc('/default_profile.png')
                 setProfileInputValue({profileSrc:'/default_profile.png'})
             }
@@ -37,7 +38,7 @@ export default function MyInfoEdit() {
      */
     useEffect(() => {
         /* 프로필 데이터를 받아온 후 user정보 조회 */
-        if (defaultSrc != '/default_profile.png') {
+        if (defaultSrc != '') {
             const formData = new FormData();
             formData.append('loginEmail', userId)
             axios.post('/user-info', formData)

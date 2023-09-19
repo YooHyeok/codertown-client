@@ -25,7 +25,7 @@ export default function HeaderDropDownPushAlarm() {
                 <DropdownItem style={{ lineHeight: "25px"}}>
                   <div style={{width:'320px', height:'75px'}}>
                         <div style={{width:'50px', height:'60px', float:"left"}}>
-                            <img src='/default_profile2.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%'}}/> 
+                            <img src='/default_profile.png' style={{width:'40px', height:'40px', margin:'5px', borderRadius:'50%'}}/> 
                         </div>
                         <div style={{width:'320px', height:'75px'}}>
                             <div style={{width:'320px'}}>
