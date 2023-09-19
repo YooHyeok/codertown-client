@@ -7,10 +7,11 @@ export default function MyInfoEdit() {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
+    const [defaultSrc, setDefaultSrc] = useState('/default_profile3.png');
     const [profileInputValue, setProfileInputValue] = useState({
-        originalProfile:'/default_profile3.png', attachFile: null,  nickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
+        profileSrc:'/default_profile3.png', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
     })
-
+    
     /**
      * 컴포넌트 생명주기 Hook
      */
@@ -18,25 +19,17 @@ export default function MyInfoEdit() {
         /* 프로필 조회 */
         axios.get(`/profileImage/${userId}`)
         .then((response)=>{
-            if (response.data == '') setProfileInputValue({originalProfile:'/default_profile3.png'})
+            if (response.data == '') {
+                setDefaultSrc('/default_profile3.png')
+                setProfileInputValue({profileSrc:'/default_profile3.png'})
+            }
             else {
-            setProfileInputValue({...profileInputValue, originalProfile:`/profileImage/${userId}`})
+                setDefaultSrc(`/profileImage/${userId}`)
+                setProfileInputValue({...profileInputValue, profileSrc:`/profileImage/${userId}`})
+            }
             
-            /* 프로필 데이터를 받아온 후 user정보 조회 */
-            if (profileInputValue.originalProfile != '/default_profile3.png') {
-                const formData = new FormData();
-                formData.append('loginEmail', userId)
-                /* user정보 조회 */
-                axios.post('/user-info', formData)
-                .then(response => {
-                    setProfileInputValue({...profileInputValue, nickname:response.data.nickname, attachFile:response.data.attachFile})
-                })
-                .catch(error =>{
-                })
-            }
-            }
         })
-        
+   
     }, [])
 
     /**
@@ -44,24 +37,27 @@ export default function MyInfoEdit() {
      */
     useEffect(() => {
         /* 프로필 데이터를 받아온 후 user정보 조회 */
-        if (profileInputValue.originalProfile != '/default_profile3.png') {
+        if (defaultSrc != '/default_profile3.png') {
             const formData = new FormData();
             formData.append('loginEmail', userId)
-            /* user정보 조회 */
             axios.post('/user-info', formData)
             .then(response => {
-                setProfileInputValue({...profileInputValue, nickname:response.data.nickname, attachFile:response.data.attachFile})
+                console.log(response)
+                setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname})
             })
             .catch(error =>{
             })
         }
-    }, [profileInputValue.originalProfile])
+        
+    }, [defaultSrc])
 
     /**
      * 첨부파일
      */
     const fileChange = (e) => {
-        setProfileInputValue({ ...profileInputValue, attachFile: e.target.files[0] })
+        setProfileInputValue((prevState) => ({
+            ...prevState, attachFile:e.target.files[0]
+        }));
         readImage(e.target);
 
     }
@@ -79,8 +75,9 @@ export default function MyInfoEdit() {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = e => {
-                // setSrc(e.target.result);
-                setProfileInputValue({originalProfile:e.target.result});
+                setProfileInputValue((prevState) => ({
+                    ...prevState, profileSrc:e.target.result
+                }));
             }
             reader.readAsDataURL(input.files[0]);
         }
@@ -176,7 +173,7 @@ export default function MyInfoEdit() {
         setProfileInputValue({...profileInputValue, [currentName] : currentValue})
 
         /* 닉네임 유효성 검증 */
-        if(currentName == 'nickname') {
+        if(currentName == 'changeNickname') {
             const nicknameRegExp = new RegExp(/^[a-zA-Z가-힣][a-zA-Z가-힣0-9]{0,9}$/);// 닉네임에 대한 정규표현식
             let nicknameRegFlag = nicknameRegExp.test(currentValue) ? true : false;
 
@@ -188,31 +185,39 @@ export default function MyInfoEdit() {
             /* 닉네임 중복여부 조회 */
             if (currentValue != '') {
                 if (nicknameRegFlag) {// 정규표현식 결과 true
+                    if (currentValue == profileInputValue.originNickname) {
+                        nicknamePermitExistRef.current.style.display='none';
+                        return;
+                    }
                     threeWayRefOff(nicknameForbidRegRef, nicknameForbidExistRef, nicknamePermitExistRef)
+                    
                     setFlag({...flag, nicknameRegFlag: nicknameRegFlag}); //Flag에 true저장
-
-                    const formData = new FormData();
-                    formData.append('nickname', currentValue)
-                    axios.post('/nickname-exists', formData)
-                    .then(response => {
-                        if(response.data.exists) {
-                            validThreeCase(nicknameForbidExistRef, nicknameForbidRegRef, nicknamePermitExistRef);
+                    if (currentValue != profileInputValue.originNickname) {
+                        const formData = new FormData();
+                        formData.append('nickname', currentValue)
+                        axios.post('/nickname-exists', formData)
+                        .then(response => {
+                            if(response.data.exists) {
+                                console.log("통신함")
+                                validThreeCase(nicknameForbidExistRef, nicknameForbidRegRef, nicknamePermitExistRef);
+                                return;
+                            }
+                            if(!response.data.exists) {
+                                validThreeCase(nicknamePermitExistRef, nicknameForbidRegRef, nicknameForbidExistRef);
+                                return;
+                            }
                             return;
-                        }
-                        if(!response.data.exists) {
-                            validThreeCase(nicknamePermitExistRef, nicknameForbidRegRef, nicknameForbidExistRef);
-                            return;
-                        }
-                    })
-                    .catch(error => {
-
-                    })
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
+                    }
                     if (flag.nicknameRegFlag && flag.nicknameExsitsFlag) {
                         validThreeCase(nicknamePermitExistRef, nicknameForbidRegRef, nicknameForbidExistRef);
+                        return;
+
                     }
-                    
                     return;
-                    
                 }
                 if (!nicknameRegFlag) {// 정규표현식 결과 false
                     validThreeCase(nicknameForbidRegRef, nicknamePermitExistRef, nicknameForbidExistRef);
@@ -264,6 +269,21 @@ export default function MyInfoEdit() {
     }
 
 
+    const submit = () => {
+        console.log(profileInputValue)
+        const formData = new FormData();
+        formData.append('loginEmail',userId)
+        formData.append('nickname', profileInputValue.changeNickname)
+        formData.append('password', profileInputValue.changePwd)
+        formData.append('attachFile', profileInputValue.attachFile)
+        axios.post('/user-update', formData)
+            .then(response => {
+                document.location.href='/mypage'
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
 
     /**
      * JSX 시작
@@ -274,18 +294,18 @@ export default function MyInfoEdit() {
             <FormGroup row  style={{margin:'20px auto', width:'200px', height:'150px'}} >
                 <Col sm={12}>
                     <input ref={fileInputRef} type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ display:'none'}}/> 
-                    <img className="profile" src={profileInputValue.originalProfile} alt="profile" onClick={handleImageClick}/>
+                    <img className="profile" src={profileInputValue.profileSrc} alt="profile" onClick={handleImageClick}/>
                     <img style={{filter: 'hue-rotate(6deg)', position:'relative', bottom:'45px', left:'55px', width:'32px', height:'32px'}} src="/free-icon-pencil.png" alt="profile edit"/>
                 </Col>
             </FormGroup>
             {/* 닉네임 */}
             <FormGroup >
                 <Col sm={12}>
-                    <Label htmlFor='nickname' style={{width:'75px', textAlign:'left', float:'left'}}>닉&nbsp;&nbsp;네&nbsp;&nbsp;임</Label>
+                    <Label htmlFor='changeNickname' style={{width:'75px', textAlign:'left', float:'left'}}>닉&nbsp;&nbsp;네&nbsp;&nbsp;임</Label>
                     <span ref={nicknameForbidRegRef} style={{display:'none', color:'red'}}>&#10060; 닉네임 양식 오류</span>
                     <span ref={nicknameForbidExistRef} style={{display:'none', color:'red'}}>&#10060; 이미 사용중 입니다</span>
                     <span ref={nicknamePermitExistRef} style={{display:'none', color:'#0d6efd'}}>&#10004; 사용가능</span>
-                    <Input type='text' name='nickname' id='nickname' value={profileInputValue.nickname} placeholder="첫글자 한or영문자 & 특수문자를 제외한 10자리 " onChange={inputChange} required />
+                    <Input type='text' name='changeNickname' id='nickname' value={profileInputValue.changeNickname} placeholder="첫글자 한or영문자 & 특수문자를 제외한 10자리 " onChange={inputChange} required />
                 </Col>
             </FormGroup>
             {/* 패스워드 */}
@@ -317,9 +337,7 @@ export default function MyInfoEdit() {
                     <Button color='primary' outline style={{width:'139px'}} onClick={(e)=>{e.preventDefault();}}>초기화</Button>
                 </Col>
                 <Col sm={6}>
-                    <Button color='secondary' style={{width:'139px'}} onClick={(e)=>{e.preventDefault();
-                    console.log(flag)
-                    }}>저장</Button>
+                    <Button color='secondary' style={{width:'139px'}} onClick={submit}>저장</Button>
                 </Col>
             </FormGroup>
             <FormGroup row >

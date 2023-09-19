@@ -38,7 +38,7 @@ export default function MyProject() {
      */
     const serverRequest = (page, keyword) => {
         // axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
-        axios.get(`/joinedProject?loginId=${userId}`)
+        axios.get(`/joined-project?loginId=${userId}`)
         .then((response)=> {
             setProjectList(response.data.projectList)
             setArticleCount(response.data.articleCount)
