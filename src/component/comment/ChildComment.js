@@ -24,14 +24,8 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     const [editCommentValue, setEditCommentValue] = useState(content);
 
     const userId = useSelector( (state) => {return state.UserId} );
-    const [src, setSrc] = useState('/default_profile.png');
-    useEffect(() => {
-        axios.get(`/profileImage/${writer.email}`)
-        .then((response)=>{
-            if (response.data == '') setSrc('/default_profile.png')
-            else setSrc(`/profileImage/${writer.email}`);
-        })
-    }, [])
+    const [src, setSrc] = useState(`data:image/png;base64,${writer.profileUrl}`);
+    
     /* 댓글 [저장] */
     const submit = () => {
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: nickname}
