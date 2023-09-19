@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import { Form, Label, Input, Button, Col, FormGroup } from 'reactstrap';
+import { useState, useEffect, useRef } from "react";
+import { Form, Label, Input, Button, Col, FormGroup, Row } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 
@@ -80,80 +79,67 @@ export default function MyInfoEdit() {
         }
     }
 
+    const nicknameForbidExistRef = useRef('');
+    const nicknamePermitExistRef = useRef('');
+    const fileInputRef = useRef(null);
+    const handleImageClick = () => {
+        // console.log(fileInputRef.current);
+        fileInputRef.current && fileInputRef.current.click();
+
+      };
     /**
      * JSX 시작
      */
     return (
-        <Form style={{ width: "400px", margin: '30px auto'}}>
+        <Form style={{ width: "200px", height:'500px', margin: '20px auto'}}>
             {/* 프로필 */}
-            <div className="profile-wrap" style={{ marginBottom:"50px"}}>
-                <img className="profile" src={profileInputValue.originalProfile} alt="profile"/>
-            </div>
-            <FormGroup row >
-                <Col sm={5}>
-                    <Input type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ width: '400px', marginBottom:"25px"}}/>
+            <FormGroup row  style={{margin:'20px auto', height:'150px'}} >
+                <Col sm={12}>
+                    <input ref={fileInputRef} type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ display:'none'}}/> 
+                    <img className="profile" src={profileInputValue.originalProfile} alt="profile" onClick={handleImageClick}/>
+                    <img style={{filter: 'hue-rotate(6deg)', position:'relative', bottom:'40px', left:'55px', width:'32px', height:'32px'}} src="/free-icon-pencil.png" alt="profile edit"/>
                 </Col>
             </FormGroup>
             {/* 닉네임 */}
-            <FormGroup row>
-                <Label htmlFor='nickname' sm={4}>닉&nbsp;&nbsp;네&nbsp;&nbsp;임</Label>
-                <Col sm={5}>
+            <FormGroup >
+                <Col sm={12}>
+                    <Label htmlFor='nickname' style={{ float:'left'}}>닉&nbsp;&nbsp;네&nbsp;&nbsp;임</Label>
+                    <Label ref={nicknameForbidExistRef} style={{display:'flex', float:'right'}}>&#10060; 이미 사용중 입니다</Label>
+                    <span ref={nicknamePermitExistRef} style={{display:'none', float:'right'}}>&#10004; 사용가능</span>
                     <Input type='text' name='nickname' id='nickname' value={profileInputValue.nickname} onChange={inputChange} required />
-                </Col>
-                <Col sm={3} >
-                    <Button outline color='secondary' style={{ width: '100%' }} onClick={(e)=>{e.preventDefault();}}>중복</Button>
                 </Col>
             </FormGroup>
             {/* 패스워드 */}
-            <FormGroup row>
-                <Label htmlFor='originalPwd' sm={4}>기존 패스워드</Label>
-                <Col sm={8}>
-                    <Input type='text' name='originalPwd' id='originalPwd' value={profileInputValue.originalPwd} placeholder="본인 확인을 위해 패스워드를 입력하세요" onChange={inputChange} required />
-                </Col>
-            </FormGroup>
-            <FormGroup row>
-                <Label htmlFor='changePwd' sm={4}>패스워드 변경</Label>
-                <Col sm={8}>
+            <FormGroup >
+                <Col sm={12}>
+                    <Label htmlFor='changePwd' style={{float:'left'}}>패스워드 변경</Label>
                     <Input type='text' name='changePwd' id='changePwd' value={profileInputValue.changePwd} placeholder="비밀번호 변경시 입력해주세요" onChange={inputChange} required />
                 </Col>
             </FormGroup>
-            <FormGroup row>
-                <Label htmlFor='changePwdChk' sm={4}>패스워드 확인</Label>
-                <Col sm={8}>
+            <FormGroup >
+                <Col sm={12}>
+                    <Label htmlFor='changePwdChk' style={{float:'left'}}>패스워드 확인</Label>
                     <Input type='text' name='changePwdChk' id='changePwdChk' value={profileInputValue.changePwdChk} placeholder="비밀번호 변경시 입력해주세요" onChange={inputChange} required />
                 </Col>
             </FormGroup>
-            {/* 이메일 */}
-            {/* <FormGroup row>
+            <FormGroup>
                 <Col sm={12}>
-                    <Label htmlFor='email' style={{float:"left"}}>이&nbsp;&nbsp;메&nbsp;&nbsp;일</Label>
-                    <Button style={{float:"right"}} outline color='secondary' onClick={(e)=>{e.preventDefault();}}>중복</Button>
-                    <Input type='email' name='email' id='email' value={""} onChange={(e)=>{e.preventDefault();}} required />
-                </Col>
+                    <Label htmlFor='originalPwd' style={{float:'left'}} >기존 패스워드</Label>
+                    <Input type='text' name='originalPwd' id='originalPwd' value={profileInputValue.originalPwd} placeholder="정보 변경시 필수 사항입니다" onChange={inputChange} required />
+                </Col>         
             </FormGroup>
-            <FormGroup row>
-                <Label htmlFor='nickname' sm={4}>인증번호</Label>
-                <Col sm={5}>
-                    <Input type='text' name='nickname' id='nickname' value={""} onChange={(e)=>{e.preventDefault();}} required />
-                </Col>
-                <Col sm={3} >
-                    <Button outline color='secondary' style={{ width: '100%' }} onClick={(e)=>{e.preventDefault();}}>인증</Button>
-                </Col>
-            </FormGroup> */}
-            
-            
             {/* 수정 완료 버튼 */}
-            <FormGroup row style={{width:'424px'}}>
+            <FormGroup row>
                 <Col sm={6} style={{float:'right'}}>
-                    <Button color='secondary' outline style={{width:'188px'}} onClick={(e)=>{e.preventDefault();}}>초기화</Button>
+                    <Button color='primary' outline style={{width:'88px'}} onClick={(e)=>{e.preventDefault();}}>초기화</Button>
                 </Col>
                 <Col sm={6} style={{float:'left'}}>
-                    <Button color='secondary' style={{width:'188px'}} onClick={(e)=>{e.preventDefault();}}>저장</Button>
+                    <Button color='secondary' style={{width:'88px'}} onClick={(e)=>{e.preventDefault();}}>저장</Button>
                 </Col>
             </FormGroup>
-            <FormGroup row style={{width:'424px'}}>
+            <FormGroup row >
                 <Col sm={15} >
-                    <Button color='danger' outline style={{width:'400px'}} onClick={(e)=>{e.preventDefault();}}>회원탈퇴</Button>
+                    <Button color='danger' outline style={{width:'200px'}} onClick={(e)=>{e.preventDefault();}}>회원탈퇴</Button>
                 </Col>
             </FormGroup>
         </Form>

@@ -82,7 +82,7 @@ export default function MyPost(props) {
      * JSX 시작
      */
     return (
-    <>
+    <div style={{height:'530px'}}>
         <div style = {{display:"flex", height:"60px"}}>
             <div style={{width:"150px", height:"32px", paddingTop: "15px"}}>
                 <select name="" id="mealSelect" onChange={selectChange} value={option}
@@ -156,5 +156,5 @@ export default function MyPost(props) {
                         return array;
                         })()}
         </div>
-    </>)
+    </div>)
 }

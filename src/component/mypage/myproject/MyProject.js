@@ -12,11 +12,6 @@ import axios from "axios";
 
 export default function MyProject() {
 
-/*     const modalStyle = { 
-        width: "500px",
-        // top: "20%"
-    } */
-
     const selectRef = useRef(null);
 
     const userId = useSelector( (state) => {return state.UserId} );
@@ -124,7 +119,7 @@ export default function MyProject() {
      * JSX 시작
      */
     return (
-    <>
+    <div style={{height:'530px'}}>
         <div style = {{display:"flex", height:"60px"}}>
             <div style={{width:"140px", height:"32px", paddingTop:"5px"}}>
                 <h1 style={{ width:"140px", height:"30px"}}><b>프로젝트</b></h1>
@@ -270,6 +265,6 @@ export default function MyProject() {
                         })()}
         </div>
         
-    </>)
+    </div>)
 
 }

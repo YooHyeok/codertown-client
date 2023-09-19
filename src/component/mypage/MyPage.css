@@ -26,6 +26,7 @@
   margin: 0 auto;
   width: 150px;
   height: 150px;
+  cursor:'pointer';
   border-radius: 100%;
 }
 .content-wrap{

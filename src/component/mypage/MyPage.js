@@ -79,12 +79,11 @@ export default function MyPage() {
  */
 const bodyStyle = {
     width: '1200px'
-    , height: '750px'
+    , height: '100%'
     , textAlign: 'center'
     , margin: '80px auto'
-    , marginBottom: '74px'
+    // , marginBottom: '24px'
     , padding: '30px'
-    , top: '100'
 };
 
 /**
