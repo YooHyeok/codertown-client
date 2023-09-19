@@ -10,11 +10,11 @@ export default function MammothCard({obj}) {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-    const [src, setSrc] = useState('/default_profile3.png');
+    const [src, setSrc] = useState('/default_profile.png');
     useEffect(() => {
         axios.get(`/profileImage/${obj.recruitDto.writer.email}`)
         .then((response)=>{
-            if (response.data == '') setSrc('/default_profile3.png')
+            if (response.data == '') setSrc('/default_profile.png')
             else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
         })
     }, [])

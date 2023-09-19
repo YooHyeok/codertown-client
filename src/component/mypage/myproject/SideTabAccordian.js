@@ -54,7 +54,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                         return (
                           <tr key={obj.userProjectNo}>
                             <td>
-                            <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                            <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                             <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
                             <button style={{display:"block", float:"right"}}>추방</button>
                           </td>
@@ -70,7 +70,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                       }
                         {/* <tr>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>soomincho</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>
@@ -84,14 +84,14 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
                         </tr>
                         <tr>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>prove.ability00</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>bard</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>

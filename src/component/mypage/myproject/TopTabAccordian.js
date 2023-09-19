@@ -39,7 +39,7 @@ import { useEffect } from "react";
                               return (
                                 <tr key={obj.userProjectNo}>
                                   <td>
-                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                                   <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
                                   </td>
                                 </tr>
@@ -107,7 +107,7 @@ import { useEffect } from "react";
                                 <tr key={obj.userProjectNo}>
                                   <td>{project.partName}</td>
                                   <td>
-                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                                   <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
                                   <button style={{display:"block", float:"right"}}>추방</button>
                                   </td>
@@ -119,7 +119,7 @@ import { useEffect } from "react";
                         {/* <tr>
                             <td>PM/기획</td>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>soomincho</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>
@@ -135,7 +135,7 @@ import { useEffect } from "react";
                         <tr>
                             <td>퍼블리셔</td>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>prove.ability00</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>
@@ -143,7 +143,7 @@ import { useEffect } from "react";
                         <tr>
                             <td>프론트엔드</td>
                             <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile3.png'} alt="profile"/>
+                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                               <span style={{width:"120px", float:"left"}}>bard</span>
                               <button style={{display:"block", float:"right"}}>추방</button>
                             </td>

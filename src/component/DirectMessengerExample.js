@@ -183,7 +183,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -191,7 +191,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -199,7 +199,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -207,7 +207,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -215,7 +215,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -223,7 +223,7 @@ export default function DirectMessengerExample() {
           unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용
@@ -231,7 +231,7 @@ export default function DirectMessengerExample() {
           // unread: 3, // 읽지 않은 대화 갯수
         },
         {
-          avatar: `/default_profile3.png`, //`profileImage/${webdevyoo@gmail.com}`
+          avatar: `/default_profile.png`, //`profileImage/${webdevyoo@gmail.com}`
           alt: 'kursat_avatar',
           title: 'Kursat', //사용자 이름
           subtitle: "Why don't we go to the No Way Home movie this weekend ?", //마지막 대화 내용

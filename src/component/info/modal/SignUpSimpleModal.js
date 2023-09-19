@@ -324,8 +324,15 @@ export default function SignUpSimpleModal() {
     }
 
     const submit = () => {
+        const filePath = '/public/default_profile.png';  // 파일 경로
 
-        axios.post("/sign-up", {email: email.authEmail, password:password})
+        // 파일 추가
+        const formData = new FormData();
+        formData.append('email', email.authEmail)
+        formData.append('password', password)
+        formData.append('attachFile', new File([filePath], 'default_profile'));
+        // axios.post("/sign-up", {email: email.authEmail, password:password, attachFile})
+        axios.post("/sign-up", formData)
         .then((response) => {
             if (response.data.code==0) document.location.href='/'
         })

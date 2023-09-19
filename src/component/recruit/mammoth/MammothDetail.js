@@ -19,7 +19,7 @@ export default function MammothDetail() {
 
     const userId = useSelector( (state) => {return state.UserId} );
     const accessToken = useSelector( (state) => {return state.Authorization} );
-    const [src, setSrc] = useState('/default_profile3.png')
+    const [src, setSrc] = useState('/default_profile.png')
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { mammothNo } = useParams();
@@ -65,7 +65,7 @@ export default function MammothDetail() {
         if(Object.keys(mammoth.writer).length !== 0) {
             axios.get(`/profileImage/${mammoth.writer.email}`)
             .then((response)=>{
-                if (response.data == '') setSrc('/default_profile3.png')
+                if (response.data == '') setSrc('/default_profile.png')
                 else setSrc(`/profileImage/${mammoth.writer.email}`)
             })
             .catch((error) => {

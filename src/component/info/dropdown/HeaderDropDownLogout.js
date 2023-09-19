@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽
 export default function HeaderDropDownLogout() {
 
   const userId = useSelector( (state) => {return state.UserId} );
-  const [src, setSrc] = useState('/default_profile3.png');
+  const [src, setSrc] = useState('/default_profile.png');
   useEffect(() => {
       axios.get(`/profileImage/${userId}`)
       .then((response)=>{
-          if (response.data == '') setSrc('/default_profile3.png')
+          if (response.data == '') setSrc('/default_profile.png')
           else setSrc(`/profileImage/${userId}`);
       })
   }, [])
