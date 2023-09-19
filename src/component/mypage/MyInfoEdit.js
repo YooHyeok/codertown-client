@@ -9,7 +9,7 @@ export default function MyInfoEdit() {
 
     const [defaultSrc, setDefaultSrc] = useState('');
     const [profileInputValue, setProfileInputValue] = useState({
-        profileSrc:'/default_profile.png', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
+        profileSrc:'', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
     })
     
     /**
@@ -17,7 +17,7 @@ export default function MyInfoEdit() {
      */
     useEffect(() => {
         /* 프로필 조회 */
-        axios.get(`/profileImage/${userId}`)
+        /* axios.get(`/profileImage/${userId}`)
         .then((response)=>{
             if (response.data == '/default_profile.png') {
                 console.log(response.data)
@@ -29,8 +29,16 @@ export default function MyInfoEdit() {
                 setProfileInputValue({...profileInputValue, profileSrc:`/profileImage/${userId}`})
             }
             
+        }) */
+        const formData = new FormData();
+        formData.append('loginEmail', userId)
+        axios.post('/user-info', formData)
+        .then(response => {
+            console.log(response.data.profileUrl)
+            setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:response.data.profileUrl})
         })
-   
+        .catch(error =>{
+        })
     }, [])
 
     /**
@@ -43,8 +51,8 @@ export default function MyInfoEdit() {
             formData.append('loginEmail', userId)
             axios.post('/user-info', formData)
             .then(response => {
-                console.log(response)
-                setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname})
+                console.log(response.data.profileSrc)
+                setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:response.data.attachFile})
             })
             .catch(error =>{
             })
@@ -56,6 +64,7 @@ export default function MyInfoEdit() {
      * 첨부파일
      */
     const fileChange = (e) => {
+        console.log()
         setProfileInputValue((prevState) => ({
             ...prevState, attachFile:e.target.files[0]
         }));
@@ -75,12 +84,13 @@ export default function MyInfoEdit() {
     const readImage = (input) => {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
             reader.onload = e => {
+                console.log(e.target.result)
                 setProfileInputValue((prevState) => ({
                     ...prevState, profileSrc:e.target.result
                 }));
             }
-            reader.readAsDataURL(input.files[0]);
         }
     }
 
@@ -295,7 +305,7 @@ export default function MyInfoEdit() {
             <FormGroup row  style={{margin:'20px auto', width:'200px', height:'150px'}} >
                 <Col sm={12}>
                     <input ref={fileInputRef} type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ display:'none'}}/> 
-                    <img className="profile" src={profileInputValue.profileSrc} alt="profile" onClick={handleImageClick}/>
+                    <img className="profile" src={`data:image/png;base64,${profileInputValue.profileSrc}`} alt="profile" onClick={handleImageClick}/>
                     <img style={{filter: 'hue-rotate(6deg)', position:'relative', bottom:'45px', left:'55px', width:'32px', height:'32px'}} src="/free-icon-pencil.png" alt="profile edit"/>
                 </Col>
             </FormGroup>

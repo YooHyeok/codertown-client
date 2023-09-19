@@ -19,7 +19,7 @@ export default function SignUpSimpleModal() {
     const [passwordChk, setPasswordChk] = useState(''); //비밀번호 확인
 
     /* 첨부 file */
-    const [file, setFile] = useState(null);
+    const [profileUrl, setProfileUrl] = useState(null);
     useEffect(() => {
         // 특정 경로에 있는 파일을 읽어 Blob 객체 생성
         const filePath = '/default_profile.png';  // 파일 경로
@@ -29,8 +29,12 @@ export default function SignUpSimpleModal() {
         xhr.onload = () => {
           if (xhr.status === 200) {
             const blob = new Blob([xhr.response]);
-            console.log(blob)
-            setFile(blob);
+            /* blob데이터를 Base64형태로 인코딩 */
+            const reader = new FileReader();
+            reader.readAsDataURL(xhr.response);
+            reader.onload = e => {
+                setProfileUrl(e.target.result);
+            }
           }
         };
         xhr.send();
@@ -340,14 +344,10 @@ export default function SignUpSimpleModal() {
     }
 
     const submit = () => {
-        const filePath = '/default_profile.png';  // 파일 경로
-        
         const formData = new FormData();
         formData.append('email', email.authEmail)
         formData.append('password', password)
-        formData.append('attachFile', file)
-        console.log(formData)
-        // axios.post("/sign-up", {email: email.authEmail, password:password, attachFile})
+        formData.append('profileUrl', profileUrl)
         axios.post("/sign-up", formData)
         .then((response) => {
             if (response.data.code==0) document.location.href='/'
