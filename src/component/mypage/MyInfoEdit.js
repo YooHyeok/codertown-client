@@ -20,7 +20,6 @@ export default function MyInfoEdit() {
         formData.append('loginEmail', userId)
         axios.post('/user-info', formData)
         .then(response => {
-            console.log(response.data.profileUrl)
             setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:`data:image/png;base64,${response.data.profileUrl}`})
         })
         .catch(error =>{
@@ -31,7 +30,6 @@ export default function MyInfoEdit() {
      * 첨부파일
      */
     const fileChange = (e) => {
-        console.log()
         setProfileInputValue((prevState) => ({
             ...prevState, attachFile:e.target.files[0]
         }));
@@ -53,7 +51,6 @@ export default function MyInfoEdit() {
             const reader = new FileReader();
             reader.readAsDataURL(input.files[0]);
             reader.onload = e => {
-                console.log(e.target.result)
                 setProfileInputValue((prevState) => ({
                     ...prevState, profileSrc:e.target.result
                 }));
@@ -176,7 +173,6 @@ export default function MyInfoEdit() {
                         axios.post('/nickname-exists', formData)
                         .then(response => {
                             if(response.data.exists) {
-                                console.log("통신함")
                                 validThreeCase(nicknameForbidExistRef, nicknameForbidRegRef, nicknamePermitExistRef);
                                 return;
                             }
@@ -248,7 +244,6 @@ export default function MyInfoEdit() {
 
 
     const submit = () => {
-        console.log(profileInputValue)
         const formData = new FormData();
         formData.append('loginEmail',userId)
         formData.append('nickname', profileInputValue.changeNickname)

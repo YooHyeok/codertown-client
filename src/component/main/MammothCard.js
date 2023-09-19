@@ -12,11 +12,7 @@ export default function MammothCard({obj}) {
 
     const [src, setSrc] = useState('/default_profile.png');
     useEffect(() => {
-        axios.get(`/profileImage/${obj.recruitDto.writer.email}`)
-        .then((response)=>{
-            if (response.data == '') setSrc('/default_profile.png')
-            else setSrc(`/profileImage/${obj.recruitDto.writer.email}`);
-        })
+        setSrc(`data:image/png;base64,${obj.recruitDto.writer.profileUrl}`);
     }, [])
 
     /* 북마크 토글 */
