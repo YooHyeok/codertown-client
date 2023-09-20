@@ -257,9 +257,16 @@ export default function MyInfoEdit() {
 
 
     const submit = () => {
-       
         if (profileInputValue.originalCheckPwd === '') {
             alert("회원정보 수정시 본인확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
+            return;
+        }
+        if (    
+                (profileInputValue.originNickname === profileInputValue.changeNickname) 
+             && (profileInputValue.changePwd === '')
+             && (profileInputValue.changePwdChk === '')
+                                                        ) {
+            alert("수정된 내역이 없습니다.")
             return;
         }
         if (flag.nicknameRegFlag === false) {
@@ -285,15 +292,20 @@ export default function MyInfoEdit() {
         formData.append('loginEmail',userId)
         formData.append('nickname', profileInputValue.changeNickname)
         formData.append('password', profileInputValue.changePwd)
+        formData.append('originalPassword', profileInputValue.originalCheckPwd)
         formData.append('profileUrl', profileInputValue.profileSrc)
         // formData.forEach((value, key) => console.log(key, ":", value));
         // return;
         axios.post('/user-update', formData)
             .then(response => {
+                console.log()
+                if(response.data.success == false){
+                    alert("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
+                    return;
+                }
                 document.location.href='/mypage'
             })
             .catch(error => {
-                console.log(error)
             })
     }
 
