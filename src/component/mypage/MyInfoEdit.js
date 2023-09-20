@@ -8,7 +8,15 @@ export default function MyInfoEdit() {
     const userId = useSelector( (state) => {return state.UserId} );
 
     const [profileInputValue, setProfileInputValue] = useState({
-        profileSrc:'', attachFile: '',  originNickname: '', changeNickname: '', originalCheckPwd: '', changePwd: '', changePwdChk: ''
+        originalProfileSrc:'',
+        changeProfileSrc: '',
+
+        originNickname: '', 
+        changeNickname: '', 
+
+        originalCheckPwd: '', 
+        changePwd: '', 
+        changePwdChk: ''
     })
     
     /**
@@ -20,7 +28,13 @@ export default function MyInfoEdit() {
         formData.append('loginEmail', userId)
         axios.post('/user-info', formData)
         .then(response => {
-            setProfileInputValue({...profileInputValue, originNickname:response.data.nickname, changeNickname:response.data.nickname, profileSrc:`data:image/png;base64,${response.data.profileUrl}`})
+            setProfileInputValue({
+                ...profileInputValue, 
+                originNickname:response.data.nickname, 
+                changeNickname:response.data.nickname, 
+                originalProfileSrc:`data:image/png;base64,${response.data.profileUrl}`,
+                changeProfileSrc:`data:image/png;base64,${response.data.profileUrl}`
+            })
         })
         .catch(error =>{
         })
@@ -40,10 +54,15 @@ export default function MyInfoEdit() {
      * 첨부파일
      */
     const fileChange = (e) => {
-        setProfileInputValue((prevState) => ({
-            ...prevState, attachFile:e.target.files[0]
-        }));
-        readImage(e.target);
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload = event => {
+                setProfileInputValue((prevState) => ({
+                    ...prevState, changeProfileSrc:event.target.result
+                }));
+            }
+        }
 
     }
 
@@ -62,7 +81,7 @@ export default function MyInfoEdit() {
             reader.readAsDataURL(input.files[0]);
             reader.onload = e => {
                 setProfileInputValue((prevState) => ({
-                    ...prevState, profileSrc:e.target.result
+                    ...prevState, changeProfileSrc:e.target.result
                 }));
             }
         }
@@ -262,7 +281,8 @@ export default function MyInfoEdit() {
             return;
         }
         if (    
-                (profileInputValue.originNickname === profileInputValue.changeNickname) 
+                (profileInputValue.originalProfileSrc === profileInputValue.changeProfileSrc) 
+             && (profileInputValue.originNickname === profileInputValue.changeNickname) 
              && (profileInputValue.changePwd === '')
              && (profileInputValue.changePwdChk === '')
                                                         ) {
@@ -293,7 +313,7 @@ export default function MyInfoEdit() {
         formData.append('nickname', profileInputValue.changeNickname)
         formData.append('password', profileInputValue.changePwd)
         formData.append('originalPassword', profileInputValue.originalCheckPwd)
-        formData.append('profileUrl', profileInputValue.profileSrc)
+        formData.append('profileUrl', profileInputValue.changeProfileSrc)
         // formData.forEach((value, key) => console.log(key, ":", value));
         // return;
         axios.post('/user-update', formData)
@@ -318,7 +338,7 @@ export default function MyInfoEdit() {
             <FormGroup row  style={{margin:'20px auto', width:'200px', height:'150px'}} >
                 <Col sm={12}>
                     <input ref={fileInputRef} type="file" name="file" id="file" onChange={fileChange} accept='image/*' style={{ display:'none'}}/> 
-                    <img className="profile" src={profileInputValue.profileSrc} alt="profile" onClick={handleImageClick}/>
+                    <img className="profile" src={profileInputValue.changeProfileSrc} alt="profile" onClick={handleImageClick}/>
                     <img style={{filter: 'hue-rotate(6deg)', position:'relative', bottom:'45px', left:'55px', width:'32px', height:'32px'}} src="/free-icon-pencil.png" alt="profile edit"/>
                 </Col>
             </FormGroup>
