@@ -271,7 +271,7 @@ export default function DirectMessengerExample() {
                             chatRoomRef.current.style.display='block';
                             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
                           }}
-                          avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <Button size={'sm'} style={{ margin:'20px  auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
@@ -279,7 +279,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="백엔드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="백엔드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>
@@ -287,7 +287,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>
@@ -295,7 +295,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
@@ -303,7 +303,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="백앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="백앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
@@ -311,7 +311,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right' }}>
                           <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
@@ -319,7 +319,7 @@ export default function DirectMessengerExample() {
                       </div>
                       <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right' }}>
                           <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
@@ -328,7 +328,7 @@ export default function DirectMessengerExample() {
                       
                       <div style={{width:'431px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'yjou7454@gmail.com'}`} title="yjou7454" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
+                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
                         </div>
                         <div style={{position:'relative', float:'right'}}>
                           <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
@@ -347,8 +347,8 @@ export default function DirectMessengerExample() {
                           style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
                         <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
                           <ChatItem
-                              avatar={`profileImage/${'yjou7454@gmail.com'}`}
-                              title="yjou7454"
+                              avatar={`profileImage/${'webdevyoo@gmail.com'}`}
+                              title="webdevyoo"
                               subtitle=""
                               date={new Date()}
                               unread={0}

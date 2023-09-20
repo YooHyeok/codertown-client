@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
 
-export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, children, parentNo, mentionUser, status, commentSearchAxios }) {
+export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, /* children, */ parentNo, mentionUser, status, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -28,7 +28,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     
     /* 댓글 [저장] */
     const submit = () => {
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: nickname}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: writer.email}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -203,7 +203,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
             }
         </div>
         {/* 자식 댓글 컴포넌트 재귀 호출 */}
-        {children.map(child => (
+        {/* {children.map(child => (
             <ChildComment
                 key={child.commentNo}
                 commentNo={child.commentNo}
@@ -218,8 +218,7 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
                 status={child.status}
                 commentSearchAxios={commentSearchAxios}
             />
-            ))}
-
+            ))} */}
         </div>
     );
 }

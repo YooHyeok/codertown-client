@@ -28,7 +28,7 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
 
     /* 댓글 [저장] */
     const submit = () => {
-        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:userId, depth:2, mentionUser: nickname}
+        const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:userId, depth:2, mentionUser: writer.email}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
             if (response.data.success == true) {
@@ -212,9 +212,9 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
                 nickname={child.writer.nickname}
                 content={child.content}
                 firstRegDate={DateUtil.utcToKrFull(child.firstRegDate)}
-                children={child.children} // 재귀를 위한 Children
+                // children={child.children} // 재귀를 위한 Children
                 parentNo={commentNo}
-                mentionUser={child.mentionUser}
+                mentionUser={child.mention.nickname}
                 status={child.status}
                 commentSearchAxios={commentSearchAxios}
                 />)
