@@ -8,7 +8,7 @@ export default function MyInfoEdit() {
     const userId = useSelector( (state) => {return state.UserId} );
 
     const [profileInputValue, setProfileInputValue] = useState({
-        profileSrc:'', attachFile: '',  originNickname: '', changeNickname: '', originalPwd: '', changePwd: '', changePwdChk: ''
+        profileSrc:'', attachFile: '',  originNickname: '', changeNickname: '', originalCheckPwd: '', changePwd: '', changePwdChk: ''
     })
     
     /**
@@ -25,6 +25,16 @@ export default function MyInfoEdit() {
         .catch(error =>{
         })
     }, [])
+    
+    /**
+     * 컴포넌트 생명주기 Hook
+     */
+    useEffect(() => {
+        if (profileInputValue.changeNickname == profileInputValue.originNickname) {
+            nicknamePermitExistRef.current.style.display='none';
+            return;
+        }
+    }, [profileInputValue.changeNickname])
 
     /**
      * 첨부파일
@@ -140,7 +150,7 @@ export default function MyInfoEdit() {
     }
 
     /* 유효성 검증 Flag 배열 */
-    const [flag, setFlag] = useState({nicknameRegFlag:true, nicknameExsitsFlag:true, passwordRegFlag:true, passwordChkFlag:true})
+    const [flag, setFlag] = useState({nicknameRegFlag:true, nicknameExsitsFlag:true, pwdIsChangedFlag:false, passwordRegFlag:false, passwordChkFlag:false})
 
     const inputChange = (e) => {
         let currentName = e.target.name;
@@ -154,6 +164,7 @@ export default function MyInfoEdit() {
 
              /* 백스페이스로 모두 지웠을 경우 */
             if (currentValue == '') {
+                setFlag({...flag, nicknameRegFlag: nicknameRegFlag}); //Flag에 false저장
                 validThreeCase(nicknameForbidRegRef,nicknameForbidExistRef,nicknamePermitExistRef);
                 return;
             }
@@ -194,6 +205,7 @@ export default function MyInfoEdit() {
                     return;
                 }
                 if (!nicknameRegFlag) {// 정규표현식 결과 false
+                    setFlag({...flag, nicknameRegFlag: nicknameRegFlag}); //Flag에 false저장
                     validThreeCase(nicknameForbidRegRef, nicknamePermitExistRef, nicknameForbidExistRef);
                     return;
                 }
@@ -240,15 +252,42 @@ export default function MyInfoEdit() {
                 return;
             }
         }
+
     }
 
 
     const submit = () => {
+       
+        if (profileInputValue.originalCheckPwd === '') {
+            alert("회원정보 수정시 본인확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
+            return;
+        }
+        if (flag.nicknameRegFlag === false) {
+            alert("닉네임 양식을 맞춰주세요.")
+            return;
+        }
+        if (profileInputValue.changePwd != '') { //비밀번호 란이 비어있지 않다면
+            if (!flag.passwordRegFlag) { // 정규표현식 체크
+                alert("패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.")
+                return;
+            }
+            if (!flag.passwordChkFlag) { // 정규표현식 체크
+                if (profileInputValue.changePwdChk == '') {
+                    alert("패스워드 수정시 패스워드 확인은 필수입력 입니다.")
+                    return;
+                } 
+                alert("패스워드 변경값과 확인값이 일치하지 않습니다.")
+                return;
+            }
+        }
+
         const formData = new FormData();
         formData.append('loginEmail',userId)
         formData.append('nickname', profileInputValue.changeNickname)
         formData.append('password', profileInputValue.changePwd)
         formData.append('profileUrl', profileInputValue.profileSrc)
+        // formData.forEach((value, key) => console.log(key, ":", value));
+        // return;
         axios.post('/user-update', formData)
             .then(response => {
                 document.location.href='/mypage'
@@ -300,8 +339,8 @@ export default function MyInfoEdit() {
             </FormGroup>
             <FormGroup>
                 <Col sm={12}>
-                    <Label htmlFor='originalPwd' style={{float:'left'}} >기존 패스워드</Label>
-                    <Input type='text' name='originalPwd' id='originalPwd' value={profileInputValue.originalPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
+                    <Label htmlFor='originalCheckPwd' style={{float:'left'}} >기존 패스워드</Label>
+                    <Input type='text' name='originalCheckPwd' id='originalCheckPwd' value={profileInputValue.originalCheckPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
                 </Col>         
             </FormGroup>
             {/* 수정 완료 버튼 */}
