@@ -156,7 +156,7 @@ export default function MyProject() {
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>직급(팀장/팀원)</th>
+                        <th>담당파트</th>
                         <th>프로젝트(팀)명</th>
                         <th>목표 기간(주)</th>
                         <th>최초 시작 일자</th>
@@ -169,15 +169,15 @@ export default function MyProject() {
                 </thead>
                 <tbody style={{overflow:"auto"}}>
                     { projectList.map((obj, i) => {
-                        console.log(obj.projectDto.projectStatus)
                         return (
                             <tr key={obj.partDto.partNo}>
                                 <td>{obj.projectDto.projectNo}</td>
-                                <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
+                                {/* <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td> */}
+                                <td>{obj.partDto.partNmae}</td>
                                 <td>{obj.projectDto.teamName}</td>
                                 <td>{obj.projectDto.objectWeek}</td>
-                                <td>{obj.projectDto.startDate == null ? '모집중' : obj.projectDto.startDate }</td>
-                                <td>{obj.projectDto.startDate == null ? '모집중' : obj.projectDto.expectedEndDate }</td>
+                                <td>{obj.projectDto.startDate == null ? '모집중' : new Date(obj.projectDto.startDate).toISOString().split('T')[0]}</td>
+                                <td>{obj.projectDto.startDate == null ? '모집중' : new Date(obj.projectDto.expectedEndDate).toISOString().split('T')[0]}</td>
                                 <td>
                                 <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="projectStatus" id="projectStatus" value={obj.projectDto.projectStatus} onChange={(e)=>{statusSelectChange(e, obj.projectDto.projectNo)}}
                                     style={{
@@ -234,7 +234,7 @@ export default function MyProject() {
                                     </div>
                                     }
                                 </td>
-                                <td>{obj.projectDto.projectStatus != "CLOSED" ? '미완료' : obj.projectDto.lastClosingDate }</td>
+                                <td>{obj.projectDto.projectStatus != "CLOSED" ? '미완료' : new Date(obj.projectDto.lastClosingDate).toISOString().split('T')[0]}</td>
                             </tr>
                         )
                     }) }
