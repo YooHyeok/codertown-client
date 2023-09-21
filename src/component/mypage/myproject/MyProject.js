@@ -98,6 +98,20 @@ export default function MyProject() {
         e.preventDefault();
     };
 
+    const statusSelectChange = (e, projectNo) => {
+        console.log({projectId:projectNo , status:e.target.value})
+        const formData = new FormData();
+        formData.append("projectId", projectNo)
+        formData.append("status", e.target.value)
+        axios.post('/project/status-change', formData)
+        .then((response)=> {
+            serverRequest(pageInfo.curPage, keyword); // 페이지 재조회
+        }) 
+        .catch((error)=>{
+            console.log(error)
+        })
+    };
+
     const pmsFrameStyle = {
         display: 'inline'
         , position: 'absolute' //고정
@@ -145,25 +159,27 @@ export default function MyProject() {
                         <th>직급(팀장/팀원)</th>
                         <th>프로젝트(팀)명</th>
                         <th>목표 기간(주)</th>
-                        <th>시작일</th>
-                        <th>종료(예정)</th>
+                        <th>최초 시작 일자</th>
+                        <th>종료 예정 일자</th>
                         <th>전체 상태</th>
                         <th>개인 상태</th>
-                        <th>현황 상세</th>
+                        <th>인원 현황</th>
+                        <th>최종 종료 일자</th>
                     </tr>
                 </thead>
                 <tbody style={{overflow:"auto"}}>
                     { projectList.map((obj, i) => {
+                        console.log(obj.projectDto.projectStatus)
                         return (
                             <tr key={obj.partDto.partNo}>
                                 <td>{obj.projectDto.projectNo}</td>
                                 <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td>
                                 <td>{obj.projectDto.teamName}</td>
                                 <td>{obj.projectDto.objectWeek}</td>
-                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다' : obj.projectDto.lastClosingDate }</td>
-                                <td>{obj.projectDto.projectStatus == "RECURUIT" ? '[모집] 상태 입니다' : obj.projectDto.expectedEndDate }</td>
+                                <td>{obj.projectDto.startDate == null ? '모집중' : obj.projectDto.startDate }</td>
+                                <td>{obj.projectDto.startDate == null ? '모집중' : obj.projectDto.expectedEndDate }</td>
                                 <td>
-                                <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="" id="statusSelect" value={obj.projectDto.projectStatus} onChange={(e)=>{e.preventDefault();}}
+                                <select disabled={obj.partDto.partNo !== 1} ref={selectRef} name="projectStatus" id="projectStatus" value={obj.projectDto.projectStatus} onChange={(e)=>{statusSelectChange(e, obj.projectDto.projectNo)}}
                                     style={{
                                         display: obj.partDto.partNo !== 1 ? "none" : "inline"
                                     , textAlign: "center"
@@ -192,21 +208,21 @@ export default function MyProject() {
                                         // pmsFrame[i].style.display='inline'
                                         if (openPMSIndex === i) {
                                             handleClosePMSFrame();
-                                          } else {
+                                        } else {
                                             handleOpenPMSFrame(i);
-                                          }
-                                        }}>
+                                        }
+                                    }}>
                                         <span style={{position:"relative", height:"20px", top:"-9px", fontSize:"14px"}}>상세보기</span>
                                     </Button>
                                     {/* PMS Div */}
                                     {openPMSIndex === i && 
                                     <div key={`pms-frame-${i}`} ref={handlePmsFrameRef(i)} style={pmsFrameStyle} 
-                                        className={`draggable ${isDragging ? 'dragging' : ''}`}
-                                        onMouseDown={onMouseDown}
-                                        onMouseMove={onMouseMove}
-                                        onMouseUp={onMouseUp}
-                                        onDragStart={onDragStart}
-                                        >
+                                    className={`draggable ${isDragging ? 'dragging' : ''}`}
+                                    onMouseDown={onMouseDown}
+                                    onMouseMove={onMouseMove}
+                                    onMouseUp={onMouseUp}
+                                    onDragStart={onDragStart}
+                                    >
                                         <span style={{color:'white', fontSize:'18px'}}>&nbsp;{obj.projectDto.teamName}</span>
                                         <X onClick={(e)=>{/* pmsFrame[i].style.display='none'; */ handleClosePMSFrame();}}
                                         style={{width:"20px", height:"20px", float:'right', margin:'2px',border:'1px solid white', background:"linear-gradient(red 20%, rgba(247, 247, 248, 0.9) 130%)", color:"white"}}/>
@@ -214,10 +230,11 @@ export default function MyProject() {
                                         {/* <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); 
                                         // pmsFrame[i].style.display='none';
                                         handleClosePMSFrame();
-                                            }}>닫기</Button> */}
+                                    }}>닫기</Button> */}
                                     </div>
                                     }
                                 </td>
+                                <td>{obj.projectDto.projectStatus != "CLOSED" ? '미완료' : obj.projectDto.lastClosingDate }</td>
                             </tr>
                         )
                     }) }
