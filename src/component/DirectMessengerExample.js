@@ -1,20 +1,43 @@
 import { Button } from 'reactstrap';
 import { Messenger, X, ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
-import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements";
-
+import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements"; // npm install react-chat-elements --save --force
 import { useRef, useState, useEffect} from 'react';
-
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import axios from "axios";
 
-// npm install react-chat-elements --save --force
 export default function DirectMessengerExample() {
 
+  const userId = useSelector( (state) => {return state.UserId} );
   const [client, setClient] = useState(null);
   const [chat, setChat] = useState('');
 
+  const [chatRoomList, setChatRoomList] = useState([]);
+
+  const textareaRef = useRef('');
+  const chatContainerRef = useRef('');
+  const [textareaValue, setTextareaValue] = useState('')
+  const chatOpenBtnRef = useRef('');
+  const chatCloseBtnRef = useRef('');
+  const chatComponentRef = useRef('');  
+  const chatListRef = useRef('');
+  const chatRoomRef = useRef('');  
+
+  /**
+   * 채팅 목록 조회
+   */
   useEffect(() => {
+    const formData = new FormData();
+    formData.append('loginEmail', userId)
+    axios.post('/chat-list', formData)
+    .then(response => {
+      setChatRoomList(response.data.chatRomUserDtoList)
+    })
+    .catch(error =>{
+    })
+
     // Set up the STOMP client
     return; // 채팅 연결 임시 중단
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
@@ -63,14 +86,7 @@ export default function DirectMessengerExample() {
 }
 
 
-    const textareaRef = useRef('');
-    const chatContainerRef = useRef('');
-    const [textareaValue, setTextareaValue] = useState('')
-    const chatOpenBtnRef = useRef('');
-    const chatCloseBtnRef = useRef('');
-    const chatComponentRef = useRef('');  
-    const chatListRef = useRef('');
-    const chatRoomRef = useRef('');  
+
 
 
     useEffect(() => {
@@ -100,7 +116,6 @@ export default function DirectMessengerExample() {
         setTextareaValue(textareaValue + '\n');
         textareaRef.current.style.overflow = 'auto';
         textareaRef.current.style.height = 'auto';
-        console.log(textareaRef.current.scrollHeight)
         textareaRef.current.style.height = (30+textareaRef.current.scrollHeight) + 'px';
         chatContainerRef.current.style.height = 'auto';
         chatContainerRef.current.style.height = `calc(408px - ${textareaRef.current.scrollHeight}px)`;
@@ -260,78 +275,31 @@ export default function DirectMessengerExample() {
 
                     {/* 1. 채팅 리스트 컴포넌트 */}
                     <div ref={chatListRef} className="chat-list-div" style={{width:'450px', height:'513px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
-
-                      {/* <ChatList className='chat-list' dataSource={dataSource} /> */}
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left'}}>
-                          <ChatItem onClick={(e)=>{
-                            chatListRef.current.style.display='none';
-                            chatRoomRef.current.style.display='block';
-                            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-                          }}
-                          avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <Button size={'sm'} style={{ margin:'20px  auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="백엔드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="백앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right' }}>
-                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
-                        </div>
-                      </div>
-                      <div style={{width:'430px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right' }}>
-                          <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>
-                        </div>
-                      </div>
-                      
-                      <div style={{width:'431px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                        <div style={{minWidth:'390px', float:'left',}}>
-                          <ChatItem avatar={`profileImage/${'webdevyoo@gmail.com'}`} title="webdevyoo" subtitle="프론트앤드 참여 신청 수락요청 메시지" date={new Date()} unread={2}/>
-                        </div>
-                        <div style={{position:'relative', float:'right'}}>
-                          <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>
-                        </div>
-                      </div>
+                      {
+                        chatRoomList.map(obj => {
+                          return (
+                            <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                              <div style={{minWidth:'390px', float:'left'}}>
+                                <ChatItem onClick={(e)=>{
+                                  chatListRef.current.style.display='none';
+                                  chatRoomRef.current.style.display='block';
+                                  chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                                }}
+                                status='waiting'
+                                avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`} 
+                                title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                subtitle={obj.chatRoom.lastChatMessage == null ? '방은 생성되었지만 메시지는 없습니다':obj.chatRoom.lastChatMessage}
+                                date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} unread={2}/>
+                              </div>
+                              <div style={{position:'relative', float:'right'}}>
+                                { obj.isRoomMaker && <Button size={'sm'} style={{ margin:'20px auto', marginRight:'20px', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>}
+                                { (!obj.isRoomMaker && !obj.chatRoom.isConfirm)  && <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
+                                { (!obj.isRoomMaker && obj.chatRoom.isConfirm)  && <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
+                              </div>
+                            </div>
+                          )
+                        })
+                      }
                     </div>
 
                     {/* 2. 채팅방 입장 컴포넌트 */}
