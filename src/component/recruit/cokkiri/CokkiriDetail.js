@@ -24,6 +24,8 @@ export default function CokkiriDetail() {
     /* [수정] 버튼 클릭시 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { cokkiriNo } = useParams();
+    const [projectPartNo, setProjectPartNo] = useState()
+    const [partNo, setPartNo] = useState()
     const [cokkiri, setCokkiri] = useState(
         {   
             title: null,
@@ -37,6 +39,7 @@ export default function CokkiriDetail() {
             objectWeek: 0,
             subject: '',
             teamName: '',
+            projectNo: '',
             projectParts: []
         }
     )
@@ -45,6 +48,7 @@ export default function CokkiriDetail() {
     useEffect(()=> {
         axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
+            console.log(response.data)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -57,9 +61,10 @@ export default function CokkiriDetail() {
                         objectWeek: response.data.projectDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
-                        projectParts: response.data.projectDto.projectParts
-                        }
-            )
+                        projectParts: response.data.projectDto.projectParts,
+                        projectNo: response.data.projectDto.projectNo
+                    })
+            setProjectPartNo(response.data.projectDto.projectParts[0].projectPartNo)
             /* 프로필사진 초기화 */
             setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
             setIsBookmarked(response.data.cokkiriDto.isBookmarked)
@@ -106,7 +111,18 @@ export default function CokkiriDetail() {
         console.log(error);
         })
     }
-
+    const submit = (e) => {
+        e.preventDefault();
+        let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
+        // return;
+        axios.post('/create-cokkiri-chatroom', params)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+    }
 
     return(
         <div style={divStyle}>
@@ -200,22 +216,27 @@ export default function CokkiriDetail() {
                         </div>
                         {(accessToken != '' && userId != cokkiri.writer.email) &&
                         <div className='project-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
-                            <select name="" id="mealSelect" onChange={(e)=> {
-                                if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
+                            <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
+                                if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
+                                    cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
                                     alert('선택하신 파트는 현재 남은자리가 없습니다.'); 
                                     return;
                                 }
+                                setProjectPartNo(cokkiri.projectParts.find(obj => obj.partNo == e.target.value).projectPartNo)
                             }}
                                 style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
-                                <option value={"1"} >PM</option>
-                                <option value={"2"} >디자인</option>
-                                <option value={"3"} >퍼블리셔</option>
-                                <option value={"4"} >프론트엔드</option>
-                                <option value={"5"} >백엔드</option>
+                                    {cokkiri.projectParts.filter((obj)=>{
+                                        return obj.partNo !== 1;
+                                    }).map((obj) => {
+                                        return(
+                                            <option value={obj.partNo} >{obj.partName}</option>
+                                            
+                                        )
+                                    })}
                             </select>
                             &nbsp;&nbsp;
                             
-                            <Button color='primary'>프로젝트 참여 요청</Button>
+                            <Button color='primary' onClick={submit}>프로젝트 참여 요청</Button>
                         </div>}
                     </div>
                 </div>

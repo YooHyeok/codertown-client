@@ -26,10 +26,10 @@ export default function DirectMessengerExample() {
           sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
           content: '연결 성공',
       };
-        stompClient.send(`/dm-pub/chat/connect`, {}, JSON.stringify(messageData));
-        stompClient.subscribe('/connected-success', function (e) {
+        stompClient.send(`/dm-pub/chat/connect`, {}, JSON.stringify(messageData)); // 데이터 전송
+        stompClient.subscribe('/connected-success', function (e) { //데이터 수신
           //e.body에 전송된 data가 들어있다 JSON Text형태이므로 parsing한 후 props에 접근한다.
-          alert(JSON.parse(e.body).content)
+          alert(JSON.parse(e.body).content); /* 최초연결 성공 시점 (새로고침해도 출력안된다)*/
       });
     });
     /* 로그아웃시 연결 종료된다. */
@@ -53,8 +53,6 @@ export default function DirectMessengerExample() {
 
   const publish = (chat) => {
     // if (!client.current.connected) return;
-    console.log(chat)
-    console.log(client)
     const messageData = {
       sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
       content: textareaValue,
