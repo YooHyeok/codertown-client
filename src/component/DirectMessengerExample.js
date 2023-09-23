@@ -1,4 +1,5 @@
 import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { Messenger, X, ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
 import { MessageBox, ChatList, ChatItem, Input } from "react-chat-elements"; // npm install react-chat-elements --save --force
@@ -172,7 +173,7 @@ export default function DirectMessengerExample() {
                 <div ref={chatComponentRef} style={dmFrameStyle}>
 
                     {/* 1. 채팅 리스트 컴포넌트 */}
-                    <div ref={chatListRef} className="chat-list-div" style={{width:'450px', height:'513px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+                    <div ref={chatListRef} className="chat-list-div" style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
                       {
                         chatRoomList.map(obj => {
                           return (
@@ -182,14 +183,17 @@ export default function DirectMessengerExample() {
                                   onClick={(e)=>{chatDetail(e, obj)}}
                                   avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`} 
                                   title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
-                                  subtitle={obj.chatRoom.lastChatMessage == null ? '방은 생성되었지만 메시지는 없습니다':obj.chatRoom.lastChatMessage}
+                                  subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
                                   date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} 
                                   unread={2}/>
                               </div>
-                              <div style={{position:'relative', float:'right'}}>
+                              {/* <div style={{position:'relative', float:'right'}}>
                                 { obj.isRoomMaker && <Button size={'sm'} style={{ margin:'20px auto', marginRight:'20px', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>}
                                 { (!obj.isRoomMaker && !obj.chatRoom.isConfirm)  && <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
                                 { (!obj.isRoomMaker && obj.chatRoom.isConfirm)  && <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
+                              </div> */}
+                              <div style={{position:'relative', width:'57px', float:'right'}}>
+                                <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
                               </div>
                             </div>
                           )
@@ -198,9 +202,10 @@ export default function DirectMessengerExample() {
                     </div>
 
                     {/* 2. 채팅방 입장 컴포넌트 */}
-                    <div ref={chatRoomRef} className="chat-into" style={{display:'none',width:'450px', height:'513px', backgroundColor:'white', border : "1px solid lightgray"}}>
+                    <div ref={chatRoomRef} className="chat-into" style={{display:'none',width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray"}}>
                       {/* 1. 채팅방 제목 영역*/}
-                      {chatRoomRef.current != '' && chatRoomRef.current.style.display == 'block' && /* 채팅입장 컴포넌트가 열렸을때 - 추후 컴포넌트화 */
+                     {chatRoomRef.current != '' && chatRoomRef.current.style.display == 'block' && /* 채팅입장 컴포넌트가 열렸을때 - 추후 컴포넌트화 */
+                     <div>
                       <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
                           <ChevronLeft onClick={(e)=>{
                             chatListRef.current.style.display='block';
@@ -211,10 +216,28 @@ export default function DirectMessengerExample() {
                           <ChatItem
                               avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
                               title={chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
-                              subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '방은 생성되었지만 메시지는 없습니다':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
+                              subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
                               date={new Date()}
                               unread={0}
                             />
+                        </div>
+                        <div style={{position:'relative', width:'57px', float:'right'}}>
+                          <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
+                        </div>
+                      </div>
+                      {/* 프로젝트 정보 */}
+                      <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
+                        <div style={{width:"50px",margin:'10px 0 0 50px', float:'left'}}>
+                          <ul /* id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} */
+                            className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
+                              <li className='main_project_part_list_li'>{chatRoomDetail.chatRoomData.projectPart.partName}</li>
+                          </ul>
+                        </div>
+                        <div style={{width:"250px",marginTop:'8px', float:'left'}}>
+                          {/* 프로젝트 제목 */}
+                            <Link style={{textDecoration:'none', color:'#212529BF'}}>
+                                <b>{chatRoomDetail.chatRoomData.project.projectTitle}</b>
+                            </Link>
                         </div>
                         <div style={{position:'relative', width:'57px', float:'right'}}>
                           {chatRoomDetail.chatRoomInfo.isRoomMaker && 
@@ -225,7 +248,6 @@ export default function DirectMessengerExample() {
                           <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
                         </div>
                       </div>
-                      }
 
                       {/* 1. 채팅방 대화내용 리스트 영역 */}
                       <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
@@ -242,9 +264,21 @@ export default function DirectMessengerExample() {
                               text={obj.message}  
                               date={new Date()} 
                               replyButton={obj.sender.email == userId ? false : true}/>
-                            )
-                          })
+                              )
+                            })
                         }
+                         {/* 상대방 메시지박스 */}
+                         <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
+                        {/* 메시지박스 */}
+                        <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
+                        {/* 상대방 메시지박스 */}
+                        <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
+                        {/* 메시지박스 */}
+                        <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
+                        {/* 상대방 메시지박스 */}
+                        <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
+                        {/* 메시지박스 */}
+                        <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
                       </div>
                       {/* 2. 채팅방 대화 전송 영역 */}
                       <div className="chat-into-footer" style={{width:'448px', minHeight:'48px', overflow:'hidden', backgroundColor:'white'/* , borderBottom : "1px solid lightgray" */}}>
@@ -254,7 +288,8 @@ export default function DirectMessengerExample() {
                             <Button size={'sm'} style={{float:'right', margin:'10px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>전송</Button>
                         </div>
                       </div>
-
+                      </div>
+                  }
                   </div>
 
               </div>
