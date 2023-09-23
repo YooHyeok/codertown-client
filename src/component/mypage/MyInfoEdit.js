@@ -9,7 +9,7 @@ export default function MyInfoEdit() {
 
     const [profileInputValue, setProfileInputValue] = useState({
         originalProfileSrc:'',
-        changeProfileSrc: '',
+        changeProfileSrc: '/profile_default.png',
 
         originNickname: '', 
         changeNickname: '', 
