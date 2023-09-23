@@ -33,17 +33,21 @@ export default function DirectMessengerExample() {
    * 채팅 목록 조회
    */
   useEffect(() => {
-    const formData = new FormData();
-    formData.append('loginEmail', userId)
-    axios.post('/cokkiri-chat-list', formData)
-    .then(response => {
-      setChatRoomList(response.data.chatRomUserDtoList)
-    })
-    .catch(error =>{
-    })
+      return; // 채팅 연결 임시 중단
+      
+      /* 5초에 한번씩 채팅 조회 */
+      const diffDayTime = setInterval(() => {
+        const formData = new FormData();
+        formData.append('loginEmail', userId)
+        axios.post('/cokkiri-chat-list', formData)
+        .then(response => {
+          setChatRoomList(response.data.chatRomUserDtoList)
+        })
+        .catch(error =>{
+        })
+      },5000)
 
     // Set up the STOMP client
-    return; // 채팅 연결 임시 중단
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
 
