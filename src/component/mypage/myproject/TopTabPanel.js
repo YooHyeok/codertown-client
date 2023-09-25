@@ -73,6 +73,9 @@ export default function TopTabPanel(props) {
           </Tabs>
         </AppBar>
         <SwipeableViews
+          containerStyle={{
+            transition: 'transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s'
+          }}
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={value}
           onChangeIndex={handleChangeIndex}

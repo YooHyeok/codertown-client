@@ -31,7 +31,6 @@ export default function MessengerFrame() {
 
                 {/* 채팅 컴포넌트 */}
                 <div ref={chatComponentRef} style={dmFrameStyle}>
-                  {console.log(chatFrameOnOff)}
                   {
                     chatFrameOnOff && <Chat chatFrameOnOff={chatFrameOnOff}/>
                   }
@@ -86,6 +85,7 @@ const dmFrameStyle = {
   , right: "30px"
   , textAlign:'left'
   , height: "calc(100% - 116px) !important"
+  , background: 'lightgray'
   , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
 };
 

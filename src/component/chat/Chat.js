@@ -9,6 +9,9 @@ import {Stomp} from "@stomp/stompjs";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 
+import {useTheme} from '@mui/material';
+import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
+
 
 export default function Chat(props) {
 
@@ -30,6 +33,15 @@ export default function Chat(props) {
 
     const [chatFrameOnOff, setChatFrameOnOff] = useState(props.chatFrameOnOff);
 
+    const theme = useTheme();
+    const [value, setValue] = useState(0);
+    const handleChange = (event, newValue) => {
+    setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+    setValue(index);
+    };
 
     /**
      * 채팅 목록 조회
@@ -176,15 +188,23 @@ export default function Chat(props) {
 
     return (
         <div>
+            <SwipeableViews
+          containerStyle={{
+              transition: 'transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s'
+            }}
+            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+            index={value}
+            onChangeIndex={handleChangeIndex}
+            >
             {/* 1. 채팅 리스트 컴포넌트 */}
-            <div ref={chatListRef} className="chat-list-div" style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+            <div ref={chatListRef} className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
                 {
                 chatRoomList.map(obj => {
                     return (
                     <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px'}}>
                         <div style={{minWidth:'390px', float:'left'}}>
                         <ChatItem 
-                            onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj);}}
+                            onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
                             avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`} 
                             title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
                             subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
@@ -201,7 +221,7 @@ export default function Chat(props) {
             </div>
 
             {/* 2. 채팅방 입장 컴포넌트 */}
-            <div ref={chatRoomRef} className="chat-into" style={{display:'none',width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray"}}>
+            <div ref={chatRoomRef} className="chat-into" index={1} style={{display:'none',width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray"}}>
                 {/* 1. 채팅방 제목 영역*/}
                 {chatRoomRef.current != '' && chatRoomRef.current.style.display == 'block' && /* 채팅입장 컴포넌트가 열렸을때 - 추후 컴포넌트화 */
                 <div>
@@ -211,6 +231,7 @@ export default function Chat(props) {
                         chatListRef.current.style.display='block';
                         chatRoomRef.current.style.display='none';
                         setChatFrameOnOff(true);
+                        handleChange(e, 0)
                     }} 
                     style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
                 <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
@@ -292,6 +313,7 @@ export default function Chat(props) {
                 </div>
             }
             </div>
+            </SwipeableViews>
         </div>
     )
 }
