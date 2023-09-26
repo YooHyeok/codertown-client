@@ -249,51 +249,51 @@ export default function Chat(props) {
                 <div ref={chatRoomRef} className="chat-into" index={1} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray"}}>
                     {/* 1. 채팅방 제목 영역*/}
                     <div>
-                    {/* 뒤로가기 버튼 영역 */}
-                    <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
-                        <ChevronLeft onClick={(e)=>{
+                        {/* 뒤로가기 버튼 영역 */}
+                        <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
+                            <ChevronLeft onClick={(e)=>{
 
-                            setFlag({...flag, chatList:true, chatRoom:false})
-                            setChatFrameOnOff(true);
-                            handleChange(e, 0)
-                        }} 
-                        style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
-                    <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
-                        {console.log(chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage)}
-                        <ChatItem
-                            avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
-                            title={chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
-                            // subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
-                            date={new Date()}
-                            unread={0}
-                        />
-                    </div>
-                    <div style={{position:'relative', width:'57px', float:'right'}}>
-                        <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
-                    </div>
-                    </div>
-                    {/* 프로젝트 정보 */}
-                    <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
-                    <div style={{width:"50px",margin:'10px 0 0 50px', float:'left'}}>
-                        <ul /* id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} */
-                        className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
-                            <li className='main_project_part_list_li'>{chatRoomDetail.chatRoomData.projectPart.partName}</li>
-                        </ul>
-                    </div>
-                    <div style={{width:"250px",marginTop:'8px', float:'left'}}>
-                        {/* 프로젝트 제목 */}
-                        <Link style={{textDecoration:'none', color:'#212529BF'}}>
-                            <b>{chatRoomDetail.chatRoomData.project.projectTitle}</b>
-                        </Link>
-                    </div>
-                    <div style={{position:'relative', width:'57px', float:'right'}}>
-                        {chatRoomDetail.chatRoomInfo.isRoomMaker && 
-                        <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>}
-                        {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
-                        <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
-                        {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && 
-                        <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
-                    </div>
+                                setFlag({...flag, chatList:true, chatRoom:false})
+                                setChatFrameOnOff(true);
+                                handleChange(e, 0)
+                            }} 
+                            style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
+                        <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
+                            {console.log(chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage)}
+                            <ChatItem
+                                avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
+                                title={chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                // subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
+                                date={new Date()}
+                                unread={0}
+                            />
+                        </div>
+                        <div style={{position:'relative', width:'57px', float:'right'}}>
+                            <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
+                        </div>
+                        </div>
+                        {/* 프로젝트 정보 */}
+                        <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
+                        <div style={{width:"50px",margin:'10px 0 0 50px', float:'left'}}>
+                            <ul /* id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} */
+                            className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
+                                <li className='main_project_part_list_li'>{chatRoomDetail.chatRoomData.projectPart.partName}</li>
+                            </ul>
+                        </div>
+                        <div style={{width:"250px",marginTop:'8px', float:'left'}}>
+                            {/* 프로젝트 제목 */}
+                            <Link style={{textDecoration:'none', color:'#212529BF'}}>
+                                <b>{chatRoomDetail.chatRoomData.project.projectTitle}</b>
+                            </Link>
+                        </div>
+                        <div style={{position:'relative', width:'57px', float:'right'}}>
+                            {chatRoomDetail.chatRoomInfo.isRoomMaker && 
+                            <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>}
+                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
+                            <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
+                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && 
+                            <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
+                        </div>
                     </div>
 
                     {/* 1. 채팅방 대화내용 리스트 영역 */}

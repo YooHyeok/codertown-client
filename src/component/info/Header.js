@@ -89,7 +89,7 @@ export default function Header() {
                     </li>
                 </ul>
                 <img src='/header-spring.png' style={{height:"50px", position: 'absolute', top: '55px', zIndex: '1' }} />
-                <ul className="nav-items2">
+                <ul className="nav-items-2">
                     <li className="nav-item">
                         {/* Recruit 드롭다운 */}
                         {/* <HeaderDropDownContext.Provider value={contextValue}>
