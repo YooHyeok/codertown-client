@@ -231,6 +231,20 @@
   padding-right: 0px !important;
 }
 
+/* 채팅 정보 타이틀영역 */
+.rce-citem-body {
+  width:317px;
+}
+
+
+/*  */
+.rce-mbox-text {
+  white-space: pre-line;
+}
+
+
+
+
 /* .App {
   text-align: center;
 }

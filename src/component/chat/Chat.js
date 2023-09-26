@@ -4,8 +4,7 @@ import { ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
 import { MessageBox, ChatItem, Input } from "react-chat-elements"; // npm install react-chat-elements --save --force
 import { useRef, useState, useEffect} from 'react';
-import SockJS from "sockjs-client";
-import {Stomp} from "@stomp/stompjs";
+
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 
@@ -17,11 +16,10 @@ export default function Chat(props) {
 
 
     const userId = useSelector( (state) => {return state.UserId} );
-    const [client, setClient] = useState(null);
-
     const [chatRoomList, setChatRoomList] = useState([]);
+    const [chatMessageList, setChatMessageList] = useState([]);
     const [chatRoomDetail, setChatRoomDetail] = useState({
-    chatRoomData : null, chatRoomInfo : null
+        chatRoomData : null, chatRoomInfo : null
     });
 
     const textareaRef = useRef('');
@@ -43,8 +41,10 @@ export default function Chat(props) {
     setValue(index);
     };
 
+    
+
     /**
-     * 채팅 목록 조회
+     * 채팅방 목록 조회
      */
     const chatRoomListSearch = () => {
     const formData = new FormData();
@@ -52,6 +52,19 @@ export default function Chat(props) {
         axios.post('/cokkiri-chat-list', formData)
         .then(response => {
             setChatRoomList(response.data.chatRomUserDtoList)
+        })
+        .catch(error =>{
+        })
+    }
+    /**
+     * 채팅 메시지 목록 조회
+     */
+    const chatMessageListSearch = () => {
+        const formData = new FormData();
+        formData.append('roomNo', chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo)
+        axios.post('/chat-message-list', formData)
+        .then(response => {
+            setChatMessageList(response.data)
         })
         .catch(error =>{
         })
@@ -66,18 +79,18 @@ export default function Chat(props) {
         chatRoomListSearch();
         /* 5초에 한번씩 채팅 조회 */
         intervalId = setInterval(() => {
-            console.log(chatFrameOnOff)
                 chatRoomListSearch();
             },5000)
         }
+
         /* useEffect 클린업 함수 호출 */
         return () => {
             if (intervalId) {
                 clearInterval(intervalId);
             }
         };
-    }, [chatFrameOnOff])
 
+    }, [chatFrameOnOff])
         
     /* 채팅방 입장 후 상세 내용(메시지리스트) 조회 메소드 */
     const chatDetail = (e, obj) =>  {
@@ -95,44 +108,36 @@ export default function Chat(props) {
     }
 
     const [flag, setFlag] = useState({chatList:true ,chatRoom: false})
-    useEffect(() => {
-        if (flag.chatRoom == true) {
-            // Set up the STOMP client
-            const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
-            const stompClient = Stomp.over(sockJSClient);
-        
-            stompClient.connect({}, (frame) => {
-                setClient(stompClient);
-                const messageData = {
-                    sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
-                    content: '연결 성공',
-                };
-                stompClient.send(`/dm-pub/chat/connect`, {}, JSON.stringify(messageData)); // 데이터 전송
-                stompClient.subscribe('/connected-success', function (e) { //데이터 수신
-                    //e.body에 전송된 data가 들어있다 JSON Text형태이므로 parsing한 후 props에 접근한다.
-                    alert(JSON.parse(e.body).content); /* 최초연결 성공 시점 (새로고침해도 출력안된다)*/
-                });
-            });
-            /* 로그아웃시 연결 종료된다. */
-            return () => {
-                if (stompClient) {
-                    stompClient.disconnect(); //연결 종료
-                }
-            }
-        }
-    }, [flag.chatRoom]);
     
-    /* 메시지 구독  */
     useEffect(() => {
-    if (client) {
-        client.subscribe('/connected-success', function (e) {
-            //e.body에 전송된 data가 들어있다
-            console.log(JSON.parse(e.body))
-            // showMessage(JSON.parse(e .body));
-        });
-    }
-    }, [client]);
+        if (flag.chatRoom && props.client) {
+            // chatMessageListSearch();
 
+            const subscription = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
+                //e.body에 전송된 data가 들어있다
+                console.log(JSON.parse(e.body))
+                setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
+            });            
+            chatMessageListSearch();
+            // 클리너 함수 등록하여 컴포넌트 언마운트 시 구독 해제
+            return () => {
+                if (subscription) {
+                    subscription.unsubscribe();
+                }
+            };
+        }
+    }, [flag.chatRoom, props.client]);
+
+    /* 스크롤 최 하단.... */
+    useEffect(() => {
+        if (flag.chatRoom) {
+            if (chatContainerRef.current) {
+                chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
+
+        }
+    }, [chatMessageList]);
+    
     /**
      * 채팅 입력시 입력창 높이를 조절한다.
      */
@@ -154,8 +159,7 @@ export default function Chat(props) {
         }
     }
 
-    const textAreaInputKeyDown= (e, stompClient) => {
-      
+    const textAreaInputKeyDown= (e, chatRoomNo) => {
         if (e.key === 'Enter' && e.shiftKey) {
           e.preventDefault(); // 엔터 키의 기본 동작 방지
           // Shift + Enter를 눌렀을 때 줄개행
@@ -169,26 +173,40 @@ export default function Chat(props) {
         } 
         
         if (e.key === 'Enter' && !e.shiftKey) {
+            console.log(userId)
           e.preventDefault(); // 엔터 키의 기본 동작 방지
           // 여기에 메시지 전송 로직 추가
           // 메시지 전송 후 입력창 초기화
           setTextareaValue('');
-          publish(textareaValue);
+          publish(textareaValue, chatRoomNo);
           chatContainerRef.current.style.height = '380px';
           textareaRef.current.style.height = '30px'; // 초기 높이로 설정
           return;
         }
       }
 
-    const publish = (chat) => {
+    const publish = (chat, roomId) => {
         // if (!client.current.connected) return;
-        const messageData = {
+        /* const messageData = {
             sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
             content: textareaValue,
         };
-        client.send("/dm-pub/project-request", {}, textareaValue);
-        // client.send("/dm-pub/chat/connect", messageData, JSON.stringify(messageData));
-        setTextareaValue('');
+        client.send("/dm-pub/project-request", {}, textareaValue); */
+        if (chat?.trim()) {
+            let chatData = {
+                roomId: roomId,
+                senderId: userId,
+                message: chat
+            }
+            props.client?.publish(
+                {
+                    destination: '/pub/chat.message',
+                    body: JSON.stringify(chatData)
+                }
+            );
+            setTextareaValue('');
+        }
+            
     }
 
     return (
@@ -241,10 +259,11 @@ export default function Chat(props) {
                         }} 
                         style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
                     <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
+                        {console.log(chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage)}
                         <ChatItem
                             avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
                             title={chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
-                            subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
+                            // subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
                             date={new Date()}
                             unread={0}
                         />
@@ -282,36 +301,24 @@ export default function Chat(props) {
                     { chatRoomDetail.chatRoomData != null && chatRoomDetail.chatRoomData.chatMessageDtoList.length == 0 &&
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>
                     }
-                    { chatRoomDetail.chatRoomData != null && chatRoomDetail.chatRoomData.chatMessageDtoList.length > 0 &&
-                        chatRoomDetail.chatRoomData.chatMessageDtoList.map(obj => {
+                    { /* chatRoomDetail.chatRoomData != null && */ chatRoomDetail.chatRoomData.chatMessageDtoList.length > 0 &&
+                        chatMessageList.map(obj => {
                         return(
                             <MessageBox 
-                            position={obj.sender.email == userId ? 'right' : 'left'}  
-                            title={obj.sender}  
-                            type='text'  
+                            position={obj.sender.email === userId ? 'right' : 'left'}  
+                            type='text'
+                            title={obj.sender.nickname}  
                             text={obj.message}  
-                            date={new Date()} 
-                            replyButton={obj.sender.email == userId ? false : true}/>
+                            date={obj.chatSendDate} />
                             )
                         })
                     }
-                        {/* 상대방 메시지박스 */}
-                        <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
-                    {/* 메시지박스 */}
-                    <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
-                    {/* 상대방 메시지박스 */}
-                    <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
-                    {/* 메시지박스 */}
-                    <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
-                    {/* 상대방 메시지박스 */}
-                    <MessageBox position='left'  title='Burhan'  type='text'  text="Hi there !"  date={new Date()}  replyButton={true}/>
-                    {/* 메시지박스 */}
-                    <MessageBox position="right" title="Emre" type="text" text="Click to join the meeting" date={new Date()} />
                     </div>
                     {/* 2. 채팅방 대화 전송 영역 */}
                     <div className="chat-into-footer" style={{width:'448px', minHeight:'48px', overflow:'hidden', backgroundColor:'white'/* , borderBottom : "1px solid lightgray" */}}>
                     <div style={{width:"430px", minHeight:'30px', margin:'4px auto', maxHeight:"112px !important"}}>
-                        <textarea rows={1} ref={textareaRef} onChange={textAreaInputChange} onKeyDown={textAreaInputKeyDown} value={textareaValue}  placeholder='내용을 입력하세요'
+                        <textarea rows={1} ref={textareaRef} onChange={textAreaInputChange} onKeyDown={(e)=>{
+                            textAreaInputKeyDown(e, chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo)}} value={textareaValue}  placeholder='내용을 입력하세요'
                             style={{float:'left', display:'flex', width:'385px', height:'30px', maxHeight:"114px", margin:"10px auto", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}}/>
                         <Button size={'sm'} style={{float:'right', margin:'10px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>전송</Button>
                     </div>

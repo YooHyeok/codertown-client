@@ -1,14 +1,61 @@
 import { Messenger, X } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Chat from './Chat.js';
-
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 export default function MessengerFrame() {
 
   const chatOpenBtnRef = useRef('');
   const chatCloseBtnRef = useRef('');
   const chatComponentRef = useRef('');  
   const [chatFrameOnOff, setChatFrameOnOff] = useState(false);
+  const [client, setClient] = useState(null);
+
+  useEffect(() => {
+    if(chatFrameOnOff == true) {
+      // Set up the STOMP client
+      const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
+      const stompClient = Stomp.over(sockJSClient);
+      stompClient.connect({}, (frame) => {
+          setClient(stompClient);
+          console.log(frame)
+          const messageData = {
+              sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
+              content: '연결 성공',
+          };
+          if(frame.command == 'CONNECTED') {
+            console.log("연결완료!")
+            stompClient.send(`/pub/chat/connect`, {}, JSON.stringify(messageData)); // 데이터 전송
+            stompClient.subscribe('/connected-success', function (e) { //데이터 수신
+              //e.body에 전송된 data가 들어있다 JSON Text형태이므로 parsing한 후 props에 접근한다.
+              // alert(JSON.parse(e.body).content);
+            });
+          }
+      });
+
+      /* useEffect 클린업 함수 호출 */
+      return () => {
+          /* 로그아웃시 연결 종료된다. */
+          if (chatFrameOnOff == false) {
+              console.log("연결종료!")
+              stompClient.disconnect(); //연결 종료
+          }
+      };
+    }
+  }, [chatFrameOnOff])
+
+    /* 메시지 구독  */
+    /* useEffect(() => {
+      console.log(client)
+      if (client) {
+          client.subscribe('/connected-success', function (e) {
+              alert(JSON.parse(e.body).content);
+          });
+  
+      }
+      }, [client]); */
+
 
     return (<div>
                 {/* 버튼 영역 */}
@@ -32,7 +79,7 @@ export default function MessengerFrame() {
                 {/* 채팅 컴포넌트 */}
                 <div ref={chatComponentRef} style={dmFrameStyle}>
                   {
-                    chatFrameOnOff && <Chat chatFrameOnOff={chatFrameOnOff}/>
+                    chatFrameOnOff && <Chat chatFrameOnOff={chatFrameOnOff} client={client}/>
                   }
                 </div>
           </div>
