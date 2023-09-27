@@ -4,6 +4,9 @@ import { useRef, useState, useEffect } from 'react';
 import Chat from './Chat.js';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+
+
 export default function MessengerFrame() {
 
   const chatOpenBtnRef = useRef('');
@@ -13,31 +16,27 @@ export default function MessengerFrame() {
   const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
 
+  const userId = useSelector( (state) => {return state.UserId} );
+
 
 
   useEffect(() => {
     // Set up the STOMP client
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
-
-    if(chatFrameOnOff == true) {
       stompClient.connect({}, (frame) => {
           setClient(stompClient);
           if(frame.command == 'CONNECTED') {
             setConnected(true);
           }
       });
-
-    }
     /* useEffect 클린업 함수 */
     return () => {
         /* 로그아웃시 연결 종료된다. (렌더링 자체가 안되기 때문)*/
-        if (chatFrameOnOff == false) {
             console.log("연결종료!")
             stompClient.disconnect(); //연결 종료
-        }
     };
-  }, [chatFrameOnOff])
+  }, [])
 
     return (<div>
                 {/* 버튼 영역 */}
