@@ -26,7 +26,6 @@ export default function Chat(props) {
     const chatContainerRef = useRef('');
     const [textareaValue, setTextareaValue] = useState('')
 
-    const chatListRef = useRef('');
     const chatRoomRef = useRef('');  
 
     const [chatFrameOnOff, setChatFrameOnOff] = useState(props.chatFrameOnOff);
@@ -220,30 +219,43 @@ export default function Chat(props) {
                 onChangeIndex={handleChangeIndex}
             >
                 {/* 1. 채팅 리스트 컴포넌트 */}
-                {flag.chatList === true ? (
-                <div ref={chatListRef} className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
-                    {
-                    chatRoomList.map(obj => {
-                        return (
-                        <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px'}}>
-                            <div style={{minWidth:'390px', float:'left'}}>
-                            <ChatItem 
-                                onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
-                                avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`} 
-                                title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
-                                subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
-                                date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} 
-                                unread={2}/>
-                            </div>
-                            <div style={{position:'relative', width:'57px', float:'right'}}>
-                            <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
-                            </div>
-                        </div>
-                        )
-                    })
+                {props.connected === true ?
+                    flag.chatList === true ? 
+                    (
+                    <div  className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+                    {chatRoomList.length > 0 ?
+                        
+                            (chatRoomList.map(obj => {
+                                return (
+                                <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                                    <div style={{minWidth:'390px', float:'left'}}>
+                                    <ChatItem 
+                                        onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
+                                        avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`} 
+                                        title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                        subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
+                                        date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} 
+                                        unread={2}/>
+                                    </div>
+                                    <div style={{position:'relative', width:'57px', float:'right'}}>
+                                    <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
+                                    </div>
+                                </div>
+                                )
+                            }))
+                    : (<div style={{ margin:'250px 160px'}}>참여중인 채팅방이 없습니다.</div>)
                     }
-                </div>
-                ) : (<div/>)}
+                    </div>
+                    ) 
+                    : (<div/>) 
+                : 
+                (<div className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+                    <div style={{ margin:'250px 160px'}}>채팅 연결중 입니다.</div>
+                </div>)
+                }
+
+                
+
                 {/* 2. 채팅방 입장 컴포넌트 */}
                 {flag.chatRoom === true ? ( /* 채팅입장 컴포넌트가 열렸을때 - 추후 컴포넌트화 */
                 <div ref={chatRoomRef} className="chat-into" index={1} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray"}}>

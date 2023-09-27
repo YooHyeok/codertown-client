@@ -11,51 +11,33 @@ export default function MessengerFrame() {
   const chatComponentRef = useRef('');  
   const [chatFrameOnOff, setChatFrameOnOff] = useState(false);
   const [client, setClient] = useState(null);
+  const [connected, setConnected] = useState(false);
+
+
 
   useEffect(() => {
+    // Set up the STOMP client
+    const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
+    const stompClient = Stomp.over(sockJSClient);
+
     if(chatFrameOnOff == true) {
-      // Set up the STOMP client
-      const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
-      const stompClient = Stomp.over(sockJSClient);
       stompClient.connect({}, (frame) => {
           setClient(stompClient);
-          console.log(frame)
-          const messageData = {
-              sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
-              content: '연결 성공',
-          };
           if(frame.command == 'CONNECTED') {
-            console.log("연결완료!")
-            stompClient.send(`/pub/chat/connect`, {}, JSON.stringify(messageData)); // 데이터 전송
-            stompClient.subscribe('/connected-success', function (e) { //데이터 수신
-              //e.body에 전송된 data가 들어있다 JSON Text형태이므로 parsing한 후 props에 접근한다.
-              // alert(JSON.parse(e.body).content);
-            });
+            setConnected(true);
           }
       });
 
-      /* useEffect 클린업 함수 호출 */
-      return () => {
-          /* 로그아웃시 연결 종료된다. */
-          if (chatFrameOnOff == false) {
-              console.log("연결종료!")
-              stompClient.disconnect(); //연결 종료
-          }
-      };
     }
+    /* useEffect 클린업 함수 */
+    return () => {
+        /* 로그아웃시 연결 종료된다. (렌더링 자체가 안되기 때문)*/
+        if (chatFrameOnOff == false) {
+            console.log("연결종료!")
+            stompClient.disconnect(); //연결 종료
+        }
+    };
   }, [chatFrameOnOff])
-
-    /* 메시지 구독  */
-    /* useEffect(() => {
-      console.log(client)
-      if (client) {
-          client.subscribe('/connected-success', function (e) {
-              alert(JSON.parse(e.body).content);
-          });
-  
-      }
-      }, [client]); */
-
 
     return (<div>
                 {/* 버튼 영역 */}
@@ -79,7 +61,7 @@ export default function MessengerFrame() {
                 {/* 채팅 컴포넌트 */}
                 <div ref={chatComponentRef} style={dmFrameStyle}>
                   {
-                    chatFrameOnOff && <Chat chatFrameOnOff={chatFrameOnOff} client={client}/>
+                    chatFrameOnOff && <Chat chatFrameOnOff={chatFrameOnOff} client={client} connected={connected}/>
                   }
                 </div>
           </div>
