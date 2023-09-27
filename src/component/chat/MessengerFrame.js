@@ -63,7 +63,7 @@ export default function MessengerFrame() {
                   setChatFrameOnOff(true)
                 }}>
                     <Messenger className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
-                    {newMsgTotalCount != 0 && 
+                    {newMsgTotalCount > 0 && 
                     <span style={{backgroundColor: '#fa3e3e', borderRadius: '50%', color: 'white', padding: '1px 3px', fontSize: '13px',position: 'absolute', bottom: '35px', right: '-8px'}}>
                       &nbsp; { newMsgTotalCount } &nbsp;
                     </span>
