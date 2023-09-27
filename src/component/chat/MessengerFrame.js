@@ -5,7 +5,7 @@ import Chat from './Chat.js';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
+import axios from "axios";
 
 export default function MessengerFrame() {
 
@@ -15,12 +15,28 @@ export default function MessengerFrame() {
   const [chatFrameOnOff, setChatFrameOnOff] = useState(false);
   const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
+  const [newMsgTotalCount, setNewMsgTotalCount] = useState(0);
 
   const userId = useSelector( (state) => {return state.UserId} );
 
 
 
   useEffect(() => {
+
+    const formData = new FormData();
+    formData.append('loginEmail', userId)
+    
+    setInterval(() => {
+      axios.post('/new-message-total-count', formData)
+      .then(response => {
+        setNewMsgTotalCount(response.data)
+      })
+      .catch(error =>{
+      })
+
+  },1000)
+    
+    
     // Set up the STOMP client
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
@@ -47,6 +63,9 @@ export default function MessengerFrame() {
                   setChatFrameOnOff(true)
                 }}>
                     <Messenger className="inline" size={30}  style={{width:"30px", height:"30px", background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)", color:"white", border:"none"}}/>
+                    <span style={{backgroundColor: '#fa3e3e', borderRadius: '50%', color: 'white', padding: '1px 3px', fontSize: '13px',position: 'absolute', bottom: '35px', right: '-8px'}}>
+                    &nbsp; { newMsgTotalCount } &nbsp;
+                    </span>
                 </div>
                 <div ref={chatCloseBtnRef} className="dm-icon-close-button" style={dmButtonOffStyle} onClick={(e)=>{
                   chatOpenBtnRef.current.style.display='flex';

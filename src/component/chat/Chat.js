@@ -46,7 +46,7 @@ export default function Chat(props) {
      * 채팅방 목록 조회
      */
     const chatRoomListSearch = () => {
-    const formData = new FormData();
+         const formData = new FormData();
         formData.append('loginEmail', userId)
         axios.post('/cokkiri-chat-list', formData)
         .then(response => {
@@ -76,6 +76,7 @@ export default function Chat(props) {
     useEffect(() => {
         let intervalId;
         if(chatFrameOnOff == true) {
+            console.log(chatFrameOnOff)
             chatRoomListSearch();
             /* 5초에 한번씩 채팅 조회 */
             intervalId = setInterval(() => {
@@ -112,7 +113,6 @@ export default function Chat(props) {
 
     useEffect(() => {
         if (flag.chatRoomFrame && props.client) {
-            // chatMessageListSearch();
 
             const subscription = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
                 //e.body에 전송된 data가 들어있다
@@ -237,7 +237,7 @@ export default function Chat(props) {
                                             title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
                                             subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
                                             date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} 
-                                            unread={2}/>
+                                            unread={obj.newMsgCount}/>
                                         </div>
                                         <div style={{position:'relative', width:'57px', float:'right'}}>
                                         <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
@@ -317,10 +317,11 @@ export default function Chat(props) {
 
                     {/* 1. 채팅방 대화내용 리스트 영역 */}
                     <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
-                    { chatRoomDetail.chatRoomData != null && chatRoomDetail.chatRoomData.chatMessageDtoList.length == 0 &&
+                    {console.log(chatMessageList)}
+                    { chatMessageList.length == 0 &&
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>
                     }
-                    { /* chatRoomDetail.chatRoomData != null && */ chatRoomDetail.chatRoomData.chatMessageDtoList.length > 0 &&
+                    { chatMessageList.length > 0 &&
                         chatMessageList.map(obj => 
                             {
                                 return (
