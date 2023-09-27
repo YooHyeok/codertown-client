@@ -321,16 +321,27 @@ export default function Chat(props) {
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>
                     }
                     { /* chatRoomDetail.chatRoomData != null && */ chatRoomDetail.chatRoomData.chatMessageDtoList.length > 0 &&
-                        chatMessageList.map(obj => {
-                        return(
-                            <MessageBox 
-                            position={obj.sender.email === userId ? 'right' : 'left'}  
-                            type='text'
-                            title={obj.sender.nickname}  
-                            text={obj.message}  
-                            date={obj.chatSendDate} />
-                            )
-                        })
+                        chatMessageList.map(obj => 
+                            {
+                                return (
+                                obj.sender.email === userId ? 
+                                (<MessageBox 
+                                    position={'right'}  
+                                    type='text'
+                                    title={obj.sender.nickname}  
+                                    text={obj.message}  
+                                    status={obj.isReaded ? 'read':'received'} // obj.sender.email === userId && obj.isReaded ? 'read':'received'
+                                    date={obj.chatSendDate} />)
+                                :
+                                (<MessageBox 
+                                    position={'left'}  
+                                    type='text'
+                                    title={obj.sender.nickname}  
+                                    text={obj.message}  
+                                    date={obj.chatSendDate} />)
+                                    )
+                            }
+                        )
                     }
                     </div>
                     {/* 2. 채팅방 대화 전송 영역 */}
