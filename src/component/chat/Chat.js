@@ -4,10 +4,8 @@ import { ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
 import { MessageBox, ChatItem, Input } from "react-chat-elements"; // npm install react-chat-elements --save --force
 import { useRef, useState, useEffect} from 'react';
-
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
-
 import {useTheme} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
 
@@ -76,7 +74,6 @@ export default function Chat(props) {
     useEffect(() => {
         let intervalId;
         if(chatFrameOnOff == true) {
-            console.log(chatFrameOnOff)
             chatRoomListSearch();
             /* 5초에 한번씩 채팅 조회 */
             intervalId = setInterval(() => {
@@ -97,6 +94,7 @@ export default function Chat(props) {
     const chatDetail = (e, obj) =>  {
       const formData = new FormData();
       formData.append('roomNo', obj.chatRoom.chatRoomNo)
+      formData.append('loginId', userId)
       axios.post('/cokkiri-chat-detail', formData)
       .then(response => {
         setChatRoomDetail({chatRoomData:response.data, chatRoomInfo:obj})

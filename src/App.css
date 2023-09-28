@@ -18,7 +18,7 @@
 }
 
 .nav-items-1 {
-  width:17.3%;
+  width:17%;
   height:80px;
   float:left;
   list-style: none;
@@ -26,7 +26,7 @@
   padding-left: 0;
 }
 .nav-items-2 {
-  width:64%;
+  width:66%;
   /* float:inherit; */
   display:inline-block;
   list-style: none;
@@ -34,7 +34,7 @@
   margin: 0px;
 }
 .nav-items3 {
-  width:18%;
+  width:17%;
   float:right;
   /* display:inline-block; */
   list-style: none;
