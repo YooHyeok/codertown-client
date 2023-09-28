@@ -6,6 +6,7 @@ import HeaderDropDownLogout from "./dropdown/HeaderDropDownLogout";
 import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
 import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
 import HeaderDropDownPushAlarm from "./dropdown/HeaderDropDownPushAlarm";
+import { CSSTransition } from "react-transition-group";
 
 export const HeaderDropDownContext = createContext();
 export default function Header() {
@@ -120,7 +121,7 @@ export default function Header() {
                     </li>
                 </ul>
                 <img src='/header-spring.png' style={{height:"50px", position: 'absolute', top: '55px', zIndex: '1' }} />
-                <ul className="nav-items3">
+                <ul className="nav-items-3">
                     {/* 푸시알림 드롭다운 */}
                     <li className="nav-item-dropdown">
                     <HeaderDropDownContext.Provider value={contextValue}>
