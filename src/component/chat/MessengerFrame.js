@@ -56,7 +56,7 @@ export default function MessengerFrame() {
 
     return (<div>
                 {/* 버튼 영역 */}
-                <div ref={chatOpenBtnRef} className="dm-icon-open-button" style={dmButtonOnStyle} onClick={(e)=>{
+                <div ref={chatOpenBtnRef} className="dm-icon-onoff-button" style={dmButtonOnStyle} onClick={(e)=>{
                   chatOpenBtnRef.current.style.display='none';
                   chatCloseBtnRef.current.style.display='flex';
                   chatComponentRef.current.style.display='flex';
@@ -69,7 +69,7 @@ export default function MessengerFrame() {
                     </span>
                     }
                 </div>
-                <div ref={chatCloseBtnRef} className="dm-icon-close-button" style={dmButtonOffStyle} onClick={(e)=>{
+                <div ref={chatCloseBtnRef} className="dm-icon-onoff-button" style={dmButtonOffStyle} onClick={(e)=>{
                   chatOpenBtnRef.current.style.display='flex';
                   chatCloseBtnRef.current.style.display='none';
                   chatComponentRef.current.style.display='none';

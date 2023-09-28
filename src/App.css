@@ -242,7 +242,10 @@
   white-space: pre-line;
 }
 
-
+.dm-icon-onoff-button:active {
+  transform: translateY(3px);
+  box-shadow: 0px 3px 0px 0px rgba(224, 201, 245, 0.651) !important;
+}
 
 
 /* .App {
