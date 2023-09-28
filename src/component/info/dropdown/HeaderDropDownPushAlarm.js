@@ -48,11 +48,11 @@ export default function HeaderDropDownPushAlarm() {
 
   return (
     <Dropdown id="ok" isOpen={context.dropdownOpenPushAlarm} fade="true" toggle={context.togglePushAlarm}>
-      <DropdownToggle className="dropdown-toggle" caret style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}>{/* 드롭다운 버튼 투명 처리*/}
-        <Lightbulb  size={30}  style={{color:"black"}}/>
+      <DropdownToggle caret style={{ backgroundColor: "rgba(0,0,0,0)", border: "none", height:"79px"}}>{/* 드롭다운 버튼 투명 처리*/}
+        <Lightbulb  size={30} style={{color:"black"}}/>
         {newNotifyTotalCount > 0 && 
-        <span style={{backgroundColor: '#fa3e3e', borderRadius: '50%', color: 'white', padding: '1px 3px', fontSize: '13px', position: 'absolute', bottom: '40px', right: '10px'}}>
-            &nbsp; { newNotifyTotalCount } &nbsp;
+        <span style={{backgroundColor: '#fa3e3e', borderRadius: '50%', color: 'white', padding: '1px 8px', fontSize: '15px', position: 'absolute', bottom: '42px', left: '25px'}}>
+            { newNotifyTotalCount }
         </span>
         }
       </DropdownToggle>

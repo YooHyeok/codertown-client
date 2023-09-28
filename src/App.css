@@ -254,11 +254,14 @@
   transition: 0.5s !important;
 }
 .dm-icon-onoff-button:hover,
-.nav-items-1 li:hover,
 .nav-items-2 li:hover,
 .dropdown-toggle:hover {
   transform: scale(1.12);
 }
+.nav-items-1 li:hover {
+  transform: scale(1.03);
+}
+
 .NavAnimation-enter {
   opacity: 0;
   transform: scale(0.5);

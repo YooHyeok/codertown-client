@@ -51,8 +51,8 @@ export default function HeaderDropDownLogin() {
 
   return (
     <Dropdown id="ok" isOpen={context.dropdownOpenLogin} fade="true" toggle={context.toggleLogin}>
-      <DropdownToggle className="dropdown-toggle" caret style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}>
-        <PersonCircle size={30}  style={{color:"black"}}/>
+      <DropdownToggle caret style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}>
+        <PersonCircle className="inline" size={30}  style={{color:"black"}}/>
       </DropdownToggle>
       <DropdownMenu >
 

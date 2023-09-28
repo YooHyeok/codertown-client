@@ -55,7 +55,7 @@ export default function HeaderDropDownLogout() {
 
   return (
     <Dropdown isOpen={context.dropdownOpenLogOut} fade="true" toggle={context.toggleLogOut}>
-      <DropdownToggle className="dropdown-toggle"caret style={{ backgroundColor: "rgb(0,0,0,0)", border: "none" }}>
+      <DropdownToggle caret style={{ backgroundColor: "rgb(0,0,0,0)", border: "none" }}>
         <img style={{width:'35px', height:'35px'}} className="profile" src={src} alt="profile"/>
       </DropdownToggle>
       <DropdownMenu>
