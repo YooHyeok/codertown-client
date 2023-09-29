@@ -220,14 +220,14 @@ export default function Chat(props) {
                 {props.connected === true ?
                     flag.chatListFrame === true ?
                     (
-                    <div  className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'white', border : "1px solid lightgray", overflow:'auto',  }}>
+                    <div  className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'#f7f9fc', border : "1px solid lightgray", overflow:'auto',  }}>
                         {flag.chatListData === true ? 
                         /* 리스트 조회가 완료되었다면 출력 */
                             (chatRoomList.length > 0 ? 
                                 /* 리스트가 0보다 크면 리스트출력 */
                                 (chatRoomList.map(obj => {
                                     return (
-                                    <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px'}}>
+                                    <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px', backgroundColor:'white'}}>
                                         <div style={{minWidth:'390px', float:'left'}}>
                                         <ChatItem 
                                             onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
@@ -314,7 +314,7 @@ export default function Chat(props) {
                     </div>
 
                     {/* 1. 채팅방 대화내용 리스트 영역 */}
-                    <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
+                    <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'#f7f9fc', borderBottom : "1px solid lightgray"}}>
                     {console.log(chatMessageList)}
                     { chatMessageList.length == 0 &&
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>

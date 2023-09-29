@@ -9,8 +9,6 @@ import axios from "axios";
 import { CSSTransition } from "react-transition-group";
 
 export default function MessengerFrame() {
-  const [isNavVisible, setNavVisibility] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const chatOpenBtnRef = useRef('');
   const chatCloseBtnRef = useRef('');
@@ -139,7 +137,7 @@ const dmFrameStyle = {
   , right: "30px"
   , textAlign:'left'
   , height: "calc(100% - 116px) !important"
-  , background: 'lightgray'
+  , background: '#f7f9fc'
   , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
 };
 
