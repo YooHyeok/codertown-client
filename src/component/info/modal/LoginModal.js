@@ -59,7 +59,7 @@ export default function LoginModal() {
         .catch((error)=>{
             console.log(error)
         })
-        if(userId != null || userId != '') document.location.href = '/';
+        if(userId != undefined && userId != null && userId != '') document.location.href='/'
     }
     return(
             <Modal isOpen={context.loginShow} toggle={context.loginToggle} style={modalStyle}>
