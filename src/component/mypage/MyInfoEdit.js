@@ -358,7 +358,7 @@ export default function MyInfoEdit() {
                     <Label htmlFor='changePwd' style={{width:'75px', textAlign:'left', float:'left'}}>패스워드 변경</Label>
                     <span ref={pwdPermitRef} style={{display:'none', color:'#0d6efd'}}>&#10004; 사용가능</span>
                     <span ref={pwdForbidRef} style={{display:'none', color:'red'}}>&#10060; 패스워드 사용불가</span>
-                    <Input type='text' name='changePwd' id='changePwd' value={profileInputValue.changePwd} placeholder="특수문자/대문자 각각 1자 이상 & 최소 10자리" onChange={inputChange} required />
+                    <Input type='password' name='changePwd' id='changePwd' value={profileInputValue.changePwd} placeholder="특수문자/대문자 각각 1자 이상 & 최소 10자리" onChange={inputChange} required />
                 </Col>
             </FormGroup>
             <FormGroup >
@@ -366,13 +366,13 @@ export default function MyInfoEdit() {
                     <Label htmlFor='changePwdChk' style={{width:'75px', textAlign:'left',float:'left'}}>패스워드 확인</Label>
                     <span ref={pwdChkPermitRef} style={{display:'none', color:'#0d6efd'}}>&#10004; 패스워드 일치</span>
                     <span ref={pwdChkForbidRef} style={{display:'none', color:'red'}}>&#10060; 패스워드 불일치</span>
-                    <Input type='text' name='changePwdChk' id='changePwdChk' value={profileInputValue.changePwdChk} placeholder="재입력" onChange={inputChange} required />
+                    <Input type='password' name='changePwdChk' id='changePwdChk' value={profileInputValue.changePwdChk} placeholder="재입력" onChange={inputChange} required />
                 </Col>
             </FormGroup>
             <FormGroup>
                 <Col sm={12}>
                     <Label htmlFor='originalCheckPwd' style={{float:'left'}} >기존 패스워드</Label>
-                    <Input type='text' name='originalCheckPwd' id='originalCheckPwd' value={profileInputValue.originalCheckPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
+                    <Input type='passwords' name='originalCheckPwd' id='originalCheckPwd' value={profileInputValue.originalCheckPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
                 </Col>         
             </FormGroup>
             {/* 수정 완료 버튼 */}
