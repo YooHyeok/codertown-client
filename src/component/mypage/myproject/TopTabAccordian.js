@@ -96,7 +96,13 @@ import { useEffect } from "react";
                         </tr>
                     </thead>
                     <tbody>
-                      {userProjectTotalSumState === 0 && '참여자가 없습니다.'}
+                      {userProjectTotalSumState === 0 && 
+                      <tr>
+                        <td colSpan={2}>
+                          참여자가 없습니다.
+                        </td>
+                      </tr>
+                      }
                         {userProjectTotalSumState !== 0 && 
                         props.projectDto.projectParts
                         .filter((project)=> project.partNo !== 1)
