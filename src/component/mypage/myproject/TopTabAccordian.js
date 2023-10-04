@@ -3,6 +3,8 @@ import { Table } from 'reactstrap';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { useEffect } from "react";
+import axios from "axios";
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
   export default function TopTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
@@ -10,6 +12,7 @@ import { useEffect } from "react";
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
+    const userId = useSelector( (state) => {return state.UserId} );
 
     /* 팀장을 제외한 참여자 리스트 총 인원수 */
     const [userProjectTotalSumState, setUserProjectTotalSumState] = useState(0)
@@ -26,6 +29,27 @@ import { useEffect } from "react";
       userProjectTotal(props);
     },[])
   
+    /**
+     * 프로젝트 파트 하차/추방 메서드
+     * @param {*} obj 
+     * @returns 
+     */
+    const existOrQuit = (obj) => {
+      const isExitOrQuit = userId === obj.userDto.email ? '하차' : '추방'
+      if (window.confirm('정말 '+isExitOrQuit+' 하시겠습니까?')) {
+        const formData = new FormData();
+        formData.append("userProjectNo", obj.userProjectNo)
+        axios.post('/project/quit-exit', formData)
+        .then((response)=>{
+          alert(isExitOrQuit+' 완료!')
+        })
+        .catch((error)=>{
+          alert(isExitOrQuit+' 실패!')
+        })
+        return;
+      }
+    }
+
     return (
       <div>
         <h4>팀장</h4>
@@ -115,53 +139,14 @@ import { useEffect } from "react";
                                   <td>
                                   <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                                   <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
-                                  <button style={{display:"block", float:"right"}}>추방</button>
+                                  <button style={{display:"block", float:"right"}}
+                                  onClick={()=>existOrQuit(obj)}> {userId === obj.userDto.email ? '하차' : '추방'}</button>
                                   </td>
                                 </tr>
                               );
                             })
                           )
                         })}
-                        {/* <tr>
-                            <td>PM/기획</td>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>soomincho</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>디자이너</td>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/webdevyoo@gmail.com`} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>webdevyoo</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>퍼블리셔</td>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>prove.ability00</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>프론트엔드</td>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>bard</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>백엔드</td>
-                            <td>
-                              <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`/profileImage/yjou7454@gmail.com`} alt="profile"/>
-                              <span style={{width:"120px", float:"left"}}>yjou7454</span>
-                              <button style={{display:"block", float:"right"}}>추방</button>
-                            </td>
-                        </tr> */}
                     </tbody>
                 </Table>
             </Typography>
