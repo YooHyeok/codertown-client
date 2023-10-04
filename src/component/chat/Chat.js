@@ -2,17 +2,15 @@ import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'react-bootstrap-icons';
 import "react-chat-elements/dist/main.css"
-import { MessageBox, ChatItem, Input } from "react-chat-elements"; // npm install react-chat-elements --save --force
+import { MessageBox, ChatItem } from "react-chat-elements"; // npm install react-chat-elements --save --force
 import { useRef, useState, useEffect} from 'react';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 import {useTheme} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
 
-
 export default function Chat(props) {
-
-
+       
     const userId = useSelector( (state) => {return state.UserId} );
     const [chatRoomList, setChatRoomList] = useState([]);
     const [chatMessageList, setChatMessageList] = useState([]);
@@ -37,8 +35,6 @@ export default function Chat(props) {
     const handleChangeIndex = (index) => {
     setValue(index);
     };
-
-    
 
     /**
      * 채팅방 목록 조회
@@ -183,12 +179,6 @@ export default function Chat(props) {
       }
 
     const publish = (chat, roomId) => {
-        // if (!client.current.connected) return;
-        /* const messageData = {
-            sender: '보내는 사람', // 보내는 사람의 이름 또는 ID로 수정
-            content: textareaValue,
-        };
-        client.send("/dm-pub/project-request", {}, textareaValue); */
         if (chat?.trim()) {
             let chatData = {
                 roomId: roomId,
@@ -304,18 +294,30 @@ export default function Chat(props) {
                             </Link>
                         </div>
                         <div style={{position:'relative', width:'57px', float:'right'}}>
-                            {chatRoomDetail.chatRoomInfo.isRoomMaker && 
-                            <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}>수락</Button>}
-                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
+                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm && //룸메이커는 신청자 이므로 신청자가 아닌사람이 수락한다.
+                            <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}
+                                    onClick={()=> {
+                                        let requesterEmail = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
+                                        const requestJson = {requesterEmail:requesterEmail, projectPartNo:chatRoomDetail.chatRoomData.projectPart.projectPartNo}
+                                        axios.post('/project/join-confirm', requestJson)
+                                        .then((response)=>{
+
+                                        })
+                                        .catch((error)=>{
+                                            
+                                        })
+                                    }}>수락</Button>}
+                            {chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
                             <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
-                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && 
+                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //팀장에게 보여준다.
                             <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
+                            {chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //신청자에게 함께 보여준다.
+                            <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>}
                         </div>
                     </div>
 
                     {/* 1. 채팅방 대화내용 리스트 영역 */}
                     <div ref={chatContainerRef} className="chat-into-body" style={{width:'448px', height:'380px', minHeight:'296px', overflow:'auto', backgroundColor:'#f7f9fc', borderBottom : "1px solid lightgray"}}>
-                    {console.log(chatMessageList)}
                     { chatMessageList.length == 0 &&
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>
                     }
@@ -338,7 +340,7 @@ export default function Chat(props) {
                                     title={obj.sender.nickname}  
                                     text={obj.message}  
                                     date={obj.chatSendDate} />)
-                                    )
+                                )
                             }
                         )
                     }
