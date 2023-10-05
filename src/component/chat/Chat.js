@@ -301,7 +301,7 @@ export default function Chat(props) {
                                         const requestJson = {requesterEmail:requesterEmail, projectPartNo:chatRoomDetail.chatRoomData.projectPart.projectPartNo}
                                         axios.post('/project/join-confirm', requestJson)
                                         .then((response)=>{
-
+                                            console.log(response)
                                         })
                                         .catch((error)=>{
                                             

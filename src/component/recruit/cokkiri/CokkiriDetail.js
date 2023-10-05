@@ -40,7 +40,8 @@ export default function CokkiriDetail() {
             subject: '',
             teamName: '',
             projectNo: '',
-            projectParts: []
+            projectParts: [],
+            isChatMaden: ''
         }
     )
         
@@ -48,7 +49,6 @@ export default function CokkiriDetail() {
     useEffect(()=> {
         axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
-            console.log(response.data)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -62,7 +62,8 @@ export default function CokkiriDetail() {
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
                         projectParts: response.data.projectDto.projectParts,
-                        projectNo: response.data.projectDto.projectNo
+                        projectNo: response.data.projectDto.projectNo,
+                        isChatMaden: response.data.isChatMaden
                     })
             setProjectPartNo(response.data.projectDto.projectParts[0].projectPartNo)
             /* 프로필사진 초기화 */
@@ -113,15 +114,17 @@ export default function CokkiriDetail() {
     }
     const submit = (e) => {
         e.preventDefault();
-        let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
-        // return;
-        axios.post('/create-cokkiri-chatroom', params)
-        .then((response) => {
-            console.log(response)
-        })
-        .catch((error) => {
-        console.log(error);
-        })
+        if (window.confirm("선택하신 파트를 신청하는 채팅방이 생성됩니다 진행하시겠습니까?")) {
+            let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
+            // return;
+            axios.post('/create-cokkiri-chatroom', params)
+            .then((response) => {
+                if(response.data.success == true) setCokkiri({...cokkiri, isChatMaden: true})
+            })
+            .catch((error) => {
+            console.log(error);
+            })
+        }
     }
 
     return(
@@ -201,7 +204,7 @@ export default function CokkiriDetail() {
                                             }).map((obj) => {
                                                 
                                                 return(
-                                                    <tr key={obj.partNo}>
+                                                    <tr key={obj.projectPartNo}>
                                                         <td>{obj.partName}</td>
                                                         <td>{obj.recruitCount}</td>
                                                         <td>{obj.recruitCount - obj.currentCount}</td>
@@ -214,30 +217,36 @@ export default function CokkiriDetail() {
                                 </FormGroup>
                             </Form>
                         </div>
-                        {(accessToken != '' && userId != cokkiri.writer.email) &&
+                        {(accessToken != '' && userId != cokkiri.writer.email) ?
                         <div className='project-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
-                            <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
-                                if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
-                                    cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
-                                    alert('선택하신 파트는 현재 남은자리가 없습니다.'); 
-                                    return;
-                                }
-                                setProjectPartNo(cokkiri.projectParts.find(obj => obj.partNo == e.target.value).projectPartNo)
-                            }}
-                                style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
-                                    {cokkiri.projectParts.filter((obj)=>{
-                                        return obj.partNo !== 1;
-                                    }).map((obj) => {
-                                        return(
-                                            <option value={obj.partNo} >{obj.partName}</option>
-                                            
-                                        )
-                                    })}
-                            </select>
-                            &nbsp;&nbsp;
-                            
-                            <Button color='primary' onClick={submit}>프로젝트 참여 요청</Button>
-                        </div>}
+                            {!cokkiri.isChatMaden ? /* 채팅방이 존재하지않으면 선택 채팅신청가능/존재하면 선택 채팅신청 불가능 */
+                                <>
+                                <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
+                                    if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
+                                        cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
+                                        alert('선택하신 파트는 현재 남은자리가 없습니다.'); 
+                                        return;
+                                    }
+                                    setProjectPartNo(cokkiri.projectParts.find(obj => obj.partNo == e.target.value).projectPartNo)
+                                }}
+                                    style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
+                                        {cokkiri.projectParts.filter((obj)=>{
+                                            return obj.partNo !== 1;
+                                        }).map((obj) => {
+                                            return(
+                                                <option value={obj.partNo} >{obj.partName}</option>
+                                                
+                                            )
+                                        })}
+                                </select>
+                                &nbsp; &nbsp;
+                                <Button color='primary' onClick={submit}>프로젝트 참여 DM 요청</Button>
+                                </>
+                            : <p style={{margin:'10px auto', width:'400px', color:'rgb(104, 97, 236)' }}>
+                                채팅방이 생성되었습니다. <br/> 
+                                다른 파트로 변경 하시려면 현재 입장중인 채팅방에서 퇴장하셔야 합니다.<br/> 
+                                파트신청이 수락되었다면 프로젝트 하차 후 채팅방에서 퇴장하셔야 합니다.</p>}
+                        </div> : <div/>}
                     </div>
                 </div>
             {/* 조회수 & 북마크기능 & 댓글카운트  */}
