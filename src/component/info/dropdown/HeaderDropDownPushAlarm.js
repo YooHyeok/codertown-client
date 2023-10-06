@@ -15,21 +15,12 @@ export default function HeaderDropDownPushAlarm() {
   const userId = useSelector( (state) => {return state.UserId} );
 
   useEffect(() => {
+    pushAlarmListSearch();
     setInterval(() => {
-      const formdata = new FormData();
-      formdata.append("loginEmail", userId);
-      axios.post("/my-notification-list", formdata)
-      .then((response) => {
-        console.log(response.data)
-        setPushAlarmList(response.data.notificationDtoList)
-        setNewNotifyCount(response.data.newNotifyCount)
-      })
-      .catch((error)=>{
-
-      })
+      pushAlarmListSearch();
     },300000) //5분 주기
-
   }, [])
+
   useEffect(() => {
     if(context.dropdownOpenPushAlarm === true){
       const formdata = new FormData();
@@ -43,7 +34,19 @@ export default function HeaderDropDownPushAlarm() {
     }
     
   }, [context.dropdownOpenPushAlarm])
+  const pushAlarmListSearch = () => {
+    const formdata = new FormData();
+      formdata.append("loginEmail", userId);
+      axios.post("/my-notification-list", formdata)
+      .then((response) => {
+        console.log(response.data)
+        setPushAlarmList(response.data.notificationDtoList)
+        setNewNotifyCount(response.data.newNotifyCount)
+      })
+      .catch((error)=>{
 
+      })
+  }
   const pushAlarmListRender = () => {
     return(
             pushAlarmList.map((obj, index) => {
