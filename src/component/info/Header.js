@@ -6,7 +6,6 @@ import HeaderDropDownLogout from "./dropdown/HeaderDropDownLogout";
 import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
 import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
 import HeaderDropDownPushAlarm from "./dropdown/HeaderDropDownPushAlarm";
-import { CSSTransition } from "react-transition-group";
 
 export const HeaderDropDownContext = createContext();
 export default function Header() {
