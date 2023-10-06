@@ -22,3 +22,23 @@ export const utcToKrFull = (date) => {
     ] = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date(date));
     return `${year}-${month}-${day}, ${hour}:${minute} ${dayPeriod}`;
 }
+
+export const utcToKrYMD = (date) => {
+    const options = {
+        year: 'numeric',
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true
+    };
+    const [ 
+        { value: month },, 
+        { value: day },, 
+        { value: year },, 
+        { value: hour },, 
+        { value: minute },, 
+        { value: dayPeriod }
+    ] = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date(date));
+    return `${year}-${month}-${day}`;
+}
