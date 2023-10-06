@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 
   export default function TopTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
+    const [projectParts, setProjectParts] = useState(props.projectDto.projectParts
+      .filter((project)=> project.partNo !== 1));
   
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
@@ -34,7 +36,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
      * @param {*} obj 
      * @returns 
      */
-    const existOrQuit = (obj) => {
+    const existOrQuit = (obj, project) => {
       const isExitOrQuit = userId === obj.userDto.email ? '하차' : '추방'
       if (window.confirm('정말 '+isExitOrQuit+' 하시겠습니까?')) {
         const formData = new FormData();
@@ -42,6 +44,13 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
         axios.post('/project/quit-exit', formData)
         .then((response)=>{
           alert(isExitOrQuit+' 완료!')
+          if(isExitOrQuit == '하차') {
+            document.location.href="/mypage"
+            return;
+          }
+          /* 추방일 경우 해당 요소 제거 */
+          const removeUserProjects = project.userProjectDtoList.filter(userProject => userProject !== obj);
+          setProjectParts(removeUserProjects)
         })
         .catch((error)=>{
           alert(isExitOrQuit+' 실패!')
@@ -89,7 +98,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
                     </tr>
                 </thead>
                 <tbody>
-                  {props.projectDto.projectParts.filter((obj)=>{
+                  {projectParts.filter((obj)=>{
                     return obj.partNo !== 1;
                   }).map((obj)=>{
                       return (
@@ -128,7 +137,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
                       </tr>
                       }
                         {userProjectTotalSumState !== 0 && 
-                        props.projectDto.projectParts
+                        projectParts
                         .filter((project)=> project.partNo !== 1)
                         .map((project) => {
                           return (
@@ -140,7 +149,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
                                   <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={'/default_profile.png'} alt="profile"/>
                                   <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
                                   <button style={{display:"block", float:"right"}}
-                                  onClick={()=>existOrQuit(obj)}> {userId === obj.userDto.email ? '하차' : '추방'}</button>
+                                  onClick={()=>existOrQuit(obj, project)}> {userId === obj.userDto.email ? '하차' : '추방'}</button>
                                   </td>
                                 </tr>
                               );

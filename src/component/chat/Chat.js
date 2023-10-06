@@ -73,7 +73,7 @@ export default function Chat(props) {
             chatRoomListSearch();
             /* 5초에 한번씩 채팅 조회 */
             intervalId = setInterval(() => {
-                    chatRoomListSearch();
+                    // chatRoomListSearch();
                 },5000)
         }
 
