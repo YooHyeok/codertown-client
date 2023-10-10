@@ -5,11 +5,9 @@
 import { useRef, useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
-import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
 
-export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, /* children, */ parentNo, mentionUser, status, commentSearchAxios }) {
+export default function ChildComment({ commentNo, state, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, /* children, */ parentNo, mentionUser, status, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
@@ -19,13 +17,33 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     const contentDiv = useRef('');
     const navigateDiv = useRef('');
 
-
     const [addCommentValue, setAddCommentValue] = useState('');
     const [editCommentValue, setEditCommentValue] = useState(content);
 
     const userId = useSelector( (state) => {return state.UserId} );
     const [src, setSrc] = useState(`data:image/png;base64,${writer.profileUrl}`);
     
+    const commentRef = useRef('');
+    const [blinking, setBlinking] = useState(false);
+
+    useEffect(()=>{
+        if(state && state.commentNo && commentRef.current) {
+            if(commentRef.current.id == state.commentNo) {
+                commentRef.current.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                setBlinking(true);
+                const blinkTimeout = setTimeout(() => {
+                    setBlinking(false);
+                }, 1500); // 각 깜박임은 0.5초 간격
+                // 타이머 클리어
+                return () => clearTimeout(blinkTimeout);
+
+            }
+        }
+    },[state])
+
     /* 댓글 [저장] */
     const submit = () => {
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:parentNo, writer:userId, depth:3, mentionUser: writer.email}
@@ -146,7 +164,9 @@ export default function ChildComment({ commentNo, coggleNo, coggleWriter, writer
     const processedContent = content.replace(/\n/g, '<br>');
     return (
         <div>
-        <div style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+        <div div ref={commentRef} id={commentNo}
+        className={`comment-div ${blinking ? 'blinking' : ''}`}
+        style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
             { (status == true) && <div style={{width:'1000px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
             { (status == false) && 
             <div key={commentNo} style={{width:'1000px', margin:"30px auto"}}>

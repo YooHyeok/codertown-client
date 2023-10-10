@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
@@ -21,94 +21,95 @@ export default function CoggleDetail() {
       };
 
     const userId = useSelector( (state) => {return state.UserId} );
+    const location = useLocation(); // state를 위한 location
     const [src, setSrc] = useState('/default_profile.png')
     const [commentValue, setCommentValue] = useState('');
-
     const textarea = useRef('');
 
-        /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
-        const navigate = useNavigate();
-        const { coggleNo } = useParams();
-    
-        const [coggle, setCoggle] = useState(
-            {   
-                title: null,
-                writer: {},
-                nickname: '',
-                category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
-                content: '',
-                isLikeMarked: false,
-                isLikedMarkedCount: 0,
-                views: 0
-            }
-                 )
-    
-    
-        useEffect(()=> {
-            axios.get(`/coggle-detail/${coggleNo}/${userId == '' ? null : userId}`)
-            .then((response)=> {
-                setCoggle({  
-                            title: response.data.title, 
-                            writer: response.data.writer,
-                            nickname: response.data.writer.nickname,
-                            category : response.data.category,
-                            categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
-                            title: response.data.title,
-                            content: response.data.content,
-                            isLikeMarked: response.data.isLikeMarked,
-                            isLikedMarkedCount: response.data.isLikedMarkedCount,
-                            views: response.data.views
-                            }
-                )
-                setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
-                setIsLikeMarked(response.data.isLikeMarked)
-    
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            commentSearchAxios(); //댓글 조회
-        },[])
-    
-            /* 북마크 토글 */
-            const [isLikeMarked, setIsLikeMarked] = useState(coggle.isLikeMarked)
-    
-            const toggle = (e) => {
-              if (userId == '') {
-                alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
-                return;}
-              const formData = new FormData();
-              formData.append('coggleNo', coggleNo);
-              formData.append('userId', userId);
-          
-              axios.post('/coggle-likemark-toggle', formData)
-                .then((response) => {
-                    alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
-                    setIsLikeMarked(response.data.success)
-                    response.data.success ?  setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount+1}): setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount-1})
-        
-                })
-                .catch((error) => {
-                  console.log(error);
-                })
-                // setCoggle({...coggle, isLikeMarked : !coggle.isLikeMarked})
-            }
-    
-        /* func - 삭제 기능 */
-        const del = (e) => {
-            alert("삭제 하시겠습니까?");
-    
-            const formData = new FormData();
-            formData.append('coggleNo', coggleNo);
-    
-            axios.post('/coggle-delete', formData)
-            .then((response)=> {
-                document.location.href="/coggle";
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+    /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
+    const navigate = useNavigate();
+    const { coggleNo } = useParams();
+
+    const [coggle, setCoggle] = useState(
+        {   
+            title: null,
+            writer: {},
+            nickname: '',
+            category: 'T', //페이지 첫 진입  TechQue 기본값 T이다.
+            content: '',
+            isLikeMarked: false,
+            isLikedMarkedCount: 0,
+            views: 0
         }
+                )
+
+
+    useEffect(()=> {
+        axios.get(`/coggle-detail/${coggleNo}/${userId == '' ? null : userId}`)
+        .then((response)=> {
+            setCoggle({  
+                        title: response.data.title, 
+                        writer: response.data.writer,
+                        nickname: response.data.writer.nickname,
+                        category : response.data.category,
+                        categoryText: response.data.category == 'T' ? 'TechQue' : response.data.category == 'C' ? 'Carrier' :  'DevLife',
+                        title: response.data.title,
+                        content: response.data.content,
+                        isLikeMarked: response.data.isLikeMarked,
+                        isLikedMarkedCount: response.data.isLikedMarkedCount,
+                        views: response.data.views
+                        }
+            )
+            setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
+            setIsLikeMarked(response.data.isLikeMarked)
+
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        commentSearchAxios(); //댓글 조회
+    },[])
+
+
+    /* 북마크 토글 */
+    const [isLikeMarked, setIsLikeMarked] = useState(coggle.isLikeMarked)
+
+    const toggle = (e) => {
+        if (userId == '') {
+        alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+        return;}
+        const formData = new FormData();
+        formData.append('coggleNo', coggleNo);
+        formData.append('userId', userId);
+    
+        axios.post('/coggle-likemark-toggle', formData)
+        .then((response) => {
+            alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
+            setIsLikeMarked(response.data.success)
+            response.data.success ?  setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount+1}): setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount-1})
+
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        // setCoggle({...coggle, isLikeMarked : !coggle.isLikeMarked})
+    }
+
+    /* func - 삭제 기능 */
+    const del = (e) => {
+        alert("삭제 하시겠습니까?");
+
+        const formData = new FormData();
+        formData.append('coggleNo', coggleNo);
+
+        axios.post('/coggle-delete', formData)
+        .then((response)=> {
+            document.location.href="/coggle";
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
 
     /* 댓글 [입력] - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const textAreaInputChange = (e) => {
@@ -142,9 +143,7 @@ export default function CoggleDetail() {
             console.log(error);
         })
     };
-    
-
-    
+        
     const [commentList, setCommentList] = useState([])
     const [commentTotalCount, setCommentTotalCount] = useState([])
 
@@ -226,6 +225,7 @@ export default function CoggleDetail() {
                 return (
                         <ParentComment
                                 key={parent.commentNo}
+                                state={location.state}
                                 commentNo={parent.commentNo}
                                 status={parent.status}
                                 coggleNo={parent.coggleNo}

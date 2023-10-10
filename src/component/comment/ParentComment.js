@@ -9,7 +9,7 @@ import axios from "axios";
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
-export default function ParentComment({ commentNo, status, coggleNo,coggleWriter, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
+export default function ParentComment({ commentNo, state, status, coggleNo,coggleWriter, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
     
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextareaRef = useRef('');
@@ -25,6 +25,27 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
     const userId = useSelector( (state) => {return state.UserId} );
 
     const [src, setSrc] = useState(`data:image/png;base64,${writer.profileUrl}`);
+
+    const commentRef = useRef('');
+    const [blinking, setBlinking] = useState(false);
+
+    useEffect(()=>{
+        if(state && state.commentNo && commentRef.current) {
+            if(commentRef.current.id == state.commentNo) {
+                commentRef.current.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                setBlinking(true);
+                const blinkTimeout = setTimeout(() => {
+                    setBlinking(false);
+                }, 1500); // 각 깜박임은 0.5초 간격
+                // 타이머 클리어
+                return () => clearTimeout(blinkTimeout);
+
+            }
+        }
+    },[state])
 
     /* 댓글 [저장] */
     const submit = () => {
@@ -147,7 +168,9 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
     const processedContent = content.replace(/\n/g, '<br>');
     return (
         <>
-        <div key={commentNo} style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
+        <div ref={commentRef} id={commentNo}
+        className={`comment-div ${blinking ? 'blinking' : ''}`}
+        style={{width:'1100px', margin:"30px auto", borderBottom: '0.1px solid lightgray'}}>
             { (status == true) && <div style={{width:'1100px', margin:"30px auto"}}>' 댓글이 삭제/블라인드 처리 되었습니다 '</div>}
             { (status == false) && 
             <div style={{width:'1100px', margin:"30px auto"}}>
@@ -205,6 +228,7 @@ export default function ParentComment({ commentNo, status, coggleNo,coggleWriter
             return (
             <ChildComment
                 key={child.commentNo}
+                state={state}
                 commentNo={child.commentNo}
                 coggleNo={coggleNo}
                 coggleWriter={coggleWriter}
