@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Table } from 'reactstrap';
 import PropTypes from 'prop-types';
 /* MUI - Accordion */
@@ -9,6 +9,7 @@ import { MuiAccordion, MuiAccordionSummary, MuiAccordionDetails /* MUI - Accordi
 import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
 import SideTabPanel from './SideTabPanel.js';
 import TopTabAccordian from './TopTabAccordian.js';
+import axios from "axios";
 
 
 function TabPanel(props) {
@@ -47,7 +48,8 @@ export default function TopTabPanel(props) {
 
     const theme = useTheme();
     const [value, setValue] = useState(0);
-  
+
+
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -56,6 +58,7 @@ export default function TopTabPanel(props) {
       setValue(index);
     };
   
+   
     return (
       <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
         <AppBar position="static">
@@ -82,11 +85,11 @@ export default function TopTabPanel(props) {
         >
           <TabPanel value={value} index={0} dir={theme.direction} style={{overflow:'auto', height:557}}>
             {/* 전체 현황 Accordian컴포넌트 */}
-            <TopTabAccordian projectDto={props.projectDto}/>
+            <TopTabAccordian projectNo={props.projectNo} myPartNo={props.myPartNo}/>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction} style={{height:465}}>
             {/* 파트별 현황 SpdePanel컴포넌트 */}
-            <SideTabPanel projectDto={props.projectDto}/>
+            <SideTabPanel projectNo={props.projectNo} myPartNo={props.myPartNo}/>
           </TabPanel>
             
         </SwipeableViews>

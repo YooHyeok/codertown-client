@@ -4,11 +4,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import { Search } from 'react-bootstrap-icons'; 
 import TopTabPanel from './TopTabPanel.js';
 import { X } from 'react-bootstrap-icons';
-
 import axios from "axios";
-
-
-  
 
 export default function MyProject() {
 
@@ -40,6 +36,7 @@ export default function MyProject() {
         // axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
         axios.get(`/joined-project?loginId=${userId}`)
         .then((response)=> {
+            console.log(response.data)
             setProjectList(response.data.projectList)
             setArticleCount(response.data.articleCount)
             setPageInfo(response.data.pageInfo)
@@ -99,7 +96,6 @@ export default function MyProject() {
     };
 
     const statusSelectChange = (e, projectNo) => {
-        console.log({projectId:projectNo , status:e.target.value})
         const formData = new FormData();
         formData.append("projectId", projectNo)
         formData.append("status", e.target.value)
@@ -128,6 +124,8 @@ export default function MyProject() {
         , background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"
         , boxShadow: 'rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px'
       };
+
+
 
     /**
      * JSX 시작
@@ -226,7 +224,7 @@ export default function MyProject() {
                                         <span style={{color:'white', fontSize:'18px'}}>&nbsp;{obj.projectDto.teamName}</span>
                                         <X onClick={(e)=>{/* pmsFrame[i].style.display='none'; */ handleClosePMSFrame();}}
                                         style={{width:"20px", height:"20px", float:'right', margin:'2px',border:'1px solid white', background:"linear-gradient(red 20%, rgba(247, 247, 248, 0.9) 130%)", color:"white"}}/>
-                                        <TopTabPanel projectDto={obj.projectDto}/>
+                                        <TopTabPanel projectNo={obj.projectDto.projectNo} myPartNo={obj.partDto.partNo} />
                                         {/* <Button style={{width:'500px', height:'50px', borderRadius:'0%'}} onClick={(e)=>{e.preventDefault(); 
                                         // pmsFrame[i].style.display='none';
                                         handleClosePMSFrame();

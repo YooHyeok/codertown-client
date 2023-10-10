@@ -35,14 +35,14 @@ export default function MessengerFrame() {
   },1000)
     
     // Set up the STOMP client
-    /* const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
+    const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
       stompClient.connect({}, (frame) => {
           setClient(stompClient);
           if(frame.command == 'CONNECTED') {
             setConnected(true);
           }
-      }); */
+      });
     /* useEffect 클린업 함수 */
     return () => {
         /* 로그아웃시 연결 종료된다. (렌더링 자체가 안되기 때문)*/
