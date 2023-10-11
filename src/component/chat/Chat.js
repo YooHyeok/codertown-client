@@ -107,16 +107,35 @@ export default function Chat(props) {
 
     useEffect(() => {
         if (flag.chatRoomFrame && props.client) {
-
-            const subscription = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
+            /* 채팅 메시지 구독 */
+            const subscriptMessage = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
                 //e.body에 전송된 data가 들어있다
                 setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
-            });            
+            });
             chatMessageListSearch();
+
+            /* confirm여부 구독 */
+            let subscriptConfirm = null;
+            if(chatRoomDetail.chatRoomInfo.isRoomMaker) { //RoomMaker이면 구독
+                subscriptConfirm = props.client.subscribe(`/confirm/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}/user.${userId}`, function (e) {
+                    //e.body에 전송된 data가 들어있다
+                    setChatRoomDetail({...chatRoomDetail, 
+                        chatRoomData: {
+                            ...chatRoomDetail.chatRoomData,
+                            isConfirm: JSON.parse(e.body)
+                        } 
+                    }) 
+                    // setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
+                });            
+            }
+
             // 클리너 함수 등록하여 컴포넌트 언마운트 시 구독 해제
             return () => {
-                if (subscription) {
-                    subscription.unsubscribe();
+                if (subscriptMessage) {
+                    subscriptMessage.unsubscribe();
+                }
+                if (subscriptConfirm) {
+                    subscriptConfirm.unsubscribe();
                 }
             };
         }
@@ -171,14 +190,14 @@ export default function Chat(props) {
           // 여기에 메시지 전송 로직 추가
           // 메시지 전송 후 입력창 초기화
           setTextareaValue('');
-          publish(textareaValue, chatRoomNo);
+          publishMessage(textareaValue, chatRoomNo);
           chatContainerRef.current.style.height = '380px';
           textareaRef.current.style.height = '30px'; // 초기 높이로 설정
           return;
         }
       }
 
-    const publish = (chat, roomId) => {
+    const publishMessage = (chat, roomId) => {
         if (chat?.trim()) {
             let chatData = {
                 roomId: roomId,
@@ -193,6 +212,32 @@ export default function Chat(props) {
             );
             setTextareaValue('');
         }
+            
+    }
+
+    const publishConfirm = (chatRoomDetail) => {
+            let requesterEmail = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
+            let projectPartNo = chatRoomDetail.chatRoomData.projectPart.projectPartNo
+
+            let publishData = {
+                chatRoomNo: chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
+                requesterEmail: requesterEmail,
+                projectPartNo: projectPartNo,
+            }
+            console.log(publishData)
+            props.client?.publish(
+                {
+                    destination: '/pub/chat.confirm',
+                    body: JSON.stringify(publishData)
+                }
+            );
+            setChatRoomDetail({...chatRoomDetail, 
+                chatRoomData: {
+                    ...chatRoomDetail.chatRoomData,
+                    isConfirm: true
+                } 
+            }) 
+        
             
     }
 
@@ -297,15 +342,16 @@ export default function Chat(props) {
                             {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm && //룸메이커는 신청자 이므로 신청자가 아닌사람이 수락한다.
                             <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}
                                     onClick={()=> {
-                                        let requesterEmail = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
-                                        const requestJson = {requesterEmail:requesterEmail, projectPartNo:chatRoomDetail.chatRoomData.projectPart.projectPartNo}
-                                        axios.post('/project/join-confirm', requestJson)
-                                        .then((response)=>{
-                                            console.log(response)
-                                        })
-                                        .catch((error)=>{
+                                        publishConfirm(chatRoomDetail)
+                                        // let requesterEmail = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
+                                        // const requestJson = {requesterEmail:requesterEmail, projectPartNo:chatRoomDetail.chatRoomData.projectPart.projectPartNo}
+                                        // axios.post('/project/join-confirm', requestJson)
+                                        // .then((response)=>{
+                                        //     console.log(response)
+                                        // })
+                                        // .catch((error)=>{
                                             
-                                        })
+                                        // })
                                     }}>수락</Button>}
                             {chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
                             <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
