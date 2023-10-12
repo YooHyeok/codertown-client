@@ -21,19 +21,18 @@ export default function MessengerFrame() {
   const userId = useSelector( (state) => {return state.UserId} );
 
   useEffect(() => {
+    console.log(connected)
     const formData = new FormData();
     formData.append('loginEmail', userId)
-    
     setInterval(() => {
-      /* axios.post('/new-message-total-count', formData)
+      axios.post('/new-message-total-count', formData)
       .then(response => {
         setNewMsgTotalCount(response.data)
       })
       .catch(error =>{
-      }) */
-
+      })
   },1000)
-    
+  
     // Set up the STOMP client
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
@@ -51,6 +50,8 @@ export default function MessengerFrame() {
             setConnected(false);
     };
   }, [])
+
+
 
     return (<div>
                 {/* 버튼 영역 */}

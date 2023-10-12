@@ -23,12 +23,31 @@ import MammothWrite from './component/recruit/mammoth/MammothWrite';
 import MammothEdit from './component/recruit/mammoth/MammothEdit';
 import MessengerFrame from './component/chat/MessengerFrame.js';
 import MyPage from './component/mypage/MyPage';
+import axios from 'axios';
 
 function App() {
 
   const token = useSelector( state=> state.Authorization );
   const userId = useSelector( (state) => {return state.UserId} );
-  
+  /* useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // 페이지 새로고침 여부 확인
+      const isPageRefreshed = !event.persisted;
+      if (isPageRefreshed) {
+        const formData = new FormData();
+        formData.append('userId', userId)
+
+        axios.post("/chat-room-disconnect", formData)
+        .then(()=>{
+
+        })
+        .catch(()=>{
+
+        })
+      } 
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+  }, []); */
   return (
     <div className="App">
       <BrowserRouter>
@@ -60,11 +79,9 @@ function App() {
 
 function InitScroll() {
   const location = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0); // 페이지 이동 후 스크롤 위치를 맨 위로 이동
   }, [location]);
-
 }
 
 export default App;
