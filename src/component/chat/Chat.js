@@ -18,6 +18,8 @@ export default function Chat(props) {
         chatRoomData : null, chatRoomInfo : null
     });
 
+    const [isConnectedFriend, setIsConnectedFriend] = useState(false)
+
     const textareaRef = useRef('');
     const chatContainerRef = useRef('');
     const [textareaValue, setTextareaValue] = useState('')
@@ -73,7 +75,7 @@ export default function Chat(props) {
             chatRoomListSearch();
             /* 5초에 한번씩 채팅 조회 */
             intervalId = setInterval(() => {
-                    chatRoomListSearch();
+                    // chatRoomListSearch();
                 },5000)
         }
 
@@ -106,18 +108,37 @@ export default function Chat(props) {
     
 
     useEffect(() => {
+        let isConnected = false;
         if (flag.chatRoomFrame && props.client) {
-            /* 채팅 메시지 구독 */
-            const subscriptMessage = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
-                //e.body에 전송된 data가 들어있다
-                setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
-            });
             chatMessageListSearch();
+            let friend = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
+            const subscribeConnected = props.client.subscribe(`/connected/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}/user.${friend}`, function (e) {
+                //e.body에 전송된 data가 들어있다
+                setIsConnectedFriend(JSON.parse(e.body)); // 여기서 비동기처리되서... messege구독시에 원하는 데이터를 못가져온다...
+                isConnected = JSON.parse(e.body);
+                chatMessageListSearch();
+
+            },{
+                "connectedRoomId":chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
+                "connectedUserEmail":userId,
+            });
+
+            /* 채팅 메시지 구독 */
+            const subscribeMessage = props.client.subscribe(`/sub/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}`, function (e) {
+                //e.body에 전송된 data가 들어있다
+                const receivedData = JSON.parse(e.body);
+                const parsedData = {
+                    ...receivedData,
+                    isReaded: isConnected  // 사용하려는 값은 연결된 친구의 상태입니다.
+                };
+                setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
+                chatMessageListSearch();
+            });
 
             /* confirm여부 구독 */
-            let subscriptConfirm = null;
+            let subscribeConfirm = null;
             if(chatRoomDetail.chatRoomInfo.isRoomMaker) { //RoomMaker이면 구독
-                subscriptConfirm = props.client.subscribe(`/confirm/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}/user.${userId}`, function (e) {
+                subscribeConfirm = props.client.subscribe(`/confirm/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}/user.${userId}`, function (e) {
                     //e.body에 전송된 data가 들어있다
                     setChatRoomDetail({...chatRoomDetail, 
                         chatRoomData: {
@@ -125,17 +146,22 @@ export default function Chat(props) {
                             isConfirm: JSON.parse(e.body)
                         } 
                     }) 
-                    // setChatMessageList(prevMessages => [...prevMessages, JSON.parse(e.body)]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
                 });            
             }
 
             // 클리너 함수 등록하여 컴포넌트 언마운트 시 구독 해제
             return () => {
-                if (subscriptMessage) {
-                    subscriptMessage.unsubscribe();
+                if (subscribeConnected) {
+                    subscribeConnected.unsubscribe({
+                        "connectedRoomId":chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
+                        "connectedUserEmail":userId,
+                    });
                 }
-                if (subscriptConfirm) {
-                    subscriptConfirm.unsubscribe();
+                if (subscribeMessage) {
+                    subscribeMessage.unsubscribe();
+                }
+                if (subscribeConfirm) {
+                    subscribeConfirm.unsubscribe();
                 }
             };
         }
@@ -202,7 +228,8 @@ export default function Chat(props) {
             let chatData = {
                 roomId: roomId,
                 senderId: userId,
-                message: chat
+                message: chat,
+                isConnectedFriend: isConnectedFriend
             }
             props.client?.publish(
                 {
@@ -257,9 +284,7 @@ export default function Chat(props) {
                     (
                     <div  className="chat-list-div" index={0} style={{width:'450px', height:'586px', backgroundColor:'#f7f9fc', border : "1px solid lightgray", overflow:'auto',  }}>
                         {flag.chatListData === true ? 
-                        /* 리스트 조회가 완료되었다면 출력 */
                             (chatRoomList.length > 0 ? 
-                                /* 리스트가 0보다 크면 리스트출력 */
                                 (chatRoomList.map(obj => {
                                     return (
                                     <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px', backgroundColor:'white'}}>
@@ -279,11 +304,9 @@ export default function Chat(props) {
                                     )
                                 }))
                                 : 
-                                /* 리스트가 0보다 작으면 메시지 출력 */
                                 (<div style={{width:'448px', marginTop:'250px', textAlign:'center'}}>참여중인 채팅방이 없습니다.</div>)
                             )
                             : 
-                            /* 리스트 조회가 완료되지 않았다면 출력 */
                             (<div style={{width:'448px', marginTop:'250px', textAlign:'center'}}>채팅방 로딩중...</div>)
                         }
                     </div>
@@ -314,7 +337,7 @@ export default function Chat(props) {
                         <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
                             <ChatItem
                                 avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
-                                title={chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                title={(isConnectedFriend ? '🟢' : '🔴')  + chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
                                 // subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
                                 date={new Date()}
                                 unread={0}
@@ -368,8 +391,7 @@ export default function Chat(props) {
                         <div style={{width:'100px', height:'50px', margin:'162px auto'}}>채팅 데이터 없음</div>
                     }
                     { chatMessageList.length > 0 &&
-                        chatMessageList.map(obj => 
-                            {
+                        chatMessageList.map(obj =>  {
                                 return (
                                 obj.sender.email === userId ? 
                                 (<MessageBox 
@@ -377,8 +399,16 @@ export default function Chat(props) {
                                     type='text'
                                     title={obj.sender.nickname}  
                                     text={obj.message}  
-                                    status={obj.isReaded ? 'read':'received'} // obj.sender.email === userId && obj.isReaded ? 'read':'received'
+                                    status={obj.isReaded ? 'read' : 'received'} // obj.sender.email === userId && obj.isReaded ? 'read':'received'
                                     date={obj.chatSendDate} />)
+                                    /* 접속중이면서 isReaded false이면 'read'
+                                    접속중이아닌데 isReaded면 'read'
+                                    접속중이아니면서 isReaded가 false이면 'received'
+                                    
+                                    (!isConnectedFriend && obj.isReaded) || (isConnectedFriend && !obj.isReaded) ? 'received' 
+                                    : 'read'
+                                    isConnectedFriend ? 'read' : obj.isReaded ? 'read' : 'received'
+                                    */
                                 :
                                 (<MessageBox 
                                     position={'left'}  
