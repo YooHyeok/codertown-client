@@ -26,6 +26,7 @@ export default function CokkiriDetail() {
     const { cokkiriNo } = useParams();
     const [projectPartNo, setProjectPartNo] = useState()
     const [partNo, setPartNo] = useState()
+    const [takedProjectPartNos, setTakedProjectPartNos] = useState([])
     const [cokkiri, setCokkiri] = useState(
         {   
             title: null,
@@ -61,11 +62,14 @@ export default function CokkiriDetail() {
                         objectWeek: response.data.projectDto.objectWeek,
                         subject: response.data.projectDto.subject,
                         teamName: response.data.projectDto.teamName,
+                        /* projectParts 리스트에서 projectPartNo가 1(팀장)이 아니고 로그인한 아이디가 요청한 프로젝트파트들을 제외한다. */
                         projectParts: response.data.projectDto.projectParts,
                         projectNo: response.data.projectDto.projectNo,
                         isChatMaden: response.data.isChatMaden
                     })
+
             setProjectPartNo(response.data.projectDto.projectParts[0].projectPartNo)
+            setTakedProjectPartNos(response.data.takedProjectPartNos)
             /* 프로필사진 초기화 */
             setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
             setIsBookmarked(response.data.cokkiriDto.isBookmarked)
@@ -199,9 +203,7 @@ export default function CokkiriDetail() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {cokkiri.projectParts.filter((obj)=>{
-                                                return obj.partNo !== 1;
-                                            }).map((obj) => {
+                                            {cokkiri.projectParts.map((obj) => {
                                                 
                                                 return(
                                                     <tr key={obj.projectPartNo}>
@@ -219,8 +221,6 @@ export default function CokkiriDetail() {
                         </div>
                         {(accessToken != '' && userId != cokkiri.writer.email) ?
                         <div className='project-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
-                            {!cokkiri.isChatMaden ? /* 채팅방이 존재하지않으면 선택 채팅신청가능/존재하면 선택 채팅신청 불가능 */
-                                <>
                                 <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
                                     if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
                                         cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
@@ -230,9 +230,8 @@ export default function CokkiriDetail() {
                                     setProjectPartNo(cokkiri.projectParts.find(obj => obj.partNo == e.target.value).projectPartNo)
                                 }}
                                     style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
-                                        {cokkiri.projectParts.filter((obj)=>{
-                                            return obj.partNo !== 1;
-                                        }).map((obj) => {
+                                        {cokkiri.projectParts.filter(obj => !takedProjectPartNos.includes(obj.projectPartNo))
+                                            .map((obj) => {
                                             return(
                                                 <option value={obj.partNo} >{obj.partName}</option>
                                                 
@@ -241,12 +240,8 @@ export default function CokkiriDetail() {
                                 </select>
                                 &nbsp; &nbsp;
                                 <Button color='primary' onClick={submit}>프로젝트 참여 DM 요청</Button>
-                                </>
-                            : <p style={{margin:'10px auto', width:'400px', color:'rgb(104, 97, 236)' }}>
-                                채팅방이 생성되었습니다. <br/> 
-                                다른 파트로 변경 하시려면 현재 입장중인 채팅방에서 퇴장하셔야 합니다.<br/> 
-                                파트신청이 수락되었다면 프로젝트 하차 후 채팅방에서 퇴장하셔야 합니다.</p>}
                         </div> : <div/>}
+                        
                     </div>
                 </div>
             {/* 조회수 & 북마크기능 & 댓글카운트  */}

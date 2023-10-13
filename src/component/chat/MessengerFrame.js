@@ -21,7 +21,6 @@ export default function MessengerFrame() {
   const userId = useSelector( (state) => {return state.UserId} );
 
   useEffect(() => {
-    console.log(connected)
     const formData = new FormData();
     formData.append('loginEmail', userId)
     setInterval(() => {

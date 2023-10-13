@@ -36,7 +36,6 @@ export default function MyProject() {
         // axios.get(`/recruit?page=${page}&dType=Cokkiri&keyword=${keyword}&loginId=${userId}`)
         axios.get(`/joined-project?loginId=${userId}`)
         .then((response)=> {
-            console.log(response.data)
             setProjectList(response.data.projectList)
             setArticleCount(response.data.articleCount)
             setPageInfo(response.data.pageInfo)

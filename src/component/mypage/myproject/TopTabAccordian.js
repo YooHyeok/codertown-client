@@ -63,7 +63,7 @@ export default function TopTabAccordian(props) {
       .then((response)=>{
         alert(isExitOrQuit+' 완료!')
         if(isExitOrQuit == '하차') {
-          // document.location.href="/mypage"
+          document.location.href="/mypage"
           return;
         }
         /* 추방일 경우 해당 요소 제거 */
