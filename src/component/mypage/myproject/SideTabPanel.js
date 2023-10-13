@@ -95,9 +95,7 @@ export default function SideTabPanel(props) {
               sx={{ borderLeft: 1, borderColor: 'divider', margin: '25px 0px 0px 0px' }}
           >
             {/* 사이드바 */}
-            {projectPartList.filter((obj)=>{
-                  return obj.partNo !== 1;
-                }).map((obj, i)=>{
+            {projectPartList.map((obj, i)=>{
                   return(
                     <Tab key={obj.partNo} label={<h4>{obj.partName}</h4>} {...a11yProps(i)} />
                   )
