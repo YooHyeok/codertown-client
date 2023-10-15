@@ -4,7 +4,6 @@ import { HeaderLoginContext } from '../dropdown/HeaderDropDownLogin';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from "axios";
 import { type } from '@testing-library/user-event/dist/type';
 
@@ -25,7 +24,6 @@ export default function LoginModal() {
     const dispatch = useDispatch();
 
     const userId = useSelector((state) => {return state.UserId});
-    const accessToken = useSelector((state) => {return state.Authorization});
 
     const inputEnterLogin = (e)=>{
         if (e.key == 'Enter') {

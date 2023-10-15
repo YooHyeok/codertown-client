@@ -15,7 +15,6 @@ export default function TopTabAccordian(props) {
 
     useEffect(()=>{
       joinProjectDetail();
-      console.log(props)
     }, [])
 
     const joinProjectDetail = () => {
@@ -159,6 +158,7 @@ export default function TopTabAccordian(props) {
                     }
                       {userProjectTotalSumState !== 0 && 
                       projectPartList
+                      .filter((project)=> project.partNo !== 1)
                       .map((project) => {
                         return (
                           project.userProjectDtoList.map((obj)=>{

@@ -23,14 +23,14 @@ export default function MessengerFrame() {
   useEffect(() => {
     const formData = new FormData();
     formData.append('loginEmail', userId)
-    setInterval(() => {
+    /* setInterval(() => {
       axios.post('/new-message-total-count', formData)
       .then(response => {
         setNewMsgTotalCount(response.data)
       })
       .catch(error =>{
       })
-  },1000)
+  },1000) */
   
     // Set up the STOMP client
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
@@ -52,7 +52,8 @@ export default function MessengerFrame() {
 
 
 
-    return (<div>
+    return (
+      connected && <div>
                 {/* 버튼 영역 */}
                 <div ref={chatOpenBtnRef} className="dm-icon-onoff-button" style={dmButtonOnStyle} onClick={(e)=>{
                   setChatFrameOnOff(true)

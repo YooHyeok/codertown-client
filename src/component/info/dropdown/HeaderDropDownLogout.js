@@ -3,11 +3,13 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { Link, useLocation } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import axios from "axios";
-
+import {reqToken} from "../../../redux_jwt/RequestToken";
+import {useCookies} from "react-cookie";
 import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 
 export default function HeaderDropDownLogout() {
 
+  const accessToken = useSelector(state => state.Authorization);
   const userId = useSelector( (state) => {return state.UserId} );
   const [src, setSrc] = useState('/default_profile.png');
   useEffect(() => {
@@ -27,6 +29,39 @@ export default function HeaderDropDownLogout() {
   const location = useLocation();
   const context = useContext(HeaderDropDownContext);
   const dispatch = useDispatch();
+  
+  const [cookie, setCookie] = useCookies(["refreshToken"]);
+
+  useEffect(() => {
+    console.log(accessToken)
+    reqUser();
+  }, [accessToken]);
+
+  const reqUser = async () => {
+    console.log("reqUser 호출됨 ")
+      try {
+          const res = await axios.post('/userInfo', null, {
+              headers: {"X-AUTH-TOKEN": accessToken},
+              params: {
+                  id: userId
+              }
+          });
+          console.log(res)
+          // setUser(res.data);
+      } catch (error) {
+        console.log(error)
+          if (error.request.status === 401) {
+              const rescode = error.response.data.rescode;
+              console.log(error);
+              console.log(accessToken + "," + cookie.refreshToken)
+              if (rescode == 100) {
+                  console.log(error);
+                  reqToken(accessToken, dispatch, cookie, setCookie);
+              }
+          }
+      }
+
+  }
 
   /* const logout = (e) => { //토큰값, userId 초기화
     e.preventDefault();
