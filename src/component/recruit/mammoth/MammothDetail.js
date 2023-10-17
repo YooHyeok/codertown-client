@@ -6,6 +6,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../../button/BookmarkButton.js';
 import useToast from '../../../hook/useToast.js';
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export default function MammothDetail() {
     const divStyle = {
@@ -63,18 +64,32 @@ export default function MammothDetail() {
     
     /* func - 삭제 기능 */
     const del = (e) => {
-        alert("삭제 하시겠습니까?");
+        confirmAlert({
+            title: '맘모스 삭제 확인',
+            message: '삭제 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    const formData = new FormData();
+                    formData.append('recruitNo', mammothNo);
 
-        const formData = new FormData();
-        formData.append('recruitNo', mammothNo);
-
-        axios.post('/recruit-delete', formData)
-        .then((response)=> {
-            document.location.href="/mammoth";
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+                    axios.post('/recruit-delete', formData)
+                    .then((response)=> {
+                        document.location.href="/mammoth";
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
+        
     }
 
     /* 북마크 토글 */

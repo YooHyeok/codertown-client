@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import ToastEditor from '../../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export const MammothEditContext = createContext();
 export default function MammothEdit() {
@@ -79,8 +80,22 @@ export default function MammothEdit() {
     /* func - 저장 기능 */
     const submit = (e) => {
         setMammoth({...mammoth, content : toastHtml}) // 내용 초기화
-        alert("저장 하시겠습니까?");
-        setReRenderFlag(true);
+        confirmAlert({
+            title: '맘모스 수정 확인',
+            message: '수정 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    setReRenderFlag(true);
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /**

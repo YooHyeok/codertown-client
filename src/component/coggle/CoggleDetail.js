@@ -9,6 +9,7 @@ import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 import LikeButton from '../button/LikeButton.js';
 import useToast from '../../hook/useToast.js';
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export default function CoggleDetail() {
     const { toastAlertWarning, toastAlertSuccess } = useToast();
@@ -100,7 +101,14 @@ export default function CoggleDetail() {
 
     /* func - 삭제 기능 */
     const del = (e) => {
-        toastAlertWarning("삭제 하시겠습니까?")
+        confirmAlert({
+            title: '코글 삭제 확인',
+            message: '삭제 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    
         const formData = new FormData();
         formData.append('coggleNo', coggleNo);
 
@@ -111,6 +119,14 @@ export default function CoggleDetail() {
         .catch((error) => {
             console.log(error);
         })
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /* 댓글 [입력] - TextArea 개행 추가 및 제거 시 영역 확장 축소 */

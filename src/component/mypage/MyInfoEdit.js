@@ -3,6 +3,8 @@ import { Form, Label, Input, Button, Col, FormGroup, Row } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 import useToast from "../../hook/useToast";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+
 export default function MyInfoEdit() {
 
     const userId = useSelector( (state) => {return state.UserId} );
@@ -334,32 +336,43 @@ export default function MyInfoEdit() {
             toastAlertWarning("회원 탈퇴시 본인 확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
             return;
         }
-        if (window.confirm('탈퇴시 개인정보 및 관련 코끼리/맘모스/코글/댓글/채팅방이 삭제되며 복구할수 없게 됩니다.  \n 정말 탈퇴 하시겠습니까?')) {
-            const formData = new FormData();
-            formData.append('loginId',userId)
+        confirmAlert({
+            title: "회원 탈퇴 확인",
+            message: '탈퇴시 개인정보 및 관련 코끼리/맘모스/코글/댓글/채팅방이 삭제되며 복구할수 없게 됩니다.  \n 정말 탈퇴 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    const formData = new FormData();
+                    formData.append('loginId',userId)
 
-            axios.post("/joined-project-count", formData)
-            .then((response)=>{
-                console.log(response)
-                if(response.data > 0) {
-                    toastAlertError("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
-                    return;
-                }
-                axios.post("/change-status-account", formData)
+                    axios.post("/joined-project-count", formData)
                     .then((response)=>{
-                        console.log(response)
-                        if(response.data.success == true) {
-                            toastAlertSuccess("회원 탈퇴 완료")
+                        if(response.data > 0) {
+                            toastAlertWarning("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
+                            return;
                         }
+                        axios.post("/change-status-account", formData)
+                            .then((response)=>{
+                                console.log(response)
+                                if(response.data.success == true) {
+                                    toastAlertSuccess("회원 탈퇴 완료")
+                                }
+                            })
+                            .catch((error)=>{
+                                toastAlertError("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
+                            })
                     })
                     .catch((error)=>{
-            
                     })
-            })
-            .catch((error)=>{
-
-            })
-        }
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /**

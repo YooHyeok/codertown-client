@@ -112,7 +112,7 @@ export default function MyProject() {
         , position: 'absolute' //고정
         , cursor: 'grab'
         , transform: `translate(${position.x}px, ${position.y}px)`
-        , zIndex: '1000'
+        , zIndex: '98'
         , top: "100px"
         // , bottom: "200px"
         , right: "700px"

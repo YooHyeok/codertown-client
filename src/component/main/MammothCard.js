@@ -9,7 +9,7 @@ import axios from "axios";
 export default function MammothCard({obj}) {
 
     const userId = useSelector( (state) => {return state.UserId} );
-    const {toastAlertWraning, toastAlertSuccess} = useToast();
+    const {toastAlertWarning, toastAlertSuccess} = useToast();
     const [src, setSrc] = useState('/default_profile.png');
     useEffect(() => {
         setSrc(`data:image/png;base64,${obj.recruitDto.writer.profileUrl}`);
@@ -19,7 +19,7 @@ export default function MammothCard({obj}) {
     const [isBookmarked, setIsBookmarked] = useState(obj.recruitDto.isBookmarked);
     const toggle = (e) => {
         if (userId == '') {
-            toastAlertWraning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
             return;}
         const formData = new FormData();
         formData.append('recruitNo', obj.recruitDto.recruitNo);

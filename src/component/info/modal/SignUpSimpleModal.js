@@ -3,6 +3,7 @@ import {useContext, useState, useRef, useEffect} from 'react';
 import { HeaderSignUpContext } from '../dropdown/HeaderDropDownLogin';
 import axios from "axios";
 import useToast from '../../../hook/useToast.js';
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export default function SignUpSimpleModal() {
     const { toastAlertDefault, toastAlertWarning, toastAlertSuccess, toastAlertError } = useToast();
@@ -212,17 +213,28 @@ export default function SignUpSimpleModal() {
 
         /* [수정] */
         if (name == 'initBtn') {
-            if (window.confirm('초기화시 중복확인 본인인증 모두 다시 진행하셔야 합니다. \n 초기화 하시겠습니까?')) {
-                emailPermitExistRef.current.style.display = 'none';
-                setFlag({...flag, emailRegFlag:false, emailExsitsFlag:false, emailAuthFlag: false});
-                setEmail({...email, inputEmail: '', existsEmail:'', authEmail:''});
-                setCertNumber({...certNumber, inputCertNumber: ''});
-                setInitBtnDisabled(true);
-                setEmailInputDisabled(false);
-                setExistBtnDisabled(false);
-                return;
-            }
-            
+            confirmAlert({
+                title: "입력폼 초기화 확인",
+                message: '초기화시 중복확인 및 본인인증을 다시 진행하셔야 합니다. \n 초기화 하시겠습니까?',
+                buttons: [
+                  {
+                    label: "확인",
+                    onClick: () => {
+                        emailPermitExistRef.current.style.display = 'none';
+                        setFlag({...flag, emailRegFlag:false, emailExsitsFlag:false, emailAuthFlag: false});
+                        setEmail({...email, inputEmail: '', existsEmail:'', authEmail:''});
+                        setCertNumber({...certNumber, inputCertNumber: ''});
+                        setInitBtnDisabled(true);
+                        setEmailInputDisabled(false);
+                        setExistBtnDisabled(false);
+                    },
+                  },
+                  {
+                    label: "취소",
+                    onClick: () => { },
+                  },
+                ],
+            });           
         }
 
         /* [중복확인] */

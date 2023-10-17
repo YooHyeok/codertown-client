@@ -4,6 +4,7 @@ import { useState, createContext, useEffect } from 'react';
 import ToastEditor from '../ToastEditor.js'
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export const CoggleEditContext = createContext();
 export default function CoggleEdit() {
@@ -86,8 +87,22 @@ export default function CoggleEdit() {
     /* func - 저장 기능 */
     const submit = (e) => {
         setCoggle({...coggle, content : toastHtml}) // 내용 초기화
-        alert("저장 하시겠습니까?");
-        setReRenderFlag(true);
+        confirmAlert({
+            title: '코글 수정 확인',
+            message: '수정 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    setReRenderFlag(true);
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /**
@@ -99,9 +114,6 @@ export default function CoggleEdit() {
         setToastHtml: setToastHtml.bind(this),
         setMarkdown: setMarkdown.bind(this)
     }
-
-
-
 
     return(
         <div style={bodyStyle}>

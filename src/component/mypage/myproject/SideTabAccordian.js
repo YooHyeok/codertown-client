@@ -5,6 +5,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 import { useSelector } from "react-redux";
 import axios from "axios";
 import useToast from "../../../hook/useToast";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+
   export default function SideTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
     const userId = useSelector( (state) => {return state.UserId} );
@@ -21,26 +23,39 @@ import useToast from "../../../hook/useToast";
    */
   const existOrQuit = (obj) => {
     const isExitOrQuit = userId === obj.userDto.email ? '하차' : '추방'
-    if (window.confirm('정말 '+isExitOrQuit+' 하시겠습니까?')) {
-      const formData = new FormData();
-      formData.append("userProjectNo", obj.userProjectNo)
-      axios.post('/project/quit-exit', formData)
-      .then((response)=>{
-        toastAlertSuccess(isExitOrQuit+' 완료!')
-        if(isExitOrQuit == '하차') {
-          document.location.href="/mypage" //추후 데이터를 다시뿌리는 형태로 가야할것을 고려해봐야함.
-          return;
-        }
-        /* 추방일 경우 해당 요소 제거 */
-        const removeUserProjects = userProjectList.filter(userProject => userProject !== obj);
-        setUserProjectList(removeUserProjects)
-        props.joinProjectDetail();
-      })
-      .catch((error)=>{
-        toastAlertError(isExitOrQuit+' 실패!')
-      })
-      return;
-    }
+    confirmAlert({
+      title: '프로젝트 '+ isExitOrQuit +' 확인',
+      message: '정말 '+isExitOrQuit+' 하시겠습니까?',
+      buttons: [
+        {
+          label: "확인",
+          onClick: () => {
+            const formData = new FormData();
+            formData.append("userProjectNo", obj.userProjectNo)
+            axios.post('/project/quit-exit', formData)
+            .then((response)=>{
+              toastAlertSuccess(isExitOrQuit+' 완료!')
+              if(isExitOrQuit == '하차') {
+                document.location.href="/mypage" //추후 데이터를 다시뿌리는 형태로 가야할것을 고려해봐야함.
+                return;
+              }
+              /* 추방일 경우 해당 요소 제거 */
+              const removeUserProjects = userProjectList.filter(userProject => userProject !== obj);
+              setUserProjectList(removeUserProjects)
+              props.joinProjectDetail();
+            })
+            .catch((error)=>{
+              toastAlertError(isExitOrQuit+' 실패!')
+            })
+          },
+        },
+        {
+          label: "취소",
+          onClick: () => { },
+        },
+      ],
+    });
+
   }
 
     return (

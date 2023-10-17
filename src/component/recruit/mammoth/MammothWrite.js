@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Col, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import { useState, createContext, useEffect } from 'react';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
 import ToastEditor from '../../ToastEditor.js'
 import DaumPostcode from 'react-daum-postcode';
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export const MammothWriteContext = createContext();
 export default function MammothWrite() {
@@ -86,8 +86,22 @@ export default function MammothWrite() {
     /* func - 저장 기능 */
     const submit = () => {
         setMammoth({...mammoth,  content : toastHtml});
-        alert("저장 하시겠습니까?");
-        setReRenderFlag(true);
+        confirmAlert({
+            title: '맘모스 저장 확인',
+            message: '저장 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    setReRenderFlag(true);
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
 

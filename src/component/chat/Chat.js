@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import axios from "axios";
 import {useTheme} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import useToast from '../../hook/useToast';
 
 export default function Chat(props) {
        
@@ -17,7 +19,7 @@ export default function Chat(props) {
     const [chatRoomDetail, setChatRoomDetail] = useState({
         chatRoomData : null, chatRoomInfo : null
     });
-
+    const {toastAlertDefault} = useToast();
     const [isConnectedFriend, setIsConnectedFriend] = useState(false)
 
     const textareaRef = useRef('');
@@ -149,7 +151,8 @@ export default function Chat(props) {
                             ...chatRoomDetail.chatRoomData,
                             isConfirm: JSON.parse(e.body)
                         } 
-                    }) 
+                    })
+                    toastAlertDefault("회원님의 프로젝트 참여 요청이 수락 되었습니다.")
                 });            
             }
             /* 새로고침시 구독취소 */
@@ -274,8 +277,7 @@ export default function Chat(props) {
                     ...chatRoomDetail.chatRoomData,
                     isConfirm: true
                 } 
-            }) 
-        
+            })
             
     }
 
@@ -381,16 +383,22 @@ export default function Chat(props) {
                             {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm && //룸메이커는 신청자 이므로 신청자가 아닌사람이 수락한다.
                             <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}
                                     onClick={()=> {
-                                        publishConfirm(chatRoomDetail)
-                                        // let requesterEmail = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj=> obj.email !== userId)[0].email
-                                        // const requestJson = {requesterEmail:requesterEmail, projectPartNo:chatRoomDetail.chatRoomData.projectPart.projectPartNo}
-                                        // axios.post('/project/join-confirm', requestJson)
-                                        // .then((response)=>{
-                                        //     console.log(response)
-                                        // })
-                                        // .catch((error)=>{
-                                            
-                                        // })
+                                        confirmAlert({
+                                            title: "참여 요청 수락 확인",
+                                            message: '프로젝트 참여 요청을 수락하시겠습니까?',
+                                            buttons: [
+                                              {
+                                                label: "확인",
+                                                onClick: () => {
+                                                    publishConfirm(chatRoomDetail)
+                                                },
+                                              },
+                                              {
+                                                label: "취소",
+                                                onClick: () => { },
+                                              },
+                                            ],
+                                          });
                                     }}>수락</Button>}
                             {chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
                             <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}

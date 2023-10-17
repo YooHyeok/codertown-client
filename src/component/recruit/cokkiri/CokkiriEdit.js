@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import ToastEditor from '../../ToastEditor.js'
 import axios from "axios";
 import useToast from '../../../hook/useToast.js';
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export const CokkiriEditContext = createContext();
 export default function CokkiriEdit() {
@@ -101,8 +102,22 @@ export default function CokkiriEdit() {
     /* func - 저장 기능 */
     const submit = (e) => {
         setCokkiri({...cokkiri, content : toastHtml}) // 내용 초기화
-        alert("저장 하시겠습니까?");
-        setReRenderFlag(true);
+        confirmAlert({
+            title: '코끼리 수정 확인',
+            message: '수정 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    setReRenderFlag(true);
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /* 페이지 첫 진입시 데이터 출력용 랜더링 */

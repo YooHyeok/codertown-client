@@ -88,18 +88,34 @@ export default function CokkiriDetail() {
 
     /* func - 삭제 기능 */
     const del = (e) => {
-        toastAlertWarning("삭제 하시겠습니까?");
 
-        const formData = new FormData();
-        formData.append('recruitNo', cokkiriNo);
+        
 
-        axios.post('/recruit-delete', formData)
-        .then((response)=> {
-            document.location.href="/cokkiri";
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        confirmAlert({
+            title: '코끼리 삭제 확인',
+            message: '삭제 하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    const formData = new FormData();
+                    formData.append('recruitNo', cokkiriNo);
+
+                    axios.post('/recruit-delete', formData)
+                    .then((response)=> {
+                        document.location.href="/cokkiri";
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
     }
 
     /* 북마크 토글 */

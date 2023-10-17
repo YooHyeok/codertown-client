@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import useToast from "../../../hook/useToast";
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
 export default function TopTabAccordian(props) {
   const [expanded, setExpanded] = useState('panel1');
@@ -56,26 +57,38 @@ export default function TopTabAccordian(props) {
    */
   const existOrQuit = (obj, project) => {
     const isExitOrQuit = userId === obj.userDto.email ? '하차' : '추방'
-    if (window.confirm('정말 '+isExitOrQuit+' 하시겠습니까?')) {
-      const formData = new FormData();
-      formData.append("userProjectNo", obj.userProjectNo)
-      axios.post('/project/quit-exit', formData)
-      .then((response)=>{
-        toastAlertSuccess(isExitOrQuit+' 완료!')
-        if(isExitOrQuit == '하차') {
-          document.location.href="/mypage"
-          return;
-        }
-        /* 추방일 경우 해당 요소 제거 */
-        const removeUserProjects = project.userProjectDtoList.filter(userProject => userProject !== obj);
-        setProjectPartList(removeUserProjects)
-        joinProjectDetail();
-      })
-      .catch((error)=>{
-        toastAlertError(isExitOrQuit+' 실패!')
-      })
-      return;
-    }
+     confirmAlert({
+      title: '프로젝트 '+ isExitOrQuit +' 확인',
+      message: '정말 '+isExitOrQuit+' 하시겠습니까?',
+      buttons: [
+        {
+          label: "확인",
+          onClick: () => {
+            const formData = new FormData();
+            formData.append("userProjectNo", obj.userProjectNo)
+            axios.post('/project/quit-exit', formData)
+            .then((response)=>{
+              toastAlertSuccess(isExitOrQuit+' 완료!')
+              if(isExitOrQuit == '하차') {
+                document.location.href="/mypage"
+                return;
+              }
+              /* 추방일 경우 해당 요소 제거 */
+              const removeUserProjects = project.userProjectDtoList.filter(userProject => userProject !== obj);
+              setProjectPartList(removeUserProjects)
+              joinProjectDetail();
+            })
+            .catch((error)=>{
+              toastAlertError(isExitOrQuit+' 실패!')
+            })
+          },
+        },
+        {
+          label: "취소",
+          onClick: () => { },
+        },
+      ],
+    });
   }
   return (
     <div>
