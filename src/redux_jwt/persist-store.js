@@ -14,14 +14,15 @@ function reducer(currentState, action) {
     if (currentState == undefined) {
         return ({
             Authorization: '',
-            UserId: ''
+            UserId: '',
+            StompClient: ''
         })
     }
     const newState = { ...currentState };
     switch (action.type) {
         case "NEWTOKEN": newState.Authorization = action.data; break;
         case "USERID": newState.UserId = action.data; break;
-        case "NICKNAME": newState.Nickname = action.data;
+        case "STOMPCLIENT": newState.StompClient = action.data;
     }
     return newState;
 }
@@ -32,6 +33,9 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 //configureStore에 있는 reducer는 configureStore의 메소드 이다. 위에 만든 함수 reducer 아님!!
 const store = configureStore({
     reducer: persistedReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+    // 기본 값이 true지만 배포할때 코드를 숨기기 위해서 false로 변환하기 쉽게 설정에 넣어놨다.
+    devTools: true,
 
 });
 

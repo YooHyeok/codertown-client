@@ -122,7 +122,6 @@ export default function CokkiriWrite() {
                             <Col sm={3} >
                                 <Label htmlFor='part' sm={6}>파트 추가</Label>
                                 <select name="part" id="part" onChange={(e)=>{
-                                    console.log(e.target.value)
                                     setPartNo(e.target.value);
                                     setPartName(e.target.options[e.target.selectedIndex].textContent) //옵션 text노드 추출후 저장
                                 }}

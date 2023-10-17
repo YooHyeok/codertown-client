@@ -17,9 +17,9 @@ export default function HeaderDropDownPushAlarm() {
 
   useEffect(() => {
     pushAlarmListSearch();
-    /* setInterval(() => {
+    setInterval(() => {
       pushAlarmListSearch();
-    },300000) //5분 주기 */
+    },300000) //5분 주기
   }, [])
 
   useEffect(() => {

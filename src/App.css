@@ -293,3 +293,8 @@
 .blinking {
   animation: blink 0.5s 3; /* 3회 깜박임 */
 }
+
+/* react-confirm-alert */
+.react-confirm-alert-button-group {
+  justify-content: end !important;
+}

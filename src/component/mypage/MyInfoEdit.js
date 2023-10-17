@@ -329,6 +329,39 @@ export default function MyInfoEdit() {
             })
     }
 
+    const accountWithdraw = () => {
+        if (profileInputValue.originalCheckPwd === '') {
+            alert("회원 탈퇴시 본인 확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
+            return;
+        }
+        if (window.confirm('탈퇴시 개인정보 및 관련 코끼리/맘모스/코글/댓글/채팅방이 삭제되며 복구할수 없게 됩니다.  \n 정말 탈퇴 하시겠습니까?')) {
+            const formData = new FormData();
+            formData.append('loginId',userId)
+
+            axios.post("/joined-project-count", formData)
+            .then((response)=>{
+                console.log(response)
+                if(response.data > 0) {
+                    alert("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
+                    return;
+                }
+                axios.post("/change-status-account", formData)
+                    .then((response)=>{
+                        console.log(response)
+                        if(response.data.success == true) {
+                            alert("회원 탈퇴 완료")
+                        }
+                    })
+                    .catch((error)=>{
+            
+                    })
+            })
+            .catch((error)=>{
+
+            })
+        }
+    }
+
     /**
      * JSX 시작
      */
@@ -386,7 +419,7 @@ export default function MyInfoEdit() {
             </FormGroup>
             <FormGroup row >
                 <Col sm={15} >
-                    <Button color='danger' outline style={{width:'300px'}} onClick={(e)=>{e.preventDefault();}}>회원탈퇴</Button>
+                    <Button color='danger' outline style={{width:'300px'}} onClick={accountWithdraw}>회원탈퇴</Button>
                 </Col>
             </FormGroup>
         </Form>

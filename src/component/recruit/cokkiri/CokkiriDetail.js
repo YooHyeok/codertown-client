@@ -5,6 +5,8 @@ import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../../button/BookmarkButton.js';
+import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import { toast } from 'react-toastify';
 
 // import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -42,14 +44,15 @@ export default function CokkiriDetail() {
             teamName: '',
             projectNo: '',
             projectParts: [],
-            isChatMaden: ''
         }
     )
-        
+    const notify = (msg) => toast(msg);
     const [src, setSrc] = useState('/default_profile.png')
-    useEffect(()=> {
+    const requestCokkiriDetail = () => {
         axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
+            console.log(response.data.cokkiriDto)
+            console.log(response.data.projectDto)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -65,7 +68,7 @@ export default function CokkiriDetail() {
                         /* projectParts 리스트에서 projectPartNo가 1(팀장)이 아니고 로그인한 아이디가 요청한 프로젝트파트들을 제외한다. */
                         projectParts: response.data.projectDto.projectParts,
                         projectNo: response.data.projectDto.projectNo,
-                        isChatMaden: response.data.isChatMaden
+                        
                     })
 
             setProjectPartNo(response.data.projectDto.projectParts[0].projectPartNo)
@@ -77,6 +80,9 @@ export default function CokkiriDetail() {
         .catch((error) => {
             console.log(error);
         })
+    }
+    useEffect(()=> {
+        requestCokkiriDetail();
     },[])
 
     /* func - 삭제 기능 */
@@ -117,10 +123,9 @@ export default function CokkiriDetail() {
         })
     }
     const submit = (e) => {
-        e.preventDefault();
-        if (window.confirm("선택하신 파트를 신청하는 채팅방이 생성됩니다 진행하시겠습니까?")) {
+        // e.preventDefault();
+        /* if (window.confirm("선택하신 파트를 신청하는 채팅방이 생성됩니다 진행하시겠습니까?")) {
             let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
-            // return;
             axios.post('/create-cokkiri-chatroom', params)
             .then((response) => {
                 if(response.data.success == true) setCokkiri({...cokkiri, isChatMaden: true})
@@ -128,11 +133,41 @@ export default function CokkiriDetail() {
             .catch((error) => {
             console.log(error);
             })
-        }
+        } */
+        confirmAlert({
+            title: "파트 신청 확인",
+            message: '신청하신 파트에 대한 프로젝트 참가 요청 채팅방이 생성됩니다 진행하시겠습니까?',
+            buttons: [
+              {
+                label: "확인",
+                onClick: () => {
+                    let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
+                    axios.post('/create-cokkiri-chatroom', params)
+                    .then((response) => {
+                        if(response.data.success == true) {
+                            setCokkiri({...cokkiri, isChatMaden: true})
+                            notify("채팅방 생성 완료 채팅방을 확인해주세요")
+                            requestCokkiriDetail();
+                        }
+                        
+                    })
+                    .catch((error) => {
+                    console.log(error);
+                    })
+                },
+              },
+              {
+                label: "취소",
+                onClick: () => { },
+              },
+            ],
+          });
+        
     }
 
     return(
         <div style={divStyle}>
+            
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
                     <div style={{width:'220px', margin: '0px auto', display:"flex"}}>
                         <h1 style={{margin:"30px auto"}}><b>코끼리</b></h1>

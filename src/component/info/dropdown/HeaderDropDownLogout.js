@@ -33,12 +33,10 @@ export default function HeaderDropDownLogout() {
   const [cookie, setCookie] = useCookies(["refreshToken"]);
 
   useEffect(() => {
-    console.log(accessToken)
     reqUser();
   }, [accessToken]);
 
   const reqUser = async () => {
-    console.log("reqUser 호출됨 ")
       try {
           const res = await axios.post('/userInfo', null, {
               headers: {"X-AUTH-TOKEN": accessToken},
@@ -46,16 +44,13 @@ export default function HeaderDropDownLogout() {
                   id: userId
               }
           });
-          console.log(res)
           // setUser(res.data);
       } catch (error) {
-        console.log(error)
           if (error.request.status === 401) {
               const rescode = error.response.data.rescode;
-              console.log(error);
-              console.log(accessToken + "," + cookie.refreshToken)
+              // console.log(error);
+              // console.log(accessToken + "," + cookie.refreshToken)
               if (rescode == 100) {
-                  console.log(error);
                   reqToken(accessToken, dispatch, cookie, setCookie);
               }
           }
@@ -79,7 +74,6 @@ export default function HeaderDropDownLogout() {
       // 비동기 작업 2: 두 번째 dispatch 작업
       await dispatch({ type: "USERID", data: '' });
       // 비동기 작업 3: 세 번째 dispatch 작업
-      await dispatch({ type: "NICKNAME", data: '' });
       // 모든 dispatch 작업이 완료된 후에 페이지 리디렉션
       document.location.href = '/';
     } catch (error) {

@@ -1,9 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { ToastContainer, } from "react-toastify";
 
 /* 컴포넌트 */
 import Header from './component/info/Header';
@@ -73,6 +76,7 @@ function App() {
         </Routes>
         <Footer/>
       </BrowserRouter>
+      <ToastContainer />
     </div>
   );
 }

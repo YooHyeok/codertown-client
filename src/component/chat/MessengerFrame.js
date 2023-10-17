@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Chat from './Chat.js';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 import { CSSTransition } from "react-transition-group";
 
@@ -14,11 +14,47 @@ export default function MessengerFrame() {
   const chatCloseBtnRef = useRef('');
   const chatComponentRef = useRef('');  
   const [chatFrameOnOff, setChatFrameOnOff] = useState(false);
-  const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
+  // const [connected, setConnected] = useState(sessionStorage.getItem('stompConnected'));
   const [newMsgTotalCount, setNewMsgTotalCount] = useState(0);
 
   const userId = useSelector( (state) => {return state.UserId} );
+  const savedClient = useSelector( (state) => {return state.StompClient} );
+  const dispatch = useDispatch();
+
+  const stringifyWithoutCircular = (obj) => {
+    const seen = new WeakSet();
+
+    function reviver(key, value)  {
+      if (typeof value === 'object' && key !== 'client' && value !== null) {
+        if (seen.has(value)) {
+          return;  // Skip circular references
+        }
+        seen.add(value);
+      }
+      return value;
+    }
+    return JSON.stringify(obj, reviver);
+  }
+
+  const parseJSONWithoutCircular = (jsonString) => {
+    const seen = new WeakSet();
+    
+    function reviver(key, value) {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return;  // Skip circular references
+        }
+        seen.add(value);
+      }
+      return value;
+    }
+  
+    return JSON.parse(jsonString, reviver);
+  }
+  // const [client, setClient] = useState(parseJSONWithoutCircular(sessionStorage.getItem('stompClient')));
+  const [client, setClient] = useState(null);
+  
 
   useEffect(() => {
     const formData = new FormData();
@@ -31,7 +67,7 @@ export default function MessengerFrame() {
       .catch(error =>{
       })
   },1000) */
-  
+
     // Set up the STOMP client
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
@@ -48,12 +84,13 @@ export default function MessengerFrame() {
             client?.disconnect(); //연결 종료
             setConnected(false);
     };
+
   }, [])
 
 
 
     return (
-      connected && <div>
+      client != null && <div>
                 {/* 버튼 영역 */}
                 <div ref={chatOpenBtnRef} className="dm-icon-onoff-button" style={dmButtonOnStyle} onClick={(e)=>{
                   setChatFrameOnOff(true)
