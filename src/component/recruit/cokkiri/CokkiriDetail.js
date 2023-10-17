@@ -6,7 +6,9 @@ import { Table } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../../button/BookmarkButton.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
+import useToast from '../../../hook/useToast.js';
+
 
 // import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -28,7 +30,7 @@ export default function CokkiriDetail() {
     const { cokkiriNo } = useParams();
     const [projectPartNo, setProjectPartNo] = useState()
     const [partNo, setPartNo] = useState()
-    const [takedProjectPartNos, setTakedProjectPartNos] = useState([])
+    const [selectProjectParts, setSelectProjectParts] = useState([])
     const [cokkiri, setCokkiri] = useState(
         {   
             title: null,
@@ -46,13 +48,11 @@ export default function CokkiriDetail() {
             projectParts: [],
         }
     )
-    const notify = (msg) => toast(msg);
+    // const notify = (msg) => toast(msg);
     const [src, setSrc] = useState('/default_profile.png')
     const requestCokkiriDetail = () => {
         axios.get(`/cokkiri-detail/${cokkiriNo}/${userId == '' ? null : userId}`)
         .then((response)=> {
-            console.log(response.data.cokkiriDto)
-            console.log(response.data.projectDto)
             setCokkiri({...cokkiri,     
                         title: response.data.cokkiriDto.title, 
                         writer: response.data.cokkiriDto.writer,
@@ -70,9 +70,10 @@ export default function CokkiriDetail() {
                         projectNo: response.data.projectDto.projectNo,
                         
                     })
-
-            setProjectPartNo(response.data.projectDto.projectParts[0].projectPartNo)
-            setTakedProjectPartNos(response.data.takedProjectPartNos)
+            /* default projectPartNo 필터링 첫번째 요소 */
+            setProjectPartNo(response.data.projectDto.projectParts.filter(obj => !response.data.takedProjectPartNos.includes(obj.projectPartNo))[0].projectPartNo)
+            /* select option projectParts 필터링 */
+            setSelectProjectParts(response.data.projectDto.projectParts.filter(obj => !response.data.takedProjectPartNos.includes(obj.projectPartNo)))
             /* 프로필사진 초기화 */
             setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
             setIsBookmarked(response.data.cokkiriDto.isBookmarked)
@@ -122,18 +123,10 @@ export default function CokkiriDetail() {
         console.log(error);
         })
     }
+
+    const { toastAlertDefault, toastAlertSuccess, toastAlertError } = useToast();
+
     const submit = (e) => {
-        // e.preventDefault();
-        /* if (window.confirm("선택하신 파트를 신청하는 채팅방이 생성됩니다 진행하시겠습니까?")) {
-            let params = {loginId:userId,writerId:cokkiri.writer.email,projectNo:cokkiri.projectNo,projectPartNo:projectPartNo}
-            axios.post('/create-cokkiri-chatroom', params)
-            .then((response) => {
-                if(response.data.success == true) setCokkiri({...cokkiri, isChatMaden: true})
-            })
-            .catch((error) => {
-            console.log(error);
-            })
-        } */
         confirmAlert({
             title: "파트 신청 확인",
             message: '신청하신 파트에 대한 프로젝트 참가 요청 채팅방이 생성됩니다 진행하시겠습니까?',
@@ -146,13 +139,15 @@ export default function CokkiriDetail() {
                     .then((response) => {
                         if(response.data.success == true) {
                             setCokkiri({...cokkiri, isChatMaden: true})
-                            notify("채팅방 생성 완료 채팅방을 확인해주세요")
+                            // notify("채팅방 생성 완료 채팅방을 확인해주세요")
+                            toastAlertSuccess("채팅방 생성 완료 채팅방을 확인해주세요")
                             requestCokkiriDetail();
                         }
                         
                     })
                     .catch((error) => {
-                    console.log(error);
+                        console.log(error);
+                        toastAlertError("채팅방 생성에 실패하였습니다.")
                     })
                 },
               },
@@ -262,11 +257,11 @@ export default function CokkiriDetail() {
                                         alert('선택하신 파트는 현재 남은자리가 없습니다.'); 
                                         return;
                                     }
+                                    setPartNo(e.target.value)
                                     setProjectPartNo(cokkiri.projectParts.find(obj => obj.partNo == e.target.value).projectPartNo)
                                 }}
                                     style={{display:"inline", width:"110px", height:"30px", fontSize:"15px", marginTop:"3.5px", padding:"0px 20px 0px 12px"}}>
-                                        {cokkiri.projectParts.filter(obj => !takedProjectPartNos.includes(obj.projectPartNo))
-                                            .map((obj) => {
+                                        {selectProjectParts.map((obj) => {
                                             return(
                                                 <option value={obj.partNo} >{obj.partName}</option>
                                                 
