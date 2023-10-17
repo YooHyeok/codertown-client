@@ -8,8 +8,11 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 import LikeButton from '../button/LikeButton.js';
+import useToast from '../../hook/useToast.js';
 
 export default function CoggleDetail() {
+    const { toastAlertWarning, toastAlertSuccess } = useToast();
+
     const divStyle = {
         width: '100%' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '100%'
@@ -76,7 +79,7 @@ export default function CoggleDetail() {
 
     const toggle = (e) => {
         if (userId == '') {
-        alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+        toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
         return;}
         const formData = new FormData();
         formData.append('coggleNo', coggleNo);
@@ -84,7 +87,7 @@ export default function CoggleDetail() {
     
         axios.post('/coggle-likemark-toggle', formData)
         .then((response) => {
-            alert(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.");
+            toastAlertSuccess(response.data.success ? "좋아요 목록에 추가되었습니다." : "좋아요 해제 되었습니다.")
             setIsLikeMarked(response.data.success)
             response.data.success ?  setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount+1}): setCoggle({...coggle, isLikedMarkedCount: coggle.isLikedMarkedCount-1})
 
@@ -97,8 +100,7 @@ export default function CoggleDetail() {
 
     /* func - 삭제 기능 */
     const del = (e) => {
-        alert("삭제 하시겠습니까?");
-
+        toastAlertWarning("삭제 하시겠습니까?")
         const formData = new FormData();
         formData.append('coggleNo', coggleNo);
 
@@ -128,7 +130,7 @@ export default function CoggleDetail() {
     /* 댓글 [저장] - 저장 후 재조회 */
     const submit = () => {
         if (userId == '') {
-            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            toastAlertWarning("댓글을 작성하기 위해서는 로그인을 해주세요.")
             return;
         }
         const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:userId, depth:1}

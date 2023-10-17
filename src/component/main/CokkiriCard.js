@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../button/BookmarkButton.js';
 import axios from "axios";
+import useToast from '../../hook/useToast.js';
 
 export default function CokkiriCard({obj}) {
     const [tooltipOpen, setTooltipOpen] = useState({});
     const toggleTooltip = (recruitNo) => {
         setTooltipOpen({...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo],});
       };
-
+    const {toastAlertWarning, toastAlertSuccess} = useToast();
     const userId = useSelector( (state) => {return state.UserId} );
 
     const [src, setSrc] = useState('/default_profile.png');
@@ -22,7 +23,7 @@ export default function CokkiriCard({obj}) {
     const [isBookmarked, setIsBookmarked] = useState(obj.recruitDto.isBookmarked);
     const toggle = (e) => {
         if (userId == '') {
-            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
             return;}
         const formData = new FormData();
         formData.append('recruitNo', obj.recruitDto.recruitNo);
@@ -30,7 +31,7 @@ export default function CokkiriCard({obj}) {
     
         axios.post('/recruit-bookmark-toggle', formData)
         .then((response) => {
-            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            toastAlertSuccess(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
             setIsBookmarked(response.data.success)
         })
         .catch((error) => {

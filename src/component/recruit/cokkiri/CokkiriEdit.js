@@ -4,6 +4,7 @@ import { useState, createContext, useEffect } from 'react';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ToastEditor from '../../ToastEditor.js'
 import axios from "axios";
+import useToast from '../../../hook/useToast.js';
 
 export const CokkiriEditContext = createContext();
 export default function CokkiriEdit() {
@@ -18,7 +19,7 @@ export default function CokkiriEdit() {
       };
     const navigate = useNavigate();
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const { toastAlertWarning } = useToast();
     const location = useLocation();
     const cokkiriNo = location.state?.cokkiriNo;
     // const { no } = location.state == null ? '' : location.state;
@@ -191,13 +192,13 @@ export default function CokkiriEdit() {
                                     &nbsp;<Button style={{float:'right', width:'80px', height:'38px'}} outline color='secondary' onClick={(e)=>{
                                         // e.preventDefault();
                                         if( recruitCount == '') {
-                                            alert('모집 인원이 입력되지 않았습니다. 모집 인원을 입력해 주세요.');
+                                            toastAlertWarning('모집 인원이 입력되지 않았습니다. 모집 인원을 입력해 주세요.');
                                             return false;
                                         }
                                         /* 5개 이상 등록 불가 */
-                                        if(cokkiri.projectParts.length > 4) {alert('최대 개수 5개를 초과하였습니다.'); return;}
+                                        if(cokkiri.projectParts.length > 4) {toastAlertWarning('최대 개수 5개를 초과하였습니다.'); return;}
                                         /* 중복 불가 - Array.prototype.some() */
-                                        if(cokkiri.projectParts.some(part => part.partNo == partNo)) {alert('이미 추가된 파트입니다. 중복으로 추가할 수 없습니다.'); return;}
+                                        if(cokkiri.projectParts.some(part => part.partNo == partNo)) {toastAlertWarning('이미 추가된 파트입니다. 중복으로 추가할 수 없습니다.'); return;}
                                             /* 화면단 데이터 처리 - 배열을 복사하여 처리한다. - prevCokkiri : 원본 배열  */
                                             let projectPartAdd = {partNo: partNo, partName: partName, recruitCount: recruitCount};
                                             setCokkiri((prevCokkiri) => (

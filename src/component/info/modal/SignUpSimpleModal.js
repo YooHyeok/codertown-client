@@ -228,12 +228,10 @@ export default function SignUpSimpleModal() {
         /* [중복확인] */
         if (name == 'existBtn') {
             if (email.inputEmail == '') {
-                // alert("이메일을 입력해주세요.");
                 toastAlertWarning("이메일을 입력해주세요.")
                 return;
             }
             if (!flag.emailRegFlag) {
-                // alert("사용이 불가능한 이메일입니다. \n안내문구를 확인 하셨다면 양식을 지켜주세요.");
                 toastAlertWarning("사용이 불가능한 이메일입니다. \n안내문구를 확인 하셨다면 양식을 지켜주세요.")
                 return;
             }
@@ -264,8 +262,6 @@ export default function SignUpSimpleModal() {
         /* [(재)발급] */
         if (name == 'sendBtn') {
             if(flag.emailExsitsFlag == true) {
-                // alert("메일 전송요청 완료. \n 입력하신 이메일을 확인해주세요.")
-
                 const formData = new FormData();
                 formData.append('email', email.existsEmail);
                 axios.post('/email-auth' , formData)
@@ -274,13 +270,11 @@ export default function SignUpSimpleModal() {
                     toastAlertSuccess("메일 전송요청 완료. \n 입력하신 이메일을 확인해주세요.")
                 })
                 .catch((error) => {
-                    // alert("메일 전송에 실패했습니다. \n 관리자에게 문의하세요.")
                     toastAlertError("메일 전송에 실패했습니다. \n 관리자에게 문의하세요.")
 
                 })
                 return;
             }
-            // alert("메일 전송 불가능. \n 입력하신 이메일 중복여부를 확인해주세요.")
             toastAlertError("메일 전송 불가능. \n 입력하신 이메일 중복여부를 확인해주세요.")
             setFlag({...flag, emailAuthFlag:false});
         }
@@ -288,18 +282,15 @@ export default function SignUpSimpleModal() {
         /* [인증] */
         if (name == 'authBtn') {
             if( certNumber.inputCertNumber == '' ) {
-                // alert('인증번호를 입력해주세요.');
                 toastAlertWarning('인증번호를 입력해주세요.')
                 return;
             }
             if (email.existsEmail == '') {
-                // alert('인증번호가 발급된 상태에서 인증되기 전 입력하신 이메일이 수정되었습니다. \n 다시한번 수정하신 메일을 중복 확인 하시 후 번호를 발급받아 주세요.');
                 toastAlertWarning('인증번호가 발급된 상태에서 인증되기 전 입력하신 이메일이 수정되었습니다. \n 다시한번 수정하신 메일을 중복 확인 하시 후 번호를 발급받아 주세요.')
 
                 return;
             }
             if (certNumber.inputCertNumber == certNumber.permitCertNumber) {
-                // alert('인증 완료')
                 toastAlertSuccess('인증 완료')
                 setFlag({...flag, emailAuthFlag:true})
                 setEmail({...email, authEmail: email.existsEmail});
@@ -312,7 +303,6 @@ export default function SignUpSimpleModal() {
 
                 return;
             } 
-            // alert('인증번호가 일치하지 않습니다. \n 재 발급을 시도해보세요.')
             toastAlertWarning('인증번호가 일치하지 않습니다. \n 재 발급을 시도해보세요.')
             setFlag({...flag, emailAuthFlag:false});
             return;
@@ -321,43 +311,34 @@ export default function SignUpSimpleModal() {
         /* [가입신청] */
         if (name == 'submit') {
             if (email.inputEmail == '') {
-                // alert("이메일을 입력해 주세요")
                 toastAlertWarning('이메일을 입력해 주세요')
                 return;
             }
             if (!flag.emailRegFlag) {
-                // alert("이메일 양식 불량")
                 toastAlertWarning('이메일 양식 불량')
                 return;
             }
             if (!flag.emailExsitsFlag) {
-                // alert("중복인증 체크")
                 toastAlertWarning('중복인증 체크')
                 return;
             }
             if (!flag.emailAuthFlag) {
-                // alert("인증번호 체크")
                 toastAlertWarning('인증번호 체크')
                 return;
             }
             if (password == '') {
-                // alert("패스워드를 입력해 주세요.")
                 toastAlertWarning('패스워드를 입력해 주세요.')
                 return;
             }
             if (!flag.passwordRegFlag) {
-                // alert("패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.")
                 toastAlertWarning('패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.')
                 return;
             }
             if (passwordChk == '') {
-                // alert("재입력을 입력해 주세요")
                 toastAlertWarning('재입력을 입력해 주세요')
-
                 return;
             } 
             if (!flag.passwordChkFlag) {
-                // alert("패스워드가 일치하지 않습니다.")
                 toastAlertWarning('패스워드가 일치하지 않습니다.')
                 return;
             }

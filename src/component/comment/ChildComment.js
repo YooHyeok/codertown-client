@@ -6,9 +6,11 @@ import { useRef, useState, useEffect } from 'react';
 import { Button } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
+import useToast from '../../hook/useToast.js';
 
 export default function ChildComment({ commentNo, state, coggleNo, coggleWriter, writer, nickname, content, firstRegDate, /* children, */ parentNo, mentionUser, status, commentSearchAxios }) {
-    
+    const { toastAlertWarning } = useToast();
+
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextarea = useRef('');
     const addTextarea = useRef('');
@@ -114,7 +116,7 @@ export default function ChildComment({ commentNo, state, coggleNo, coggleWriter,
     const textAreaShow = (e) => {
         // 비 로그인시 댓글작성 방지
         if (userId == '') {
-            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            toastAlertWarning('댓글을 작성하기 위해서는 로그인을 해주세요.')
             return;
         }
         

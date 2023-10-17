@@ -5,6 +5,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import useToast from "../../../hook/useToast";
 
 export default function TopTabAccordian(props) {
   const [expanded, setExpanded] = useState('panel1');
@@ -12,7 +13,7 @@ export default function TopTabAccordian(props) {
     .filter((project)=> project.partNo !== 1)); */
 
     const [projectPartList, setProjectPartList] = useState([])
-
+    const { toastAlertSuccess, toastAlertError} = useToast();
     useEffect(()=>{
       joinProjectDetail();
     }, [])
@@ -60,7 +61,7 @@ export default function TopTabAccordian(props) {
       formData.append("userProjectNo", obj.userProjectNo)
       axios.post('/project/quit-exit', formData)
       .then((response)=>{
-        alert(isExitOrQuit+' 완료!')
+        toastAlertSuccess(isExitOrQuit+' 완료!')
         if(isExitOrQuit == '하차') {
           document.location.href="/mypage"
           return;
@@ -71,7 +72,7 @@ export default function TopTabAccordian(props) {
         joinProjectDetail();
       })
       .catch((error)=>{
-        alert(isExitOrQuit+' 실패!')
+        toastAlertError(isExitOrQuit+' 실패!')
       })
       return;
     }

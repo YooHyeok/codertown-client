@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import ChildComment from '../comment/ChildComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
 import axios from "axios";
+import useToast from '../../hook/useToast.js';
 
 /**
  * 무한반복 댓글을 위한 재귀호출 컴포넌트
  * @returns 
  */
 export default function ParentComment({ commentNo, state, status, coggleNo,coggleWriter, writer, nickname, content, firstRegDate, children, commentSearchAxios }) {
-    
+    const {  toastAlertWarning } = useToast();
     /* 댓글영역 - TextArea 개행 추가 및 제거 시 영역 확장 축소 */
     const editTextareaRef = useRef('');
     const addTextareaRef = useRef('');
@@ -117,7 +118,7 @@ export default function ParentComment({ commentNo, state, status, coggleNo,coggl
     const textAreaShow = (e) => {
         // 비 로그인시 댓글작성 방지
         if (userId == '') {
-            alert('댓글을 작성하기 위해서는 로그인을 해주세요.')
+            toastAlertWarning('댓글을 작성하기 위해서는 로그인을 해주세요.')
             return;
         }
 

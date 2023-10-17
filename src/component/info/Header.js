@@ -61,19 +61,6 @@ export default function Header() {
 
     const token = useSelector( state=> state.Authorization );
     const userId = useSelector( (state) => {return state.UserId} );
-    
-    const dietLogin = () => {
-        console.log("로그인 정보", token , userId)
-        /* if(token == '' || userId == '') {
-            alert('로그인이 필요한 페이지입니다. \n 로그인 페이지로 이동합니다.');
-            document.location.href = '/login';
-            return;
-        }
-        if(token != '' && userId != '') {
-            document.location.href ='/dietScheduler';
-            return;
-        } */
-    }
 
     return (
             <div className="header" style={style}>

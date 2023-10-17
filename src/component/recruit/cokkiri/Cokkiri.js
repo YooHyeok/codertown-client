@@ -5,6 +5,7 @@ import { Button, FormGroup, InputGroup, Input, Tooltip } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
+import useToast from '../../../hook/useToast';
 
 export default function Cokkiri() {
     const divStyle = {
@@ -18,7 +19,7 @@ export default function Cokkiri() {
     };
 
     const userId = useSelector((state) => { return state.UserId });
-
+    const {toastAlertWarning} = useToast();
     const [tooltipOpen, setTooltipOpen] = useState({});
     const toggleTooltip = (recruitNo) => {
         setTooltipOpen({ ...tooltipOpen, [recruitNo]: !tooltipOpen[recruitNo], });
@@ -156,7 +157,7 @@ export default function Cokkiri() {
             <Button color='secondary' onClick={(e) => {
                 e.preventDefault();
                 if (userId == '') {
-                    alert('글을 작성하기 위해서는 로그인을 해주세요.');
+                    toastAlertWarning('글을 작성하기 위해서는 로그인을 해주세요.');
                     return;
                 }
                 document.location.href = "/cokkiri-write";

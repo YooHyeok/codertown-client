@@ -3,13 +3,13 @@ import { Card, CardBody, CardTitle, CardSubtitle, } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../button/BookmarkButton.js';
 import { useState, useEffect } from "react";
-
+import useToast from '../../hook/useToast.js';
 import axios from "axios";
 
 export default function MammothCard({obj}) {
 
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const {toastAlertWraning, toastAlertSuccess} = useToast();
     const [src, setSrc] = useState('/default_profile.png');
     useEffect(() => {
         setSrc(`data:image/png;base64,${obj.recruitDto.writer.profileUrl}`);
@@ -19,7 +19,7 @@ export default function MammothCard({obj}) {
     const [isBookmarked, setIsBookmarked] = useState(obj.recruitDto.isBookmarked);
     const toggle = (e) => {
         if (userId == '') {
-            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            toastAlertWraning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
             return;}
         const formData = new FormData();
         formData.append('recruitNo', obj.recruitDto.recruitNo);
@@ -27,7 +27,7 @@ export default function MammothCard({obj}) {
     
         axios.post('/recruit-bookmark-toggle', formData)
         .then((response) => {
-            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            toastAlertSuccess(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
             setIsBookmarked(response.data.success)
         })
         .catch((error) => {

@@ -4,7 +4,7 @@ import { Table } from 'reactstrap';
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
+import useToast from '../../../hook/useToast';
 import axios from "axios";
 
 export default function Mammoth() {
@@ -20,7 +20,7 @@ export default function Mammoth() {
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-
+      const {toastAlertWarning} = useToast();
     const [mammothList , setMammothList] = useState([])
     const [articleCount , setArticleCount] = useState('') // 게시글 갯수
     const [pageInfo, setPageInfo] = useState({
@@ -132,7 +132,7 @@ export default function Mammoth() {
                         <Button color='secondary'onClick={(e)=>{
                         e.preventDefault();
                         if(userId == '') {
-                            alert('글을 작성하기 위해서는 로그인을 해주세요.');
+                            toastAlertWarning('글을 작성하기 위해서는 로그인을 해주세요.');
                             return;
                         }
                         document.location.href="/mammoth-write";

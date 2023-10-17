@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+import useToast from "../../../hook/useToast";
   export default function SideTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
     const userId = useSelector( (state) => {return state.UserId} );
@@ -13,7 +13,7 @@ import axios from "axios";
       setExpanded(newExpanded ? panel : false);
     };
     const [userProjectList, setUserProjectList] = useState(props.projectPart.userProjectDtoList)
-
+    const {toastAlertSuccess, toastAlertError} = useToast();
   /**
    * 프로젝트 파트 하차/추방 메서드
    * @param {*} obj 
@@ -26,9 +26,9 @@ import axios from "axios";
       formData.append("userProjectNo", obj.userProjectNo)
       axios.post('/project/quit-exit', formData)
       .then((response)=>{
-        alert(isExitOrQuit+' 완료!')
+        toastAlertSuccess(isExitOrQuit+' 완료!')
         if(isExitOrQuit == '하차') {
-          document.location.href="/mypage"
+          document.location.href="/mypage" //추후 데이터를 다시뿌리는 형태로 가야할것을 고려해봐야함.
           return;
         }
         /* 추방일 경우 해당 요소 제거 */
@@ -37,7 +37,7 @@ import axios from "axios";
         props.joinProjectDetail();
       })
       .catch((error)=>{
-        alert(isExitOrQuit+' 실패!')
+        toastAlertError(isExitOrQuit+' 실패!')
       })
       return;
     }

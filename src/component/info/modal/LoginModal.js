@@ -6,8 +6,10 @@ import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import { type } from '@testing-library/user-event/dist/type';
+import useToast from '../../../hook/useToast.js';
 
 export default function LoginModal() {
+    const { toastAlertWarning, toastAlertError } = useToast();
     const context = useContext(HeaderLoginContext);
     const modalStyle = { 
         width: "320px",
@@ -32,17 +34,17 @@ export default function LoginModal() {
     }
     const submit = async () => {
         if(signInInfo.email == ''){
-            alert('이메일을 입력해주세요');
+            toastAlertWarning('이메일을 입력해주세요')
             return;
         }
         if(signInInfo.password == ''){
-            alert('패스워드를 입력해주세요');
+            toastAlertWarning('패스워드를 입력해주세요')
             return;
         }
         await axios.post('/sign-in', signInInfo)
         .then((response)=>{
             if(response.data.signStatus.code == -1) {
-                alert('입력하신 회원정보가 일치하지 않습니다. \n 회원 정보를 찾으시려면 아래 아이디/패스워드 찾기를 눌러주세요')
+                toastAlertError('입력하신 회원정보가 일치하지 않습니다. \n 회원 정보를 찾으시려면 아래 아이디/패스워드 찾기를 눌러주세요')
                 return;
             }
             if(response.data.signStatus.code == 0) {

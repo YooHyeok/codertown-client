@@ -11,7 +11,7 @@ export default function useToast (msg) {
     const toastAlertWarning = (msg) => toast.warn(msg, {
         position: "top-center",
         autoClose: 5000,
-        // hideProgressBar: false,
+        hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -30,7 +30,7 @@ export default function useToast (msg) {
         });
 
     const toastAlertError = (msg) => toast.error(msg, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

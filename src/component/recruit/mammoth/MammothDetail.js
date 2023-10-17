@@ -5,6 +5,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import BookmarkButton from '../../button/BookmarkButton.js';
+import useToast from '../../../hook/useToast.js';
 
 export default function MammothDetail() {
     const divStyle = {
@@ -17,6 +18,7 @@ export default function MammothDetail() {
         , top: '100'
       };
 
+    const {toastAlertWarning, toastAlertSuccess} = useToast();
     const userId = useSelector( (state) => {return state.UserId} );
     const accessToken = useSelector( (state) => {return state.Authorization} );
     const [src, setSrc] = useState('/default_profile.png')
@@ -79,7 +81,7 @@ export default function MammothDetail() {
     const [isBookmarked, setIsBookmarked] = useState(mammoth.isBookmarked)
     const toggle = (e) => {
         if (userId == '') {
-            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
             return;}
         const formData = new FormData();
         formData.append('recruitNo', mammothNo);
@@ -87,7 +89,7 @@ export default function MammothDetail() {
     
         axios.post('/recruit-bookmark-toggle', formData)
         .then((response) => {
-            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            toastAlertSuccess(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
             setIsBookmarked(response.data.success)
             response.data.success ?  setMammoth({...mammoth, isBookMarkedCount: mammoth.isBookMarkedCount+1}): setMammoth({...mammoth, isBookMarkedCount: mammoth.isBookMarkedCount-1})
            
@@ -155,7 +157,7 @@ export default function MammothDetail() {
                                         {/* <Input type='text' name='link' id='link' value ={mammoth.link} readOnly/> */}
                                         <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={mammoth.link || ''} readOnly onClick={(e)=>{
                                         let link = mammoth.link;
-                                        if(link == null || link == '') {alert('링크가 비어있습니다.'); return;}
+                                        if(link == null || link == '') {toastAlertWarning('링크가 비어있습니다. 이동할 수 없습니다.'); return;}
                                         if(link[0] != 'h')  link = 'http://'+ link;
                                         window.open(link, '_blank')
                                     }

@@ -88,7 +88,7 @@ export default function CokkiriDetail() {
 
     /* func - 삭제 기능 */
     const del = (e) => {
-        alert("삭제 하시겠습니까?");
+        toastAlertWarning("삭제 하시겠습니까?");
 
         const formData = new FormData();
         formData.append('recruitNo', cokkiriNo);
@@ -106,7 +106,7 @@ export default function CokkiriDetail() {
     const [isBookmarked, setIsBookmarked] = useState(cokkiri.isBookmarked)
     const toggle = (e) => {
         if (userId == '') {
-            alert('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+            toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
             return;}
         const formData = new FormData();
         formData.append('recruitNo', cokkiriNo);
@@ -114,7 +114,7 @@ export default function CokkiriDetail() {
     
         axios.post('/recruit-bookmark-toggle', formData)
         .then((response) => {
-            alert(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
+            toastAlertSuccess(response.data.success ? "북마크에 추가되었습니다." : "북마크 해제 되었습니다.");
             setIsBookmarked(response.data.success)
             response.data.success ?  setCokkiri({...cokkiri, isBookMarkedCount: cokkiri.isBookMarkedCount+1}): setCokkiri({...cokkiri, isBookMarkedCount: cokkiri.isBookMarkedCount-1})
            
@@ -124,7 +124,7 @@ export default function CokkiriDetail() {
         })
     }
 
-    const { toastAlertDefault, toastAlertSuccess, toastAlertError } = useToast();
+    const { toastAlertWarning, toastAlertSuccess, toastAlertError } = useToast();
 
     const submit = (e) => {
         confirmAlert({
@@ -215,7 +215,7 @@ export default function CokkiriDetail() {
                                     <Label htmlFor='email' sm={6}>링크</Label>
                                     <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={cokkiri.link} readOnly onClick={(e)=>{
                                         let link = cokkiri.link;
-                                        if(link == null || link == '') {alert('링크가 비어있습니다.'); return;}
+                                        if(link == null || link == '') {toastAlertWarning('링크가 비어있습니다.'); return;}
                                         if(link[0] != 'h')  link = 'http://'+ link;
                                         window.open(link, '_blank')
                                     }
@@ -254,7 +254,7 @@ export default function CokkiriDetail() {
                                 <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
                                     if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
                                         cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
-                                        alert('선택하신 파트는 현재 남은자리가 없습니다.'); 
+                                            toastAlertWarning('선택하신 파트는 현재 남은자리가 없습니다.'); 
                                         return;
                                     }
                                     setPartNo(e.target.value)

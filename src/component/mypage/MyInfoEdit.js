@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { Form, Label, Input, Button, Col, FormGroup, Row } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
-
+import useToast from "../../hook/useToast";
 export default function MyInfoEdit() {
 
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const { toastAlertWarning, toastAlertSuccess, toastAlertError} = useToast();
     const [profileInputValue, setProfileInputValue] = useState({
         originalProfileSrc:'',
         changeProfileSrc: '/profile_default.png',
@@ -277,7 +277,7 @@ export default function MyInfoEdit() {
 
     const submit = () => {
         if (profileInputValue.originalCheckPwd === '') {
-            alert("회원정보 수정시 본인확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
+            toastAlertWarning("회원정보 수정시 본인확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
             return;
         }
         if (    
@@ -286,24 +286,24 @@ export default function MyInfoEdit() {
              && (profileInputValue.changePwd === '')
              && (profileInputValue.changePwdChk === '')
                                                         ) {
-            alert("수정된 내역이 없습니다.")
+            toastAlertWarning("수정된 내역이 없습니다.")
             return;
         }
         if (flag.nicknameRegFlag === false) {
-            alert("닉네임 양식을 맞춰주세요.")
+            toastAlertWarning("닉네임 양식을 맞춰주세요.")
             return;
         }
         if (profileInputValue.changePwd != '') { //비밀번호 란이 비어있지 않다면
             if (!flag.passwordRegFlag) { // 정규표현식 체크
-                alert("패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.")
+                toastAlertWarning("패스워드 조건에 맞지 않습니다. \n 입력란 문구를 확인해주세요.")
                 return;
             }
             if (!flag.passwordChkFlag) { // 정규표현식 체크
                 if (profileInputValue.changePwdChk == '') {
-                    alert("패스워드 수정시 패스워드 확인은 필수입력 입니다.")
+                    toastAlertWarning("패스워드 수정시 패스워드 확인은 필수입력 입니다.")
                     return;
                 } 
-                alert("패스워드 변경값과 확인값이 일치하지 않습니다.")
+                toastAlertWarning("패스워드 변경값과 확인값이 일치하지 않습니다.")
                 return;
             }
         }
@@ -320,7 +320,7 @@ export default function MyInfoEdit() {
             .then(response => {
                 console.log()
                 if(response.data.success == false){
-                    alert("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
+                    toastAlertWarning("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
                     return;
                 }
                 document.location.href='/mypage'
@@ -331,7 +331,7 @@ export default function MyInfoEdit() {
 
     const accountWithdraw = () => {
         if (profileInputValue.originalCheckPwd === '') {
-            alert("회원 탈퇴시 본인 확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
+            toastAlertWarning("회원 탈퇴시 본인 확인을 위해 기존 패스워드를 필수로 입력하셔야 합니다.")
             return;
         }
         if (window.confirm('탈퇴시 개인정보 및 관련 코끼리/맘모스/코글/댓글/채팅방이 삭제되며 복구할수 없게 됩니다.  \n 정말 탈퇴 하시겠습니까?')) {
@@ -342,14 +342,14 @@ export default function MyInfoEdit() {
             .then((response)=>{
                 console.log(response)
                 if(response.data > 0) {
-                    alert("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
+                    toastAlertError("참여 프로젝트가 모집/진행중이라면 탈퇴가 불가능합니다.")
                     return;
                 }
                 axios.post("/change-status-account", formData)
                     .then((response)=>{
                         console.log(response)
                         if(response.data.success == true) {
-                            alert("회원 탈퇴 완료")
+                            toastAlertSuccess("회원 탈퇴 완료")
                         }
                     })
                     .catch((error)=>{
