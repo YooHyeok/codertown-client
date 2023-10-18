@@ -50,7 +50,6 @@ export default function LoginModal() {
             if(response.data.signStatus.code == 0) {
                 dispatch({type:"NEWTOKEN", data: response.data.signInResult.createToken})
                 dispatch({type:"USERID", data: response.data.signInResult.email})
-                dispatch({type:"NICKNAME", data: response.data.signInResult.nickname})
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 1); //현재날짜 + 1 = 하루
                 setCookie('refreshToken', response.data.signInResult.refreshToken, {url:'/',expires})
