@@ -14,15 +14,13 @@ function reducer(currentState, action) {
     if (currentState == undefined) {
         return ({
             Authorization: '',
-            UserId: '',
-            StompClient: ''
+            UserId: ''
         })
     }
     const newState = { ...currentState };
     switch (action.type) {
         case "NEWTOKEN": newState.Authorization = action.data; break;
-        case "USERID": newState.UserId = action.data; break;
-        case "STOMPCLIENT": newState.StompClient = action.data;
+        case "USERID": newState.UserId = action.data; 
     }
     return newState;
 }

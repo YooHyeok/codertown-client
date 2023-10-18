@@ -12,13 +12,7 @@ export default function HeaderDropDownLogout() {
   const accessToken = useSelector(state => state.Authorization);
   const userId = useSelector( (state) => {return state.UserId} );
   const [src, setSrc] = useState('/default_profile.png');
-  useEffect(() => {
-      axios.get(`/profileImage/${userId}`)
-      .then((response)=>{
-          if (response.data == '') setSrc('/default_profile.png')
-          else setSrc(`/profileImage/${userId}`);
-      })
-  }, [])
+
   /**
    * 로컬 스토리지에 링크를 통해 접속했을 경우 1값으로 초기화시킨다.
    */
@@ -33,24 +27,29 @@ export default function HeaderDropDownLogout() {
   const [cookie, setCookie] = useCookies(["refreshToken"]);
 
   useEffect(() => {
-    reqUser();
+      reqUser();
   }, [accessToken]);
 
   const reqUser = async () => {
       try {
-          const res = await axios.post('/userInfo', null, {
-              headers: {"X-AUTH-TOKEN": accessToken},
-              params: {
-                  id: userId
-              }
+          const response = await axios.post('/token-valid-check', null, 
+          {
+              headers: {"X-AUTH-TOKEN": accessToken}
           });
-          // setUser(res.data);
+          if (response.status === 200) { // 토큰이 유효
+            if(response.data.validcode === 200) { // 토큰이 유효하다면 프로필사진 출력
+              axios.get(`/profileImage/${userId}`)
+              .then((response)=>{
+                  if (response.data == '') setSrc('/default_profile.png')
+                  else setSrc(`/profileImage/${userId}`);
+              })
+              return;
+            }
+          }
       } catch (error) {
-          if (error.request.status === 401) {
+          if (error.request.status === 401) { //401 UnAuthorized (인증 만료)
               const rescode = error.response.data.rescode;
-              // console.log(error);
-              // console.log(accessToken + "," + cookie.refreshToken)
-              if (rescode == 100) {
+              if (rescode == 100) { // accesstoken 만료
                   reqToken(accessToken, dispatch, cookie, setCookie);
               }
           }
