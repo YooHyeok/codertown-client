@@ -95,17 +95,25 @@ import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm
                     <thead>
                         <tr>
                             <th>참여자</th>
+                            <th style={{width:'85px', textAlign:'center'}}>상태</th>
                         </tr>
                     </thead>
                     <tbody>
                       {userProjectList.length > 0 && userProjectList.map((obj)=>{
                         return (
                           
-                          <tr key={obj.userProjectNo}>
-                            <td>
+                          <tr key={obj.userProjectNo} >
+                            <td style={{padding:'0.3rem 0.4rem'}}>
                             <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`data:image/png;base64,${obj.userDto.profileUrl}`}/>
-                            <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
-                            {props.myPartNo !== 1 && userId === obj.userDto.email?
+                            <span style={{width:"120px", fontSize:'17px', float:"left"}}>{obj.userDto.nickname}</span>
+                             
+                          </td>
+                          <td style={{padding:'0.3rem 0.3rem', textAlign:'center'}}>
+                                <span style={{fontSize:'17px'}}>{obj.personalStatus === 'JOIN' ? '참여' : obj.personalStatus === 'END' ? '종료': '하차'}</span>
+                                
+                                {obj.personalStatus === 'JOIN' &&
+                                <>
+                                {props.myPartNo !== 1 && userId === obj.userDto.email?
                                 <button style={{display:"block", float:"right"}}
                                 onClick={()=>existOrQuit(obj)}> {'하차'}</button>
                                 : null
@@ -114,16 +122,18 @@ import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm
                                 <button style={{display:"block", float:"right"}}
                                 onClick={()=>existOrQuit(obj)}> {'추방'}</button>
                                 : null
-                                }     
+                                }    
+                                </>
+                                }
                           </td>
                         </tr>
                         );
                       })}
-                      {userProjectList.length <= 0 &&
-                          <tr key={0}>
-                            <td>
+                      {userProjectList.length === 0 &&
+                          <tr key={0} >
+                            <td colSpan={2}>
                               참여자가 없습니다.
-                          </td>
+                            </td>
                         </tr>
                       }
                     </tbody>

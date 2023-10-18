@@ -59,7 +59,7 @@ export default function TopTabAccordian(props) {
     const isExitOrQuit = userId === obj.userDto.email ? '하차' : '추방'
      confirmAlert({
       title: '프로젝트 '+ isExitOrQuit +' 확인',
-      message: '정말 '+isExitOrQuit+' 하시겠습니까?',
+      message: isExitOrQuit+ ' 하시면 다시 참여할 수 없습니다. 정말 '+isExitOrQuit+' 하시겠습니까?',
       buttons: [
         {
           label: "확인",
@@ -104,9 +104,9 @@ export default function TopTabAccordian(props) {
                           projectPart.userProjectDtoList.map((obj)=>{
                             return (
                               <tr key={obj.userProjectNo}>
-                                <td>
-                                <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`data:image/png;base64,${obj.userDto.profileUrl}`}/>
-                                <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
+                                <td style={{padding:'0.4rem 0.4rem'}}>
+                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`data:image/png;base64,${obj.userDto.profileUrl}`}/>
+                                  <span style={{width:"120px", fontSize:'17px', float:"left"}}>{obj.userDto.nickname}</span>
                                 </td>
                               </tr>
                             );
@@ -157,15 +157,16 @@ export default function TopTabAccordian(props) {
           <Typography>
           <Table bordered >
                   <thead>
-                      <tr>
+                      <tr style={{textAlign:'center'}}>
                           <th>파트</th>
                           <th>참여자</th>
+                          <th style={{width:'85px', textAlign:'center'}}>상태</th>
                       </tr>
                   </thead>
                   <tbody>
                     {userProjectTotalSumState === 0 && 
-                    <tr>
-                      <td colSpan={2}>
+                    <tr key={0}>
+                      <td colSpan={3}>
                         참여자가 없습니다.
                       </td>
                     </tr>
@@ -178,20 +179,28 @@ export default function TopTabAccordian(props) {
                           project.userProjectDtoList.map((obj)=>{
                             return (
                               <tr key={obj.userProjectNo}>
-                                <td>{project.partName}</td>
-                                <td>
-                                <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`data:image/png;base64,${obj.userDto.profileUrl}`}/>
-                                <span style={{width:"120px", float:"left"}}>{obj.userDto.nickname}</span>
-                                {props.myPartNo !== 1 && props.myPartNo === project.partNo && userId === obj.userDto.email?
-                                <button style={{display:"block", float:"right"}}
-                                onClick={()=>existOrQuit(obj, project)}> {'하차'}</button>
-                                : null
-                                }
-                                {props.myPartNo === 1 ?
-                                <button style={{display:"block", float:"right"}}
-                                onClick={()=>existOrQuit(obj, project)}> {'추방'}</button>
-                                : null
-                                }     
+                                <td style={{textAlign:'center'}}>{project.partName}</td>
+                                <td style={{padding:'0.3rem 0.4rem'}}>
+                                  <img style={{width:'25px', height:'25px', margin:'0px', borderRadius:'50%', float:"left"}} className="profile" src={`data:image/png;base64,${obj.userDto.profileUrl}`}/>
+                                  <span style={{fontSize:'17px'}}>{obj.userDto.nickname}</span>
+                                </td>
+                                <td style={{padding:'0.3rem 0.3rem', textAlign:'center'}}>
+                                  <span style={{fontSize:'17px'}}>{obj.personalStatus === 'JOIN' ? '참여' : obj.personalStatus === 'END' ? '종료': '하차'}</span>
+                                  
+                                  {obj.personalStatus === 'JOIN' &&
+                                  <>
+                                    {props.myPartNo !== 1 && props.myPartNo === project.partNo && userId === obj.userDto.email?
+                                    <button style={{display:"block", float:"right"}}
+                                    onClick={()=>existOrQuit(obj, project)}> {'하차'}</button>
+                                    : null
+                                    }
+                                    {props.myPartNo === 1 ?
+                                    <button style={{display:"block", float:"right"}}
+                                    onClick={()=>existOrQuit(obj, project)}> {'추방'}</button>
+                                    : null
+                                    }   
+                                    </>
+                                  }
                                 </td>
                               </tr>
                             );
