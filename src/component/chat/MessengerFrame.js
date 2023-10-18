@@ -19,40 +19,7 @@ export default function MessengerFrame() {
   const [newMsgTotalCount, setNewMsgTotalCount] = useState(0);
 
   const userId = useSelector( (state) => {return state.UserId} );
-  const savedClient = useSelector( (state) => {return state.StompClient} );
-  const dispatch = useDispatch();
 
-  const stringifyWithoutCircular = (obj) => {
-    const seen = new WeakSet();
-
-    function reviver(key, value)  {
-      if (typeof value === 'object' && key !== 'client' && value !== null) {
-        if (seen.has(value)) {
-          return;  // Skip circular references
-        }
-        seen.add(value);
-      }
-      return value;
-    }
-    return JSON.stringify(obj, reviver);
-  }
-
-  const parseJSONWithoutCircular = (jsonString) => {
-    const seen = new WeakSet();
-    
-    function reviver(key, value) {
-      if (typeof value === 'object' && value !== null) {
-        if (seen.has(value)) {
-          return;  // Skip circular references
-        }
-        seen.add(value);
-      }
-      return value;
-    }
-  
-    return JSON.parse(jsonString, reviver);
-  }
-  // const [client, setClient] = useState(parseJSONWithoutCircular(sessionStorage.getItem('stompClient')));
   const [client, setClient] = useState(null);
   
 
@@ -72,6 +39,7 @@ export default function MessengerFrame() {
     const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
     const stompClient = Stomp.over(sockJSClient);
       stompClient.connect({}, (frame) => {
+        console.log(stompClient)
           setClient(stompClient);
           if(frame.command == 'CONNECTED') {
             setConnected(true);

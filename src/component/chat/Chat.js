@@ -367,46 +367,45 @@ export default function Chat(props) {
                         </div>
                         {/* 프로젝트 정보 */}
                         <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
-                        <div style={{width:"50px",margin:'10px 0 0 50px', float:'left'}}>
-                            <ul /* id={"Tooltip" + obj.recruitDto.recruitNo} onMouseEnter={() => toggleTooltip(obj.recruitDto.recruitNo)} onMouseLeave={() => toggleTooltip(obj.recruitDto.recruitNo)} */
-                            className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
-                                <li className='main_project_part_list_li'>{chatRoomDetail.chatRoomData.projectPart.partName}</li>
-                            </ul>
-                        </div>
-                        <div style={{width:"250px",marginTop:'8px', float:'left'}}>
-                            {/* 프로젝트 제목 */}
-                            <Link style={{textDecoration:'none', color:'#212529BF'}}>
-                                <b>{chatRoomDetail.chatRoomData.project.projectTitle}</b>
-                            </Link>
-                        </div>
-                        <div style={{position:'relative', width:'57px', float:'right'}}>
-                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm && //룸메이커는 신청자 이므로 신청자가 아닌사람이 수락한다.
-                            <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}
-                                    onClick={()=> {
-                                        confirmAlert({
-                                            title: "참여 요청 수락 확인",
-                                            message: '프로젝트 참여 요청을 수락하시겠습니까?',
-                                            buttons: [
-                                              {
-                                                label: "확인",
-                                                onClick: () => {
-                                                    publishConfirm(chatRoomDetail)
+                            <div style={{ height:'73px', width:"50px", margin:'0 10px 0 30px', float:'left'}}>
+                                <ul className="main_project_part_list_ul" style={{listStyle: 'none', margin:'25px auto', float:'right'}}>
+                                    <li className='main_project_part_list_li'>{chatRoomDetail.chatRoomData.projectPart.partName}</li>
+                                </ul>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center', width:"250px", height:'70px', float:'left'}}>
+                                {/* 프로젝트 제목 */}
+                                <Link to={`/cokkiri-detail/${chatRoomDetail.chatRoomData.cokkiriNo}`} style={{ textDecoration:'none', color:'#212529BF'}}>
+                                    <b>{chatRoomDetail.chatRoomData.project.projectTitle}</b>
+                                </Link>
+                            </div>
+                            <div style={{position:'relative', width:'57px', float:'right'}}>
+                                {!chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm && //룸메이커는 신청자 이므로 신청자가 아닌사람이 수락한다.
+                                <Button size={'sm'} style={{ margin:'20px auto', background:"linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%)"}}
+                                        onClick={()=> {
+                                            confirmAlert({
+                                                title: "참여 요청 수락 확인",
+                                                message: '프로젝트 참여 요청을 수락하시겠습니까?',
+                                                buttons: [
+                                                {
+                                                    label: "확인",
+                                                    onClick: () => {
+                                                        publishConfirm(chatRoomDetail)
+                                                    },
                                                 },
-                                              },
-                                              {
-                                                label: "취소",
-                                                onClick: () => { },
-                                              },
-                                            ],
-                                          });
-                                    }}>수락</Button>}
-                            {chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
-                            <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
-                            {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //팀장에게 보여준다.
-                            <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
-                            {chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //신청자에게 함께 보여준다.
-                            <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>}
-                        </div>
+                                                {
+                                                    label: "취소",
+                                                    onClick: () => { },
+                                                },
+                                                ],
+                                            });
+                                        }}>수락</Button>}
+                                {chatRoomDetail.chatRoomInfo.isRoomMaker && !chatRoomDetail.chatRoomData.isConfirm  && 
+                                <p style={{margin:'10px auto', width:'32px' }}>수락 <br/> 대기</p>}
+                                {!chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //팀장에게 보여준다.
+                                <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>수락 <br/> 완료</p>}
+                                {chatRoomDetail.chatRoomInfo.isRoomMaker && chatRoomDetail.chatRoomData.isConfirm  && //신청자에게 함께 보여준다.
+                                <p style={{margin:'10px auto', width:'32px', color:'rgb(104, 97, 236)' }}>참여 <br/> 완료</p>}
+                            </div>
                     </div>
 
                     {/* 1. 채팅방 대화내용 리스트 영역 */}
