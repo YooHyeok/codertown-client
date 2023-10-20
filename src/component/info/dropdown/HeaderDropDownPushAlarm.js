@@ -89,8 +89,8 @@ export default function HeaderDropDownPushAlarm() {
                               :obj.replyCondition === 'MYMENTION' ? <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap' }}><b>{obj.writerNickname}</b>님이 댓글을 남겼습니다.</span>
                               : <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap' }}><b>{obj.writerNickname}</b>님이 <b>{obj.mentionNickname}</b>님에게 댓글을 남겼습니다.</span>}
                               <div style={{width:'180px'}}>
-                                <div><span style={{textOverflow: 'ellipsis'}}>{obj.commentContent}</span></div>
-                                <div><span style={{textOverflow: 'ellipsis'}}>{obj.coggleTitle}</span></div>
+                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{obj.commentContent}</span></div>
+                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{obj.coggleTitle}</span></div>
                               </div>
                             </div>
                       <div style={{width:'70px', minheight:'75px', heigt:'100%', float:"right"}}>

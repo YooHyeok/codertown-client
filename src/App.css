@@ -236,17 +236,15 @@
   width:317px;
 }
 
-
 /*  */
 .rce-mbox-text {
   white-space: pre-line;
 }
-
+/* 헤더 로고, 메뉴, 채팅 버튼 호버 입체효과*/
 .dm-icon-onoff-button:active {
   transform: translateY(5px) !important;
   box-shadow: 0px 3px 0px 0px rgba(224, 201, 245, 0.651) !important;
 }
-
 .dm-icon-onoff-button,
 .nav-items-1 li,
 .nav-items-2 li,
@@ -289,7 +287,6 @@
     opacity: 0;
   }
 }
-
 .blinking {
   animation: blink 0.5s 3; /* 3회 깜박임 */
 }
@@ -297,4 +294,15 @@
 /* react-confirm-alert */
 .react-confirm-alert-button-group {
   justify-content: end !important;
+}
+
+
+/* mui radio color
+  1. 라디오 체크
+  2. 그룹 라벨
+*/
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked,
+.css-u4tvz2-MuiFormLabel-root.Mui-focused
+{
+  color: rgb(104, 97, 236) !important;
 }
