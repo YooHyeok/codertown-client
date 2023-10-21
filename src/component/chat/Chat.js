@@ -155,14 +155,41 @@ export default function Chat(props) {
                     toastAlertDefault("회원님의 프로젝트 참여 요청이 수락 되었습니다.")
                 });            
             }
-            /* 새로고침시 구독취소 */
-            window.addEventListener('beforeunload',  (e) => {
-                if(!e.persisted && subscribeConnected) {
-                    subscribeConnected.unsubscribe({
-                        "connectedRoomId":chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
-                        "connectedUserEmail":userId,
-                    })
-                }
+            /**
+              * 새로고침시 혹은 로그아웃시 구독취소 */
+            window.addEventListener('beforeunload', async (e) => {
+                if(!e.persisted && subscribeConnected ) { 
+                    e.preventDefault(); // 리로드를 취소
+                    try {
+                        await subscribeConnected.unsubscribe({
+                            "connectedRoomId":chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
+                            "connectedUserEmail":userId,
+                        })
+                    } catch (error) {
+                        alert(error)
+                        
+                    }
+
+                } 
+            });
+            
+            /* 브라우저 종료시 구독 취소 */
+            window.addEventListener('unload', async (e) => {
+
+                if((!e.persisted) && subscribeConnected ) {
+                    e.preventDefault(); // 리로드를 취소
+                    try {
+                        await subscribeConnected.unsubscribe({
+                            "connectedRoomId":chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo,
+                            "connectedUserEmail":userId,
+                        })
+                        window.location.reload(); //브라우저 종료시에 무조건 필요함
+                    } catch (error) {
+                        alert(error)
+                        
+                    }
+
+                } 
             });
 
             // 클리너 함수 등록하여 컴포넌트 언마운트 시 구독 해제
@@ -181,8 +208,9 @@ export default function Chat(props) {
                 }
             };
         }
-    }, [flag.chatRoomFrame, props.client]);
+    }, [flag.chatRoomFrame, props.client, userId]);
 
+    
     /* 스크롤 최 하단.... */
     useEffect(() => {
         if (flag.chatRoomFrame) {

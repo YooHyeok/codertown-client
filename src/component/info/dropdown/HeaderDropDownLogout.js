@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽
 
 export default function HeaderDropDownLogout() {
 
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태를 나타내는 상태 변수
   const accessToken = useSelector(state => state.Authorization);
   const userId = useSelector( (state) => {return state.UserId} );
   const [src, setSrc] = useState('/default_profile.png');
@@ -27,7 +28,9 @@ export default function HeaderDropDownLogout() {
   const [cookie, setCookie] = useCookies(["refreshToken"]);
 
   useEffect(() => {
+    if(accessToken != '') {
       reqUser();
+    }
   }, [accessToken]);
 
   const reqUser = async () => {
@@ -66,7 +69,6 @@ export default function HeaderDropDownLogout() {
   } */
 
   const logout = async (e) => {
-    e.preventDefault();
     try {
       // 비동기 작업 1: 첫 번째 dispatch 작업
       await dispatch({ type: "NEWTOKEN", data: '' });
@@ -75,6 +77,7 @@ export default function HeaderDropDownLogout() {
       // 비동기 작업 3: 세 번째 dispatch 작업
       // 모든 dispatch 작업이 완료된 후에 페이지 리디렉션
       document.location.href = '/';
+      // setIsLoggedIn(false);
     } catch (error) {
       // 에러 처리
       console.error("에러 발생:", error);
@@ -89,7 +92,8 @@ export default function HeaderDropDownLogout() {
       <DropdownMenu>
         <Link to={'/mypage'} onClick={storageTabSet}><DropdownItem style={{ lineHeight: "25px" }} ><b>마이페이지</b></DropdownItem></Link>
         <DropdownItem style={{ lineHeight: "25px" }} divider />
-        <Link onClick={logout}><DropdownItem style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem></Link>
+        {/* <Link onClick={logout}><DropdownItem style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem></Link> */}
+        <DropdownItem onClick={logout} style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );

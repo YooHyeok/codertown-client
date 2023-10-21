@@ -118,8 +118,7 @@ export default function Header() {
                     {/* 로그인 드롭다운 */}
                     <li className="nav-item-dropdown" style={{display:"inline-flex"}}>
                          <HeaderDropDownContext.Provider value={contextValue}>
-                            {token == '' && <HeaderDropDownLogin/> }
-                            {userId != '' && <HeaderDropDownLogout />}
+                            {(token == '' && userId == '') ? <HeaderDropDownLogin/> :<HeaderDropDownLogout /> }
                         </HeaderDropDownContext.Provider>
                     </li>
                 </ul>

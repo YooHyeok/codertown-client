@@ -24,41 +24,43 @@ export default function MessengerFrame() {
   
 
   useEffect(() => {
-    const formData = new FormData();
-    formData.append('loginEmail', userId)
-    /* setInterval(() => {
-      axios.post('/new-message-total-count', formData)
-      .then(response => {
-        setNewMsgTotalCount(response.data)
-      })
-      .catch(error =>{
-      })
-  },1000) */
+    if (userId != '') {
 
-    // Set up the STOMP client
-    const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
-    const stompClient = Stomp.over(sockJSClient);
+      const formData = new FormData();
+      formData.append('loginEmail', userId)
+      /* setInterval(() => {
+        axios.post('/new-message-total-count', formData)
+        .then(response => {
+          setNewMsgTotalCount(response.data)
+        })
+        .catch(error =>{
+        })
+      },1000) */
+      
+      // Set up the STOMP client
+      const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
+      const stompClient = Stomp.over(sockJSClient);
       stompClient.connect({}, (frame) => {
         console.log(stompClient)
           setClient(stompClient);
           if(frame.command == 'CONNECTED') {
             setConnected(true);
           }
-      });
-    /* useEffect 클린업 함수 */
-    return () => {
-        /* 로그아웃시 연결 종료된다. (렌더링 자체가 안되기 때문)*/
+        });
+      }
+        /* useEffect 클린업 함수 */
+        return () => {
+          /* 로그아웃시 연결 종료된다. (렌더링 자체가 안되기 때문)*/
             console.log("연결종료!")
             client?.disconnect(); //연결 종료
-            setConnected(false);
+          setConnected(false);
     };
-
-  }, [])
+  }, [userId])
 
 
 
     return (
-      client != null && <div>
+      <div>
                 {/* 버튼 영역 */}
                 <div ref={chatOpenBtnRef} className="dm-icon-onoff-button" style={dmButtonOnStyle} onClick={(e)=>{
                   setChatFrameOnOff(true)
