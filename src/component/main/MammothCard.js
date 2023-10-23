@@ -57,7 +57,7 @@ export default function MammothCard({obj}) {
                 {/* <CardTitle className="mb-3 text-muted " ><b>외부 링크</b> {'www.naver.com'}</CardTitle> */}
 
                 <div className="studyItem_schedule__3oAnA">
-                    <p className="studyItem_scheduleTitle__1KN_9">모임 위치 | {obj.recruitDto.location}</p>
+                    <p className="studyItem_scheduleTitle__1KN_9">모임 위치 | {obj.recruitDto.location.fullLocation}</p>
                 </div>
                     <ul className="main_project_part_list_ul" style={{width:'240px', listStyle: 'none', margin:'0px', padding: '0'}}>
                         <li className="main_project_part_list_li" style={{color:'coral'}}>{obj.recruitDto.link != '' ? '오픈톡' : 'DM'}</li>
