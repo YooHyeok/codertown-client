@@ -49,7 +49,7 @@ export default function MammothDetail() {
                         link: response.data.link,
                         writer : response.data.writer,
                         nickname: response.data.writer.nickname,
-                        location: response.data.location,
+                        location: response.data.location.fullLocation,
                         views: response.data.views,
                         isBookmarked: response.data.isBookmarked,
                         isBookMarkedCount: response.data.isBookMarkedCount,
@@ -156,7 +156,7 @@ export default function MammothDetail() {
                                         <Input type='text' name='title' id='title' />
                                     </Col> */}
                                     <Col sm={12} >
-                                    <Label htmlFor='password' sm={6}>지역</Label>
+                                    <Label htmlFor='password' sm={6}>모임 위치</Label>
                                         <Input type='text' name='location' id='location' value ={mammoth.location || ''} readOnly/>
                                     </Col>
                                     {/* <Col sm={6}>

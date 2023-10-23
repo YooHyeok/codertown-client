@@ -240,7 +240,7 @@ export default function MammothWrite() {
                         </FormGroup>
                     <FormGroup row >
                         <Col>
-                        <Label htmlFor='location' sm={2}>모임 장소</Label>
+                        <Label htmlFor='location' sm={2}>모임 위치</Label>
                         <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1d-content" id="panel1d-header">
                                 <Input value={mammoth.fullLocation == "전체" ? "": mammoth.fullLocation} onChange={handleChange('panel1')} style={{float:'left', width:"750px"}} type='text' name='location' id='location' placeholder={!expanded ? '우측 화살표를 누른 후 펼쳐진 영역에서 지역을 선택하세요' : mammoth.fullLocation == "전체" ? "지역을 선택하세요" : mammoth.fullLocation} disabled={true}  />
