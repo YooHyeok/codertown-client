@@ -85,16 +85,16 @@ export default function HeaderDropDownPushAlarm() {
                         </div>
                         <div style={{width:'260px', minheight:'75px', float:'right'}}>
                             <div style={{width:'180px', minheight:'75px', float:"left"}}>
-                              {obj.replyCondition === 'MYPOST' ? <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap' }}><b>{obj.writerNickname}</b>님이 댓글을 남겼습니다.</span>
-                              :obj.replyCondition === 'MYMENTION' ? <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap' }}><b>{obj.writerNickname}</b>님이 댓글을 남겼습니다.</span>
-                              : <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap' }}><b>{obj.writerNickname}</b>님이 <b>{obj.mentionNickname}</b>님에게 댓글을 남겼습니다.</span>}
+                              {obj.replyCondition === 'MYPOST' ? <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap', color:'#777777'}}><b style={{color:'#ff5544'}}>{obj.writerNickname}</b>님이 댓글을 남겼습니다.</span>
+                              :obj.replyCondition === 'MYMENTION' ? <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap', color:'#777777'}}><b style={{color:'#f54'}}>{obj.writerNickname}</b>님이 댓글을 남겼습니다.</span>
+                              : <span style={{display:'block', width:'180px', whiteSpace: 'pre-wrap', color:'#777777' }}><b style={{color:'#f54'}}>{obj.writerNickname}</b>님이 <b style={{color:'#f54'}}>{obj.mentionNickname}</b>님에게 댓글을 남겼습니다.</span>}
                               <div style={{width:'180px'}}>
-                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{obj.commentContent}</span></div>
-                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{obj.coggleTitle}</span></div>
+                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis', color:'#777777'}}>{obj.commentContent}</span></div>
+                                <div><span style={{display:'block', maxWidth:'180px', overflow: 'hidden', textOverflow: 'ellipsis', color:'#909090'}}>{obj.coggleTitle}</span></div>
                               </div>
                             </div>
                       <div style={{width:'70px', minheight:'75px', heigt:'100%', float:"right"}}>
-                            <span>{DateUtil.utcToKrYMD(obj.firstRegDate)}</span>
+                            <span style={{color:'#909090'}}>{DateUtil.utcToKrYMD(obj.firstRegDate)}</span>
                       </div>
                       </div>
                       
