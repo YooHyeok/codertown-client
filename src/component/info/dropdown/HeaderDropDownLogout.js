@@ -1,19 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import axios from "axios";
 import {reqToken} from "../../../redux_jwt/RequestToken";
 import {useCookies} from "react-cookie";
 import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-
 export default function HeaderDropDownLogout() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태를 나타내는 상태 변수
   const accessToken = useSelector(state => state.Authorization);
   const userId = useSelector( (state) => {return state.UserId} );
-  const [src, setSrc] = useState('/default_profile.png');
-
+  // const [src, setSrc] = useState('/default_profile.png');
+  const [src, setSrc] = useState(`/profileImage/${userId}`);
   /**
    * 로컬 스토리지에 링크를 통해 접속했을 경우 1값으로 초기화시킨다.
    */
@@ -21,7 +19,6 @@ export default function HeaderDropDownLogout() {
       localStorage.setItem('activeTab', '1');
     };
 
-  const location = useLocation();
   const context = useContext(HeaderDropDownContext);
   const dispatch = useDispatch();
   
@@ -60,28 +57,26 @@ export default function HeaderDropDownLogout() {
 
   }
 
-  /* const logout = (e) => { //토큰값, userId 초기화
-    e.preventDefault();
-    dispatch({ type: "NEWTOKEN", data: '' })
-    dispatch({ type: "USERID", data: '' })
-    dispatch({ type: "NICKNAME", data: '' })
-      document.location.href = '/';
-  } */
+  const submit = (e) => {
+    logout(logoutDispatch);
+  }
 
-  const logout = async (e) => {
+  const logoutDispatch = () => {
+    dispatch({ type: "NEWTOKEN", data: '' });
+    dispatch({ type: "USERID", data: '' });
+  } 
+
+
+  const logout = async (logoutDispatch) => {
     try {
-      // 비동기 작업 1: 첫 번째 dispatch 작업
-      await dispatch({ type: "NEWTOKEN", data: '' });
-      // 비동기 작업 2: 두 번째 dispatch 작업
-      await dispatch({ type: "USERID", data: '' });
-      // 비동기 작업 3: 세 번째 dispatch 작업
-      // 모든 dispatch 작업이 완료된 후에 페이지 리디렉션
-      document.location.href = '/';
-      // setIsLoggedIn(false);
+      await logoutDispatch();
     } catch (error) {
       // 에러 처리
       console.error("에러 발생:", error);
     }
+    //로그아웃 성공 후 메인페이지로 이동
+    document.location.href = '/';
+
   };
 
   return (
@@ -93,7 +88,7 @@ export default function HeaderDropDownLogout() {
         <Link to={'/mypage'} onClick={storageTabSet}><DropdownItem style={{ lineHeight: "25px" }} ><b>마이페이지</b></DropdownItem></Link>
         <DropdownItem style={{ lineHeight: "25px" }} divider />
         {/* <Link onClick={logout}><DropdownItem style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem></Link> */}
-        <DropdownItem onClick={logout} style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem>
+        <DropdownItem onClick={submit} style={{ lineHeight: "25px" }} ><b>로그아웃</b></DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
