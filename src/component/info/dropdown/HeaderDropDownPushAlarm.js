@@ -16,18 +16,8 @@ export default function HeaderDropDownPushAlarm() {
   const userId = useSelector( (state) => {return state.UserId} );
   const navigate = useNavigate();
 
-
-
-
   useEffect(() => {
-    pushAlarmListSearch(1);
     setInterval(() => {
-      pushAlarmListSearch(1);
-    },300000) //5분 주기
-  }, [])
-
-  useEffect(() => {
-    if(context.dropdownOpenPushAlarm === true){
       const formdata = new FormData();
       formdata.append("loginEmail", userId);
       axios.post("/init-new-notify-count", formdata)
@@ -36,34 +26,40 @@ export default function HeaderDropDownPushAlarm() {
         })
         .catch((error)=>{
         })
+    },300000) //5분 주기
+  }, [])
+
+  useEffect(() => {
+    if(context.dropdownOpenPushAlarm === true && page){
+      pushAlarmListSearch(true, 1);
     }
-    
   }, [context.dropdownOpenPushAlarm])
   
   const [page, setPage] = useState(1);
   const [ref, inView] = useInView();
   
   useEffect(() => {
-    if (inView) {
-	  // 실행할 함수
-    console.log(page)
-    pushAlarmListSearch(page);
+    if (inView && page > 1) {
+    pushAlarmListSearch(false, page);
     }
   }, [inView])
 
 
-  const pushAlarmListSearch = (page) => {
+  const pushAlarmListSearch = (init, page) => {
     const formdata = new FormData();
     formdata.append("loginEmail", userId);
     formdata.append("page", page);
     formdata.append("size", 20);
     axios.post("/my-notification-list", formdata)
     .then((response) => {
-      // setPushAlarmList(response.data.notificationDtoList);
-      console.log(response.data)
-      setPushAlarmList(prevPushAlarmList => [...prevPushAlarmList, ...response.data.notificationDtoList]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
       setPage(page+1);
       setNewNotifyCount(response.data.newNotifyCount);
+      if(init) {
+        setPushAlarmList(response.data.notificationDtoList)
+        return;
+      }
+      setPushAlarmList(prevPushAlarmList => [...prevPushAlarmList, ...response.data.notificationDtoList]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
+
     })
     .catch((error)=>{
       console.log(error)
