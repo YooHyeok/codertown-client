@@ -238,6 +238,12 @@ export default function MammothWrite() {
                                 <Input type='text' name='title' id='title' onChange={InputChange} />
                             </Col>
                         </FormGroup>
+                        <FormGroup row >
+                            <Col sm={12}>
+                            <Label htmlFor='link' sm={2}>오픈톡</Label>
+                                <Input type='text' name='link' id='link' onChange={InputChange}/>
+                            </Col>
+                        </FormGroup>
                     <FormGroup row >
                         <Col>
                         <Label htmlFor='location' sm={2}>모임 위치</Label>
@@ -323,12 +329,6 @@ export default function MammothWrite() {
                             </AccordionDetails>
                             </Accordion>
                         </Col>
-                        </FormGroup>
-                        <FormGroup row >
-                            <Col sm={12}>
-                            <Label htmlFor='link' sm={2}>오픈 채팅</Label>
-                                <Input type='text' name='link' id='link' onChange={InputChange}/>
-                            </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label htmlFor='content' sm={11}>내용 (에디터 교체 예정) </Label>

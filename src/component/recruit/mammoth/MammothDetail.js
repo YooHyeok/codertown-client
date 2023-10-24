@@ -168,7 +168,7 @@ export default function MammothDetail() {
                                         <Input type='text' name='objectWeek' id='objectWeek' value ={mammoth.recruitCount} readOnly/>
                                     </Col> */}
                                     <Col sm={12}>
-                                    <Label htmlFor='email' sm={6}>링크</Label>
+                                    <Label htmlFor='email' sm={6}>오픈톡</Label>
                                         {/* <Input type='text' name='link' id='link' value ={mammoth.link} readOnly/> */}
                                         <Input style={{color:"blue", cursor: "pointer", textDecoration: "underline"}} type='text' name='link' id='link' value={mammoth.link || ''} readOnly onClick={(e)=>{
                                         let link = mammoth.link;

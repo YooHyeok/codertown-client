@@ -294,7 +294,7 @@ export default function MammothEdit() {
                         <FormGroup row >
                             <Col sm={12}>
                                 
-                            <Label htmlFor='link' sm={2}>오픈 채팅</Label>
+                            <Label htmlFor='link' sm={2}>오픈톡</Label>
                                 <Input type='text' name='link' id='link' value={mammoth.link} onChange={InputChange}/>
                             </Col>
                         </FormGroup>
