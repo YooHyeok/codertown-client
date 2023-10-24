@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
@@ -6,6 +6,7 @@ import { Lightbulb } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import * as  DateUtil from '../../../util/DateUtil.js'
+import { useInView } from 'react-intersection-observer';
 
 export default function HeaderDropDownPushAlarm() {
   const context = useContext(HeaderDropDownContext);
@@ -15,10 +16,13 @@ export default function HeaderDropDownPushAlarm() {
   const userId = useSelector( (state) => {return state.UserId} );
   const navigate = useNavigate();
 
+
+
+
   useEffect(() => {
-    pushAlarmListSearch();
+    pushAlarmListSearch(1);
     setInterval(() => {
-      pushAlarmListSearch();
+      pushAlarmListSearch(1);
     },300000) //5분 주기
   }, [])
 
@@ -35,18 +39,38 @@ export default function HeaderDropDownPushAlarm() {
     }
     
   }, [context.dropdownOpenPushAlarm])
-  const pushAlarmListSearch = () => {
+  
+  const [page, setPage] = useState(1);
+  const [ref, inView] = useInView();
+  
+  useEffect(() => {
+    if (inView) {
+	  // 실행할 함수
+    console.log(page)
+    pushAlarmListSearch(page);
+    }
+  }, [inView])
+
+
+  const pushAlarmListSearch = (page) => {
     const formdata = new FormData();
     formdata.append("loginEmail", userId);
+    formdata.append("page", page);
+    formdata.append("size", 20);
     axios.post("/my-notification-list", formdata)
     .then((response) => {
-      setPushAlarmList(response.data.notificationDtoList)
-      setNewNotifyCount(response.data.newNotifyCount)
+      // setPushAlarmList(response.data.notificationDtoList);
+      console.log(response.data)
+      setPushAlarmList(prevPushAlarmList => [...prevPushAlarmList, ...response.data.notificationDtoList]); //기존 state배열을 복사한 후 새로운 데이터를 추가하여 state 상태 업데이트
+      setPage(page+1);
+      setNewNotifyCount(response.data.newNotifyCount);
     })
     .catch((error)=>{
-
+      console.log(error)
     })
   }
+
+
   const pushAlarmListRender = () => {
     return(
             pushAlarmList.map((obj, index1) => {
@@ -97,7 +121,6 @@ export default function HeaderDropDownPushAlarm() {
                             <span style={{color:'#909090'}}>{DateUtil.utcToKrYMD(obj.firstRegDate)}</span>
                       </div>
                       </div>
-                      
                   </div>
                 </DropdownItem>
               </div>
@@ -116,14 +139,14 @@ export default function HeaderDropDownPushAlarm() {
             { newNotifyCount }
         </span>
         }
-      <DropdownMenu style={{width:"365px", height:"465px"}}>
+      <DropdownMenu style={{width:"365px", height:"425px", borderRadius:'5px 5px 0 0'}}>
         {/* 드롭다운 헤더 */}
           <DropdownItem style={{ lineHeight: "25px", borderBottom:'1px solid lightgray' }}><b>새 소식</b></DropdownItem>
           {/* 드롭다운 바디 */}
           <div style={{width:"363px", overflow:"auto", height:"380px"}}>
             {pushAlarmListRender()}
+            <div ref={ref} /> {/* infinity 교차시점 */}
           </div>
-          <DropdownItem style={{ lineHeight: "25px", textAlign: 'center', borderTop: '1px solid lightgray'}}><b>더보기 ...</b></DropdownItem>
       </DropdownMenu>
     </Dropdown>
   );
