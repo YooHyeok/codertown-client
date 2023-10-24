@@ -7,7 +7,7 @@ import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'
-import LikeButton from '../button/LikeButton.js';
+import LikeMarkButton from '../button/LikeMarkButton.js';
 import useToast from '../../hook/useToast.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 
@@ -221,7 +221,7 @@ export default function CoggleDetail() {
             <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
                 
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
-                    <div onClick={toggle} ><LikeButton isLikeMarked={isLikeMarked} className='inline' /></div>
+                    <div onClick={toggle} ><LikeMarkButton isLikeMarked={isLikeMarked} className='inline' /></div>
                     &nbsp;{coggle.isLikedMarkedCount}
                 </div>
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>

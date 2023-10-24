@@ -4,7 +4,7 @@ import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import { Table } from 'reactstrap';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-import BookmarkButton from '../../button/BookmarkButton.js';
+import BookMarkButton from '../../button/BookMarkButton.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 // import { toast } from 'react-toastify';
 import useToast from '../../../hook/useToast.js';
@@ -294,7 +294,7 @@ export default function CokkiriDetail() {
             <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
                 
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
-                    <div onClick={toggle} ><BookmarkButton isBookmarked={isBookmarked} /></div>
+                    <div onClick={toggle} ><BookMarkButton isBookmarked={isBookmarked} /></div>
                     &nbsp;{cokkiri.isBookMarkedCount}
                 </div>
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>

@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-import axios from 'axios';
-
-const LikeButton = (props) => {
+const LikeMarkButton = (props) => {
   
   return (
       <svg cursor={'pointer'} stroke="currentColor" fill="currentColor" strokeWidth="0" height="24" width="24" /* onClick={submit} */>
@@ -18,4 +14,4 @@ const LikeButton = (props) => {
   );
 }
 
-export default LikeButton;
+export default LikeMarkButton;

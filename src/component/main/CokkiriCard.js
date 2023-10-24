@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Tooltip, Table } from 'reactstrap';
 import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
-import BookmarkButton from '../button/BookmarkButton.js';
+import BookMarkButton from '../button/BookMarkButton.js';
 import axios from "axios";
 import useToast from '../../hook/useToast.js';
 
@@ -51,7 +51,7 @@ export default function CokkiriCard({obj}) {
                                 </div>
                             </div>
                             <div onClick={toggle} style={{display: 'block', width: '28px', height: '28px', position: 'absolute', top: '20px', right: '20px'}}>
-                                    <BookmarkButton isBookmarked={isBookmarked} className='inline' />
+                                    <BookMarkButton isBookmarked={isBookmarked} className='inline' />
                             </div>
                         </CardSubtitle>
                         {/* 제목 */}
