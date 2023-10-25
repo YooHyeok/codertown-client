@@ -418,7 +418,7 @@ export default function MyInfoEdit() {
             <FormGroup>
                 <Col sm={12}>
                     <Label htmlFor='originalCheckPwd' style={{float:'left'}} >기존 패스워드</Label>
-                    <Input type='passwords' name='originalCheckPwd' id='originalCheckPwd' value={profileInputValue.originalCheckPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
+                    <Input type='password' name='originalCheckPwd' id='originalCheckPwd' value={profileInputValue.originalCheckPwd} placeholder="정보 변경시 본인확인 필수입력" onChange={inputChange} required />
                 </Col>         
             </FormGroup>
             {/* 수정 완료 버튼 */}
