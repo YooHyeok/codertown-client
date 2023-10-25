@@ -33,7 +33,7 @@ export default function CoggleDetail() {
     /* 본문 [수정] - 글번호 파라미터 주소에 노출시키지 않고 history에 담아 처리 */
     const navigate = useNavigate();
     const { coggleNo } = useParams();
-
+      console.log(coggleNo)
     const [coggle, setCoggle] = useState(
         {   
             title: null,
@@ -66,13 +66,12 @@ export default function CoggleDetail() {
             )
             setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
             setIsLikeMarked(response.data.isLikeMarked)
-
         })
         .catch((error) => {
             console.log(error);
         })
         commentSearchAxios(); //댓글 조회
-    },[])
+    },[coggleNo])
 
 
     /* 북마크 토글 */
