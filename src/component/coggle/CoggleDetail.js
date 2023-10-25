@@ -80,7 +80,7 @@ export default function CoggleDetail() {
 
     const toggle = (e) => {
         if (userId == '') {
-        toastAlertWarning('북마크 기능을 이용하시려면 로그인이 필요합니다.');
+        toastAlertWarning('좋아요 기능을 이용하시려면 로그인이 필요합니다.');
         return;}
         const formData = new FormData();
         formData.append('coggleNo', coggleNo);
