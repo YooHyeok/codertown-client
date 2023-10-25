@@ -113,7 +113,7 @@ export default function CoggleDetail() {
 
                     axios.post('/coggle-delete', formData)
                     .then((response)=> {
-                        document.location.href="/coggle";
+                        navigate('/coggle');
                     })
                     .catch((error) => {
                         console.log(error);

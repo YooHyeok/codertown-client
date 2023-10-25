@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
 import { Button, FormGroup, InputGroup, Input, Tooltip } from 'reactstrap';
@@ -8,6 +8,7 @@ import axios from "axios";
 import useToast from '../../../hook/useToast';
 
 export default function Cokkiri() {
+    const navigate = useNavigate();
     const divStyle = {
         width: '1200px'
         , height: '750px'
@@ -160,7 +161,7 @@ export default function Cokkiri() {
                     toastAlertWarning('글을 작성하기 위해서는 로그인을 해주세요.');
                     return;
                 }
-                document.location.href = "/cokkiri-write";
+                navigate("/cokkiri-write")
             }}>글쓰기</Button>
         </div>
         <div style={{ clear: "both", textAlign: "center" }}>

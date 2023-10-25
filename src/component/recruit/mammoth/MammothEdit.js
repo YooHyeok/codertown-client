@@ -214,12 +214,15 @@ export default function MammothEdit() {
         }
     }
 
+    useEffect(()=>{
+        /* 작성중에 로그아웃되면 튕겨낸다 */
+        if(userId == '')
+        document.location.href='/mammoth'
 
-    
+    }, [userId])
 
     /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
     const [reRenderFlag, setReRenderFlag] = useState(false);
-
 
     /**
      * 컴포넌트 리렌더링 후에 axios를 호출한다.
@@ -232,7 +235,7 @@ export default function MammothEdit() {
             // axios 호출
             axios.post('/mammoth-update', mammoth)
             .then((response)=> {
-                document.location.href='/mammoth-detail/'+mammothNo
+                navigate(`/mammoth-detail/${mammothNo}`)
             })
             .catch((error) => {
                 console.log(error);

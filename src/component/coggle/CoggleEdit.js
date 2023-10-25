@@ -59,11 +59,16 @@ export default function CoggleEdit() {
         setCoggle({...coggle, [e.target.name] : e.target.value})
     }
 
+    useEffect(()=>{
+        /* 작성중에 로그아웃되면 튕겨낸다 */
+        if(userId == '')
+        document.location.href='/coggle'
+
+    }, [userId])
 
 
     /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
     const [reRenderFlag, setReRenderFlag] = useState(false);
-
 
     /**
      * 컴포넌트 리렌더링 후에 axios를 호출한다.
@@ -76,7 +81,7 @@ export default function CoggleEdit() {
         // axios 호출
             axios.post('/coggle-update', coggle)
             .then((response)=> {
-                document.location.href='/coggle-detail/'+coggleNo
+                navigate(`/coggle-detail/${coggleNo}`);
             })
             .catch((error) => {
                 console.log(error);

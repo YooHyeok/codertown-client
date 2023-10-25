@@ -70,12 +70,9 @@ export default function TopTabAccordian(props) {
             .then((response)=>{
               toastAlertSuccess(isExitOrQuit+' 완료!')
               if(isExitOrQuit == '하차') {
-                document.location.href="/mypage"
+                joinProjectDetail();
                 return;
               }
-              /* 추방일 경우 해당 요소 제거 */
-              const removeUserProjects = project.userProjectDtoList.filter(userProject => userProject !== obj);
-              setProjectPartList(removeUserProjects)
               joinProjectDetail();
             })
             .catch((error)=>{

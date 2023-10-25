@@ -4,9 +4,12 @@ import { HeaderSignUpContext } from '../dropdown/HeaderDropDownLogin';
 import axios from "axios";
 import useToast from '../../../hook/useToast.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function SignUpSimpleModal() {
-    const { toastAlertDefault, toastAlertWarning, toastAlertSuccess, toastAlertError } = useToast();
+    const { toastAlertDefault, toastAlertWarning, toastAlertSuccess, toastAlertSuccessCallback, toastAlertError } = useToast();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const context = useContext(HeaderSignUpContext);
     const modalStyle = { 
@@ -367,7 +370,9 @@ export default function SignUpSimpleModal() {
         formData.append('profileUrl', profileUrl)
         axios.post("/sign-up", formData)
         .then((response) => {
-            if (response.data.code==0) document.location.href='/'
+            if (response.data.code==0) {
+                toastAlertSuccessCallback("회원가입에 성공했습니다", context.signUpSimpleToggle())
+            }
         })
         .catch((error) => {
             console.log(error)

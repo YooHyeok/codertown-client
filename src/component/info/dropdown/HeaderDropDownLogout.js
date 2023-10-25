@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
 import axios from "axios";
 import {reqToken} from "../../../redux_jwt/RequestToken";
 import {useCookies} from "react-cookie";
 import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 export default function HeaderDropDownLogout() {
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const accessToken = useSelector(state => state.Authorization);
   const userId = useSelector( (state) => {return state.UserId} );
   // const [src, setSrc] = useState('/default_profile.png');
@@ -75,8 +76,8 @@ export default function HeaderDropDownLogout() {
       console.error("에러 발생:", error);
     }
     //로그아웃 성공 후 메인페이지로 이동
-    document.location.href = '/';
-
+    let redirectUrl = location.pathname == '/mypage' ?  '/' : location.pathname;
+    navigate(redirectUrl, true);
   };
 
   return (

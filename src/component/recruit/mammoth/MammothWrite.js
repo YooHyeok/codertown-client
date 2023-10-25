@@ -144,6 +144,7 @@ export default function MammothWrite() {
     }, [])
 
     useEffect(()=>{
+        /* 작성중에 로그아웃되면 튕겨낸다 */
         if(userId == '')
         document.location.href='/mammoth'
 
@@ -189,7 +190,7 @@ export default function MammothWrite() {
         // axios 호출
             axios.post('/mammoth-save', mammoth)
             .then((response)=> {
-                document.location.href='/mammoth'
+                navigate('/mammoth')
             })
             .catch((error) => {
                 console.log(error);

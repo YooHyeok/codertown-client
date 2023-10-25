@@ -6,15 +6,15 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import useToast from "../../../hook/useToast";
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import { Navigate } from "react-router-dom";
 
   export default function SideTabAccordian(props) {
     const [expanded, setExpanded] = useState('panel1');
     const userId = useSelector( (state) => {return state.UserId} );
-
+    const [render, setRender] = useState(false);
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
-    const [userProjectList, setUserProjectList] = useState(props.projectPart.userProjectDtoList)
     const {toastAlertSuccess, toastAlertError} = useToast();
   /**
    * 프로젝트 파트 하차/추방 메서드
@@ -36,13 +36,9 @@ import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm
             .then((response)=>{
               toastAlertSuccess(isExitOrQuit+' 완료!')
               if(isExitOrQuit == '하차') {
-                document.location.href="/mypage" //추후 데이터를 다시뿌리는 형태로 가야할것을 고려해봐야함.
+                props.joinProjectDetail();
                 return;
               }
-              /* 추방일 경우 해당 요소 제거 */
-              const removeUserProjects = userProjectList.filter(userProject => userProject !== obj);
-              setUserProjectList(removeUserProjects)
-              props.joinProjectDetail();
             })
             .catch((error)=>{
               toastAlertError(isExitOrQuit+' 실패!')
@@ -99,7 +95,7 @@ import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm
                         </tr>
                     </thead>
                     <tbody>
-                      {userProjectList.length > 0 && userProjectList.map((obj)=>{
+                      {props.projectPart.userProjectDtoList.length > 0 && props.projectPart.userProjectDtoList.map((obj)=>{
                         return (
                           
                           <tr key={obj.userProjectNo} >
@@ -129,7 +125,7 @@ import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm
                         </tr>
                         );
                       })}
-                      {userProjectList.length === 0 &&
+                      {props.projectPart.userProjectDtoList.length === 0 &&
                           <tr key={0} >
                             <td colSpan={2}>
                               참여자가 없습니다.

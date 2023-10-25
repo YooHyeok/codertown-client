@@ -75,13 +75,20 @@ export default function CoggleWrite() {
         // axios 호출
             axios.post('/coggle-save', coggle)
             .then((response)=> {
-                document.location.href='/coggle'
+                navigate('/coggle');
             })
             .catch((error) => {
                 console.log(error);
             })
         }
     }, [reRenderFlag]);
+
+    useEffect(()=>{
+        /* 작성중에 로그아웃되면 튕겨낸다 */
+        if(userId == '')
+        document.location.href='/coggle'
+
+    }, [userId])
 
     return(
         <div style={divStyle}>

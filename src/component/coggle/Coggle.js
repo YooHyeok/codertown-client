@@ -1,15 +1,15 @@
 
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Table } from 'reactstrap';
 import { Button, FormGroup, InputGroup, Input } from 'reactstrap';
 import { Search } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import useToast from '../../hook/useToast';
-
 import axios from "axios";
 
 export default function Coggle() {
+    const navigate = useNavigate();
     const divStyle = {
         width: '1200px' //캘린더 width 조절을 위해 부모태그에 설정한다.
         , height: '750px'
@@ -144,7 +144,7 @@ export default function Coggle() {
                             toastAlertWarning('글을 작성하기 위해서는 로그인을 해주세요.');
                             return;
                         }
-                        document.location.href="/coggle-write";
+                        navigate('/coggle-write');
                     }}>글쓰기</Button>
                 </div>
                 <div style={{ clear:"both", textAlign:"center"}}>

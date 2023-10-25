@@ -331,7 +331,6 @@ export default function MyInfoEdit() {
                 toastAlertSuccessCallback("회원의 정보가 성공적으로 수정되었습니다!"
                 , () => {
                     document.location.href='/mypage'
-
                 })
                 
             })

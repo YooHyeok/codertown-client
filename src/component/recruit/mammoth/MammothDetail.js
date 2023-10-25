@@ -76,7 +76,7 @@ export default function MammothDetail() {
 
                     axios.post('/recruit-delete', formData)
                     .then((response)=> {
-                        document.location.href="/mammoth";
+                        navigate('/mammoth')
                     })
                     .catch((error) => {
                         console.log(error);

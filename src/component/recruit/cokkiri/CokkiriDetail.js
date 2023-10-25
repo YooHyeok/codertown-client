@@ -100,10 +100,9 @@ export default function CokkiriDetail() {
                 onClick: () => {
                     const formData = new FormData();
                     formData.append('recruitNo', cokkiriNo);
-
                     axios.post('/recruit-delete', formData)
                     .then((response)=> {
-                        document.location.href="/cokkiri";
+                        navigate("/cokkiri")
                     })
                     .catch((error) => {
                         console.log(error);
@@ -265,8 +264,9 @@ export default function CokkiriDetail() {
                                 </FormGroup>
                             </Form>
                         </div>
-                        {(accessToken != '' && userId != cokkiri.writer.email) ?
-                        <div className='project-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
+                        {
+                        <div className='project-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'
+                        , visibility: accessToken != '' && userId != cokkiri.writer.email ? 'visible' : 'hidden'}}>
                                 <select name="" id="mealSelect" value={partNo} onChange={(e)=> {
                                     if (cokkiri.projectParts.find(obj => obj.partNo == e.target.value).recruitCount -
                                         cokkiri.projectParts.find(obj => obj.partNo == e.target.value).currentCount == 0) {
@@ -286,7 +286,7 @@ export default function CokkiriDetail() {
                                 </select>
                                 &nbsp; &nbsp;
                                 <Button color='primary' onClick={submit}>프로젝트 참여 DM 요청</Button>
-                        </div> : <div/>}
+                        </div> }
                         
                     </div>
                 </div>

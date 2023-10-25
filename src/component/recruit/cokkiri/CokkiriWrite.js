@@ -57,6 +57,13 @@ export default function CokkiriWrite() {
         setCokkiri({...cokkiri, [e.target.name] : e.target.value})
     }
 
+    useEffect(()=>{
+        /* 작성중에 로그아웃되면 튕겨낸다 */
+        if(userId == '')
+        document.location.href='/cokkiri'
+
+    }, [userId])
+
     /* 저장 - onclick 이벤트 종료시점 리랜더링 Flag  */
     const [reRenderFlag, setReRenderFlag] = useState(false);
 
@@ -71,7 +78,7 @@ export default function CokkiriWrite() {
         // axios 호출
             axios.post('/cokkiri-save', cokkiri)
             .then((response)=> {
-                document.location.href='/cokkiri'
+                navigate(`/cokkiri`)
             })
             .catch((error) => {
                 console.log(error);

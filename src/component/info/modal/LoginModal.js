@@ -9,7 +9,7 @@ import { type } from '@testing-library/user-event/dist/type';
 import useToast from '../../../hook/useToast.js';
 
 export default function LoginModal() {
-    const { toastAlertWarning, toastAlertError } = useToast();
+    const { toastAlertSuccess, toastAlertSuccessCallback, toastAlertWarning, toastAlertError } = useToast();
     const context = useContext(HeaderLoginContext);
     const modalStyle = { 
         width: "320px",
@@ -53,12 +53,14 @@ export default function LoginModal() {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 1); //현재날짜 + 1 = 하루
                 setCookie('refreshToken', response.data.signInResult.refreshToken, {url:'/',expires})
+                // toastAlertSuccessCallback("로그인에 성공했습니다", context.loginToggle())
+                toastAlertSuccess("로그인에 성공했습니다")
             }
         })
         .catch((error)=>{
             console.log(error)
         })
-        if(userId != undefined && userId != null && userId != '') document.location.href='/'
+        // if(userId != undefined && userId != null && userId != '') document.location.href='/'
     }
     return(
             <Modal isOpen={context.loginShow} toggle={context.loginToggle} style={modalStyle}>
