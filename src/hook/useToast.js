@@ -28,6 +28,17 @@ export default function useToast (msg) {
         progress: undefined,
         theme: "light",
         });
+    const toastAlertSuccessCallback = (msg, callback) => toast.success(msg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        onClose: callback
+        });
 
     const toastAlertError = (msg) => toast.error(msg, {
         position: "top-center",
@@ -40,6 +51,6 @@ export default function useToast (msg) {
         theme: "light",
         });
 
-    return { toastAlertDefault, toastAlertWarning, toastAlertSuccess, toastAlertError };
+    return { toastAlertDefault, toastAlertWarning, toastAlertSuccess, toastAlertSuccessCallback, toastAlertError };
 
 }

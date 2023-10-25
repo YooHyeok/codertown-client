@@ -108,17 +108,16 @@ export default function CoggleDetail() {
               {
                 label: "확인",
                 onClick: () => {
-                    
-        const formData = new FormData();
-        formData.append('coggleNo', coggleNo);
+                    const formData = new FormData();
+                    formData.append('coggleNo', coggleNo);
 
-        axios.post('/coggle-delete', formData)
-        .then((response)=> {
-            document.location.href="/coggle";
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+                    axios.post('/coggle-delete', formData)
+                    .then((response)=> {
+                        document.location.href="/coggle";
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
                 },
               },
               {

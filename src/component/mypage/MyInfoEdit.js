@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토
 import axios from "axios";
 import useToast from "../../hook/useToast";
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import { useNavigate } from 'react-router-dom';
+import { red } from "@mui/material/colors";
+
 
 export default function MyInfoEdit() {
-
+    const navigate = useNavigate();
+    
     const userId = useSelector( (state) => {return state.UserId} );
-    const { toastAlertWarning, toastAlertSuccess, toastAlertError} = useToast();
+    const { toastAlertWarning, toastAlertSuccess, toastAlertSuccessCallback, toastAlertError} = useToast();
     const [profileInputValue, setProfileInputValue] = useState({
         originalProfileSrc:'',
         changeProfileSrc: '/profile_default.png',
@@ -20,7 +24,7 @@ export default function MyInfoEdit() {
         changePwd: '', 
         changePwdChk: ''
     })
-    
+
     /**
      * 컴포넌트 생명주기 Hook
      */
@@ -324,8 +328,12 @@ export default function MyInfoEdit() {
                     toastAlertWarning("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
                     return;
                 }
-                toastAlertSuccess("회원의 정보가 성공적으로 수정되었습니다!")
-                document.location.href='/mypage'
+                toastAlertSuccessCallback("회원의 정보가 성공적으로 수정되었습니다!"
+                , () => {
+                    document.location.href='/mypage'
+
+                })
+                
             })
             .catch(error => {
             })
