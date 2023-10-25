@@ -325,6 +325,7 @@ export default function MyInfoEdit() {
                     toastAlertWarning("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
                     return;
                 }
+                toastAlertSuccess("회원의 정보가 성공적으로 수정되었습니다!")
                 document.location.href='/mypage'
             })
             .catch(error => {
