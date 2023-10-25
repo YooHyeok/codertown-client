@@ -17,7 +17,15 @@ export default function HeaderDropDownPushAlarm() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    pushAlarmCountSearch();
     setInterval(() => {
+      pushAlarmCountSearch();
+    },300000) //5분 주기
+  }, [])
+
+  useEffect(() => {
+    if(context.dropdownOpenPushAlarm === true && page){
+      pushAlarmListSearch(true, 1);
       const formdata = new FormData();
       formdata.append("loginEmail", userId);
       axios.post("/init-new-notify-count", formdata)
@@ -26,12 +34,6 @@ export default function HeaderDropDownPushAlarm() {
         })
         .catch((error)=>{
         })
-    },300000) //5분 주기
-  }, [])
-
-  useEffect(() => {
-    if(context.dropdownOpenPushAlarm === true && page){
-      pushAlarmListSearch(true, 1);
     }
   }, [context.dropdownOpenPushAlarm])
   
@@ -40,9 +42,22 @@ export default function HeaderDropDownPushAlarm() {
   
   useEffect(() => {
     if (inView && page > 1) {
-    pushAlarmListSearch(false, page);
+      pushAlarmListSearch(false, page);
     }
   }, [inView])
+
+  const pushAlarmCountSearch = () => {
+    const formdata = new FormData();
+    formdata.append("loginEmail", userId);
+    axios.post("/my-notification-count", formdata)
+    .then((response) => {
+      setNewNotifyCount(response.data);
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
 
 
   const pushAlarmListSearch = (init, page) => {
@@ -53,7 +68,6 @@ export default function HeaderDropDownPushAlarm() {
     axios.post("/my-notification-list", formdata)
     .then((response) => {
       setPage(page+1);
-      setNewNotifyCount(response.data.newNotifyCount);
       if(init) {
         setPushAlarmList(response.data.notificationDtoList)
         return;

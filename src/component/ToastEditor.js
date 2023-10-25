@@ -78,7 +78,6 @@ export default function ToastEditor({props}) {
     // <div id="editor_margin"  >
     <Editor
       plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-
       ref={editorRef} // DOM 선택용 useRef
       previewStyle="vertical" // 미리보기 스타일 지정
       height="600px" // 에디터 창 높이
