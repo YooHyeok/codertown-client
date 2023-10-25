@@ -1,4 +1,4 @@
-import {TabContent, TabPane, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Row, Col, Input} from 'reactstrap';
+import {TabContent, TabPane, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Row, Col, Input} from 'reactstrap';
 import {useContext, useState} from 'react';
 import { HeaderSignUpContext } from '../dropdown/HeaderDropDownLogin';
 import classnames from 'classnames';

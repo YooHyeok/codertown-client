@@ -1,4 +1,4 @@
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Row, Col, Input} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Row, Col } from 'reactstrap';
 import {useContext} from 'react';
 import { HeaderSignUpContext } from '../dropdown/HeaderDropDownLogin';
 

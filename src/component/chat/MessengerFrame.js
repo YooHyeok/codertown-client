@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Chat from './Chat.js';
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import { useDispatch, useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
+import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import axios from "axios";
 import { CSSTransition } from "react-transition-group";
 

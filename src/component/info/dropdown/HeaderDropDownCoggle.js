@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { HeaderDropDownContext } from "../Header";
-import { PersonCircle } from 'react-bootstrap-icons';
 
 export default function HeaderDropDownCoggle() {
 

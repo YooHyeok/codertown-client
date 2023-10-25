@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Label, Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Box } from '@mui/material';

@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react";
-import { Table } from 'reactstrap';
+import { useState } from "react";
 import PropTypes from 'prop-types';
 /* MUI - Accordion */
-import { ArrowForwardIosSharpIcon } from '@mui/icons-material/ArrowForwardIosSharp';
-import { MuiAccordion, MuiAccordionSummary, MuiAccordionDetails /* MUI - Accordion */
-        , Tabs, Tab, Box, AppBar /* MUI - Tabs */
+import { Tabs, Tab, Box, AppBar /* MUI - Tabs */
         , Typography, useTheme} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';//npm install --save react-swipeable-views --force
 import SideTabPanel from './SideTabPanel.js';
 import TopTabAccordian from './TopTabAccordian.js';
-import axios from "axios";
-
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from "axios";
 import { Viewer } from '@toast-ui/react-editor';
 import _ from 'lodash'; // Lodash 라이브러리
-import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import ParentComment from '../comment/ParentComment.js'
 import * as  DateUtil from '../../util/DateUtil.js'

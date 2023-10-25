@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux'; // redux state값을 읽어온다 토큰값과 userId값을 가져온다.
 import HeaderDropDownLogin from "./dropdown/HeaderDropDownLogin";
 import HeaderDropDownLogout from "./dropdown/HeaderDropDownLogout";
-import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
-import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
+// import HeaderDropDownRecruit from "./dropdown/HeaderDropDownRecruit";
+// import HeaderDropDownCoggle from "./dropdown/HeaderDropDownCoggle";
 import HeaderDropDownPushAlarm from "./dropdown/HeaderDropDownPushAlarm";
 
 export const HeaderDropDownContext = createContext();
