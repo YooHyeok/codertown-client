@@ -41,19 +41,20 @@ export default function MammothDetail() {
              )
 
     useEffect(()=> {
-        axios.get(`/mammoth-detail/${mammothNo}/${userId}`)
-        .then((response)=> {
-            setMammoth({...mammoth,     
-                        title: response.data.title, 
-                        content: response.data.content,
-                        link: response.data.link,
-                        writer : response.data.writer,
-                        nickname: response.data.writer.nickname,
-                        location: response.data.location.fullLocation,
-                        views: response.data.views,
-                        isBookmarked: response.data.isBookmarked,
-                        isBookMarkedCount: response.data.isBookMarkedCount,
-                        }      
+        // axios.get(`/mammoth-detail/${mammothNo}/${userId}`)
+        axios.get(`/mammoth-detail/${mammothNo}/${userId == '' ? null : userId}`)
+            .then((response)=> {
+                setMammoth({...mammoth,     
+                title: response.data.title, 
+                content: response.data.content,
+                link: response.data.link,
+                writer : response.data.writer,
+                nickname: response.data.writer.nickname,
+                location: response.data.location.fullLocation,
+                views: response.data.views,
+                isBookmarked: response.data.isBookmarked,
+                isBookMarkedCount: response.data.isBookMarkedCount,
+                }
             )
             /* 프로필사진 초기화 */
             setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
@@ -183,7 +184,7 @@ export default function MammothDetail() {
                         </div>
                         {(accessToken != '' && userId != mammoth.writer.email) &&
                         <div className='study-dm-btn-gruop' style={{textAlign:'center', margin: '100px auto'}}>
-                            <Button color='primary'>스터디 참여 요청 DM 보내기</Button>
+                            {/* <Button color='primary'>스터디 참여 요청 DM 보내기</Button> */}
                         </div>}
                     </div>
                 </div>
