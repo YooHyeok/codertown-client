@@ -320,7 +320,6 @@ export default function MyInfoEdit() {
         // return;
         axios.post('/user-update', formData)
             .then(response => {
-                console.log()
                 if(response.data.success == false){
                     toastAlertWarning("기존 패스워드가 일치하지 않으므로 수정에 실패하였습니다.")
                     return;

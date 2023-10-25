@@ -274,12 +274,12 @@ export default function SignUpSimpleModal() {
         /* [(재)발급] */
         if (name == 'sendBtn') {
             if(flag.emailExsitsFlag == true) {
+                toastAlertSuccess("메일 전송요청 완료. \n 입력하신 이메일을 확인해주세요.")
                 const formData = new FormData();
                 formData.append('email', email.existsEmail);
                 axios.post('/email-auth' , formData)
                 .then((response) => {
                     setCertNumber({...certNumber, permitCertNumber:response.data})
-                    toastAlertSuccess("메일 전송요청 완료. \n 입력하신 이메일을 확인해주세요.")
                 })
                 .catch((error) => {
                     toastAlertError("메일 전송에 실패했습니다. \n 관리자에게 문의하세요.")
