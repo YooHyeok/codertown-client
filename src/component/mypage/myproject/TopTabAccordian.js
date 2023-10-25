@@ -186,7 +186,7 @@ export default function TopTabAccordian(props) {
                                   
                                   {obj.personalStatus === 'JOIN' &&
                                   <>
-                                    {props.myPartNo !== 1 && props.myPartNo === project.partNo && userId === obj.userDto.email?
+                                    {props.myPartNo !== 1 && userId === obj.userDto.email?
                                     <button style={{display:"block", float:"right"}}
                                     onClick={()=>existOrQuit(obj, project)}> {'하차'}</button>
                                     : null
