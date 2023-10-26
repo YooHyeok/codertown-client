@@ -26,6 +26,7 @@ import MammothEdit from './component/recruit/mammoth/MammothEdit';
 import MessengerFrame from './component/chat/MessengerFrame.js';
 import MyPage from './component/mypage/MyPage';
 import axios from 'axios';
+import Animation from './component/animation/animation';
 
 function App() {
 
@@ -56,6 +57,18 @@ function App() {
       {    console.log("\n%c   \u2022\u2666\ufe0e \u2666\ufe0e\u2022\n%c \u2022\u2666\ufe0e\u2666\ufe0e\u25a0\u25a0\u25a0\u25a0\u2666\ufe0e\u2666\ufe0e\u2022\n%c\u2022\u2666\ufe0e\u25a0\u2666\ufe0e\u2022  \u2022\u2666\ufe0e\u25a0\u2666\ufe0e\u2022\n%c\u2666\ufe0e\u25a0\u25cf      \u25cf\u25a0\u2666\ufe0e\n%c\u25cf\u25a0\u2666\ufe0e \ud83c\udc62  \ud83c\udc62 \u2666\ufe0e\u25a0\u25cf\n%c\u2666\ufe0e\u25a0\u25cf      \u25bc\u25a0\u2666\ufe0e\n%c\u2022\u2666\ufe0e\u25a0\u2666\ufe0e\u2022 \u2022\u25b2\ufe45\u25a0\u2666\ufe0e\n%c \u2022\u2666\ufe0e\u2666\ufe0e\u25a0\u25a0\u25a0\u25a0\u2666\ufe0e\u2666\ufe0e\u2022\n%c   \u2022\u2666\ufe0e \u2666\ufe0e\u2022\n", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#4e5bff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#6a4eff;font-size:14px;line-height:14px;font-familly: monospace;", "color:#6a4eff;font-size:14px;line-height:14px;font-familly: monospace;")}
         <InitScroll />{/* Router를 통해 컴포넌트 전환시 스크롤 초기화 */}
         <Header/>
+        <div style={{
+  // display: 'flex'
+   position: 'fixed' //고정
+  , zIndex: '10'
+  , bottom: "-230px"
+  , left: "30px"
+  , textAlign:'left'
+  , width:'300px'
+  , height: "475px"
+}}>
+          <Animation/>
+        </div>
         { (token!=''&&userId!='' )&& <MessengerFrame/>}
         <Routes>
               <Route exact path='/' element={<Main />} />

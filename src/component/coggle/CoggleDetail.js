@@ -10,6 +10,7 @@ import * as  DateUtil from '../../util/DateUtil.js'
 import LikeMarkButton from '../button/LikeMarkButton.js';
 import useToast from '../../hook/useToast.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
+import Animation from '../animation/animation.js';
 
 export default function CoggleDetail() {
     const { toastAlertWarning, toastAlertSuccess } = useToast();
@@ -61,7 +62,8 @@ export default function CoggleDetail() {
                         content: response.data.content,
                         isLikeMarked: response.data.isLikeMarked,
                         isLikedMarkedCount: response.data.isLikedMarkedCount,
-                        views: response.data.views
+                        views: response.data.views,
+                        status: response.data.status
                         }
             )
             setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
@@ -185,9 +187,18 @@ export default function CoggleDetail() {
             console.log(error);
         })
     }
-    
     return(
         <div style={divStyle}>
+            {coggle.status ?  
+            <div style = {{width:'1200px', height:'275px', margin: '100px auto', borderBottom: '0px solid lightgray'}}>
+                <div style={{width:'300px', margin: '0px auto', display:"flex"}}>
+                    <div>
+                        <h1 style={{width:'300px',margin:"30px auto"}}><b>삭제된 게시글입니다.</b></h1>
+                        <Animation delete={'delete'}/>
+                    </div>
+                </div>
+            </div>: 
+            <>
             <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
                 <div style={{width:'220px', margin: '0px auto', display:"flex"}}>
                     <h1 style={{margin:"30px auto"}}><b>코글</b></h1>
@@ -277,6 +288,10 @@ export default function CoggleDetail() {
                     style={{width:'1060px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                 </div> */}
             </div>
+            </>
+            
+            }
+            
         </div>
         )
 }
