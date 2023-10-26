@@ -8,7 +8,7 @@ import BookMarkButton from '../../button/BookMarkButton.js';
 import { confirmAlert } from "react-confirm-alert"; // npm install react-confirm-alert --save --force
 // import { toast } from 'react-toastify';
 import useToast from '../../../hook/useToast.js';
-
+import Animation from '../../animation/animation.js';
 
 // import _ from 'lodash'; // Lodash 라이브러리
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ export default function CokkiriDetail() {
         , height: '100%'
         , textAlign: 'left'
         , margin: '50px auto'
-        , marginBottom: '0px'
+        , marginBottom: '50px'
         , padding: '30px'
         , top: '100'
       };
@@ -39,6 +39,7 @@ export default function CokkiriDetail() {
             content: '',
             link: '',
             views: 0,
+            status: false,
             isBookmarked: false,
             isBookMarkedCount: 0,
             objectWeek: 0,
@@ -60,6 +61,7 @@ export default function CokkiriDetail() {
                         content: response.data.cokkiriDto.content,
                         link: response.data.cokkiriDto.link,
                         views: response.data.cokkiriDto.views,
+                        status: response.data.cokkiriDto.status,
                         isBookmarked: response.data.cokkiriDto.isBookmarked,
                         isBookMarkedCount: response.data.cokkiriDto.isBookMarkedCount,
                         objectWeek: response.data.projectDto.objectWeek,
@@ -177,7 +179,16 @@ export default function CokkiriDetail() {
 
     return(
         <div style={divStyle}>
-            
+            {cokkiri.status ?  
+            <div style = {{width:'1200px', height:'275px', margin: '100px auto', borderBottom: '0px solid lightgray'}}>
+                <div style={{width:'300px', margin: '0px auto', display:"flex"}}>
+                    <div>
+                        <h1 style={{width:'300px',margin:"30px auto"}}><b>삭제된 게시글입니다.</b></h1>
+                        <Animation delete={'delete'}/>
+                    </div>
+                </div>
+            </div>: 
+            <>
                 <div style = {{width:'1200px', margin: '0px auto', borderBottom: '0px solid lightgray'}}>
                     <div style={{width:'220px', margin: '0px auto', display:"flex"}}>
                         <h1 style={{margin:"30px auto"}}><b>코끼리</b></h1>
@@ -291,7 +302,7 @@ export default function CokkiriDetail() {
                     </div>
                 </div>
             {/* 조회수 & 북마크기능 & 댓글카운트  */}
-            <div style = {{width:'1200px', margin: '0px auto', display:"flex"}}>
+            <div style = {{width:'1200px', margin: '-50px auto', display:"flex"}}>
                 
                 <div style = {{width:'50px', margin: '0px', display:"flex"}}>
                     <div onClick={toggle} ><BookMarkButton isBookmarked={isBookmarked} /></div>
@@ -303,6 +314,7 @@ export default function CokkiriDetail() {
                 </div>
                 
             </div>
+            </>}
         </div>
         )
 }
