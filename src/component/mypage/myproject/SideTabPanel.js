@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Label, Button, Table, FormGroup, InputGroup, Input, } from 'reactstrap';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import { Tabs, Tab, Box } from '@mui/material';
@@ -71,7 +72,7 @@ export default function SideTabPanel(props) {
               flexGrow: 1,
               bgcolor: 'background.paper',
               display: 'flex',
-              height:'465px'
+              height:'557px'
               
           }}
           >

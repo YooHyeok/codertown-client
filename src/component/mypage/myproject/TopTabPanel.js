@@ -82,7 +82,7 @@ export default function TopTabPanel(props) {
             {/* 전체 현황 Accordian컴포넌트 */}
             <TopTabAccordian projectNo={props.projectNo} myPartNo={props.myPartNo}/>
           </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction} style={{height:465}}>
+          <TabPanel value={value} index={1} dir={theme.direction} style={{height:557}}>
             {/* 파트별 현황 SpdePanel컴포넌트 */}
             <SideTabPanel projectNo={props.projectNo} myPartNo={props.myPartNo}/>
           </TabPanel>

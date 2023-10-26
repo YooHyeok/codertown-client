@@ -50,6 +50,10 @@ export default function ParentComment({ commentNo, state, status, coggleNo,coggl
 
     /* 댓글 [저장] */
     const submit = () => {
+        if (addCommentValue == '') {
+            toastAlertWarning("입력란이 비어있습니다. \n 댓글을 저장하기 위해서는 내용을 입력하셔야만 합니다.")
+            return;
+        }
         const saveRequest = {coggleNo:coggleNo, content:addCommentValue, parentNo:commentNo, writer:userId, depth:2, mentionUser: writer.email}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
@@ -65,6 +69,10 @@ export default function ParentComment({ commentNo, state, status, coggleNo,coggl
 
     /* 댓글 [수정] */
     const update = () => {
+        if (editCommentValue == '') {
+            toastAlertWarning("입력란이 비어있습니다. \n 댓글을 수정하기 위해서는 내용을 입력하셔야만 합니다.")
+            return;
+        }
         const updateRequest = {commentNo:commentNo, content:editCommentValue}
         axios.post('/coggle/comment-update',updateRequest)
         .then((response)=>{

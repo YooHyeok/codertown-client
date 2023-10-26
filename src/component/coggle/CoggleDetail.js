@@ -147,6 +147,10 @@ export default function CoggleDetail() {
             toastAlertWarning("댓글을 작성하기 위해서는 로그인을 해주세요.")
             return;
         }
+        if (commentValue == '') {
+            toastAlertWarning("입력란이 비어있습니다. \n 댓글을 저장하기 위해서는 내용을 입력하셔야만 합니다.")
+            return;
+        }
         const saveRequest = {coggleNo:coggleNo, content:commentValue, parentNo:null, writer:userId, depth:1}
         axios.post('/coggle/comment-save',saveRequest)
         .then((response)=>{
