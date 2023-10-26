@@ -330,7 +330,18 @@ export default function Chat(props) {
 
                                     return (
                                     <div style={{width:'448px', borderBottom:'1px solid lightgray', height:'73px', backgroundColor:'white'}}>
-                                        <div style={{minWidth:'390px', float:'left'}}>
+                                        <div style={{minWidth:'447px', float:'left'}}>
+                                        <ChatItem 
+                                            onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
+                                            // avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.userDto.email !== userId)[0].profileUrl}`} 
+                                            avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.userDto.email != userId)[0].userDto.profileUrl}`} 
+                                            // title={obj.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                            title={obj.chatRoom.chatUserList.filter(obj => obj.userDto.email != userId)[0].userDto.nickname}
+                                            subtitle={obj.chatRoom.lastChatMessage == null ? '파트신청 대화 신청':obj.chatRoom.lastChatMessage}
+                                            date={obj.chatRoom.lastChatMessageDate == null ? new Date(obj.chatRoom.lastChatMessageDate):new Date(obj.chatRoom.lastChatMessageDate)} 
+                                            unread={obj.newMsgCount}/>
+                                        </div>
+                                        {/* <div style={{minWidth:'390px', float:'left'}}>
                                         <ChatItem 
                                             onClick={(e)=>{setChatFrameOnOff(false); chatDetail(e, obj); handleChange(e, 1)}}
                                             // avatar={`data:image/png;base64,${obj.chatRoom.chatUserList.filter(obj => obj.userDto.email !== userId)[0].profileUrl}`} 
@@ -343,7 +354,7 @@ export default function Chat(props) {
                                         </div>
                                         <div style={{position:'relative', width:'57px', float:'right'}}>
                                         <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     )
                                 }))
@@ -378,7 +389,19 @@ export default function Chat(props) {
                                 handleChange(e, 0)
                             }} 
                             style={{float:'left', margin: "20px auto", width:"30px", height:"30px", cursor:'pointer'}}/>
-                        <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
+                        <div className="chat-into-header" style={{ width:'417px', float:'left'}}>
+                            <ChatItem
+                                // avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
+                                // title={(isConnectedFriend ? '🟢' : '🔴')  + chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
+                                avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.userDto.email != userId)[0].userDto.profileUrl}`}
+                                title={(isConnectedFriend ? '🟢' : '🔴')  + chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.userDto.email != userId)[0].userDto.nickname}
+                                // subtitle={chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage == null ? '파트신청 대화 요청':chatRoomDetail.chatRoomInfo.chatRoom.lastChatMessage}
+                                date={new Date()}
+                                unread={0}
+                            />
+                        </div>
+
+                        {/* <div className="chat-into-header" style={{ width:'360px', float:'left'}}>
                             <ChatItem
                                 // avatar={`data:image/png;base64,${chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].profileUrl}`}
                                 // title={(isConnectedFriend ? '🟢' : '🔴')  + chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.email !== userId)[0].nickname}
@@ -391,7 +414,7 @@ export default function Chat(props) {
                         </div>
                         <div style={{position:'relative', width:'57px', float:'right'}}>
                             <Button size={'sm'} color='danger' style={{ margin:'20px auto', }}>퇴장</Button>
-                        </div>
+                        </div> */}
                         </div>
                         {/* 프로젝트 정보 */}
                         <div style={{width:'448px', height:'73px', backgroundColor:'white', borderBottom : "1px solid lightgray"}}>
