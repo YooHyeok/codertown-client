@@ -41,7 +41,6 @@ export default function MessengerFrame() {
       const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
       const stompClient = Stomp.over(sockJSClient);
       stompClient.connect({}, (frame) => {
-        console.log(stompClient)
           setClient(stompClient);
           if(frame.command == 'CONNECTED') {
             setConnected(true);

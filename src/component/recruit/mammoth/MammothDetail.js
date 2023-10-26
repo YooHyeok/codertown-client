@@ -153,7 +153,7 @@ export default function MammothDetail() {
                     </div>
                 </div>
                 {/* 글 내용 */}
-                <div style={{clear:'both', display:'flex',width:'1200px', height:'100%', margin :'0px auto'}}>
+                <div style={{clear:'both', display:'flex',width:'1200px', minHeight:'575px', height:'100%', margin :'0px auto'}}>
                     {/* 토스트 뷰어 영역 */}
                     <div style={{ width: '725px', minHeight:'450px', fontSize: '16px', border: '0px soild lightgray'}}>
                         <Viewer initialValue={mammoth.content} key={mammoth.content}/>

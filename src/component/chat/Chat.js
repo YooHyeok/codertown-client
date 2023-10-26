@@ -116,7 +116,6 @@ export default function Chat(props) {
         // let isConnected = false;
         if (flag.chatRoomFrame && props.client) {
             chatMessageListSearch();
-            console.log(props.client)
             let friend = chatRoomDetail.chatRoomInfo.chatRoom.chatUserList.filter(obj => obj.userDto.email != userId)[0].userDto.email
             const subscribeConnected = props.client.subscribe(`/connected/room.${chatRoomDetail.chatRoomInfo.chatRoom.chatRoomNo}/user.${friend}`, function (e) {
                 //e.body에 전송된 data가 들어있다
