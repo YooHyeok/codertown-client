@@ -15,7 +15,7 @@ export default function MyInfoEdit() {
     const { toastAlertWarning, toastAlertSuccess, toastAlertSuccessCallback, toastAlertError} = useToast();
     const [profileInputValue, setProfileInputValue] = useState({
         originalProfileSrc:'',
-        changeProfileSrc: '/profile_default.png',
+        changeProfileSrc: '/default-profile.png',
 
         originNickname: '', 
         changeNickname: '', 
