@@ -28,14 +28,14 @@ export default function MessengerFrame() {
 
       const formData = new FormData();
       formData.append('loginEmail', userId)
-      /* setInterval(() => {
+      setInterval(() => {
         axios.post('/new-message-total-count', formData)
         .then(response => {
           setNewMsgTotalCount(response.data)
         })
         .catch(error =>{
         })
-      },1000) */
+      },1000)
       
       // Set up the STOMP client
       const sockJSClient = new SockJS('/ws'); // Proxy설정으로 인해 http://localhost:8080 생략
