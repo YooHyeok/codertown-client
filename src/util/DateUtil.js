@@ -20,7 +20,7 @@ export const utcToKrFull = (date) => {
         { value: minute },, 
         { value: dayPeriod }
     ] = new Intl.DateTimeFormat('en-US', options).formatToParts(new Date(date));
-    return `${year}-${month}-${day}, ${hour}:${minute} ${dayPeriod}`;
+    return `${year}-${month}-${day} / ${hour}:${minute} ${dayPeriod}`;
 }
 
 export const utcToKrYMD = (date) => {
