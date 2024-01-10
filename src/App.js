@@ -25,7 +25,6 @@ import MammothWrite from './component/recruit/mammoth/MammothWrite';
 import MammothEdit from './component/recruit/mammoth/MammothEdit';
 import MessengerFrame from './component/chat/MessengerFrame.js';
 import MyPage from './component/mypage/MyPage';
-import axios from 'axios';
 import SideAnimation from './component/info/SideAnimation';
 
 function App() {
@@ -60,20 +59,20 @@ function App() {
         <SideAnimation/>
         { (token!=''&&userId!='' )&& <MessengerFrame/>}
         <Routes>
-              <Route exact path='/' element={<Main />} />
-              <Route exact path='/coggle' element={<Coggle />} />
-              <Route exact path='/coggle-write' element={<CoggleWrite />} />
-              <Route exact path='/coggle-detail/:coggleNo' element={<CoggleDetail />} />
-              <Route exact path='/coggle-edit' element={<CoggleEdit />} />
-              <Route exact path='/cokkiri' element={<Cokkiri />} />
-              <Route exact path='/cokkiri-write' element={<CokkiriWrite />} />
-              <Route exact path='/cokkiri-detail/:cokkiriNo' element={<CokkiriDetail />} />
-              <Route exact path='/cokkiri-edit' element={<CokkiriEdit />} />
-              <Route exact path='/mammoth' element={<Mammoth />} />
-              <Route exact path='/mammoth-write' element={<MammothWrite />} />
-              <Route exact path='/mammoth-detail/:mammothNo' element={<MammothDetail />} />
-              <Route exact path='/mammoth-edit' element={<MammothEdit />} />
-              <Route exact path='/mypage' element={<MyPage />} />
+              <Route path='/' element={<Main />} />
+              <Route path='/coggle' element={<Coggle />} />
+              <Route path='/coggle-write' element={<CoggleWrite />} />
+              <Route path='/coggle-detail/:coggleNo' element={<CoggleDetail />} />
+              <Route path='/coggle-edit' element={<CoggleEdit />} />
+              <Route path='/cokkiri' element={<Cokkiri />} />
+              <Route path='/cokkiri-write' element={<CokkiriWrite />} />
+              <Route path='/cokkiri-detail/:cokkiriNo' element={<CokkiriDetail />} />
+              <Route path='/cokkiri-edit' element={<CokkiriEdit />} />
+              <Route path='/mammoth' element={<Mammoth />} />
+              <Route path='/mammoth-write' element={<MammothWrite />} />
+              <Route path='/mammoth-detail/:mammothNo' element={<MammothDetail />} />
+              <Route path='/mammoth-edit' element={<MammothEdit />} />
+              <Route path='/mypage' element={<MyPage />} />
         </Routes>
         <Footer/>
       </BrowserRouter>
