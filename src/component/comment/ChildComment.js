@@ -171,7 +171,7 @@ export default function ChildComment({ commentNo, state, coggleNo, coggleWriter,
         editTextarea.current.style.height = '55px';
         editTextarea.current.value = content;
     }
-    const processedContent = content.replace(/\n/g, '<br>');
+    const processedContent = content.replaceAll('<','&lt').replaceAll('>','&gt').replace(/\n/g, '<br>');
     return (
         <div>
         <div div ref={commentRef} id={commentNo}
