@@ -24,7 +24,7 @@ export default function MessengerFrame() {
   
 
   useEffect(() => {
-    if (userId != '') {
+    if (userId != '' && chatFrameOnOff != true) {
 
       const formData = new FormData();
       formData.append('loginEmail', userId)
