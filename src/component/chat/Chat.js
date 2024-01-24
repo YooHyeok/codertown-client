@@ -80,7 +80,7 @@ export default function Chat(props) {
             /* 5초에 한번씩 채팅 조회 */
             intervalId = setInterval(() => {
                     chatRoomListSearch();
-                },1000)
+                },5000)
         }
 
         /* useEffect 클린업 함수 호출 */
