@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
-import { type } from '@testing-library/user-event/dist/type';
 import useToast from '../../../hook/useToast.js';
 
 export default function LoginModal() {
