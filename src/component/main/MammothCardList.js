@@ -14,7 +14,7 @@ export default function MammothCardList() {
      * @param {} page : 선택된 페이지 정보 파라미터
      */
     const serverRequest = (page, keyword) => {
-        axios.get(`/recruit?page=${page}&size=${20}&dType=Mammoth&keyword=${keyword}&loginId=${userId}`)
+        axios.get(`/recruit?page=${page}&size=${20}&dType=Mammoth&keyword=${keyword}&loginId=${userId}&url=${'main'}`)
         .then((response)=> {
             setMammothCardList(response.data.recruitList)
         })
