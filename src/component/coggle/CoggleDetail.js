@@ -272,17 +272,17 @@ export default function CoggleDetail() {
                 })} 
                 {/* 최상위 댓글 입력 영역 */}
                 <div style={{display:'block', width:'1100px', minHeight:'130px', margin:"30px auto", border: '0.1px solid lightgray'}}>
-                        <div style={{paddingBottom:'30px'}}>
-                            <div>
-                                <textarea ref={textarea} value={commentValue} onChange={textAreaInputChange}
-                                style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden',  border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
-                            </div>
-                            <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
-                                <Button outline size={'sm'} onClick={cancel}>취소</Button> &nbsp;
-                                <Button outline size={'sm'} onClick={submit}>저장</Button>
-                            </div>
+                    <div style={{paddingBottom:'30px'}}>
+                        <div style={{minHeight: '80px', marginBottom: '20px'}}>
+                            <textarea ref={textarea} value={commentValue} onChange={textAreaInputChange}
+                            style={{display:'inline', width:'1058px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden',  border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
+                        </div>
+                        <div style={{float:'right', margin:'-16px 17px 0px 0px', paddingBottom:'10px'}}>
+                            <Button outline size={'sm'} onClick={cancel}>취소</Button> &nbsp;
+                            <Button outline size={'sm'} onClick={submit}>저장</Button>
                         </div>
                     </div>
+                </div>
                 {/* <div style={{width:'1100px', margin:"30px auto", border: '0.1px solid lightgray'}}>
                     <textarea ref={textarea} onChange={handleResizeHeight}
                     style={{width:'1060px', margin:"20px", border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>

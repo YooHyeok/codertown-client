@@ -205,7 +205,7 @@ export default function ChildComment({ commentNo, state, coggleNo, coggleWriter,
                     {/* 하위 댓글 추가 입력 영역 */}
                     <div ref={textAddDiv} style={{display:'none', width:'1050px', minHeight:'130px', margin:"0px auto", border: '0.1px solid lightgray'}}>
                         <div style={{paddingBottom:'30px'}}>
-                            <div>
+                            <div style={{height: '80px', marginBottom: '20px'}}>
                                 <textarea ref={addTextarea} name="addTextarea" value={addCommentValue} onChange={textAreaInputChange}
                                 style={{display:'inline', width:'1008px', heigt:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                             </div>
@@ -219,7 +219,7 @@ export default function ChildComment({ commentNo, state, coggleNo, coggleWriter,
                 {/* 하위댓글 수정 입력 영역 */}
                 <div ref={textEditDiv} style={{display:'none', width:'1000px', minHeight:'130px', margin:"0px auto", marginLeft:'50px', border: '0.1px solid lightgray'}}>
                     <div style={{paddingBottom:'30px'}}>
-                        <div>
+                        <div style={{height: '80px', marginBottom: '20px'}}>
                             <textarea ref={editTextarea} name="editTextarea" value={editCommentValue} onChange={textAreaInputChange}
                             style={{display:'inline', width:'958px', height:'55px', margin:"20px", resize: 'none', outlineStyle:'none', overflow:'hidden', border: '0.1px solid lightgray'}} placeholder='댓글 내용을 입력하세요'/>
                         </div>
