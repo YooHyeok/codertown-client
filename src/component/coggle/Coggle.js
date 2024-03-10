@@ -94,7 +94,7 @@ export default function Coggle() {
                     <div style={{width:"894px"}}>
                         <FormGroup style={{float:"right", paddingTop: "40px"}}>
                             <InputGroup size="s">
-                                <Input type="text" onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
+                                <Input type="text" onKeyDown={(e)=>{ if(e.key=="Enter") serverRequest(1, category, keyword);} } onChange={inputChange} placeholder='검색어를 입력하세요' style={{boxShadow: 'none', width:"200px", display: "inline-block"}} />
                                 <Button outline className="d-flex align-items-center" onClick={(e)=>{serverRequest(1, category, keyword);}} color="secondary" style={{width:"38px", border:"0.1px solid lightgray"}}>
                                     <Search className="ml-auto" style={{margin: '0 -3px 0 -2px', fontSize: '1.5rem' }}/>
                                 </Button>
