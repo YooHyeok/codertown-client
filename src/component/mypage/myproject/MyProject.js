@@ -167,7 +167,8 @@ export default function MyProject() {
                 <tbody style={{overflow:"auto"}}>
                     { projectList.map((obj, i) => {
                         return (
-                            <tr key={obj.partDto.partNo}>
+                            // <tr key={obj.partDto.partNo}>
+                            <tr key={i}>
                                 <td>{obj.projectDto.projectNo}</td>
                                 {/* <td>{obj.partDto.partNo === 1 ? "팀장" : "팀원"}</td> */}
                                 <td>{obj.partDto.partNmae}</td>
