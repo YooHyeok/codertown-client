@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { HeaderDropDownContext } from "../Header";
 import { PersonCircle } from 'react-bootstrap-icons';
@@ -6,9 +6,12 @@ import LoginModal from '../modal/LoginModal';
 import SignUpModal from '../modal/SignUpModal';
 import SignUpSimpleModal from '../modal/SignUpSimpleModal';
 import FindUserModal from '../modal/FindUserModal';
+import SignUpSocialModal from '../modal/SignUpSocialModal';
 
 export const HeaderLoginContext = createContext();
 export const HeaderSignUpContext = createContext();
+export const SignUpSocialContext = createContext();
+
 export default function HeaderDropDownLogin() {
 
 
@@ -31,11 +34,17 @@ export default function HeaderDropDownLogin() {
     setSignUpSimpleShow(!signUpSimpleShow)
   }
 
-    /* 아이디/패스워드 찾기 모달 */
-    const [findUserShow, setFindUserShow] = useState(false);
-    const findUserToggle = () => {
-      setFindUserShow(!findUserShow)
-    }
+  /* 아이디/패스워드 찾기 모달 */
+  const [findUserShow, setFindUserShow] = useState(false);
+  const findUserToggle = () => {
+    setFindUserShow(!findUserShow)
+  }
+
+  /* 소셜 회원가입 모달 */
+  const [signUpSocialShow, setSignUpSocialShow] = useState(false);
+  const signUpSocialToggle = () => {
+    setSignUpSocialShow(!signUpSocialShow)
+  }
 
   /* 로그인/회원가입 Context */
   const signUpInContext = {//user와 set함수를 함께 넘긴다.
@@ -47,7 +56,12 @@ export default function HeaderDropDownLogin() {
     , signUpSimpleToggle: signUpSimpleToggle.bind(this)
     , findUserShow: findUserShow
     , findUserToggle: findUserToggle.bind(this)
+    , signUpSocialShow: signUpSocialShow
+    , signUpSocialToggle: signUpSocialToggle.bind(this)
   }
+
+
+
 
   return (
     <Dropdown id="ok" isOpen={context.dropdownOpenLogin} fade="true" toggle={context.toggleLogin}>
@@ -83,6 +97,10 @@ export default function HeaderDropDownLogin() {
         <FindUserModal />
       </HeaderSignUpContext.Provider>
       }
+      {/* Social 회원가입 모달 */}
+      {signUpSocialShow && <SignUpSocialContext.Provider value={signUpInContext}>
+        <SignUpSocialModal/>
+      </SignUpSocialContext.Provider>}
     </Dropdown>
   );
 }
