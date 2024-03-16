@@ -58,7 +58,9 @@ export default function MammothDetail() {
                 }
             )
             /* 프로필사진 초기화 */
-            setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
+            if (response.data.writer.profileUrl == '' || response.data.writer.profileUrl == null) setSrc('/default_profile.png')
+            else setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
+            /* 북마크 초기화 */
             setIsBookmarked(response.data.isBookmarked)
         })
     },[])

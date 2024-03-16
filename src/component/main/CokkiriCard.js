@@ -16,7 +16,8 @@ export default function CokkiriCard({obj}) {
 
     const [src, setSrc] = useState('/default_profile.png');
     useEffect(() => {
-        setSrc(`data:image/png;base64,${obj.recruitDto.writer.profileUrl}`);
+        if (obj.recruitDto.writer.profileUrl == '' || obj.recruitDto.writer.profileUrl == null) setSrc('/default_profile.png')
+        else setSrc(`data:image/png;base64,${obj.recruitDto.writer.profileUrl}`);        
     }, [])
     
     /* 북마크 토글 */

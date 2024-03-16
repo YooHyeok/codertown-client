@@ -34,12 +34,13 @@ export default function MyInfoEdit() {
         formData.append('loginEmail', userId)
         axios.post('/user-info', formData)
         .then(response => {
+            console.log(response.data.profileUrl)
             setProfileInputValue({
                 ...profileInputValue, 
                 originNickname:response.data.nickname, 
                 changeNickname:response.data.nickname, 
-                originalProfileSrc:`data:image/png;base64,${response.data.profileUrl}`,
-                changeProfileSrc:`data:image/png;base64,${response.data.profileUrl}`
+                originalProfileSrc: response.data.profileUrl == null || response.data.profileUrl == '' ? `/default_profile.png` :`data:image/png;base64,${response.data.profileUrl}`,
+                changeProfileSrc: response.data.profileUrl == null || response.data.profileUrl == '' ? `/default_profile.png` :`data:image/png;base64,${response.data.profileUrl}`
             })
         })
         .catch(error =>{

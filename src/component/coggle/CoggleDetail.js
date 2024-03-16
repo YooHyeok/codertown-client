@@ -66,7 +66,8 @@ export default function CoggleDetail() {
                         status: response.data.status
                         }
             )
-            setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
+            if (response.data.writer.profileUrl == '' || response.data.writer.profileUrl == null) setSrc('/default_profile.png')
+            else setSrc(`data:image/png;base64,${response.data.writer.profileUrl}`)
             setIsLikeMarked(response.data.isLikeMarked)
         })
         .catch((error) => {

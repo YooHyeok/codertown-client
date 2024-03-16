@@ -23,7 +23,7 @@ export default function ChildComment({ commentNo, state, coggleNo, coggleWriter,
     const [editCommentValue, setEditCommentValue] = useState(content);
 
     const userId = useSelector( (state) => {return state.UserId} );
-    const [src, setSrc] = useState(`data:image/png;base64,${writer.profileUrl}`);
+    const [src, setSrc] = useState(writer.profileUrl == null || writer.profileUrl == '' ? `/default_profile.png` : `data:image/png;base64,${writer.profileUrl}`);
     
     const commentRef = useRef('');
     const [blinking, setBlinking] = useState(false);

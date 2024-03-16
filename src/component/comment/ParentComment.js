@@ -25,7 +25,7 @@ export default function ParentComment({ commentNo, state, status, coggleNo,coggl
 
     const userId = useSelector( (state) => {return state.UserId} );
 
-    const [src, setSrc] = useState(`data:image/png;base64,${writer.profileUrl}`);
+    const [src, setSrc] = useState(writer.profileUrl == null || writer.profileUrl == '' ? `/default_profile.png` : `data:image/png;base64,${writer.profileUrl}`);
 
     const commentRef = useRef('');
     const [blinking, setBlinking] = useState(false);

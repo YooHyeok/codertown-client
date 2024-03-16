@@ -77,7 +77,10 @@ export default function CokkiriDetail() {
             /* select option projectParts 필터링 */
             setSelectProjectParts(response.data.projectDto.projectParts.filter(obj => !response.data.takedProjectPartNos.includes(obj.projectPartNo)))
             /* 프로필사진 초기화 */
-            setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
+            if (response.data.cokkiriDto.writer.profileUrl == '' || response.data.cokkiriDto.writer.profileUrl == null) setSrc('/default_profile.png')
+            else setSrc(`data:image/png;base64,${response.data.cokkiriDto.writer.profileUrl}`)
+        
+            /* 북마크 */
             setIsBookmarked(response.data.cokkiriDto.isBookmarked)
         })
         .catch((error) => {
