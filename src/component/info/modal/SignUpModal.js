@@ -23,7 +23,6 @@ export default function SignUpModal() {
     useEffect(() => {
         // 부모 창에서 메시지를 수신하고 모달을 열어주는 함수
         const handleSocialModal = (event) => {
-            console.log(event.data)
             /* 회원 가입 모달 */
             if (event.data.message === 'OAuth2.0 signup') {
                 context.signUpToggle();
@@ -37,7 +36,6 @@ export default function SignUpModal() {
                 const loginEmail = event.data.email;
                 const accessToken = event.data.accessToken;
                 const refreshToken = event.data.refreshToken;
-                console.log(loginEmail)
                 dispatch({type:"NEWTOKEN", data: accessToken})
                 dispatch({type:"USERID", data: loginEmail})
                 const expires = new Date();

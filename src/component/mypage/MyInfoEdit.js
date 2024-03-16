@@ -34,7 +34,6 @@ export default function MyInfoEdit() {
         formData.append('loginEmail', userId)
         axios.post('/user-info', formData)
         .then(response => {
-            console.log(response.data.profileUrl)
             setProfileInputValue({
                 ...profileInputValue, 
                 originNickname:response.data.nickname, 
@@ -363,7 +362,6 @@ export default function MyInfoEdit() {
                         }
                         axios.post("/change-status-account", formData)
                             .then((response)=>{
-                                console.log(response)
                                 if(response.data.success == true) {
                                     toastAlertSuccess("회원 탈퇴 완료")
                                 }
