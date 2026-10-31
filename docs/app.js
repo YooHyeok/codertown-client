@@ -266,13 +266,12 @@ function renderFooter() {
         <img src="assets/elephant-footer.png" class="footer-logo-img" alt="">
         <div class="footer-logo-text">
           <div class="logo-text"><b>C</b>oder<b>Town</b></div>
-          <div style="font-size:15px"><span>코딩하는 사람 끼리 | 맘 맞는 사람 모여 스터디 </span></div>
-          <span>채팅 커뮤니티 플랫폼</span>
+          <div class="footer-slogan">코딩하는 사람 끼리 | 맘 맞는 사람 모여 스터디<br/>채팅 커뮤니티 플랫폼</div>
         </div>
       </div>
-      <div><span>Copyright© By 2023. CoderTown All Rights Reserved.</span></div>
       <ul class="footer-links"><li>이용약관</li><li>개인정보 처리 방침</li><li>FAQ</li></ul>
-      <span>경기 광명시 오리로 835 해보자컴퍼니 유재혁 <br/>webdevyoo@gmail.com</span>
+      <div class="footer-info">경기 광명시 오리로 835 해보자컴퍼니 유재혁<span class="sep">|</span>webdevyoo@gmail.com</div>
+      <div class="footer-copy">Copyright© By 2023. CoderTown All Rights Reserved.</div>
     </div>
     <div class="footer-items-2"><div class="footer-sns">
       <button class="btn btn-dark btn-sm"><i class="bi bi-github"></i></button>&nbsp;&nbsp;

@@ -124,16 +124,24 @@ body { background: #fff; }
 
 /* ---------- Footer ---------- */
 .footer {
-  height: 250px; margin: 0 auto; border-top: 0.5px solid lightgray; background-color: white; text-align: left; clear: both;
+  min-height: 250px; margin: 0 auto; border-top: 0.5px solid lightgray; background-color: white; text-align: left; clear: both;
+  display: flow-root; padding-bottom: 32px;
 }
-.footer-items-0 { width: 19%; height: 250px; float: left; }
-/* 가운데 칸: 모든 줄 왼쪽 시작선 통일 + 일정한 줄 간격 */
-.footer-items-1 { width: 55%; height: 250px; float: left; padding-top: 30px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.footer-items-0 { width: 19%; height: 1px; float: left; }
+/* 가운데 칸: 로고 → 링크 → 주소 → Copyright 순으로 위계(크기·색)를 나눠 정렬 */
+.footer-items-1 { width: 55%; float: left; padding-top: 30px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
 .footer-items-2 { width: 23%; height: 220px; float: right; }
-.footer-brand { display: flex; align-items: center; gap: 10px; }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.footer-slogan { font-size: 14px; line-height: 1.6; color: #555; margin-top: 2px; }
+.footer-info { font-size: 13px; color: #777; }
+.footer-info .sep { margin: 0 10px; color: #ccc; }
+.footer-copy { font-size: 12px; color: #999; margin-top: 8px; }
 .footer-logo-img { width: 100px; height: 100px; }
 .footer-logo-text { width: 280px; }
-.footer-links { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; gap: 10px; }
+.footer-links { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; font-size: 14px; color: #444; }
+.footer-links li { cursor: pointer; }
+.footer-links li:hover { text-decoration: underline; }
+.footer-links li + li::before { content: '·'; margin: 0 10px; color: #bbb; display: inline-block; text-decoration: none; }
 .footer-sns { width: 120px; height: 50px; margin-top: 170px; }
 .footer-sns .btn .bi { font-size: 22px; }
 
