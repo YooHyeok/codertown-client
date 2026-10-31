@@ -151,7 +151,8 @@ body { background: #fff; }
 .footer-sns .btn .bi { font-size: 22px; }
 
 /* ---------- 공통 페이지 레이아웃 ---------- */
-.page-list { width: 1200px; height: 750px; text-align: left; margin: 100px auto 50px; padding: 30px; }
+/* 목록: 표 → 글쓰기(16px) → 페이지 번호(28px) → 푸터까지 100px 여백 */
+.page-list { width: 1200px; text-align: left; margin: 100px auto 0; padding: 30px 30px 100px; }
 .page-detail { width: 100%; text-align: left; margin: 50px auto; padding: 30px; }
 .page-write { text-align: left; margin: 50px auto; padding: 30px; }
 .list-heading { margin: 0 auto; display: flex; }
@@ -168,9 +169,9 @@ body { background: #fff; }
 .native-select { display: inline; height: 30px; font-size: 15px; padding: 0 20px 0 12px; }
 .table-area { border-top: 0.1px solid lightgray; height: 420px; overflow: auto; }
 .table-area .table td a:hover { text-decoration: underline; }
-.pager { clear: both; text-align: center; margin-top: 10px; }
-.pager .btn { border: none; margin-right: 6px; }
-.write-btn { float: right; margin-top: 8px; }
+.pager { clear: both; text-align: center; padding-top: 28px; }
+.pager .btn { border: none; margin: 0 3px; min-width: 36px; }
+.write-btn { float: right; margin-top: 16px; }
 
 /* 상세 */
 .detail-head { width: 1200px; margin: 0 auto; }

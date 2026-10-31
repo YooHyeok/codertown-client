@@ -1093,7 +1093,7 @@ function myPost(tabType) {
         ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(kw)}</div></div>
     ${st.type === 'Coggle' ? '<div class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> Devlife</label></div>' : ''}
     <div class="table-area" style="margin:20px auto">${table}</div>
-    <div class="pager" style="margin-top:50px">${pagerHtml(list.length, pageInfo)}</div></div>`;
+    <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
   $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; myPost(tabType); });
   bindSearch($('#mypane'), k => { st.keyword = k; st.page = 1; myPost(tabType); });
   bindPager($('#mypane'), pageInfo, p => { st.page = p; myPost(tabType); });
@@ -1118,7 +1118,7 @@ function myProject() {
           <td>${count}</td><td style="padding:0.5em"><button class="btn btn-secondary btn-sm" style="width:70px" data-pms="${p.projectNo}"><span style="font-size:13px">상세보기</span></button></td>
           <td>${p.projectStatus === 'CLOSED' ? ymd(p.lastClosingDate) : '미완료'}</td></tr>`;
   }).join('')}</tbody></table></div>
-    <div class="pager" style="margin-top:50px">${pagerHtml(list.length, pageInfo)}</div></div>`;
+    <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
   bindSearch($('#mypane'), k => { st.keyword = k; st.page = 1; myProject(); });
   bindPager($('#mypane'), pageInfo, p => { st.page = p; myProject(); });
   $$('[data-status]').forEach(s => s.addEventListener('change', () => {
