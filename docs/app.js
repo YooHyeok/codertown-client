@@ -549,11 +549,11 @@ function cardHtml(r) {
   const isC = r.category === 'cokkiri';
   return `<div class="card ct-card" ${isC ? '' : 'style="cursor:pointer"'}>
     <div class="card-body">
-      <h6 class="card-subtitle mb-3 text-muted"><div class="studyItem_badgeWrapper__3AW7k"><div class="badge_badge__ZfNyB"><div class="badge_study__39LDm">${isC ? '💻 코끼리 - 프로젝트' : '✏️ 맘모스 - 스터디'}</div></div></div>
+      <h6 class="card-subtitle mb-3 text-muted"><div class="studyItem_badgeWrapper__3AW7k keep-kotra"><div class="badge_badge__ZfNyB"><div class="badge_study__39LDm">${isC ? '💻 코끼리 - 프로젝트' : '✏️ 맘모스 - 스터디'}</div></div></div>
         <div class="bookmark-pos" data-bm="${r.recruitNo}">${bookmarkSvg(on)}</div></h6>
-      <div class="card-title ${isC ? 'mb-2' : 'mb-3'} text-muted css-a6vgi6"><a href="#/${isC ? 'cokkiri' : 'mammoth'}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}><b>${esc(r.title)}</b></a></div>
+      <div class="card-title ${isC ? 'mb-2' : 'mb-3'} text-muted css-a6vgi6 keep-kotra"><a href="#/${isC ? 'cokkiri' : 'mammoth'}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}><b>${esc(r.title)}</b></a></div>
       <div class="studyItem_schedule__3oAnA"><p>${isC ? `목표기간 | ${r.project.objectWeek}주` : `모임 위치 | ${esc(r.location.fullLocation)}`}</p></div>
-      <ul class="main_project_part_list_ul">${isC
+      <ul class="main_project_part_list_ul keep-kotra">${isC
       ? r.project.projectParts.filter(p => p.partNo !== 1).map(p => `<li class="main_project_part_list_li">${esc(p.partName)}</li>`).join('')
       : `<li class="main_project_part_list_li" style="color:coral">${r.link ? '오픈톡' : 'DM'}</li>`}</ul>
     </div>${cardFoot(r)}</div>`;
