@@ -216,7 +216,10 @@ body { background: #fff; }
 .ct-card {
   width: 280px; height: 280px; font-size: 1.125rem; padding: 0.5rem; margin: 0.5rem 0.5rem 0.8rem;
   border-radius: 2%; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2); position: relative;
+  cursor: pointer; transition: transform .3s ease, box-shadow .3s ease;
 }
+/* 헤더 메뉴·채팅 아이콘처럼 호버 시 확대 (카드는 크기가 커서 살짝만) */
+.ct-card:hover { transform: scale(1.03); box-shadow: 8px 10px 14px rgba(0, 0, 0, 0.22); z-index: 1; }
 .ct-card .card-body { padding: 1rem; }
 .ct-card .bookmark-pos { display: block; width: 28px; height: 28px; position: absolute; top: 20px; right: 20px; }
 .card-foot { width: 250px; height: 40px; display: flex; align-items: center; padding: 5px 16px; border-top: 1px solid lightgray; }

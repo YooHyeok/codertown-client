@@ -566,7 +566,7 @@ function cardFoot(r) {
 function cardHtml(r) {
   const on = r.bookmarkedBy.includes(S.userId);
   const isC = r.category === 'cokkiri';
-  return `<div class="card ct-card" ${isC ? '' : 'style="cursor:pointer"'}>
+  return `<div class="card ct-card">
     <div class="card-body">
       <h6 class="card-subtitle mb-3 text-muted"><div class="studyItem_badgeWrapper__3AW7k keep-kotra"><div class="badge_badge__ZfNyB"><div class="badge_study__39LDm">${isC ? '💻 코끼리 - 프로젝트' : '✏️ 맘모스 - 스터디'}</div></div></div>
         <div class="bookmark-pos" data-bm="${r.recruitNo}">${bookmarkSvg(on)}</div></h6>
@@ -593,8 +593,12 @@ function pageMain() {
     <div class="card-grid">${list.map(cardHtml).join('')}</div></div>`;
   $$('[data-tab]').forEach(a => a.addEventListener('click', () => { S.mainTab = a.dataset.tab; pageMain(); }));
   bindBookmarks(app());
+  /* 코끼리/맘모스 모두 카드 전체 클릭으로 상세 진입 (북마크 클릭 제외) */
   $$('.ct-card').forEach((c, i) => {
-    if (list[i].category === 'mammoth') c.addEventListener('click', e => { if (!e.target.closest('[data-bm]')) go('/mammoth-detail/' + list[i].recruitNo); });
+    c.addEventListener('click', e => {
+      if (e.target.closest('[data-bm]') || e.target.closest('a')) return;
+      go(`/${list[i].category}-detail/${list[i].recruitNo}`);
+    });
   });
 }
 
