@@ -1184,7 +1184,6 @@ function drawPmsSide(p, idx, setIdx, redraw) {
    폰트 미리보기 (헤더 아래 select)
    ===================================================================== */
 const FONTS = [
-  { key: '', label: '초기기획' },
   { key: 'pretendard', label: 'Pretendard', family: 'Pretendard', css: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css' },
   { key: 'suit', label: 'SUIT', family: 'SUIT', css: 'https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css' },
   { key: 'wanted', label: 'Wanted Sans', family: 'Wanted Sans', css: 'https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/split/WantedSans.min.css' },
@@ -1192,9 +1191,10 @@ const FONTS = [
   { key: 'plex', label: 'IBM Plex Sans KR', family: 'IBM Plex Sans KR', css: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&display=swap' },
   { key: 'noto', label: 'Noto Sans KR', family: 'Noto Sans KR', css: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap' },
   { key: 'nanumsquare', label: 'NanumSquare Neo', family: 'NanumSquareNeo', css: 'https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css' },
+  { key: '', label: '초기기획' },
 ];
 function applyFont(key) {
-  const f = FONTS.find(x => x.key === key) || FONTS[0];
+  const f = FONTS.find(x => x.key === key) || FONTS[FONTS.length - 1];
   if (f.css && !document.querySelector(`link[data-font="${f.key}"]`)) {
     const l = document.createElement('link');
     l.rel = 'stylesheet'; l.href = f.css; l.dataset.font = f.key;
