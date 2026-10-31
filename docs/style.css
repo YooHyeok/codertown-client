@@ -97,14 +97,13 @@ body { background: #fff; }
   background: rgba(0, 0, 0, 0) !important;
   border: none !important;
   color: white;
-  padding: 4px 6px;
 }
 .header-toggle .bi { color: black; font-size: 30px; vertical-align: middle; }
 .header-toggle img.profile-sm { width: 35px; height: 35px; border-radius: 100%; vertical-align: middle; }
 .header .dropdown-menu { line-height: 25px; text-align: left; }
 .alarm-badge {
   line-height: 25px; background: #fa3e3e; border-radius: 50%; color: white;
-  padding: 1px 8px; font-size: 15px; position: absolute; top: 8px; left: 46px; pointer-events: none;
+  padding: 1px 8px; font-size: 15px; position: absolute; bottom: 42px; left: 25px; pointer-events: none;
 }
 .alarm-menu { width: 365px; height: 425px; border-radius: 5px 5px 0 0 !important; padding: 0 !important; }
 .alarm-menu .alarm-head { line-height: 25px; border-bottom: 1px solid lightgray; padding: 8px 16px; }
@@ -408,15 +407,10 @@ body { background: #fff; }
 }
 
 /* ---------- 사이드 애니메이션 ---------- */
-/* 해상도와 무관하게 화면 대비 동일한 크기/노출 비율 유지
-   - 크기: 화면 높이 기준(vh), 비율은 lottie 원본 4120x3200
-   - 노출: 자기 높이의 47% 만큼 아래로 숨김 (원본 1080p 기준 노출량과 동일) */
-.side-animation {
-  position: fixed; z-index: 10; bottom: 0; left: 1.6vw;
-  height: 25vh; aspect-ratio: 4120 / 3200;
-  transform: translateY(47%);
-  pointer-events: none;
-}
+/* 원본 SideAnimation 값 그대로. react-lottie-player 는 높이 지정이 없어
+   애니메이션(300x233)이 상자 상단에 붙어 그려지므로 svg 높이를 auto 로 맞춘다 */
+.side-animation { position: fixed; z-index: 10; bottom: -230px; left: 30px; text-align: left; width: 300px; height: 475px; pointer-events: none; }
+.side-animation svg { height: auto !important; }
 
 /* ---------- 모달 ---------- */
 .ct-modal .modal-dialog { width: 325px; margin-top: 12vh; }
