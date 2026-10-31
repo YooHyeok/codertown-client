@@ -56,8 +56,10 @@ td > a {
 .dropdown-menu > a, td > a { text-decoration: none; color: black; }
 
 body { background: #fff; }
-.App { text-align: center; }
-#app { min-height: 690px; }
+/* sticky footer: 본문이 화면보다 짧으면 푸터를 화면 맨 아래에 붙인다 (고해상도 대응) */
+.App { text-align: center; min-height: 100vh; display: flex; flex-direction: column; }
+#app { flex: 1 0 auto; min-height: 690px; }
+.App > .footer { flex-shrink: 0; width: 100%; }
 
 /* ---------- Header ---------- */
 .header {
