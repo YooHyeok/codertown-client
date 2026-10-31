@@ -173,14 +173,21 @@ body { background: #fff; }
 .detail-head h1 { margin: 30px auto; }
 .detail-head h6 { width: 130px; margin: 50px auto; }
 .detail-title { width: 1200px; margin: 0 auto; display: flex; border-bottom: 0.1px solid lightgray; }
-.detail-title > div { width: 1200px; margin: 30px 20px 10px 10px; }
+.detail-title > div { width: 1200px; margin: 30px 10px 0; padding-bottom: 22px; }
 .avatar-40 { width: 40px; height: 40px; margin: 5px; border-radius: 50%; float: left; object-fit: cover; }
-.update-delete-btn-gruop { display: flex; margin-top: -40px; float: right; gap: 8px; }
+/* 글 정보: 제목 → 작성자(진하게) / 날짜·조회수(작고 회색) 위계 */
+.detail-subject { font-size: 22px; margin-bottom: 14px; }
+.detail-author { display: flex; align-items: center; gap: 10px; }
+.detail-author .avatar-40 { float: none; margin: 0; }
+.detail-meta .nick { font-size: 15px; color: #222; line-height: 1.4; }
+.detail-meta .sub { font-size: 13px; color: #888; line-height: 1.4; }
+.detail-meta .dot { margin: 0 6px; color: #bbb; }
+.update-delete-btn-gruop { display: flex; gap: 8px; margin-left: auto; }
 .deleted-wrap { width: 1200px; height: 275px; margin: 100px auto; }
 .deleted-wrap > div { width: 300px; margin: 0 auto; }
 .deleted-wrap h1 { width: 300px; margin: 30px auto; }
 /* 상세 본문: 우측 정보 박스와 시작선 맞춤 */
-.detail-body { padding-top: 30px; }
+.detail-body { padding-top: 40px; }
 .detail-body > :first-child { margin-top: 0 !important; padding-top: 0 !important; }
 .stats-row { width: 1200px; margin: 20px auto; display: flex; gap: 20px; }
 .stats-row > div { display: flex; align-items: center; min-width: 50px; }

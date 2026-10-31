@@ -634,10 +634,12 @@ function deletedHtml() {
 function detailTitleHtml(title, writerEmail, date, views) {
   const w = user(writerEmail);
   return `<div class="detail-title"><div>
-    <h5><b>${esc(title)}</b></h5>
-    <img class="avatar-40" src="${avatar(w)}" alt="">
-    <div><span>${esc(w.nickname)}</span><br/><span>${ymd(date)}</span> <span>조회수 ${views}</span></div>
-    ${S.userId === writerEmail ? `<div class="update-delete-btn-gruop"><button class="btn btn-secondary" data-edit>수정</button><button class="btn btn-danger" data-del>삭제</button></div>` : ''}
+    <h5 class="detail-subject"><b>${esc(title)}</b></h5>
+    <div class="detail-author">
+      <img class="avatar-40" src="${avatar(w)}" alt="">
+      <div class="detail-meta"><div class="nick">${esc(w.nickname)}</div><div class="sub">${ymd(date)}<span class="dot">·</span>조회수 ${views}</div></div>
+      ${S.userId === writerEmail ? `<div class="update-delete-btn-gruop"><button class="btn btn-secondary" data-edit>수정</button><button class="btn btn-danger" data-del>삭제</button></div>` : ''}
+    </div>
   </div></div>`;
 }
 function openLink(link, emptyMsg) {
@@ -660,7 +662,7 @@ function pageCokkiriDetail(no) {
     ${detailTitleHtml(r.title, r.writer, r.firstRegDate, r.views)}
     <div style="display:flex;width:1250px;margin:0 auto">
       <div style="width:725px;margin:0 25px;min-height:450px"><div class="toastui-editor-contents detail-body">${r.content}</div></div>
-      <div style="width:475px;min-height:498px;margin-top:30px">
+      <div style="width:475px;min-height:498px;margin-top:40px">
         <div class="info-box" style="width:475px;min-height:300px"><form style="width:420px;margin:30px" onsubmit="return false"><div class="row mb-3">
           <div class="col-11 mb-2"><label class="col-form-label">프로젝트 상세 주제</label><input class="form-control" readonly value="${esc(p.subject)}"></div>
           <div class="col-7 mb-2"><label class="col-form-label">팀 이름</label><input class="form-control" readonly value="${esc(p.teamName)}"></div>
@@ -709,7 +711,7 @@ function pageMammothDetail(no) {
     ${detailTitleHtml(r.title, r.writer, r.firstRegDate, r.views)}
     <div style="display:flex;width:1200px;min-height:575px;margin:0 auto">
       <div style="width:725px;min-height:450px;font-size:16px"><div class="toastui-editor-contents detail-body">${r.content}</div></div>
-      <div style="width:475px;min-height:450px;margin-top:30px"><div class="info-box" style="width:475px"><form style="width:410px;margin:40px auto" onsubmit="return false"><div class="row mb-3">
+      <div style="width:475px;min-height:450px;margin-top:40px"><div class="info-box" style="width:475px"><form style="width:410px;margin:40px auto" onsubmit="return false"><div class="row mb-3">
         <div class="col-12 mb-2"><label class="col-form-label">모임 위치</label><input class="form-control" readonly value="${esc(r.location.fullLocation)}"></div>
         <div class="col-12"><label class="col-form-label">오픈톡</label><input class="form-control link-input" readonly value="${esc(r.link)}" data-link style="cursor:pointer"></div>
       </div></form></div></div></div>
