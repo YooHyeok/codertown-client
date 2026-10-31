@@ -71,9 +71,11 @@ body { background: #fff; }
   height: 80px;
 }
 .header-spring { height: 50px; position: absolute; top: 55px; z-index: 1; }
-.nav-items-1 { width: 17%; height: 80px; float: left; list-style: none; margin: 0 auto; padding-left: 0; }
-.nav-items-2 { width: 66%; display: inline-block; list-style: none; text-align: left; margin: 0; padding-left: 2rem; }
-.nav-items-3 { width: 17%; float: right; list-style: none; margin: 0 auto; padding-left: 0; display: flex; justify-content: center; }
+/* 로고 폭이 폰트에 따라 달라져도 메뉴와 겹치지 않도록 flex 배치 (원본 비율 17% / 66% / 17% 유지) */
+.header { display: flex; }
+.nav-items-1 { flex: 0 0 auto; min-width: 17%; height: 80px; list-style: none; margin: 0; padding: 0 1rem 0 0; }
+.nav-items-2 { flex: 1 1 auto; list-style: none; text-align: left; margin: 0; padding-left: 1rem; }
+.nav-items-3 { flex: 0 0 17%; list-style: none; margin: 0; padding-left: 0; display: flex; justify-content: center; }
 .header .nav-item {
   display: inline-block; height: 80px; padding: 0 10px; min-width: 80px; margin: 0 10px; line-height: 80px;
 }
@@ -460,8 +462,17 @@ body { background: #fff; }
 .ct-toast.error .ico { color: #e74c3c; } .ct-toast.error .bar { background: #e74c3c; }
 .ct-toast.default .ico { color: #6861ec; } .ct-toast.default .bar { background: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55); }
 
-/* 목업 안내 배지 */
+/* 목업 안내 배지 + 폰트 선택 (헤더 바로 아래) */
+.mock-bar { position: fixed; left: 10px; top: 86px; z-index: 99; display: flex; align-items: center; gap: 8px; }
 .mock-ribbon {
-  position: fixed; left: 10px; top: 86px; z-index: 99; background: rgba(104, 97, 236, .9); color: white;
+  background: rgba(104, 97, 236, .9); color: white;
   font-size: 12px; padding: 2px 10px; border-radius: 10px; font-family: 'Pretendard-Regular';
 }
+.font-switch {
+  height: 26px; font-size: 13px; padding: 0 8px; border: 1px solid rgb(104, 97, 236); border-radius: 13px;
+  background: white; color: #333; outline: none;
+}
+
+/* 폰트 미리보기: 선택한 폰트를 화면 전체 글자에 적용 (아이콘/코드 제외) */
+body.font-mode, body.font-mode * { font-family: var(--preview-font), sans-serif; }
+body.font-mode code, body.font-mode pre, body.font-mode pre * { font-family: Menlo, Monaco, Consolas, monospace; }

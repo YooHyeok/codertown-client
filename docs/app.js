@@ -1183,6 +1183,39 @@ function drawPmsSide(p, idx, setIdx, redraw) {
 }
 
 /* =====================================================================
+   폰트 미리보기 (헤더 아래 select)
+   ===================================================================== */
+const FONTS = [
+  { key: '', label: '원본 (KOTRAHOPE)' },
+  { key: 'pretendard', label: 'Pretendard', family: 'Pretendard', css: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css' },
+  { key: 'suit', label: 'SUIT', family: 'SUIT', css: 'https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css' },
+  { key: 'wanted', label: 'Wanted Sans', family: 'Wanted Sans', css: 'https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/split/WantedSans.min.css' },
+  { key: 'spoqa', label: 'Spoqa Han Sans Neo', family: 'Spoqa Han Sans Neo', css: 'https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' },
+  { key: 'plex', label: 'IBM Plex Sans KR', family: 'IBM Plex Sans KR', css: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&display=swap' },
+  { key: 'noto', label: 'Noto Sans KR', family: 'Noto Sans KR', css: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap' },
+  { key: 'nanumsquare', label: 'NanumSquare Neo', family: 'NanumSquareNeo', css: 'https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css' },
+];
+function applyFont(key) {
+  const f = FONTS.find(x => x.key === key) || FONTS[0];
+  if (f.css && !document.querySelector(`link[data-font="${f.key}"]`)) {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = f.css; l.dataset.font = f.key;
+    document.head.appendChild(l);
+  }
+  document.body.classList.toggle('font-mode', !!f.family);
+  document.body.style.setProperty('--preview-font', f.family ? `'${f.family}'` : '');
+  store.set('ct_font', f.key);
+}
+function initFontSwitch() {
+  const sel = $('#fontSwitch');
+  if (!sel) return;
+  const cur = store.get('ct_font', 'pretendard'); /* 기본: Pretendard */
+  sel.innerHTML = FONTS.map(f => `<option value="${f.key}" ${f.key === cur ? 'selected' : ''}>${f.label}</option>`).join('');
+  sel.addEventListener('change', () => applyFont(sel.value));
+  applyFont(cur);
+}
+
+/* =====================================================================
    Router
    ===================================================================== */
 function pageNotFound() {
@@ -1217,6 +1250,7 @@ window.addEventListener('hashchange', route);
 document.addEventListener('DOMContentLoaded', () => {
   /* ?demo 로 접속하면 데모 계정으로 바로 로그인 상태 */
   if (/[?&]demo\b/.test(location.search)) { S.userId = DEMO_USER; store.set('ct_user', DEMO_USER); }
+  initFontSwitch();
   renderHeader(); renderFooter(); renderMessenger();
   lottieInto($('#sideAnimation'), 'love-you-coffee.json');
   route();
