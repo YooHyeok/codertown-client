@@ -43,6 +43,7 @@ function timeago(iso) {
   return out || 'just now';
 }
 const nowIso = () => new Date().toISOString();
+const zoomFactor = () => parseFloat(getComputedStyle(document.body).zoom) || 1;
 const user = email => USERS.find(u => u.email === email) || { email, nickname: '알수없음', profileUrl: null };
 const avatar = u => (u && u.profileUrl) || 'assets/default_profile.png';
 const me = () => S.userId ? user(S.userId) : null;
@@ -137,9 +138,10 @@ document.addEventListener('mouseover', e => {
   tip.className = 'ct-tooltip';
   tip.innerHTML = partsTable(r.project.projectParts);
   document.body.appendChild(tip);
-  const b = t.getBoundingClientRect();
-  tip.style.left = (b.left + window.scrollX + b.width / 2 - 150) + 'px';
-  tip.style.top = (b.bottom + window.scrollY + 8) + 'px';
+  /* body zoom(해상도 배율) 보정: 화면 좌표 → 레이아웃 좌표 */
+  const z = zoomFactor(), b = t.getBoundingClientRect();
+  tip.style.left = ((b.left + window.scrollX) / z + b.width / z / 2 - 150) + 'px';
+  tip.style.top = ((b.bottom + window.scrollY) / z + 8) + 'px';
   t._tip = tip;
   t.addEventListener('mouseleave', () => { tip.remove(); t._tip = null; }, { once: true });
 });
@@ -1158,7 +1160,7 @@ function openPms(p, tab = 0, sideIdx = 0) {
     if (e.target.closest('button, select, input, .mui-acc-sum, [data-close], table')) return;
     dragging = true; sx = e.clientX - ox; sy = e.clientY - oy; w.classList.add('dragging');
   });
-  const mv = e => { if (!dragging) return; ox = e.clientX - sx; oy = e.clientY - sy; w.style.transform = `translate(${ox}px, ${oy}px)`; };
+  const mv = e => { if (!dragging) return; ox = e.clientX - sx; oy = e.clientY - sy; const z = zoomFactor(); w.style.transform = `translate(${ox / z}px, ${oy / z}px)`; };
   const up = () => { dragging = false; w.classList.remove('dragging'); };
   document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
 }

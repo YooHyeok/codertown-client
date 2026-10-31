@@ -56,9 +56,20 @@ td > a {
 .dropdown-menu > a, td > a { text-decoration: none; color: black; }
 
 body { background: #fff; }
-/* sticky footer: 본문이 화면보다 짧으면 푸터를 화면 맨 아래에 붙인다 (고해상도 대응) */
-.App { text-align: center; min-height: 100vh; display: flex; flex-direction: column; }
-#app { flex: 1 0 auto; min-height: 690px; }
+/* 해상도 대응: 1200px 기준 레이아웃을 화면 폭에 따라 단계적으로 배율 조정 */
+:root { --z: 1; }
+@media (max-width: 1279px) { :root { --z: 0.9; } }
+@media (max-width: 1099px) { :root { --z: 0.8; } }
+@media (min-width: 2400px) { :root { --z: 1.25; } }
+@media (min-width: 2880px) { :root { --z: 1.5; } }
+@media (min-width: 3600px) { :root { --z: 2; } }
+@media (min-width: 4800px) { :root { --z: 2.5; } }
+body { zoom: var(--z); }
+
+/* 푸터 구분선은 항상 첫 화면의 브라우저 끝선에서 시작: 본문 영역 최소 높이 = 화면 높이 (배율 보정)
+   본문이 더 길면 본문 끝 다음에 푸터 */
+.App { text-align: center; display: flex; flex-direction: column; }
+#app { flex: 1 0 auto; min-height: calc(100vh / var(--z)); }
 .App > .footer { flex-shrink: 0; width: 100%; }
 
 /* ---------- Header ---------- */
@@ -308,15 +319,15 @@ body { background: #fff; }
 .blinking { animation: blink 0.5s 3; }
 
 /* ---------- 마이페이지 ---------- */
-.mypage { width: 1200px; text-align: center; margin: 80px auto; padding: 30px; }
+.mypage { width: 1200px; text-align: center; margin: 80px auto 0; padding: 30px 30px 80px; }
 .mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 3px solid black; }
 .mypage-tabs .nav-link { color: #495057; font-size: 18px; padding: 10px 0; width: 125px; }
 .mypage-tabs .nav-link.active { color: black; }
 .profile { margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; }
-.profile-edit-wrap { margin: 20px auto; width: 200px; height: 150px; position: relative; }
+.profile-edit-wrap { margin: 44px auto 28px; width: 200px; height: 150px; position: relative; }
 /* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
 .profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 123px; width: 32px; height: 32px; }
-.info-form { width: 300px; margin: 20px auto 60px; text-align: left; }
+.info-form { width: 300px; margin: 0 auto; text-align: left; }
 .info-form .lbl { width: 75px; float: left; }
 .vmsg { display: none; font-size: 13px; }
 .vmsg.on { display: block; }
