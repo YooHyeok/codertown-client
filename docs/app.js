@@ -357,12 +357,16 @@ function openRoom(no, keep) {
     const v = ta.value.trim();
     if (!v) return;
     r.messages.push({ sender: S.userId, message: v, chatSendDate: nowIso(), isReaded: r.friendConnected });
-    ta.value = ''; ta.style.height = '30px';
+    ta.value = ''; ta.style.height = '';
     renderMessages(r);
     fakeReply(r);
   };
   ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
-  ta.addEventListener('input', () => { ta.style.height = '30px'; ta.style.height = Math.min(114, ta.scrollHeight) + 'px'; });
+  ta.addEventListener('input', () => {
+    ta.style.height = '';
+    ta.style.height = Math.min(114, ta.scrollHeight + 2) + 'px'; /* +2: 테두리 */
+    ta.style.overflowY = ta.scrollHeight + 2 > 114 ? 'auto' : 'hidden';
+  });
   $('#chatSend').addEventListener('click', send);
 }
 function renderMessages(r) {

@@ -378,6 +378,10 @@ body { background: #fff; }
   transition: transform 300ms cubic-bezier(0.2, 0, 0, 1), box-shadow 300ms;
 }
 /* 진입은 천천히 출발해 부드럽게 멈추는 곡선 (나갈 때는 위의 빠른 감속 곡선 유지) */
+/* 입력란이 여러 줄로 늘어나면 메시지 영역이 그만큼 줄어든다 */
+.chat-room-layer .chat-pane { display: flex; flex-direction: column; }
+.chat-room-layer .chat-body { flex: 1; height: auto; min-height: 0; }
+.chat-room-layer .chat-head, .chat-room-layer .chat-proj { flex: none; }
 .chat-room-layer.in {
   transform: translateX(0); box-shadow: -8px 0 20px rgba(0, 0, 0, 0.12);
   transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms;
@@ -425,11 +429,15 @@ body { background: #fff; }
 .mbox-time { color: #00000073; font-size: 11px; text-align: right; font-family: 'Pretendard-Regular'; }
 .mbox-time .bi { font-size: 14px; margin-left: 3px; }
 .mbox-time .read { color: #4FC3F7; }
-.chat-foot { width: 448px; min-height: 48px; background: white; display: flex; align-items: center; gap: 8px; padding: 8px 10px; }
+/* 입력란: 좌우 여백으로 살짝 안쪽 배치, 입력칸·전송 버튼 36px 라운드 통일 */
+.chat-foot { width: 448px; background: white; display: flex; align-items: flex-end; gap: 8px; padding: 10px 14px 12px; }
 .chat-foot textarea {
-  flex: 1; height: 30px; max-height: 114px; resize: none; outline: none; overflow: hidden; border: 0.1px solid lightgray;
-  font-family: 'Pretendard-Regular';
+  flex: 1; height: 36px; min-height: 36px; max-height: 114px; resize: none; outline: none; overflow: hidden;
+  padding: 7px 14px; line-height: 20px; font-size: 14px; font-family: 'Pretendard-Regular';
+  border: 1px solid #dcdfe6; border-radius: 18px; background: #f7f8fa; transition: border-color .15s, background .15s;
 }
+.chat-foot textarea:focus { border-color: rgb(104, 97, 236); background: #fff; }
+.chat-foot .btn { flex: none; height: 36px; padding: 0 16px; border-radius: 18px; }
 
 /* ---------- 사이드 애니메이션 ---------- */
 /* 원본 SideAnimation 값 그대로. react-lottie-player 는 높이 지정이 없어
