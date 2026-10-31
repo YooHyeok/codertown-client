@@ -485,6 +485,7 @@ body.font-mode .footer, body.font-mode .footer *,              /* 푸터 전체 
 body.font-mode .page-list h1, body.font-mode .page-list h1 *,  /* 목록 페이지 타이틀 */
 body.font-mode .list-heading, body.font-mode .list-heading *,  /* 코끼리/맘모스 조합 타이틀 */
 body.font-mode .detail-head, body.font-mode .detail-head *,    /* 상세 페이지 타이틀 */
+body.font-mode .detail-title h5, body.font-mode .detail-title h5 *, /* 상세 글 제목 */
 body.font-mode .write-head, body.font-mode .write-head *,      /* 작성/수정 타이틀 */
 body.font-mode .mypage h1, body.font-mode .mypage h1 *,        /* My Page, 프로젝트 */
 body.font-mode .deleted-wrap h1, body.font-mode .deleted-wrap h1 * { font-family: 'KOTRAHOPE'; }
