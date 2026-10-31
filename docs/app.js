@@ -647,7 +647,7 @@ function pageCokkiriDetail(no) {
           <div class="row mb-3"><label class="col-form-label" style="margin-left:55px">파트별 현황</label>
             <div style="width:300px;margin-left:65px">${partsTable(p.projectParts, true)}</div></div></form></div>
         <div class="dm-request" style="visibility:${canDm ? 'visible' : 'hidden'}">
-          <select class="native-select" style="width:110px" data-part>${options.map(o => `<option value="${o.projectPartNo}">${esc(o.partName)}</option>`).join('')}</select>&nbsp;&nbsp;
+          <select class="form-select d-inline-block" style="width:150px" data-part>${options.map(o => `<option value="${o.projectPartNo}">${esc(o.partName)}</option>`).join('')}</select>&nbsp;&nbsp;
           <button class="btn btn-primary" data-dm-req ${options.length ? '' : 'disabled'}>프로젝트 참여 DM 요청</button></div>
       </div></div>
     <div class="stats-row"><div><span data-bm="${r.recruitNo}">${bookmarkSvg(r.bookmarkedBy.includes(S.userId))}</span>&nbsp;<span data-bmc>${r.bookmarkedBy.length}</span></div><div>👀&nbsp;${r.views}</div></div>
@@ -940,9 +940,9 @@ function pageCoggleWrite(editNo) {
     <div class="write-head"><h1><b>코글</b></h1><div>${c ? '글수정' : '글쓰기'}</div></div>
     <div class="form-card" style="width:900px"><form style="width:824px;margin:30px auto" onsubmit="return false">
       <div class="row mb-3">
-        <div class="col-2"><label class="col-form-label" style="width:95px">카테고리</label>
-          <select class="native-select" style="width:110px;margin-top:3.5px" name="category">${[['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${c && c.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
-        <div class="col-10"><label class="col-form-label" style="width:95px">제목</label><input class="form-control" name="title" value="${esc(c ? c.title : '')}"></div>
+        <div class="col-auto"><label class="col-form-label d-block">카테고리</label>
+          <select class="form-select" style="width:150px" name="category">${[['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${c && c.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+        <div class="col"><label class="col-form-label d-block">제목</label><input class="form-control" name="title" value="${esc(c ? c.title : '')}"></div>
       </div>
       <div class="row mb-3"><label class="col-form-label col-11">내용 (에디터 교체 예정) </label><div class="col"><div id="editor"></div><br/>
         <div style="float:right"><button class="btn btn-outline-secondary" data-cancel>취소</button>&nbsp;&nbsp;<button class="btn btn-secondary" data-save>저장</button></div></div></div>
