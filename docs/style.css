@@ -476,3 +476,5 @@ body { background: #fff; }
 /* 폰트 미리보기: 선택한 폰트를 화면 전체 글자에 적용 (아이콘/코드 제외) */
 body.font-mode, body.font-mode * { font-family: var(--preview-font), sans-serif; }
 body.font-mode code, body.font-mode pre, body.font-mode pre * { font-family: Menlo, Monaco, Consolas, monospace; }
+/* 폰트 선택과 무관하게 항상 KOTRAHOPE 유지할 영역 */
+body.font-mode .keep-kotra, body.font-mode .keep-kotra * { font-family: 'KOTRAHOPE'; }
