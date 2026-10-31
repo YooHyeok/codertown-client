@@ -83,7 +83,10 @@ body { zoom: var(--z); }
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
   height: 80px;
 }
-.header-spring { height: 50px; position: absolute; top: 55px; z-index: 1; }
+/* 스프링 2개: 이미지 '중심'을 17% / 83% 에 맞춰 화면 중앙 기준 정확히 대칭 */
+.header-spring { height: 50px; position: absolute; top: 55px; z-index: 1; transform: translateX(-50%); }
+.header-spring.left { left: 17%; }
+.header-spring.right { left: 83%; }
 /* 로고 폭이 폰트에 따라 달라져도 메뉴와 겹치지 않도록 flex 배치 (원본 비율 17% / 66% / 17% 유지) */
 .header { display: flex; }
 .nav-items-1 { flex: 0 0 auto; min-width: 17%; height: 80px; list-style: none; margin: 0; padding: 0 1rem 0 0; }
@@ -167,8 +170,9 @@ body { zoom: var(--z); }
 .footer-sns .btn .bi { font-size: 22px; }
 
 /* ---------- 공통 페이지 레이아웃 ---------- */
-/* 목록: 표 → 글쓰기(16px) → 페이지 번호(28px) → 푸터까지 100px 여백 */
-.page-list { width: 1200px; text-align: left; margin: 100px auto 0; padding: 30px 30px 100px; }
+/* 목록: 표 → 글쓰기(16px) → 페이지 번호(28px). 본문을 실제 브라우저 높이(FHD 약 900px) 안에 맞춰
+   푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록 상하 여백 축소 */
+.page-list { width: 1200px; text-align: left; margin: 80px auto 0; padding: 30px 30px 32px; }
 .page-detail { width: 100%; text-align: left; margin: 50px auto; padding: 30px; }
 .page-write { text-align: left; margin: 50px auto; padding: 30px; }
 .list-heading { margin: 0 auto; display: flex; }
@@ -183,7 +187,15 @@ body { zoom: var(--z); }
 .search-group .btn { width: 38px; border: 0.1px solid lightgray; display: flex; align-items: center; }
 .search-group .btn .bi { margin: 0 -3px 0 -2px; font-size: 1.2rem; }
 .native-select { display: inline; height: 30px; font-size: 15px; padding: 0 20px 0 12px; }
-.table-area { border-top: 0.1px solid lightgray; height: 420px; overflow: auto; }
+.table-area { border-top: 0.1px solid lightgray; } /* 높이는 JS 가 줄 수(5~10)에 맞춰 min-height 지정 */
+.table-area .table > :not(caption) > * > * { height: 37px; padding-top: 0; padding-bottom: 0; } /* ROW_H 와 동일 */
+/* 짧은 화면(노트북 등): 목록 상단 여백을 줄여 최소 5줄이 첫 화면에 들어오게 */
+@media (max-height: 760px) {
+  .page-list { margin-top: 40px; padding-top: 20px; }
+  .page-list .list-heading h1 { margin: 10px 0; }
+  .page-list .list-heading span { padding-top: 26px; }
+  .list-bar { margin-top: 14px; }
+}
 .table-area .table td a:hover { text-decoration: underline; }
 .pager { clear: both; text-align: center; padding-top: 28px; }
 .pager .btn { border: none; margin: 0 3px; min-width: 36px; }
@@ -247,10 +259,12 @@ body { zoom: var(--z); }
 
 /* ---------- 메인 ---------- */
 .main-wrap { width: 1200px; min-height: 690px; margin: 80px auto; }
-.custom-nav { width: 350px; height: 40px; margin-top: 150px; display: flex; gap: 6px; }
+.custom-nav { width: 350px; height: 40px; margin-top: 150px; margin-left: -1rem; display: flex; gap: 6px; } /* 첫 탭 글자 = 첫 카드 왼쪽 끝 */
 .custom-nav .nav-link { background-color: white; color: gray; font-size: 22px; padding: .4rem 1rem; }
 .custom-nav .nav-link.active { background-color: white; color: black; }
-.card-grid { display: grid; grid-template-columns: repeat(4, 1fr); width: 1200px; text-align: left; margin: 30px auto; }
+/* 1200px 안에서 양끝 카드가 가장자리에 맞고 사이 간격이 같도록 (좌우 대칭) */
+.card-grid { display: grid; grid-template-columns: repeat(4, 280px); justify-content: space-between; row-gap: 20px; width: 1200px; text-align: left; margin: 30px auto; }
+.card-grid .ct-card { margin: 0; }
 
 .ct-card {
   width: 280px; height: 280px; font-size: 1.125rem; padding: 0.5rem; margin: 0.5rem 0.5rem 0.8rem;
@@ -428,6 +442,7 @@ body { zoom: var(--z); }
 .dm-badge { position: absolute; bottom: 35px; right: -5px; }
 .dm-frame {
   position: fixed; z-index: 10; bottom: 90px; right: 30px; text-align: left; background: #f7f9fc; width: 450px; overflow: hidden;
+  border-radius: 16px; /* 채팅 아이콘·입력란의 둥근 톤과 맞춤 */
   box-shadow: rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px;
   /* 열림: 아래에서 위로 올라오며 진해짐 / 닫힘: 아래로 내려가며 옅어짐 (투명도는 빠르게) */
   opacity: 0; transform: translateY(24px); pointer-events: none; visibility: hidden;
@@ -452,9 +467,9 @@ body { zoom: var(--z); }
   transform: translateX(0); box-shadow: -8px 0 20px rgba(0, 0, 0, 0.12);
   transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 320ms;
 }
-.chat-pane { width: 450px; height: 586px; background: white; border: 1px solid lightgray; overflow: auto; }
+.chat-pane { width: 450px; height: 586px; background: white; overflow: auto; } /* 안쪽 직각 테두리 제거 (틀의 그림자로 경계 표현) */
 .chat-pane.list { background: #f7f9fc; }
-.chat-empty { width: 448px; margin-top: 250px; text-align: center; }
+.chat-empty { width: 450px; margin-top: 250px; text-align: center; }
 .citem { display: flex; height: 72px; background: #fff; cursor: pointer; user-select: none; overflow: hidden; border-bottom: 1px solid lightgray; }
 .citem:hover { background: #f9f9f9; }
 .citem-avatar { padding: 0 15px 0 13px; display: flex; align-items: center; }
@@ -468,10 +483,10 @@ body { zoom: var(--z); }
   margin-left: 3px; width: 18px; height: 18px; border-radius: 50%; background: red; color: #fff;
   font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-family: sans-serif;
 }
-.chat-head { width: 448px; height: 73px; background: white; border-bottom: 1px solid lightgray; display: flex; align-items: center; }
+.chat-head { width: 450px; height: 73px; background: white; border-bottom: 1px solid lightgray; display: flex; align-items: center; }
 .chat-head .bi-chevron-left { font-size: 28px; margin: 0 4px; cursor: pointer; }
 .chat-head .citem { border: none; flex: 1; }
-.chat-proj { width: 448px; height: 73px; background: white; border-bottom: 1px solid lightgray; display: flex; align-items: center; }
+.chat-proj { width: 450px; height: 73px; background: white; border-bottom: 1px solid lightgray; display: flex; align-items: center; }
 .chat-proj .part { width: 90px; padding-left: 20px; }
 .chat-proj .part ul { margin: 0; }
 .chat-proj .ptitle { width: 280px; }
@@ -479,13 +494,13 @@ body { zoom: var(--z); }
 .chat-proj .pstatus { width: 60px; text-align: center; }
 .chat-proj .pstatus p { margin: 0; line-height: 1.2; font-size: 14px; }
 .btn-purple { background: linear-gradient(rgb(104, 97, 236) 0%, rgb(127, 97, 236) 100%) !important; color: white !important; border: none; }
-.chat-body { width: 448px; height: 380px; overflow: auto; background: #f7f9fc; border-bottom: 1px solid lightgray; padding: 8px 0; }
+.chat-body { width: 450px; height: 380px; overflow: auto; background: #f7f9fc; border-bottom: 1px solid lightgray; padding: 8px 0; }
 .mbox-row::after { content: ''; display: block; clear: both; }
 .mbox {
-  background: #fff; border-radius: 5px; padding: 6px 9px 8px; box-shadow: 1px 1px 1px 1px #0003;
-  min-width: 140px; max-width: 300px; position: relative; margin: 3px 5px 3px 20px; float: left; border-top-left-radius: 0;
+  background: #fff; border-radius: 10px; padding: 7px 11px 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, .18);
+  min-width: 140px; max-width: 300px; position: relative; margin: 4px 5px 4px 20px; float: left; border-top-left-radius: 0;
 }
-.mbox.right { float: right; margin: 3px 20px 3px 5px; border-top-left-radius: 5px; border-top-right-radius: 0; }
+.mbox.right { float: right; margin: 4px 20px 4px 5px; border-top-left-radius: 10px; border-top-right-radius: 0; }
 .mbox::before {
   content: ''; position: absolute; top: 0; left: -10px; border-top: 10px solid #fff; border-left: 10px solid transparent;
 }
@@ -496,7 +511,7 @@ body { zoom: var(--z); }
 .mbox-time .bi { font-size: 14px; margin-left: 3px; }
 .mbox-time .read { color: #4FC3F7; }
 /* 입력란: 좌우 여백으로 살짝 안쪽 배치, 입력칸·전송 버튼 36px 라운드 통일 */
-.chat-foot { width: 448px; background: white; display: flex; align-items: flex-end; gap: 8px; padding: 10px 14px 12px; }
+.chat-foot { width: 450px; background: white; display: flex; align-items: flex-end; gap: 8px; padding: 10px 14px 12px; }
 .chat-foot textarea {
   flex: 1; height: 36px; min-height: 36px; max-height: 114px; resize: none; outline: none; overflow: hidden;
   padding: 7px 14px; line-height: 20px; font-size: 14px; font-family: 'Pretendard-Regular';

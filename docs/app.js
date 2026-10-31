@@ -149,12 +149,28 @@ const clearTips = () => { $$('.ct-tooltip').forEach(x => x.remove()); $$('[data-
 
 /* ---------- 페이징 ---------- */
 const PAGE_SIZE = 10;
-function paginate(list, page) {
-  const allPage = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+function paginate(list, page, size = PAGE_SIZE) {
+  const allPage = Math.max(1, Math.ceil(list.length / size));
   const cur = Math.min(Math.max(1, page), allPage);
   const startPage = Math.floor((cur - 1) / 10) * 10 + 1;
   const endPage = Math.min(startPage + 9, allPage);
-  return { rows: list.slice((cur - 1) * PAGE_SIZE, cur * PAGE_SIZE), pageInfo: { allPage, curPage: cur, startPage, endPage } };
+  return { rows: list.slice((cur - 1) * size, cur * size), pageInfo: { allPage, curPage: cur, startPage, endPage } };
+}
+/* 목록 화면: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록 한 페이지 줄 수(5~10)를 화면 높이에 맞춘다 */
+const ROW_H = 37; /* 표 한 줄(=머리글) 높이(px) — .table-area min-height 계산과 동일 */
+const tableMinHeight = size => `min-height:${ROW_H * (size + 1)}px`;
+function fitListRows(st, rerender) {
+  const pl = $('.page-list');
+  if (!pl) return;
+  /* 웹폰트 로드 전후로 제목 높이가 달라지므로 로드 완료 후 다시 계산 */
+  if (document.fonts && document.fonts.status !== 'loaded') {
+    document.fonts.ready.then(() => { if ($('.page-list') === pl) fitListRows(st, rerender); });
+  }
+  const z = zoomFactor();
+  const over = pl.getBoundingClientRect().bottom + window.scrollY - window.innerHeight; /* 화면 px */
+  const cur = st.size || PAGE_SIZE;
+  const target = Math.max(3, Math.min(PAGE_SIZE, cur - Math.ceil(over / (ROW_H * z))));
+  if (target !== cur) { st.size = target; rerender(); }
 }
 function pagerHtml(count, pi) {
   if (count === 0) return `<button class="btn btn-secondary">1</button>`;
@@ -212,13 +228,13 @@ function renderHeader() {
       <a href="#/" class="logo-link"><div class="logo-container">
         <img class="logo-image" src="assets/elephant-header.png" alt=""><div class="logo-text"><b>C</b>oder<b>Town</b></div></div></a>
     </li></ul>
-    <img src="assets/header-spring.png" class="header-spring" style="left:17%" alt="">
+    <img src="assets/header-spring.png" class="header-spring left" alt="">
     <ul class="nav-items-2">
       <li class="nav-item"><a href="#/cokkiri"><span>코끼리</span></a></li>
       <li class="nav-item"><a href="#/mammoth"><span>맘모스</span></a></li>
       <li class="nav-item"><a href="#/coggle"><span>코글</span></a></li>
     </ul>
-    <img src="assets/header-spring.png" class="header-spring" style="left:83%" alt="">
+    <img src="assets/header-spring.png" class="header-spring right" alt="">
     <ul class="nav-items-3">${right}</ul>`;
 
   const h = $('#header');
@@ -612,20 +628,21 @@ function pageRecruitList(kind) {
   const st = S.lists[kind] || (S.lists[kind] = { page: 1, keyword: '' });
   const all = RECRUITS.filter(r => r.category === kind && !r.status && (!st.keyword || r.title.includes(st.keyword)))
     .sort((a, b) => b.recruitNo - a.recruitNo);
-  const { rows, pageInfo } = paginate(all, st.page);
+  const { rows, pageInfo } = paginate(all, st.page, st.size || PAGE_SIZE);
   const isC = kind === 'cokkiri';
   const heading = isC
     ? `<div class="list-heading" style="width:165px"><h1 style="width:30px"><b>코</b></h1><span style="width:65px">딩하는 사람</span><h1 style="width:60px;margin:30px 10px 30px 0"><b>끼리</b></h1></div>`
     : `<div class="list-heading" style="width:180px"><h1 style="width:30px"><b>맘</b></h1><span style="width:60px">맞는 사람</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>모</b></h1><span style="width:30px">여서</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>스</b></h1><span style="width:35px">터디</span></div>`;
   app().innerHTML = `<div class="page-list">${heading}
     <div class="list-bar"><span class="list-count">${all.length}개</span><div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead>
+    <div class="table-area" style="${tableMinHeight(st.size || PAGE_SIZE)}"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${kind}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
         <td>${esc(user(r.writer).nickname)}</td><td>${ymd(r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table></div>
     <div class="write-btn"><button class="btn btn-secondary" data-write>글쓰기</button></div>
     <div class="pager">${pagerHtml(all.length, pageInfo)}</div></div>`;
   bindSearch(app(), kw => { st.keyword = kw; st.page = 1; pageRecruitList(kind); });
   bindPager(app(), pageInfo, p => { st.page = p; pageRecruitList(kind); });
+  fitListRows(st, () => pageRecruitList(kind));
   $('[data-write]').addEventListener('click', () => isLogin() ? go(`/${kind}-write`) : warn('글을 작성하기 위해서는 로그인을 해주세요.'));
 }
 
@@ -860,13 +877,13 @@ function pageCoggleList() {
   const catLabel = { '': '전체', T: '기술질문', C: '커리어', D: '개발일상' }[st.category];
   const all = COGGLES.filter(c => !c.status && (!st.category || c.category === st.category) && (!st.keyword || c.title.includes(st.keyword)))
     .sort((a, b) => b.coggleNo - a.coggleNo);
-  const { rows, pageInfo } = paginate(all, st.page);
+  const { rows, pageInfo } = paginate(all, st.page, st.size || PAGE_SIZE);
   app().innerHTML = `<div class="page-list">
     <div class="list-heading" style="justify-content:center"><h1><b>코글: ${catLabel}</b></h1></div>
     <div class="list-bar"><span class="list-count">${all.length}개</span>
       <div class="list-bar-right"><select class="form-select" style="width:130px" data-cat>
         ${[['', '전체'], ['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${st.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기💞</th><th>조회👀</th></tr></thead>
+    <div class="table-area" style="${tableMinHeight(st.size || PAGE_SIZE)}"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기💞</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(c => `<tr><td>${c.coggleNo}</td><td><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td><td>${esc(user(c.writer).nickname)}</td>
         <td>${ymd(c.firstRegDate)}</td><td>${c.likedBy.length}</td><td>${c.views}</td></tr>`).join('')}</tbody></table></div>
     <div class="write-btn"><button class="btn btn-secondary" data-write>글쓰기</button></div>
@@ -874,6 +891,7 @@ function pageCoggleList() {
   $('[data-cat]').addEventListener('change', e => { st.category = e.target.value; st.page = 1; pageCoggleList(); });
   bindSearch(app(), kw => { st.keyword = kw; st.page = 1; pageCoggleList(); });
   bindPager(app(), pageInfo, p => { st.page = p; pageCoggleList(); });
+  fitListRows(st, () => pageCoggleList());
   $('[data-write]').addEventListener('click', () => isLogin() ? go('/coggle-write') : warn('글을 작성하기 위해서는 로그인을 해주세요.'));
 }
 
@@ -1286,6 +1304,12 @@ function route() {
 }
 
 window.addEventListener('hashchange', route);
+/* 창 크기가 바뀌면 목록 줄 수를 다시 맞춘다 */
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => { if ($('.page-list')) { const y = window.scrollY; route(); window.scrollTo(0, y); } }, 200);
+});
 document.addEventListener('DOMContentLoaded', () => {
   /* ?demo 로 접속하면 데모 계정으로 바로 로그인 상태 */
   if (/[?&]demo\b/.test(location.search)) { S.userId = DEMO_USER; store.set('ct_user', DEMO_USER); }
