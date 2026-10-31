@@ -772,7 +772,7 @@ function pageMammothWrite(editNo) {
       <div class="row mb-3"><div class="col-12"><label class="col-form-label">오픈톡</label><input class="form-control" name="link" value="${esc(r ? r.link : '')}"></div></div>
       <div class="row mb-3"><div class="col"><label class="col-form-label">${r ? '모임 장소' : '모임 위치'}</label>
         <div class="mui-acc" id="locAcc"><div class="mui-acc-sum"><input class="form-control" disabled style="width:750px" id="locInput"><i class="bi bi-chevron-down"></i></div>
-          <div class="mui-acc-det" id="locDet"></div></div></div></div>
+          <div class="mui-acc-det"><div class="mui-acc-inner"><div class="mui-acc-pad" id="locDet" style="padding:8px 0 16px 16px"></div></div></div></div></div></div>
       <div class="row mb-3"><label class="col-form-label col-11">내용 (에디터 교체 예정) </label><div class="col"><div id="editor"></div><br/>
         <div style="float:right"><button class="btn btn-outline-secondary" data-cancel>취소</button>&nbsp;&nbsp;<button class="btn btn-secondary" data-save>저장</button></div></div></div>
     </form></div></div>`;
@@ -1133,7 +1133,7 @@ function actionBtn(p, u) {
 }
 function userCell(u) { const x = user(u.email); return `<img class="mini-avatar" src="${avatar(x)}" alt=""><span style="font-size:15px">${esc(x.nickname)}</span>`; }
 function accordion(id, title, body, open) {
-  return `<div class="mui-acc ${open ? 'open' : ''}" data-acc="${id}"><div class="mui-acc-sum"><h4>${title}</h4><i class="bi bi-chevron-down"></i></div><div class="mui-acc-det">${body}</div></div>`;
+  return `<div class="mui-acc ${open ? 'open' : ''}" data-acc="${id}"><div class="mui-acc-sum"><h4>${title}</h4><i class="bi bi-chevron-down"></i></div><div class="mui-acc-det"><div class="mui-acc-inner"><div class="mui-acc-pad">${body}</div></div></div></div>`;
 }
 function bindAccordions(root) {
   $$('.mui-acc', root).forEach(a => $('.mui-acc-sum', a).addEventListener('click', () => {

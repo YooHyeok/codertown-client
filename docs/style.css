@@ -280,7 +280,8 @@ body { background: #fff; }
 .mypage-tabs .nav-link.active { color: black; }
 .profile { margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; }
 .profile-edit-wrap { margin: 20px auto; width: 200px; height: 150px; position: relative; }
-.profile-pencil { filter: hue-rotate(6deg); position: absolute; bottom: 0; right: 25px; width: 32px; height: 32px; }
+/* 원본(relative bottom 45 / left 55) 렌더 결과와 동일: 원형(좌측 25px) 기준 (114, 110) 지점 → 테두리 우하단에 걸침 */
+.profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 110px; left: 139px; width: 32px; height: 32px; }
 .info-form { width: 300px; margin: 20px auto 60px; text-align: left; }
 .info-form .lbl { width: 75px; float: left; }
 .vmsg { display: none; font-size: 13px; }
@@ -325,8 +326,11 @@ body { background: #fff; }
 .mui-acc-sum h4 { margin: 0; }
 .mui-acc-sum .bi { transition: transform .2s; }
 .mui-acc.open .mui-acc-sum .bi { transform: rotate(180deg); }
-.mui-acc-det { display: none; padding: 0 16px 16px; }
-.mui-acc.open .mui-acc-det { display: block; }
+/* MUI Collapse 처럼 높이 슬라이드 (grid 0fr↔1fr 트랜지션) */
+.mui-acc-det { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+.mui-acc.open .mui-acc-det { grid-template-rows: 1fr; }
+.mui-acc-inner { overflow: hidden; min-height: 0; }
+.mui-acc-pad { padding: 0 16px 16px; }
 .side-tabs-wrap { display: flex; height: 557px; background: #fff; }
 .side-tabs-panel { width: 370px; overflow: auto; padding: 24px; }
 .side-tabs { border-left: 1px solid rgba(0, 0, 0, 0.12); margin-top: 25px; display: flex; flex-direction: column; }
@@ -485,6 +489,8 @@ body.font-mode .keep-kotra, body.font-mode .keep-kotra *,
 body.font-mode .nav-items-1, body.font-mode .nav-items-1 *,   /* 헤더 로고 */
 body.font-mode .nav-items-2, body.font-mode .nav-items-2 *,   /* 헤더 메뉴 */
 body.font-mode .custom-nav, body.font-mode .custom-nav *,     /* 메인 분류 탭 */
+body.font-mode .header .dropdown-menu > .dropdown-item, body.font-mode .header .dropdown-menu > .dropdown-item *, /* 로그인/회원가입/마이페이지/로그아웃 */
+body.font-mode .alarm-head, body.font-mode .alarm-head *,     /* 알림 '새 소식' */
 body.font-mode .footer, body.font-mode .footer *,              /* 푸터 전체 */
 body.font-mode .page-list h1, body.font-mode .page-list h1 *,  /* 목록 페이지 타이틀 */
 body.font-mode .list-heading, body.font-mode .list-heading *,  /* 코끼리/맘모스 조합 타이틀 */
