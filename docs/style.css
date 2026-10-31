@@ -367,6 +367,13 @@ body { background: #fff; }
   transition: opacity 350ms, transform 350ms;
 }
 .dm-frame.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+/* 채팅 목록 위로 채팅방이 오른쪽에서 덮으며 들어오는 레이어 */
+.chat-stack { position: relative; width: 450px; height: 586px; overflow: hidden; }
+.chat-room-layer {
+  position: absolute; inset: 0; transform: translateX(100%);
+  transition: transform 300ms cubic-bezier(0.2, 0, 0, 1), box-shadow 300ms;
+}
+.chat-room-layer.in { transform: translateX(0); box-shadow: -8px 0 20px rgba(0, 0, 0, 0.12); }
 .chat-pane { width: 450px; height: 586px; background: white; border: 1px solid lightgray; overflow: auto; }
 .chat-pane.list { background: #f7f9fc; }
 .chat-empty { width: 448px; margin-top: 250px; text-align: center; }

@@ -290,9 +290,9 @@ function renderMessenger() {
     <div class="dm-btn dm-icon-onoff-button" data-dm="on" style="display:${S.dmOpen ? 'none' : 'flex'}">
       <i class="bi bi-messenger"></i>${n > 0 ? `<span class="dm-badge">${n}</span>` : ''}</div>
     <div class="dm-btn off dm-icon-onoff-button" data-dm="off" style="display:${S.dmOpen ? 'flex' : 'none'}"><i class="bi bi-x"></i></div>
-    <div class="dm-frame ${S.dmOpen ? 'open' : ''}"><div class="slide-view"><div class="slide-track" id="chatTrack" style="width:900px">
-      <div class="slide" style="flex:0 0 450px" id="chatList"></div><div class="slide" style="flex:0 0 450px" id="chatRoom"></div>
-    </div></div></div>`;
+    <div class="dm-frame ${S.dmOpen ? 'open' : ''}"><div class="chat-stack">
+      <div id="chatList"></div><div id="chatRoom" class="chat-room-layer"></div>
+    </div></div>`;
   $('[data-dm=on]', m).addEventListener('click', () => { S.dmOpen = true; S.chatRoomNo = null; renderMessenger(); });
   $('[data-dm=off]', m).addEventListener('click', () => { S.dmOpen = false; renderMessenger(); });
   renderChatList();
@@ -332,9 +332,11 @@ function openRoom(no, keep) {
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-foot"><textarea rows="1" placeholder="내용을 입력하세요" id="chatInput"></textarea><button class="btn btn-sm btn-purple" id="chatSend">전송</button></div>
   </div>`;
-  $('#chatTrack').style.transform = 'translateX(-450px)';
+  /* 채팅방 레이어가 오른쪽에서 목록 위로 덮으며 진입 (재렌더 시에는 애니메이션 없이 바로 표시) */
+  if (!keep) void el.offsetWidth; /* 현재 위치(오른쪽 밖)를 확정시켜 트랜지션이 거기서 시작되도록 */
+  el.classList.add('in');
   renderMessages(r);
-  $('[data-back]', el).addEventListener('click', () => { S.chatRoomNo = null; $('#chatTrack').style.transform = 'translateX(0)'; renderChatList(); });
+  $('[data-back]', el).addEventListener('click', () => { S.chatRoomNo = null; el.classList.remove('in'); renderChatList(); });
   const acc = $('[data-accept]', el);
   if (acc) acc.addEventListener('click', () => confirmBox('참여 요청 수락 확인', '프로젝트 참여 요청을 수락하시겠습니까?', () => { r.isConfirm = true; openRoom(no, true); }));
   const ta = $('#chatInput');
