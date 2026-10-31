@@ -169,7 +169,8 @@ body { background: #fff; }
 .deleted-wrap h1 { width: 300px; margin: 30px auto; }
 .stats-row { width: 1200px; margin: 20px auto; display: flex; gap: 20px; }
 .stats-row > div { display: flex; align-items: center; min-width: 50px; }
-.svg-btn { cursor: pointer; }
+.stats-row [data-bm], .stats-row [data-like-wrap] { display: inline-flex; }
+.svg-btn { cursor: pointer; display: block; }
 
 /* 상세 정보 박스 */
 .info-box { border: 0.1px solid lightgray; border-radius: 2%; box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); }

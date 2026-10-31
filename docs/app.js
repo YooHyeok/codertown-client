@@ -96,7 +96,7 @@ function showModal(inner, setup, width = 325) {
 const modalHead = title => `<div class="modal-header"><h5 class="modal-title"><span>${title}</span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>`;
 
 /* ---------- SVG 버튼 ---------- */
-const bookmarkSvg = on => `<svg class="svg-btn" data-bookmark height="24" width="24" stroke="${on ? '#ffbf00' : 'currentColor'}" fill="${on ? '#ffbf00' : 'none'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>`;
+const bookmarkSvg = on => `<svg class="svg-btn" data-bookmark viewBox="-4 -4 24 24" height="24" width="24"stroke="${on ? '#ffbf00' : 'currentColor'}" fill="${on ? '#ffbf00' : 'none'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>`;
 const heartSvg = on => `<svg class="svg-btn" data-like viewBox="0 0 24 24" height="24" width="24" stroke="${on ? '#ef4444' : 'currentColor'}" fill="${on ? '#ef4444' : 'none'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.62 20.81C12.28 20.93 11.72 20.93 11.38 20.81C8.48 19.82 2 15.69 2 8.68998C2 5.59998 4.49 3.09998 7.56 3.09998C9.38 3.09998 10.99 3.97998 12 5.33998C13.01 3.97998 14.63 3.09998 16.44 3.09998C19.51 3.09998 22 5.59998 22 8.68998C22 15.69 15.52 19.82 12.62 20.81Z"/></svg>`;
 
 /* ---------- Lottie ---------- */
@@ -650,7 +650,7 @@ function pageCokkiriDetail(no) {
           <select class="native-select" style="width:110px" data-part>${options.map(o => `<option value="${o.projectPartNo}">${esc(o.partName)}</option>`).join('')}</select>&nbsp;&nbsp;
           <button class="btn btn-primary" data-dm-req ${options.length ? '' : 'disabled'}>프로젝트 참여 DM 요청</button></div>
       </div></div>
-    <div class="stats-row"><div data-bm="${r.recruitNo}">${bookmarkSvg(r.bookmarkedBy.includes(S.userId))}</div><span data-bmc>${r.bookmarkedBy.length}</span><div>👀&nbsp;${r.views}</div></div>
+    <div class="stats-row"><div><span data-bm="${r.recruitNo}">${bookmarkSvg(r.bookmarkedBy.includes(S.userId))}</span>&nbsp;<span data-bmc>${r.bookmarkedBy.length}</span></div><div>👀&nbsp;${r.views}</div></div>
   </div>`;
   $('[data-link]').addEventListener('click', () => openLink(r.link, '링크가 비어있습니다.'));
   $('[data-bm]').addEventListener('click', e => { if (bookmarkToggle(r)) { e.currentTarget.innerHTML = bookmarkSvg(r.bookmarkedBy.includes(S.userId)); $('[data-bmc]').textContent = r.bookmarkedBy.length; } });
@@ -691,7 +691,7 @@ function pageMammothDetail(no) {
         <div class="col-12 mb-2"><label class="col-form-label">모임 위치</label><input class="form-control" readonly value="${esc(r.location.fullLocation)}"></div>
         <div class="col-12"><label class="col-form-label">오픈톡</label><input class="form-control link-input" readonly value="${esc(r.link)}" data-link style="cursor:pointer"></div>
       </div></form></div></div></div>
-    <div class="stats-row"><div data-bm="${r.recruitNo}">${bookmarkSvg(r.bookmarkedBy.includes(S.userId))}</div><span data-bmc>${r.bookmarkedBy.length}</span><div>👀&nbsp;${r.views}</div></div>
+    <div class="stats-row"><div><span data-bm="${r.recruitNo}">${bookmarkSvg(r.bookmarkedBy.includes(S.userId))}</span>&nbsp;<span data-bmc>${r.bookmarkedBy.length}</span></div><div>👀&nbsp;${r.views}</div></div>
   </div>`;
   $('[data-link]').addEventListener('click', () => openLink(r.link, '링크가 비어있습니다. 이동할 수 없습니다.'));
   $('[data-bm]').addEventListener('click', e => { if (bookmarkToggle(r)) { e.currentTarget.innerHTML = bookmarkSvg(r.bookmarkedBy.includes(S.userId)); $('[data-bmc]').textContent = r.bookmarkedBy.length; } });
