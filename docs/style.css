@@ -271,7 +271,13 @@ body { background: #fff; }
 .comment-inner.child { width: 1000px; }
 .comment-body { width: 1000px; margin: 0 0 0 50px; }
 .comment-inner.child .comment-body { width: 900px; }
-.comment-actions span { cursor: pointer; margin-right: 8px; }
+/* 댓글 본문/액션: 본문이 먼저 읽히도록 액션은 작고 옅게, 간격 확보 */
+.comment-body > div:first-child { line-height: 1.6; margin-top: 2px; }
+.comment-actions { margin-top: 6px; }
+.comment-actions b { display: flex; gap: 14px; font-weight: 500; font-size: 13px; }
+.comment-actions span { cursor: pointer; color: #888; transition: color .15s; }
+.comment-actions span:hover { color: rgb(104, 97, 236); }
+.comment-actions [data-del-c]:hover { color: #e74c3c; }
 .comment-box { width: 1100px; min-height: 130px; margin: 30px auto; border: 0.1px solid lightgray; padding-bottom: 40px; }
 .comment-box.inner { margin: 10px 0 20px; width: 100%; }
 .comment-box textarea {
