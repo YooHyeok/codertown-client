@@ -1036,6 +1036,41 @@ function pageMyPage() {
   $$('[data-mt]').forEach(a => a.addEventListener('click', () => { S.mypageTab = a.dataset.mt; store.set('activeTab', a.dataset.mt); closePms(); pageMyPage(); }));
   $('#mypane').classList.toggle('center', S.mypageTab === '1'); /* 프로필 탭만 세로 가운데 정렬 */
   ({ '1': myInfoEdit, '2': myProject, '3': () => myPost('myPost'), '4': () => myPost('myBookMark') })[S.mypageTab]();
+  watchMyPageFit();
+}
+/* 마이페이지: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록
+   1단계 여백 압축(.compact) → 그래도 넘치면 2단계 본문 비율 축소(zoom, 최소 0.6) */
+function fitMyPage() {
+  const mp = $('.mypage');
+  if (!mp || fitMyPage.busy) return;
+  fitMyPage.busy = true; /* 동기 재진입 방지 (관찰 대상 크기는 최종 상태가 같으면 다시 통지되지 않음) */
+  mp.classList.remove('compact'); mp.style.zoom = '';
+  /* flex 로 늘어난 높이가 아닌 '내용 높이' 기준 하단 위치 */
+  const naturalBottom = () => { mp.style.flex = '0 0 auto'; const b = mp.getBoundingClientRect().bottom + window.scrollY; mp.style.flex = ''; return b; };
+  if (naturalBottom() > window.innerHeight + 1) mp.classList.add('compact');
+  const b = naturalBottom();
+  if (b > window.innerHeight + 1) {
+    const top = mp.getBoundingClientRect().top + window.scrollY;
+    mp.style.zoom = Math.max(0.6, (window.innerHeight - top) / (b - top));
+  }
+  fitMyPage.busy = false;
+}
+function watchMyPageFit() {
+  const pane = $('#mypane');
+  if (!pane) return;
+  const schedule = () => fitMyPage();
+  if (watchMyPageFit.mo) watchMyPageFit.mo.disconnect();
+  if (watchMyPageFit.ro) watchMyPageFit.ro.disconnect();
+  /* 탭 안에서 검색·페이지 이동으로 다시 그려질 때, 폰트 로드 등으로 높이가 바뀔 때 다시 맞춘다 */
+  watchMyPageFit.mo = new MutationObserver(schedule);
+  watchMyPageFit.mo.observe(pane, { childList: true });
+  if (window.ResizeObserver) {
+    watchMyPageFit.ro = new ResizeObserver(schedule);
+    watchMyPageFit.ro.observe($('.mypage > div:first-child'));
+    if (pane.firstElementChild) watchMyPageFit.ro.observe(pane.firstElementChild);
+  }
+  if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(schedule);
+  fitMyPage();
 }
 function myInfoEdit() {
   const u = me();
@@ -1315,7 +1350,10 @@ window.addEventListener('hashchange', route);
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => { if ($('.page-list')) { const y = window.scrollY; route(); window.scrollTo(0, y); } }, 200);
+  resizeTimer = setTimeout(() => {
+    if ($('.page-list')) { const y = window.scrollY; route(); window.scrollTo(0, y); }
+    else if ($('.mypage')) fitMyPage();
+  }, 200);
 });
 document.addEventListener('DOMContentLoaded', () => {
   /* ?demo 로 접속하면 데모 계정으로 바로 로그인 상태 */
