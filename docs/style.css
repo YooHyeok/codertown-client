@@ -517,7 +517,7 @@ body.font-mode .nav-items-2, body.font-mode .nav-items-2 *,   /* 헤더 메뉴 *
 body.font-mode .custom-nav, body.font-mode .custom-nav *,     /* 메인 분류 탭 */
 body.font-mode .header .dropdown-menu > .dropdown-item, body.font-mode .header .dropdown-menu > .dropdown-item *, /* 로그인/회원가입/마이페이지/로그아웃 */
 body.font-mode .alarm-head, body.font-mode .alarm-head *,     /* 알림 '새 소식' */
-body.font-mode .footer, body.font-mode .footer *,              /* 푸터 전체 */
+body.font-mode .footer .logo-text, body.font-mode .footer .logo-text *, /* 푸터 로고(CoderTown)만 */
 body.font-mode .page-list h1, body.font-mode .page-list h1 *,  /* 목록 페이지 타이틀 */
 body.font-mode .list-heading, body.font-mode .list-heading *,  /* 코끼리/맘모스 조합 타이틀 */
 body.font-mode .detail-head, body.font-mode .detail-head *,    /* 상세 페이지 타이틀 */
