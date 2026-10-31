@@ -155,6 +155,88 @@ function addComment(coggleNo, writer, content, parentNo = null, mention = null, 
   addComment(3, 'choi@codertown.dev', '회고 잘 읽었습니다! 다음 프로젝트도 응원해요.', null, null, 2);
 })();
 
+/* 모든 코글에 부모 댓글 4~5개 + 대댓글(멘션) 3~4개를 결정적으로 채운다 */
+(function fillComments() {
+  const PARENT_POOL = {
+    T: [
+      '저도 같은 문제 겪었는데 공식 문서 예제부터 다시 보니까 해결됐어요.',
+      '재현 가능한 최소 코드 올려주시면 같이 볼게요!',
+      '사용 중인 버전 정보도 같이 알려주시면 좋을 것 같아요.',
+      '로그 찍어보면 호출 순서가 예상과 다를 거예요.\n한 줄씩 따라가 보시는 걸 추천드려요.',
+      '좋은 질문이네요. 저도 궁금했던 부분이에요 👀',
+      '이건 캐시 문제일 가능성도 있어 보여요. 한번 비우고 다시 해보세요.',
+      '팀에서는 이 경우 공통 유틸로 빼서 처리하고 있어요.',
+    ],
+    C: [
+      '저는 이력서에 프로젝트 트러블슈팅 경험을 꼭 넣었어요.',
+      '현업 이야기 들으니 도움 많이 되네요!',
+      '비슷한 고민 중이었는데 정말 공감합니다.',
+      '면접에서 이 부분은 꼭 물어보더라고요.',
+      '포트폴리오는 양보다 깊이가 중요한 것 같아요.',
+      '커피챗 한번 해보시는 것도 추천드려요 ☕',
+    ],
+    D: [
+      '글 잘 읽었습니다! 꾸준함이 정말 대단하세요 👍',
+      '저도 다음 모각코 참여하고 싶어요!',
+      '공감 100%입니다 ㅋㅋ',
+      '이런 글 너무 좋아요. 동기부여 됩니다.',
+      '다음 후기도 기대할게요!',
+      '사진도 같이 올려주시면 좋겠어요 😆',
+    ],
+  };
+  const REPLY_POOL = [
+    '오 감사합니다! 바로 적용해볼게요.',
+    '맞아요 저도 그렇게 해결했어요.',
+    '자세한 설명 감사합니다 🙏',
+    '혹시 참고한 자료 링크 공유 가능할까요?',
+    '그 방법 저도 써봤는데 효과 좋았어요!',
+    '좋은 팁이네요 ㅎㅎ',
+    '저는 조금 다르게 생각하는데, 상황에 따라 다를 것 같아요.',
+    'ㅋㅋㅋ 완전 공감합니다',
+    '다음에 같이 스터디해요!',
+    '덕분에 많이 배워갑니다.',
+  ];
+  const WRITERS = USERS.map(u => u.email);
+  const pick = (arr, n) => arr[((n % arr.length) + arr.length) % arr.length];
+
+  COGGLES.filter(c => !c.status).forEach(c => {
+    const no = c.coggleNo;
+    const base = new Date(c.firstRegDate).getTime();
+    let hour = 1;
+    const at = () => new Date(base + (hour++) * 3600 * 1000 + (no * 13 % 50) * 60 * 1000).toISOString();
+    const mine = () => COMMENTS.filter(x => x.coggleNo === no);
+    /* 기존 시드 댓글 중 글보다 이른 시각은 글 이후로 보정 */
+    mine().forEach(x => { if (x.firstRegDate < c.firstRegDate) x.firstRegDate = at(); });
+
+    /* 부모 댓글 4~5개 */
+    const parentTarget = 4 + (no % 2);
+    let i = 0;
+    while (mine().filter(x => !x.parentNo).length < parentTarget) {
+      /* 3번째 부모는 글 작성자 본인 → [작성자] 표시 */
+      const writer = i === 2 ? c.writer : pick(WRITERS.filter(w => w !== c.writer), no + i * 3);
+      const cm = addComment(no, writer, pick(PARENT_POOL[c.category] || PARENT_POOL.D, no * 2 + i));
+      cm.firstRegDate = at();
+      i++;
+    }
+
+    /* 대댓글 3~4개: 첫 두 부모 댓글 스레드에 나눠서, 멘션 대상이 계속 바뀌도록 */
+    const replyTarget = 3 + ((no + 1) % 2);
+    const parents = mine().filter(x => !x.parentNo && !x.status).slice(0, 2);
+    let r = 0;
+    while (mine().filter(x => x.parentNo).length < replyTarget && parents.length) {
+      const parent = parents[r % parents.length];
+      const thread = mine().filter(x => x.parentNo === parent.commentNo);
+      /* 첫 답글은 부모 작성자, 이후는 직전 답글 작성자를 멘션 (대댓글의 대댓글) */
+      const mention = thread.length ? thread[thread.length - 1].writer : parent.writer;
+      const candidates = WRITERS.filter(w => w !== mention);
+      const writer = r === 1 ? DEMO_USER !== mention ? DEMO_USER : candidates[0] : pick(candidates, no * 5 + r);
+      const cm = addComment(no, writer, pick(REPLY_POOL, no * 3 + r), parent.commentNo, mention);
+      cm.firstRegDate = at();
+      r++;
+    }
+  });
+})();
+
 /* ---------- 내 프로젝트 (마이페이지 > 프로젝트) ---------- */
 function pu(userProjectNo, email, personalStatus = 'JOIN') { return { userProjectNo, personalStatus, email }; }
 const MY_PROJECTS = [

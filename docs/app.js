@@ -1214,10 +1214,10 @@ const FONTS = [
   { key: 'plex', label: 'IBM Plex Sans KR', family: 'IBM Plex Sans KR', css: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600&display=swap' },
   { key: 'noto', label: 'Noto Sans KR', family: 'Noto Sans KR', css: 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap' },
   { key: 'nanumsquare', label: 'NanumSquare Neo', family: 'NanumSquareNeo', css: 'https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css' },
-  { key: '', label: '초기기획' },
+  // { key: '', label: '초기기획' }, /* 일단 숨김: 다시 쓰려면 주석 해제 */
 ];
 function applyFont(key) {
-  const f = FONTS.find(x => x.key === key) || FONTS[FONTS.length - 1];
+  const f = FONTS.find(x => x.key === key) || FONTS[0]; /* 목록에 없는 값(예: 숨긴 초기기획)은 Pretendard */
   if (f.css && !document.querySelector(`link[data-font="${f.key}"]`)) {
     const l = document.createElement('link');
     l.rel = 'stylesheet'; l.href = f.css; l.dataset.font = f.key;
