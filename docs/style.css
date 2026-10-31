@@ -477,4 +477,7 @@ body { background: #fff; }
 body.font-mode, body.font-mode * { font-family: var(--preview-font), sans-serif; }
 body.font-mode code, body.font-mode pre, body.font-mode pre * { font-family: Menlo, Monaco, Consolas, monospace; }
 /* 폰트 선택과 무관하게 항상 KOTRAHOPE 유지할 영역 */
-body.font-mode .keep-kotra, body.font-mode .keep-kotra * { font-family: 'KOTRAHOPE'; }
+body.font-mode .keep-kotra, body.font-mode .keep-kotra *,
+body.font-mode .nav-items-1, body.font-mode .nav-items-1 *,   /* 헤더 로고 */
+body.font-mode .nav-items-2, body.font-mode .nav-items-2 *,   /* 헤더 메뉴 */
+body.font-mode .footer, body.font-mode .footer * { font-family: 'KOTRAHOPE'; }   /* 푸터 전체 */
