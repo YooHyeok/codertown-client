@@ -1009,6 +1009,7 @@ function pageMyPage() {
     <ul class="nav nav-tabs mypage-tabs">${tabs.map(([k, t]) => `<li class="nav-item"><a class="nav-link ${S.mypageTab === k ? 'active' : ''}" href="javascript:void(0)" data-mt="${k}">${t}</a></li>`).join('')}</ul>
     <div class="tab-content" id="mypane"></div></div>`;
   $$('[data-mt]').forEach(a => a.addEventListener('click', () => { S.mypageTab = a.dataset.mt; store.set('activeTab', a.dataset.mt); closePms(); pageMyPage(); }));
+  $('#mypane').classList.toggle('center', S.mypageTab === '1'); /* 프로필 탭만 세로 가운데 정렬 */
   ({ '1': myInfoEdit, '2': myProject, '3': () => myPost('myPost'), '4': () => myPost('myBookMark') })[S.mypageTab]();
 }
 function myInfoEdit() {

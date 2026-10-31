@@ -319,12 +319,17 @@ body { zoom: var(--z); }
 .blinking { animation: blink 0.5s 3; }
 
 /* ---------- 마이페이지 ---------- */
-.mypage { width: 1200px; text-align: center; margin: 80px auto 0; padding: 30px 30px 80px; }
+.mypage { width: 1200px; text-align: center; margin: 80px auto 0; padding: 30px 30px 48px; }
+/* 마이페이지는 화면 끝까지 높이를 채우고, 프로필 탭은 남는 공간에서 세로 가운데 정렬 (해상도 무관 균형) */
+#app:has(.mypage) { display: flex; flex-direction: column; }
+#app > .mypage { flex: 1 0 auto; display: flex; flex-direction: column; }
+.mypage > #mypane { flex: 1 0 auto; display: flex; flex-direction: column; }
+.mypage > #mypane.center { justify-content: center; }
 .mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 3px solid black; }
 .mypage-tabs .nav-link { color: #495057; font-size: 18px; padding: 10px 0; width: 125px; }
 .mypage-tabs .nav-link.active { color: black; }
 .profile { margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; }
-.profile-edit-wrap { margin: 44px auto 28px; width: 200px; height: 150px; position: relative; }
+.profile-edit-wrap { margin: 54px auto 28px; /* 하단 padding(48px)과 위아래 균형 */ width: 200px; height: 150px; position: relative; flex: none; }
 /* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
 .profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 123px; width: 32px; height: 32px; }
 .info-form { width: 300px; margin: 0 auto; text-align: left; }
