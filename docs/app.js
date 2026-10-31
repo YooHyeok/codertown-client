@@ -97,6 +97,8 @@ const modalHead = title => `<div class="modal-header"><h5 class="modal-title"><s
 
 /* ---------- SVG 버튼 ---------- */
 const bookmarkSvg = on => `<svg class="svg-btn" data-bookmark viewBox="-4 -4 24 24" height="24" width="24"stroke="${on ? '#ffbf00' : 'currentColor'}" fill="${on ? '#ffbf00' : 'none'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>`;
+/* 목록 '인기' 컬럼용: 코끼리/맘모스는 북마크 수 → 북마크 아이콘 (코글은 좋아요 수 → 하트 💞) */
+const BM_ICON = '<i class="bi bi-bookmark-fill" style="color:#ffbf00;margin-left:3px"></i>';
 const heartSvg = on => `<svg class="svg-btn" data-like viewBox="0 0 24 24" height="24" width="24" stroke="${on ? '#ef4444' : 'currentColor'}" fill="${on ? '#ef4444' : 'none'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.62 20.81C12.28 20.93 11.72 20.93 11.38 20.81C8.48 19.82 2 15.69 2 8.68998C2 5.59998 4.49 3.09998 7.56 3.09998C9.38 3.09998 10.99 3.97998 12 5.33998C13.01 3.97998 14.63 3.09998 16.44 3.09998C19.51 3.09998 22 5.59998 22 8.68998C22 15.69 15.52 19.82 12.62 20.81Z"/></svg>`;
 
 /* ---------- Lottie ---------- */
@@ -615,7 +617,7 @@ function pageRecruitList(kind) {
     : `<div class="list-heading" style="width:180px"><h1 style="width:30px"><b>맘</b></h1><span style="width:60px">맞는 사람</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>모</b></h1><span style="width:30px">여서</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>스</b></h1><span style="width:35px">터디</span></div>`;
   app().innerHTML = `<div class="page-list">${heading}
     <div class="list-bar"><span class="list-count">${all.length}개</span><div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기📜</th><th>조회👀</th></tr></thead>
+    <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${kind}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
         <td>${esc(user(r.writer).nickname)}</td><td>${ymd(r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table></div>
     <div class="write-btn"><button class="btn btn-secondary" data-write>글쓰기</button></div>
@@ -1082,7 +1084,7 @@ function myPost(tabType) {
     ? `<table class="table"><thead><tr><th>No</th><th>카테고리</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기💞</th><th>조회👀</th></tr></thead><tbody>
         ${rows.map(c => `<tr><td>${c.coggleNo}</td><td>${catText(c.category)}</td><td style="text-align:left"><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td>
           <td>${ymd(c.firstRegDate)}</td><td>${ymd(c.lastModDate || c.firstRegDate)}</td><td>${c.likedBy.length}</td><td>${c.views}</td></tr>`).join('')}</tbody></table>`
-    : `<table class="table"><thead><tr><th>No</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기💞</th><th>조회👀</th></tr></thead><tbody>
+    : `<table class="table"><thead><tr><th>No</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead><tbody>
         ${rows.map(r => `<tr><td>${r.recruitNo}</td><td style="text-align:left"><a href="#/${r.category}-detail/${r.recruitNo}" ${r.category === 'cokkiri' ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
