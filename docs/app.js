@@ -327,7 +327,7 @@ function openRoom(no, keep) {
   const el = $('#chatRoom');
   el.innerHTML = `<div class="chat-pane" style="overflow:hidden">
     <div class="chat-head"><i class="bi bi-chevron-left" data-back></i><div class="citem">${citem(f, (r.friendConnected ? '🟢' : '🔴') + esc(f.nickname), '', nowIso(), 0)}</div></div>
-    <div class="chat-proj"><div class="part"><ul class="main_project_part_list_ul" style="width:auto"><li class="main_project_part_list_li">${esc(r.partName)}</li></ul></div>
+    <div class="chat-proj"><div class="part"><ul class="main_project_part_list_ul keep-kotra" style="width:auto"><li class="main_project_part_list_li">${esc(r.partName)}</li></ul></div>
       <div class="ptitle keep-kotra"><a href="#/cokkiri-detail/${r.cokkiriNo}"><b>${esc(r.projectTitle)}</b></a></div><div class="pstatus">${status}</div></div>
     <div class="chat-body" id="chatBody"></div>
     <div class="chat-foot"><textarea rows="1" placeholder="내용을 입력하세요" id="chatInput"></textarea><button class="btn btn-sm btn-purple" id="chatSend">전송</button></div>
