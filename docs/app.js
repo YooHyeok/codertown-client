@@ -619,7 +619,7 @@ function pageRecruitList(kind) {
     : `<div class="list-heading" style="width:180px"><h1 style="width:30px"><b>맘</b></h1><span style="width:60px">맞는 사람</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>모</b></h1><span style="width:30px">여서</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>스</b></h1><span style="width:35px">터디</span></div>`;
   app().innerHTML = `<div class="page-list">${heading}
     <div class="list-bar"><span class="list-count">${all.length}개</span><div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead>
+    <div class="table-area"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${kind}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
         <td>${esc(user(r.writer).nickname)}</td><td>${ymd(r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table></div>
     <div class="write-btn"><button class="btn btn-secondary" data-write>글쓰기</button></div>
@@ -866,7 +866,7 @@ function pageCoggleList() {
     <div class="list-bar"><span class="list-count">${all.length}개</span>
       <div class="list-bar-right"><select class="form-select" style="width:130px" data-cat>
         ${[['', '전체'], ['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${st.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기💞</th><th>조회👀</th></tr></thead>
+    <div class="table-area"><table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기💞</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(c => `<tr><td>${c.coggleNo}</td><td><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td><td>${esc(user(c.writer).nickname)}</td>
         <td>${ymd(c.firstRegDate)}</td><td>${c.likedBy.length}</td><td>${c.views}</td></tr>`).join('')}</tbody></table></div>
     <div class="write-btn"><button class="btn btn-secondary" data-write>글쓰기</button></div>
@@ -1084,11 +1084,11 @@ function myPost(tabType) {
   }
   const { rows, pageInfo } = paginate(list, st.page);
   const table = st.type === 'Coggle'
-    ? `<table class="table"><thead><tr><th>No</th><th>카테고리</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기💞</th><th>조회👀</th></tr></thead><tbody>
-        ${rows.map(c => `<tr><td>${c.coggleNo}</td><td>${catText(c.category)}</td><td style="text-align:left"><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td>
+    ? `<table class="table t-mypost-c"><thead><tr><th>No</th><th>카테고리</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기💞</th><th>조회👀</th></tr></thead><tbody>
+        ${rows.map(c => `<tr><td>${c.coggleNo}</td><td>${catText(c.category)}</td><td><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td>
           <td>${ymd(c.firstRegDate)}</td><td>${ymd(c.lastModDate || c.firstRegDate)}</td><td>${c.likedBy.length}</td><td>${c.views}</td></tr>`).join('')}</tbody></table>`
-    : `<table class="table"><thead><tr><th>No</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead><tbody>
-        ${rows.map(r => `<tr><td>${r.recruitNo}</td><td style="text-align:left"><a href="#/${r.category}-detail/${r.recruitNo}" ${r.category === 'cokkiri' ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
+    : `<table class="table t-list"><thead><tr><th>No</th><th>제목</th><th>최초 작성일자</th><th>최종 수정일자</th><th>인기${BM_ICON}</th><th>조회👀</th></tr></thead><tbody>
+        ${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${r.category}-detail/${r.recruitNo}" ${r.category === 'cokkiri' ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
     <div class="list-bar" style="margin-top:20px"><span class="list-count">${list.length}개</span>
@@ -1110,7 +1110,7 @@ function myProject() {
   $('#mypane').innerHTML = `<div class="mypost-wrap">
     <div class="list-bar" style="margin-top:20px"><h1 style="font-size:2rem;margin:0 4px 0 0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span>
       <div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area" style="margin:20px auto"><table class="table"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
+    <div class="table-area" style="margin:20px auto"><table class="table t-project"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
       <th>종료 예정 일자</th><th>전체 상태</th><th>개인 상태</th><th>인원 현황</th><th>최종 종료 일자</th></tr></thead><tbody>
       ${rows.map(p => {
     const myPart = p.parts.find(x => x.partNo === p.myPartNo);

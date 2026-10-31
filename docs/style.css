@@ -343,10 +343,26 @@ body { zoom: var(--z); }
 .vmsg.bad { color: red; }
 .mypost-wrap { min-height: 530px; text-align: left; }
 .coggle-checks { padding: 0 4px; font-size: 14px; display: flex; gap: 10px; justify-content: flex-end; }
+/* 전체 상태 select: 편집 가능한 칸임을 알 수 있는 작은 박스 + ▾ */
 .status-select {
-  text-align: center; appearance: none; width: 50px; height: 20px; font-size: 13px;
-  border-top: none; border-left: none; border-bottom: 1px solid lightgray; border-right: 1px solid lightgray;
+  appearance: none; height: 26px; min-width: 64px; padding: 0 22px 0 10px; font-size: 13px; vertical-align: middle;
+  text-align: center; text-align-last: center; border: 1px solid #ced4da; border-radius: 4px; cursor: pointer;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23666' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 7px center / 10px;
 }
+.status-select:hover { border-color: rgb(104, 97, 236); }
+
+/* 표 정렬 규칙: 번호·분류·날짜·버튼=가운데 / 긴 텍스트=왼쪽 / 수치=오른쪽 */
+.table-area th, .table-area td { vertical-align: middle; }
+.table-area td { font-variant-numeric: tabular-nums; }
+.t-list th, .t-list td { text-align: center; }
+.t-list :is(th, td):nth-child(2) { text-align: left; }
+.t-list :is(th, td):nth-child(n+5) { text-align: right; padding-right: 24px; }
+.t-mypost-c th, .t-mypost-c td { text-align: center; }
+.t-mypost-c :is(th, td):nth-child(3) { text-align: left; }
+.t-mypost-c :is(th, td):nth-child(n+6) { text-align: right; padding-right: 24px; }
+.t-project th, .t-project td { text-align: center; }
+.t-project :is(th, td):nth-child(3) { text-align: left; }
+.t-project :is(th, td):is(:nth-child(4), :nth-child(8)) { text-align: right; padding-right: 24px; }
 
 /* PMS 창 */
 .pms-window {
