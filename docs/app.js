@@ -163,6 +163,13 @@ function fitListRows(st, rerender) {
   const pl = $('.page-list');
   if (!pl) return;
   /* 웹폰트 로드 전후로 제목 높이가 달라지므로 로드 완료 후 다시 계산 */
+  /* 웹폰트(동적으로 불러오는 Pretendard 포함)·이미지 로드 등으로 목록 높이가 바뀌면 즉시 다시 맞춘다 */
+  if (window.ResizeObserver && pl._fitObserved !== true) {
+    pl._fitObserved = true;
+    if (fitListRows.ro) fitListRows.ro.disconnect();
+    fitListRows.ro = new ResizeObserver(() => { if ($('.page-list') === pl) fitListRows(st, rerender); });
+    fitListRows.ro.observe(pl);
+  }
   if (document.fonts && document.fonts.status !== 'loaded') {
     document.fonts.ready.then(() => { if ($('.page-list') === pl) fitListRows(st, rerender); });
   }
