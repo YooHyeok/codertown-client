@@ -293,8 +293,21 @@ function renderMessenger() {
     <div class="dm-frame ${S.dmOpen ? 'open' : ''}"><div class="chat-stack">
       <div id="chatList"></div><div id="chatRoom" class="chat-room-layer"></div>
     </div></div>`;
-  $('[data-dm=on]', m).addEventListener('click', () => { S.dmOpen = true; S.chatRoomNo = null; renderMessenger(); });
-  $('[data-dm=off]', m).addEventListener('click', () => { S.dmOpen = false; renderMessenger(); });
+  /* 다시 그리지 않고 클래스만 토글해야 열림/닫힘 트랜지션이 동작한다 */
+  const setDm = open => {
+    S.dmOpen = open;
+    $('[data-dm=on]', m).style.display = open ? 'none' : 'flex';
+    $('[data-dm=off]', m).style.display = open ? 'flex' : 'none';
+    if (open) {
+      /* 열 때는 항상 목록부터: 채팅방 레이어를 애니메이션 없이 닫아둔다 */
+      const room = $('#chatRoom');
+      room.style.transition = 'none'; room.classList.remove('in'); void room.offsetWidth; room.style.transition = '';
+      S.chatRoomNo = null; renderChatList();
+    }
+    $('.dm-frame', m).classList.toggle('open', open);
+  };
+  $('[data-dm=on]', m).addEventListener('click', () => setDm(true));
+  $('[data-dm=off]', m).addEventListener('click', () => setDm(false));
   renderChatList();
   if (S.chatRoomNo) openRoom(S.chatRoomNo, true);
 }

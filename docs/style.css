@@ -363,10 +363,14 @@ body { background: #fff; }
 .dm-frame {
   position: fixed; z-index: 10; bottom: 90px; right: 30px; text-align: left; background: #f7f9fc; width: 450px; overflow: hidden;
   box-shadow: rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px;
-  opacity: 0; transform: scale(0.5); transform-origin: bottom right; pointer-events: none;
-  transition: opacity 350ms, transform 350ms;
+  /* 열림: 아래에서 위로 올라오며 진해짐 / 닫힘: 아래로 내려가며 옅어짐 (투명도는 빠르게) */
+  opacity: 0; transform: translateY(24px); pointer-events: none; visibility: hidden;
+  transition: opacity 180ms ease, transform 280ms cubic-bezier(0.2, 0, 0, 1), visibility 0s linear 280ms;
 }
-.dm-frame.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+.dm-frame.open {
+  opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible;
+  transition: opacity 180ms ease, transform 280ms cubic-bezier(0.2, 0, 0, 1), visibility 0s;
+}
 /* 채팅 목록 위로 채팅방이 오른쪽에서 덮으며 들어오는 레이어 */
 .chat-stack { position: relative; width: 450px; height: 586px; overflow: hidden; }
 .chat-room-layer {
