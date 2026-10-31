@@ -47,15 +47,15 @@ const COKKIRI_SEED = [
 ];
 
 const MAMMOTH_SEED = [
-  ['강남역 알고리즘 스터디 모집 (매주 토요일)', ['서울특별시', '강남구', '역삼동'], 'https://open.kakao.com/o/algo', 'jung@codertown.dev'],
-  ['판교 CS 면접 스터디 하실 분', ['경기도', '성남시', '분당구'], 'https://open.kakao.com/o/cs', 'han@codertown.dev'],
+  ['강남역 알고리즘 스터디 모집 (매주 토요일)', ['서울특별시', '강남구', '역삼1동'], 'https://open.kakao.com/o/algo', 'jung@codertown.dev'],
+  ['판교 CS 면접 스터디 하실 분', ['경기도', '성남시 분당구', '정자1동'], 'https://open.kakao.com/o/cs', 'han@codertown.dev'],
   ['홍대 모각코 (모여서 각자 코딩) 멤버 구해요', ['서울특별시', '마포구', '서교동'], '', 'kim@codertown.dev'],
-  ['스프링 부트 JPA 책 스터디', ['서울특별시', '구로구', '구로동'], 'https://open.kakao.com/o/jpa', 'lee@codertown.dev'],
-  ['광명 리액트 기초 스터디 (입문자 환영)', ['경기도', '광명시', '철산동'], '', DEMO_USER],
-  ['부산 서면 정보처리기사 실기 스터디', ['부산광역시', '부산진구', '부전동'], 'https://open.kakao.com/o/jung', 'yoon@codertown.dev'],
+  ['스프링 부트 JPA 책 스터디', ['서울특별시', '구로구', '구로3동'], 'https://open.kakao.com/o/jpa', 'lee@codertown.dev'],
+  ['광명 리액트 기초 스터디 (입문자 환영)', ['경기도', '광명시', '철산1동'], '', DEMO_USER],
+  ['부산 서면 정보처리기사 실기 스터디', ['부산광역시', '부산진구', '부전1동'], 'https://open.kakao.com/o/jung', 'yoon@codertown.dev'],
   ['신촌 코딩테스트 대비 스터디 2기', ['서울특별시', '서대문구', '신촌동'], 'https://open.kakao.com/o/ct', 'park@codertown.dev'],
-  ['대전 둔산동 클라우드/AWS 스터디', ['대전광역시', '서구', '둔산동'], '', 'choi@codertown.dev'],
-  ['수원 영통 TypeScript 딥다이브', ['경기도', '수원시', '영통구'], 'https://open.kakao.com/o/ts', 'han@codertown.dev'],
+  ['대전 둔산동 클라우드/AWS 스터디', ['대전광역시', '서구', '둔산2동'], '', 'choi@codertown.dev'],
+  ['수원 영통 TypeScript 딥다이브', ['경기도', '수원시 영통구', '영통1동'], 'https://open.kakao.com/o/ts', 'han@codertown.dev'],
 ];
 
 const RECRUITS = [];
@@ -309,17 +309,19 @@ const NOTIFICATIONS = [
 ];
 
 /* ---------- 주소 (맘모스 모임 위치) ---------- */
-const ADDRESS = {
-  '서울특별시': { '강남구': ['역삼동', '삼성동', '논현동', '대치동'], '마포구': ['서교동', '합정동', '망원동'], '구로구': ['구로동', '신도림동'], '서대문구': ['신촌동', '연희동'], '송파구': ['잠실동', '문정동'] },
-  '경기도': { '성남시': ['분당구', '수정구', '중원구'], '광명시': ['철산동', '하안동', '소하동'], '수원시': ['영통구', '팔달구', '장안구'], '고양시': ['일산동구', '덕양구'] },
-  '인천광역시': { '연수구': ['송도동', '연수동'], '남동구': ['구월동'] },
-  '부산광역시': { '부산진구': ['부전동', '전포동'], '해운대구': ['우동', '중동'] },
-  '대구광역시': { '중구': ['동성로'], '수성구': ['범어동'] },
-  '대전광역시': { '서구': ['둔산동', '탄방동'], '유성구': ['봉명동'] },
-  '광주광역시': { '서구': ['치평동'] },
-  '울산광역시': { '남구': ['삼산동'] },
-  '세종특별자치시': { '세종시': ['나성동'] },
-  '강원도': { '춘천시': ['효자동'] },
-  '충청북도': { '청주시': ['복대동'] },
-  '충청남도': { '천안시': ['불당동'] },
+/* address.js 의 ADDRESS_TREE(17 / 250 / 3,518)를 화면에서 쓰는 { 시도: { 시군구: [읍면동] } } 형태로 변환.
+   원본 API(/address-first, /address-second, /address-third)와 같은 응답은 ADDRESS_API 로 제공한다. */
+const ADDRESS = {};
+ADDRESS_TREE.forEach(([, sido, , seconds]) => {
+  ADDRESS[sido] = {};
+  seconds.forEach(([, sigungu, , thirds]) => { ADDRESS[sido][sigungu] = thirds.map(t => t[1]); });
+});
+const ADDRESS_API = {
+  first: () => ADDRESS_TREE.map(([addressNo, addrName]) => ({ addressNo, addrName })),
+  second: addrFirstNo => (ADDRESS_TREE.find(f => f[0] === +addrFirstNo) || [, , , []])[3].map(([addressNo, addrName]) => ({ addressNo, addrName })),
+  third: (addrFirstNo, addrSecondNo) => {
+    const f = ADDRESS_TREE.find(x => x[0] === +addrFirstNo);
+    const s = f && f[3].find(x => x[0] === +addrSecondNo);
+    return s ? s[3].map(([addressNo, addrName]) => ({ addressNo, addrName })) : [];
+  },
 };
