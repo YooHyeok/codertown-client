@@ -348,7 +348,7 @@ body { zoom: var(--z); }
 .profile { display: block; margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; } /* block: 폼(text-align:left) 안에서도 정확히 가운데 */
 .profile-edit-wrap { margin: 54px auto 28px; /* 하단 padding(48px)과 위아래 균형 */ width: 200px; height: 150px; position: relative; flex: none; }
 /* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
-.profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 123px; width: 32px; height: 32px; }
+.profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 148px; width: 32px; height: 32px; }
 .info-form { width: 300px; margin: 0 auto; text-align: left; }
 .info-form .lbl { width: 75px; float: left; }
 .vmsg { display: none; font-size: 13px; }
