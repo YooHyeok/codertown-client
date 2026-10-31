@@ -212,6 +212,8 @@ body { background: #fff; }
 }
 .part-chip span { width: 80px; text-align: center; font-size: 14px; }
 .part-chip .btn { width: 30px; margin: 3px; padding: 0; }
+/* 필수 입력 표시 */
+.req { color: #e74c3c; margin-right: 3px; font-weight: 700; }
 .editor-fallback { width: 100%; height: 600px; border: 1px solid #dadde6; padding: 12px; resize: none; }
 
 /* ---------- 메인 ---------- */

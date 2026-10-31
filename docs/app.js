@@ -733,38 +733,50 @@ function pageCokkiriWrite(editNo) {
     <div class="write-head"><h1><b>코끼리</b></h1><div>${r ? '글수정' : '글쓰기'}</div></div>
     <div class="form-card" style="width:900px"><form style="width:825px;margin:30px auto" onsubmit="return false">
       <div class="row mb-3">
-        <div class="col-12 mb-2"><label class="col-form-label">제목</label><input class="form-control" name="title" value="${esc(r ? r.title : '')}"></div>
-        <div class="col-6 mb-2"><label class="col-form-label">프로젝트 상세 주제</label><input class="form-control" name="subject" placeholder="ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스" value="${esc(r ? r.project.subject : '')}"></div>
-        <div class="col-4 mb-2"><label class="col-form-label">팀 이름</label><input class="form-control" name="team" value="${esc(r ? r.project.teamName : '')}"></div>
-        <div class="col-2 mb-2"><label class="col-form-label">목표 기간</label><input class="form-control" type="number" name="week" placeholder="주 단위 입력" value="${r ? r.project.objectWeek : ''}"></div>
+        <div class="col-12 mb-2"><label class="col-form-label"><span class="req">*</span>제목</label><input class="form-control" name="title" value="${esc(r ? r.title : '')}"></div>
+        <div class="col-6 mb-2"><label class="col-form-label"><span class="req">*</span>프로젝트 상세 주제</label><input class="form-control" name="subject" placeholder="ex)~커뮤니티 플랫폼 / ~쇼핑몰 서비스" value="${esc(r ? r.project.subject : '')}"></div>
+        <div class="col-4 mb-2"><label class="col-form-label"><span class="req">*</span>팀 이름</label><input class="form-control" name="team" value="${esc(r ? r.project.teamName : '')}"></div>
+        <div class="col-2 mb-2"><label class="col-form-label"><span class="req">*</span>목표 기간</label><input class="form-control" type="number" min="1" name="week" placeholder="주 단위 입력" value="${r ? r.project.objectWeek : ''}"></div>
         <div class="col-6"><label class="col-form-label">링크</label><input class="form-control" name="link" placeholder="카카오톡 / 디스코드 / 구글폼 등 (생략 가능)" value="${esc(r ? r.link : '')}"></div>
-        <div class="col-3"><label class="col-form-label">파트 추가</label><select class="bs-select" style="width:100%" name="part">
+        <div class="col-3"><label class="col-form-label"><span class="req">*</span>파트 추가</label><select class="form-select" name="part">
+          <option value="" selected>파트를 선택하세요</option>
           ${[2, 3, 4, 5, 6].map(n => `<option value="${n}">${PART_NAMES[n]}</option>`).join('')}</select></div>
-        <div class="col-3"><label class="col-form-label col-12">파트별 모집 인원</label><div style="display:flex;gap:6px">
-          <input class="form-control" type="number" min="1" max="9" name="cnt"><button class="btn btn-outline-secondary" style="width:80px;height:38px" data-add>추가</button></div></div>
+        <div class="col-3"><label class="col-form-label col-12"><span class="req">*</span>파트별 모집 인원</label><div style="display:flex;gap:6px">
+          <input class="form-control" type="number" min="1" max="9" name="cnt" placeholder="인원"><button class="btn btn-outline-secondary" style="width:80px;height:38px;flex:none" data-add disabled>추가</button></div></div>
       </div>
       <div class="row mb-3"><div class="col"><label class="col-form-label col-12">추가 파트 미리보기 (최대 5개 중복 불가)</label><div class="chip-tray" id="chips"></div></div></div>
       <div class="row mb-3"><label class="col-form-label col-11">내용 (에디터 교체 예정) </label><div class="col"><div id="editor"></div><br/>
-        <div style="float:right"><button class="btn btn-outline-secondary" data-cancel>취소</button>&nbsp;&nbsp;<button class="btn btn-secondary" data-save>저장</button></div></div></div>
+        <div style="float:right"><button class="btn btn-outline-secondary" data-cancel>취소</button>&nbsp;&nbsp;<button class="btn btn-secondary" data-save disabled>저장</button></div></div></div>
     </form></div></div>`;
   const ed = makeEditor($('#editor'), r ? r.content : '');
+  const f = n => $(`[name=${n}]`);
+  /* 필수값 검사: 추가 버튼(파트 선택 + 인원 1 이상), 저장 버튼(필수 입력 + 모집 파트 1개 이상) */
+  const updateState = () => {
+    $('[data-add]').disabled = !(f('part').value && +f('cnt').value >= 1);
+    const filled = ['title', 'subject', 'team'].every(n => f(n).value.trim()) && +f('week').value >= 1;
+    $('[data-save]').disabled = !(filled && parts.some(p => p.partNo !== 1));
+  };
   const drawChips = () => {
     $('#chips').innerHTML = parts.map((p, i) => `<div class="part-chip"><span>${esc(p.partName)} ${p.recruitCount}명</span>
       ${p.partNo === 1 ? '' : `<button class="btn btn-secondary btn-sm" data-rm="${i}"> - </button>`}</div>`).join('');
     $$('[data-rm]').forEach(b => b.addEventListener('click', () => { parts.splice(+b.dataset.rm, 1); drawChips(); }));
+    /* 이미 추가된 파트는 선택 불가 */
+    $$('option', f('part')).forEach(o => { o.disabled = !!o.value && parts.some(p => p.partNo === +o.value); });
+    updateState();
   };
   drawChips();
-  const f = n => $(`[name=${n}]`);
+  ['title', 'subject', 'team', 'week', 'cnt'].forEach(n => f(n).addEventListener('input', updateState));
+  f('part').addEventListener('change', updateState);
   $('[data-add]').addEventListener('click', () => {
     const cnt = f('cnt').value, partNo = +f('part').value;
-    if (!cnt) return warn('모집 인원이 입력되지 않았습니다. 모집 인원을 입력해 주세요.');
+    if (!partNo || !cnt) return;
     if (parts.filter(p => p.partNo !== 1).length >= 5) return warn('최대 개수 5개를 초과하였습니다.');
     if (parts.some(p => p.partNo === partNo)) return warn('이미 추가된 파트입니다. 중복으로 추가할 수 없습니다.');
     parts.push({ projectPartNo: Date.now(), partNo, partName: PART_NAMES[partNo], recruitCount: +cnt, currentCount: 0 });
-    f('cnt').value = ''; drawChips();
+    f('part').value = ''; f('cnt').value = ''; drawChips();
   });
   $('[data-cancel]').addEventListener('click', () => history.back());
-  $('[data-save]').addEventListener('click', () => confirmBox(r ? '코끼리 수정 확인' : '코끼리 저장 확인', r ? '수정 하시겠습니까?' : '저장 하시겠습니까?', () => {
+  $('[data-save]').addEventListener('click', () => !$('[data-save]').disabled && confirmBox(r ? '코끼리 수정 확인' : '코끼리 저장 확인', r ? '수정 하시겠습니까?' : '저장 하시겠습니까?', () => {
     const leader = parts.find(p => p.partNo === 1) || { projectPartNo: Date.now() - 1, partNo: 1, partName: '팀장', recruitCount: 1, currentCount: 1 };
     const projectParts = [leader].concat(parts.filter(p => p.partNo !== 1));
     const data = { title: f('title').value || '(제목 없음)', link: f('link').value, content: ed.getHTML() };
