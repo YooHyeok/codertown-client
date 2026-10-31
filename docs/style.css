@@ -342,23 +342,10 @@ body { zoom: var(--z); }
 #app > .mypage { flex: 1 0 auto; display: flex; flex-direction: column; }
 .mypage > #mypane { flex: 1 0 auto; display: flex; flex-direction: column; }
 .mypage > #mypane.center { justify-content: center; }
-/* 압축 모드: 브라우저 높이가 부족할 때 (JS fitMyPage 가 적용) */
-.mypage.compact { padding-top: 12px; padding-bottom: 20px; }
-.mypage.compact > div:first-child h1 { margin: 0; font-size: 2.1rem; }
-.mypage.compact > div:first-child br { display: none; }
-.mypage.compact .mypage-tabs { margin: 6px auto; }
-.mypage.compact .profile-edit-wrap { margin: 14px auto 10px; height: 110px; }
-.mypage.compact .profile { width: 110px; height: 110px; }
-.mypage.compact .profile-pencil { top: 72px; left: 117px; width: 28px; height: 28px; }
-.mypage.compact .info-form .mb-3 { margin-bottom: 8px !important; }
-.mypage.compact .info-form .col-form-label, .mypage.compact .info-form .lbl { padding-top: 0; padding-bottom: 2px; }
-.mypage.compact .list-bar { margin-top: 10px !important; margin-bottom: 6px; }
-.mypage.compact .table-area { margin: 6px auto !important; }
-.mypage.compact .pager { padding-top: 14px; }
 .mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 3px solid black; }
 .mypage-tabs .nav-link { color: #495057; font-size: 18px; padding: 10px 0; width: 125px; }
 .mypage-tabs .nav-link.active { color: black; }
-.profile { margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; }
+.profile { display: block; margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; } /* block: 폼(text-align:left) 안에서도 정확히 가운데 */
 .profile-edit-wrap { margin: 54px auto 28px; /* 하단 padding(48px)과 위아래 균형 */ width: 200px; height: 150px; position: relative; flex: none; }
 /* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
 .profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 123px; width: 32px; height: 32px; }

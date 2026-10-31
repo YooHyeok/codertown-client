@@ -1044,14 +1044,26 @@ function fitMyPage() {
   const mp = $('.mypage');
   if (!mp || fitMyPage.busy) return;
   fitMyPage.busy = true; /* 동기 재진입 방지 (관찰 대상 크기는 최종 상태가 같으면 다시 통지되지 않음) */
-  mp.classList.remove('compact'); mp.style.zoom = '';
+  mp.style.zoom = ''; mp.style.marginTop = '';
   /* flex 로 늘어난 높이가 아닌 '내용 높이' 기준 하단 위치 */
-  const naturalBottom = () => { mp.style.flex = '0 0 auto'; const b = mp.getBoundingClientRect().bottom + window.scrollY; mp.style.flex = ''; return b; };
-  if (naturalBottom() > window.innerHeight + 1) mp.classList.add('compact');
-  const b = naturalBottom();
-  if (b > window.innerHeight + 1) {
-    const top = mp.getBoundingClientRect().top + window.scrollY;
-    mp.style.zoom = Math.max(0.6, (window.innerHeight - top) / (b - top));
+  mp.style.flex = '0 0 auto';
+  const r = mp.getBoundingClientRect();
+  mp.style.flex = '';
+  const top = r.top + window.scrollY, bottom = r.bottom + window.scrollY;
+  /* 넘치면 디자인 비율을 유지한 채 본문 전체를 같은 비율로 축소 (브라우저 배율과 무관하게 같은 모양) */
+  if (bottom > window.innerHeight + 1) {
+    const apply = s => {
+      mp.style.zoom = s;
+      /* zoom 은 margin 도 줄이므로 헤더 아래 시작 위치(top)를 그대로 유지하도록 보정 */
+      mp.style.marginTop = (top / zoomFactor() / s) + 'px';
+    };
+    let s = Math.max(0.6, (window.innerHeight - top) / (bottom - top));
+    apply(s);
+    /* 2차 보정: 반올림·여백 오차로 남은 몇 px 까지 맞춘다 */
+    mp.style.flex = '0 0 auto';
+    const b2 = mp.getBoundingClientRect().bottom + window.scrollY;
+    mp.style.flex = '';
+    if (b2 > window.innerHeight + 0.5) apply(Math.max(0.6, s * (window.innerHeight - top) / (b2 - top)));
   }
   fitMyPage.busy = false;
 }
