@@ -121,10 +121,13 @@ body { zoom: var(--z); }
 .header-toggle .bi { color: black; font-size: 30px; vertical-align: middle; }
 .header-toggle img.profile-sm { width: 35px; height: 35px; border-radius: 100%; vertical-align: middle; }
 .header .dropdown-menu { line-height: 25px; text-align: left; }
-.alarm-badge {
-  line-height: 25px; background: #fa3e3e; border-radius: 50%; color: white;
-  padding: 1px 8px; font-size: 15px; position: absolute; bottom: 42px; left: 25px; pointer-events: none;
+/* 알림·채팅 숫자 배지 공통: 24px 정원 (두 자리 이상은 좌우로 늘어나는 알약) */
+.alarm-badge, .dm-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 24px; height: 24px; padding: 0 7px; border-radius: 12px;
+  background: #fa3e3e; color: white; font-size: 14px; line-height: 1; pointer-events: none;
 }
+.alarm-badge { position: absolute; bottom: 44px; left: 25px; }
 .alarm-menu { width: 365px; height: 425px; border-radius: 5px 5px 0 0 !important; padding: 0 !important; }
 .alarm-menu .alarm-head { line-height: 25px; border-bottom: 1px solid lightgray; padding: 8px 16px; }
 .alarm-body { width: 363px; overflow: auto; height: 380px; }
@@ -406,10 +409,7 @@ body { zoom: var(--z); }
 }
 .dm-btn .bi { font-size: 28px; }
 .dm-btn.off { background: linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%); color: rgba(0, 0, 0, 0.6); }
-.dm-badge {
-  background: #fa3e3e; border-radius: 50%; color: white; padding: 1px 8px; font-size: 15px;
-  position: absolute; bottom: 35px; right: -5px;
-}
+.dm-badge { position: absolute; bottom: 35px; right: -5px; }
 .dm-frame {
   position: fixed; z-index: 10; bottom: 90px; right: 30px; text-align: left; background: #f7f9fc; width: 450px; overflow: hidden;
   box-shadow: rgba(255, 255, 255, 0.12) 0px 0px 2px 0px inset, rgba(0, 0, 0, 0.05) 0px 0px 2px 1px, rgba(0, 0, 0, 0.3) 0px 12px 60px;
