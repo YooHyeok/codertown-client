@@ -1186,7 +1186,7 @@ function drawPmsSide(p, idx, setIdx, redraw) {
    폰트 미리보기 (헤더 아래 select)
    ===================================================================== */
 const FONTS = [
-  { key: '', label: '원본 (KOTRAHOPE)' },
+  { key: '', label: '초기기획' },
   { key: 'pretendard', label: 'Pretendard', family: 'Pretendard', css: 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css' },
   { key: 'suit', label: 'SUIT', family: 'SUIT', css: 'https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css' },
   { key: 'wanted', label: 'Wanted Sans', family: 'Wanted Sans', css: 'https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/static/split/WantedSans.min.css' },
