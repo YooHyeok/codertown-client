@@ -165,7 +165,7 @@ function bindPager(root, pi, onPage) {
     onPage(p);
   }));
 }
-const searchGroupHtml = (kw = '') => `<div class="mb-3 search-group"><div class="input-group">
+const searchGroupHtml = (kw = '') => `<div class="search-group"><div class="input-group">
   <input type="text" class="form-control" placeholder="검색어를 입력하세요" value="${esc(kw)}" data-kw>
   <button class="btn btn-outline-secondary" data-search><i class="bi bi-search"></i></button></div></div>`;
 function bindSearch(root, onSearch) {
@@ -592,7 +592,7 @@ function pageRecruitList(kind) {
     ? `<div class="list-heading" style="width:165px"><h1 style="width:30px"><b>코</b></h1><span style="width:65px">딩하는 사람</span><h1 style="width:60px;margin:30px 10px 30px 0"><b>끼리</b></h1></div>`
     : `<div class="list-heading" style="width:180px"><h1 style="width:30px"><b>맘</b></h1><span style="width:60px">맞는 사람</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>모</b></h1><span style="width:30px">여서</span><h1 style="width:30px;margin:30px -5px 30px 0"><b>스</b></h1><span style="width:35px">터디</span></div>`;
   app().innerHTML = `<div class="page-list">${heading}
-    <div class="list-toolbar"><div style="width:300px;display:flex"><span class="list-count">${all.length}개</span></div><div style="flex:1">${searchGroupHtml(st.keyword)}</div></div>
+    <div class="list-bar"><span class="list-count">${all.length}개</span><div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
     <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기📜</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${kind}-detail/${r.recruitNo}" ${isC ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
         <td>${esc(user(r.writer).nickname)}</td><td>${ymd(r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table></div>
@@ -637,8 +637,8 @@ function pageCokkiriDetail(no) {
     <div class="detail-head"><div><h1><b>코끼리</b></h1><h6>코딩하는 사람 끼리</h6></div></div>
     ${detailTitleHtml(r.title, r.writer, r.firstRegDate, r.views)}
     <div style="display:flex;width:1250px;margin:0 auto">
-      <div style="width:725px;margin:0 25px;min-height:450px"><div class="toastui-editor-contents" style="padding-top:20px">${r.content}</div></div>
-      <div style="width:475px;min-height:498px;margin-top:50px">
+      <div style="width:725px;margin:0 25px;min-height:450px"><div class="toastui-editor-contents detail-body">${r.content}</div></div>
+      <div style="width:475px;min-height:498px;margin-top:30px">
         <div class="info-box" style="width:475px;min-height:300px"><form style="width:420px;margin:30px" onsubmit="return false"><div class="row mb-3">
           <div class="col-11 mb-2"><label class="col-form-label">프로젝트 상세 주제</label><input class="form-control" readonly value="${esc(p.subject)}"></div>
           <div class="col-7 mb-2"><label class="col-form-label">팀 이름</label><input class="form-control" readonly value="${esc(p.teamName)}"></div>
@@ -686,8 +686,8 @@ function pageMammothDetail(no) {
     <div class="detail-head"><div><h1><b>맘모스</b></h1><h6>맘맞는사람 모여 스터디</h6></div></div>
     ${detailTitleHtml(r.title, r.writer, r.firstRegDate, r.views)}
     <div style="display:flex;width:1200px;min-height:575px;margin:0 auto">
-      <div style="width:725px;min-height:450px;font-size:16px"><div class="toastui-editor-contents" style="padding-top:20px">${r.content}</div></div>
-      <div style="width:475px;min-height:450px;margin-top:50px"><div class="info-box" style="width:475px"><form style="width:410px;margin:40px auto" onsubmit="return false"><div class="row mb-3">
+      <div style="width:725px;min-height:450px;font-size:16px"><div class="toastui-editor-contents detail-body">${r.content}</div></div>
+      <div style="width:475px;min-height:450px;margin-top:30px"><div class="info-box" style="width:475px"><form style="width:410px;margin:40px auto" onsubmit="return false"><div class="row mb-3">
         <div class="col-12 mb-2"><label class="col-form-label">모임 위치</label><input class="form-control" readonly value="${esc(r.location.fullLocation)}"></div>
         <div class="col-12"><label class="col-form-label">오픈톡</label><input class="form-control link-input" readonly value="${esc(r.link)}" data-link style="cursor:pointer"></div>
       </div></form></div></div></div>
@@ -823,10 +823,9 @@ function pageCoggleList() {
   const { rows, pageInfo } = paginate(all, st.page);
   app().innerHTML = `<div class="page-list">
     <div style="margin:0 auto;width:260px;text-align:center"><h1 style="margin:30px 0"><b>코글: ${catLabel}</b></h1></div>
-    <div style="display:flex">
-      <div style="width:170px;height:32px;padding-top:45px"><select class="native-select" style="width:120px" data-cat>
-        ${[['', '전체'], ['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${st.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
-      <span class="list-count">${all.length}개</span><div style="flex:1">${searchGroupHtml(st.keyword)}</div></div>
+    <div class="list-bar"><span class="list-count">${all.length}개</span>
+      <div class="list-bar-right"><select class="form-select" style="width:130px" data-cat>
+        ${[['', '전체'], ['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${st.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(st.keyword)}</div></div>
     <div class="table-area"><table class="table"><thead><tr><th>No</th><th>제목</th><th>작성자</th><th>작성일자</th><th>인기💞</th><th>조회👀</th></tr></thead>
       <tbody>${rows.map(c => `<tr><td>${c.coggleNo}</td><td><a href="#/coggle-detail/${c.coggleNo}">${esc(c.title)}</a></td><td>${esc(user(c.writer).nickname)}</td>
         <td>${ymd(c.firstRegDate)}</td><td>${c.likedBy.length}</td><td>${c.views}</td></tr>`).join('')}</tbody></table></div>
@@ -848,7 +847,7 @@ function pageCoggleDetail(no, keepViews) {
   app().innerHTML = `<div class="page-detail">
     <div class="detail-head"><div><h1><b>코글</b></h1><h6>${catText(c.category)}</h6></div></div>
     ${detailTitleHtml(c.title, c.writer, c.firstRegDate, c.views)}
-    <div style="width:1000px;margin:0 auto;min-height:535px"><div class="toastui-editor-contents" style="margin:10px;padding-top:20px">${c.content}</div></div>
+    <div style="width:1000px;margin:0 auto;min-height:535px"><div class="toastui-editor-contents detail-body" style="margin:0 10px">${c.content}</div></div>
     <div class="stats-row"><div><span data-like-wrap>${heartSvg(c.likedBy.includes(S.userId))}</span>&nbsp;<span data-likec>${c.likedBy.length}</span></div>
       <div>👀&nbsp;${c.views}</div><div><i class="bi bi-chat-text" style="font-size:20px"></i>&nbsp;${total}</div></div>
     <div class="comment-section">
@@ -1051,11 +1050,10 @@ function myPost(tabType) {
         ${rows.map(r => `<tr><td>${r.recruitNo}</td><td style="text-align:left"><a href="#/${r.category}-detail/${r.recruitNo}" ${r.category === 'cokkiri' ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
-    <div class="mypost-toolbar"><div style="width:150px;padding-top:15px"><select class="native-select" style="width:90px" data-type>
-        ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
-      <span class="list-count" style="padding-top:20px">${list.length}개</span>
-      <div style="flex:1">${searchGroupHtml(kw).replace('mb-3 search-group', 'mb-0 search-group')}
-        ${st.type === 'Coggle' ? '<div style="clear:both" class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> Devlife</label></div>' : ''}</div></div>
+    <div class="list-bar" style="margin-top:20px"><span class="list-count">${list.length}개</span>
+      <div class="list-bar-right"><select class="form-select" style="width:110px" data-type>
+        ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(kw)}</div></div>
+    ${st.type === 'Coggle' ? '<div class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> Devlife</label></div>' : ''}
     <div class="table-area" style="margin:20px auto">${table}</div>
     <div class="pager" style="margin-top:50px">${pagerHtml(list.length, pageInfo)}</div></div>`;
   $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; myPost(tabType); });
@@ -1069,8 +1067,8 @@ function myProject() {
   const list = MY_PROJECTS.filter(p => !st.keyword || p.teamName.includes(st.keyword));
   const { rows, pageInfo } = paginate(list, st.page);
   $('#mypane').innerHTML = `<div class="mypost-wrap">
-    <div class="mypost-toolbar"><div style="width:140px;padding-top:5px"><h1 style="font-size:2rem"><b>프로젝트</b></h1></div>
-      <span class="list-count" style="padding-top:20px">${list.length}개</span><div style="flex:1">${searchGroupHtml(st.keyword).replace('mb-3 search-group', 'mb-0 search-group')}</div></div>
+    <div class="list-bar" style="margin-top:20px"><h1 style="font-size:2rem;margin:0 4px 0 0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span>
+      <div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
     <div class="table-area" style="margin:20px auto"><table class="table"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
       <th>종료 예정 일자</th><th>전체 상태</th><th>개인 상태</th><th>인원 현황</th><th>최종 종료 일자</th></tr></thead><tbody>
       ${rows.map(p => {
