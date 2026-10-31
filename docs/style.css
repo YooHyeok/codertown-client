@@ -280,8 +280,8 @@ body { background: #fff; }
 .mypage-tabs .nav-link.active { color: black; }
 .profile { margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; }
 .profile-edit-wrap { margin: 20px auto; width: 200px; height: 150px; position: relative; }
-/* 원본(relative bottom 45 / left 55) 렌더 결과와 동일: 원형(좌측 25px) 기준 (114, 110) 지점 → 테두리 우하단에 걸침 */
-.profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 110px; left: 139px; width: 32px; height: 32px; }
+/* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
+.profile-pencil { filter: hue-rotate(6deg); position: absolute; top: 98px; left: 123px; width: 32px; height: 32px; }
 .info-form { width: 300px; margin: 20px auto 60px; text-align: left; }
 .info-form .lbl { width: 75px; float: left; }
 .vmsg { display: none; font-size: 13px; }
