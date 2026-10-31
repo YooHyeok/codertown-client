@@ -10,7 +10,7 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignore */ } },
 };
 const S = {
-  userId: store.get('ct_user', ''),
+  userId: store.get('ct_user', DEMO_USER), /* 첫 방문은 데모 계정 자동 로그인 (로그아웃하면 '' 저장되어 유지) */
   mainTab: '1',
   mypageTab: store.get('activeTab', '1'),
   dmOpen: false,
