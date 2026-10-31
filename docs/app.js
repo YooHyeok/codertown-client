@@ -822,7 +822,7 @@ function pageCoggleList() {
     .sort((a, b) => b.coggleNo - a.coggleNo);
   const { rows, pageInfo } = paginate(all, st.page);
   app().innerHTML = `<div class="page-list">
-    <div style="margin:0 auto;width:260px;text-align:center"><h1 style="margin:30px 0"><b>코글: ${catLabel}</b></h1></div>
+    <div class="list-heading" style="justify-content:center"><h1><b>코글: ${catLabel}</b></h1></div>
     <div class="list-bar"><span class="list-count">${all.length}개</span>
       <div class="list-bar-right"><select class="form-select" style="width:130px" data-cat>
         ${[['', '전체'], ['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<option value="${v}" ${st.category === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(st.keyword)}</div></div>
