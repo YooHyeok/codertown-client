@@ -75,7 +75,12 @@ body { background: #fff; }
 .header { display: flex; }
 .nav-items-1 { flex: 0 0 auto; min-width: 17%; height: 80px; list-style: none; margin: 0; padding: 0 1rem 0 0; }
 .nav-items-2 { flex: 1 1 auto; list-style: none; text-align: left; margin: 0; padding-left: 1rem; }
-.nav-items-3 { flex: 0 0 17%; list-style: none; margin: 0; padding-left: 0; display: flex; justify-content: center; }
+/* 오른쪽 정렬: 로그인 여부와 무관하게 프로필 아이콘이 항상 같은 자리 (전구는 그 왼쪽) */
+.nav-items-3 { flex: 0 0 17%; list-style: none; margin: 0; padding: 0 24px 0 0; display: flex; justify-content: flex-end; }
+.nav-items-3 .nav-item-dropdown:last-child { margin-right: 0; padding-right: 0; }
+/* 전구/프로필/로그인 토글 박스를 같은 크기로 고정 → 로그인 여부와 무관하게 위치·높이 동일 */
+.header .nav-items-3 .header-toggle { width: 72px; height: 50px; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.header .header-toggle .bi-person-circle { font-size: 35px; }
 .header .nav-item {
   display: inline-block; height: 80px; padding: 0 10px; min-width: 80px; margin: 0 10px; line-height: 80px;
 }
