@@ -122,7 +122,9 @@ body { zoom: var(--z); }
   color: white;
 }
 .header-toggle .bi { color: black; font-size: 30px; vertical-align: middle; }
-.header-toggle img.profile-sm { width: 35px; height: 35px; border-radius: 100%; vertical-align: middle; }
+.header-toggle img.profile-sm { display: block; width: 35px; height: 35px; border-radius: 100%; object-fit: cover; }
+/* 확대 애니메이션이 끝날 때 레이어가 일반 렌더링으로 돌아가며 이미지가 반 픽셀 튀는 현상 방지 → 항상 같은 레이어에서 그림 */
+.header .header-toggle { will-change: transform; backface-visibility: hidden; }
 .header .dropdown-menu { line-height: 25px; text-align: left; }
 /* 알림·채팅 숫자 배지 공통: 24px 정원 (두 자리 이상은 좌우로 늘어나는 알약) */
 .alarm-badge, .dm-badge {
