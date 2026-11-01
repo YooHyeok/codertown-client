@@ -368,7 +368,10 @@ body { zoom: var(--z); }
 .mypost-wrap { text-align: left; } /* 원본의 min-height 530px 제거: 내용 높이 기준으로 끝선 맞춤 */
 /* 상세보기 버튼: 글꼴·배율과 무관하게 글자를 버튼 정가운데에 (줄 높이 기준 baseline 정렬 대신 flex 가운데 정렬) */
 .pms-btn { display: inline-flex; align-items: center; justify-content: center; width: 70px; height: 30px; padding: 0; font-size: 13px; line-height: 1; vertical-align: middle; }
-.coggle-checks { padding: 0 4px; font-size: 14px; display: flex; gap: 10px; justify-content: flex-end; }
+.coggle-checks { padding: 0 4px; font-size: 14px; display: flex; gap: 10px; align-items: center; height: 38px; margin-right: 4px; white-space: nowrap; }
+.coggle-checks label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+/* 마이페이지 목록 상단 줄 높이 고정 (제목이 있는 프로젝트 탭 기준) → 탭·코글 선택과 무관하게 표 시작 위치 동일 */
+.mypost-wrap .list-bar { min-height: 68px; align-items: flex-end; }
 /* 전체 상태 select: 편집 가능한 칸임을 알 수 있는 작은 박스 + ▾ */
 .status-select {
   appearance: none; height: 26px; min-width: 64px; padding: 0 22px 0 10px; font-size: 13px; vertical-align: middle;

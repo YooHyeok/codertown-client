@@ -1180,9 +1180,8 @@ function myPost(tabType) {
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
     <div class="list-bar" style="margin-top:20px"><span class="list-count">${list.length}개</span>
-      <div class="list-bar-right"><select class="form-select" style="width:110px" data-type>
+      <div class="list-bar-right">${st.type === 'Coggle' ? '<div class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> DevLife</label></div>' : ''}<select class="form-select" style="width:110px" data-type>
         ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(kw)}</div></div>
-    ${st.type === 'Coggle' ? '<div class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> Devlife</label></div>' : ''}
     <div class="table-area" style="margin:20px auto">${table}</div>
     <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
   $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; myPost(tabType); });
