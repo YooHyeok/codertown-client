@@ -183,7 +183,8 @@ body { zoom: var(--z); }
 /* 목록 툴바: 왼쪽 개수 / 오른쪽 select + 검색 (높이 38px 통일) */
 .list-bar { display: flex; align-items: center; gap: 12px; margin: 40px 0 12px; }
 .list-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.list-count { color: gray; white-space: nowrap; }
+.list-count { color: gray; white-space: nowrap; align-self: flex-end; line-height: 1; padding-bottom: 2px; } /* 개수는 아래 구분선 쪽으로 붙임 */
+.list-bar h1 + .list-count { align-self: center; line-height: normal; padding-bottom: 0; } /* 제목 옆 개수는 제목과 같은 높이 */
 .search-group .input-group { flex-wrap: nowrap; }
 .search-group .form-control { box-shadow: none; width: 200px; }
 .search-group .btn { width: 38px; border: 0.1px solid lightgray; display: flex; align-items: center; }
