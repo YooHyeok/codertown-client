@@ -344,9 +344,11 @@ body { zoom: var(--z); }
 /* 프로필 탭: 남는 세로 공간을 위아래로 나누되 위쪽은 최대 40px까지만 (세로가 긴 화면에서 아래로 처지지 않게) */
 .mypage > #mypane.center::before { content: ''; flex: 1 1 0; max-height: 40px; }
 .mypage > #mypane.center::after { content: ''; flex: 1 1 0; }
-.mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 3px solid black; }
-.mypage-tabs .nav-link { color: #495057; font-size: 18px; padding: 10px 0; width: 125px; }
-.mypage-tabs .nav-link.active { color: black; }
+/* 기본은 얇은 회색 기준선, 선택한 탭만 굵은 검은 밑줄 */
+.mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 1px solid #d0d0d0; }
+.mypage-tabs .nav-link { color: #6c757d; font-size: 18px; padding: 10px 0; width: 125px; border: 0; border-bottom: 3px solid transparent; border-radius: 0; margin-bottom: -1px; background: none; }
+.mypage-tabs .nav-link:hover { color: #212529; border-bottom-color: #d0d0d0; }
+.mypage-tabs .nav-link.active { color: black; background: none; border-bottom-color: black; }
 .profile { display: block; margin: 0 auto; width: 150px; height: 150px; border-radius: 100%; object-fit: cover; } /* block: 폼(text-align:left) 안에서도 정확히 가운데 */
 .profile-edit-wrap { margin: 54px auto 28px; /* 하단 padding(48px)과 위아래 균형 */ width: 200px; height: 150px; position: relative; flex: none; }
 /* 원형 우하단(45°)에 배지처럼 겹치도록 아이콘 중심을 테두리보다 약 20px 안쪽에 배치 */
