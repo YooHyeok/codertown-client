@@ -1165,7 +1165,8 @@ function myPost(tabType) {
   const kw = st.keyword;
   let list;
   if (st.type === 'Coggle') {
-    list = COGGLES.filter(c => !c.status && (tabType === 'myPost' ? c.writer === S.userId : c.likedBy.includes(S.userId)) && (!kw || c.title.includes(kw)));
+    const cats = st.cats || (st.cats = ['T', 'C', 'D']); /* 분류 체크박스: 기본 3개 모두 체크 */
+    list = COGGLES.filter(c => !c.status && cats.includes(c.category) && (tabType === 'myPost' ? c.writer === S.userId : c.likedBy.includes(S.userId)) && (!kw || c.title.includes(kw)));
   } else {
     const cat = st.type.toLowerCase();
     list = RECRUITS.filter(r => r.category === cat && !r.status && (tabType === 'myPost' ? r.writer === S.userId : r.bookmarkedBy.includes(S.userId)) && (!kw || r.title.includes(kw)));
@@ -1180,11 +1181,12 @@ function myPost(tabType) {
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
     <div class="list-bar" style="margin-top:20px"><span class="list-count">${list.length}개</span>
-      <div class="list-bar-right">${st.type === 'Coggle' ? '<div class="coggle-checks"><label><input type="checkbox"> TechQue</label><label><input type="checkbox"> Carrier</label><label><input type="checkbox"> DevLife</label></div>' : ''}<select class="form-select" style="width:110px" data-type>
+      <div class="list-bar-right">${st.type === 'Coggle' ? `<div class="coggle-checks">${[['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<label><input type="checkbox" data-cc="${v}" ${st.cats.includes(v) ? 'checked' : ''}> ${t}</label>`).join('')}</div>` : ''}<select class="form-select" style="width:110px" data-type>
         ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(kw)}</div></div>
     <div class="table-area" style="margin:20px auto">${table}</div>
     <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
-  $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; myPost(tabType); });
+  $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; if (st.type === 'Coggle') st.cats = ['T', 'C', 'D']; myPost(tabType); });
+  $$('[data-cc]').forEach(cb => cb.addEventListener('change', () => { st.cats = $$('[data-cc]').filter(x => x.checked).map(x => x.dataset.cc); st.page = 1; myPost(tabType); }));
   bindSearch($('#mypane'), k => { st.keyword = k; st.page = 1; myPost(tabType); });
   bindPager($('#mypane'), pageInfo, p => { st.page = p; myPost(tabType); });
 }
