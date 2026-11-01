@@ -341,7 +341,9 @@ body { zoom: var(--z); }
 #app:has(.mypage) { display: flex; flex-direction: column; }
 #app > .mypage { flex: 1 0 auto; display: flex; flex-direction: column; }
 .mypage > #mypane { flex: 1 0 auto; display: flex; flex-direction: column; }
-.mypage > #mypane.center { justify-content: center; }
+/* 프로필 탭: 남는 세로 공간을 위아래로 나누되 위쪽은 최대 40px까지만 (세로가 긴 화면에서 아래로 처지지 않게) */
+.mypage > #mypane.center::before { content: ''; flex: 1 1 0; max-height: 40px; }
+.mypage > #mypane.center::after { content: ''; flex: 1 1 0; }
 .mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 3px solid black; }
 .mypage-tabs .nav-link { color: #495057; font-size: 18px; padding: 10px 0; width: 125px; }
 .mypage-tabs .nav-link.active { color: black; }

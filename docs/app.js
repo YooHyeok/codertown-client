@@ -209,21 +209,21 @@ function renderHeader() {
   const unread = NOTIFICATIONS.filter(n => !n.isClicked && !n.seen).length;
   const right = !u
     ? `<li class="nav-item-dropdown"><div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown"><i class="bi bi-person-circle"></i></button>
-          <div class="dropdown-menu">
+          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown" data-bs-display="static"><i class="bi bi-person-circle"></i></button>
+          <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="javascript:void(0)" data-open="login"><b>로그인</b></a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:void(0)" data-open="signup"><b>회원가입</b></a>
           </div></div></li>`
     : `<li class="nav-item-dropdown"><div class="dropdown" id="alarmDropdown">
-          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="bi bi-lightbulb"></i></button>
+          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown" data-bs-display="static" data-bs-auto-close="outside"><i class="bi bi-lightbulb"></i></button>
           ${unread > 0 ? `<span class="alarm-badge">${unread}</span>` : ''}
           <div class="dropdown-menu dropdown-menu-end alarm-menu">
             <div class="alarm-head"><b>새 소식</b></div>
             <div class="alarm-body">${alarmItems()}</div>
           </div></div></li>
        <li class="nav-item-dropdown"><div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown"><img class="profile-sm" src="${avatar(u)}" alt="profile"></button>
+          <button class="btn btn-secondary dropdown-toggle header-toggle" data-bs-toggle="dropdown" data-bs-display="static"><img class="profile-sm" src="${avatar(u)}" alt="profile"></button>
           <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#/mypage" data-mypage><b>마이페이지</b></a>
             <div class="dropdown-divider"></div>
