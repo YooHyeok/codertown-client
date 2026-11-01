@@ -184,7 +184,10 @@ body { zoom: var(--z); }
 .list-bar { display: flex; align-items: center; gap: 12px; margin: 40px 0 12px; }
 .list-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .list-count { color: gray; white-space: nowrap; align-self: flex-end; line-height: 1; padding-bottom: 2px; } /* 개수는 아래 구분선 쪽으로 붙임 */
-.list-bar h1 + .list-count { align-self: center; line-height: normal; padding-bottom: 0; } /* 제목 옆 개수는 제목과 같은 높이 */
+/* 마이페이지 프로젝트: 제목 아래에 개수 (개수 위치는 다른 목록과 같은 왼쪽 아래) */
+.list-title { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.list-title .list-count { align-self: flex-start; }
+.list-bar:has(.list-title) .list-bar-right { align-self: flex-end; } /* 검색창도 아래 구분선 쪽에 맞춤 */
 .search-group .input-group { flex-wrap: nowrap; }
 .search-group .form-control { box-shadow: none; width: 200px; }
 .search-group .btn { width: 38px; border: 0.1px solid lightgray; display: flex; align-items: center; }

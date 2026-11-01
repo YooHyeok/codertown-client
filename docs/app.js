@@ -1196,7 +1196,7 @@ function myProject() {
   const list = MY_PROJECTS.filter(p => !st.keyword || p.teamName.includes(st.keyword));
   const { rows, pageInfo } = paginate(list, st.page);
   $('#mypane').innerHTML = `<div class="mypost-wrap">
-    <div class="list-bar" style="margin-top:20px"><h1 style="font-size:2rem;margin:0 4px 0 0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span>
+    <div class="list-bar" style="margin-top:20px"><div class="list-title"><h1 style="font-size:2rem;margin:0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span></div>
       <div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
     <div class="table-area" style="margin:20px auto"><table class="table t-project"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
       <th>종료 예정 일자</th><th>전체 상태</th><th>개인 상태</th><th>인원 현황</th><th>최종 종료 일자</th></tr></thead><tbody>
