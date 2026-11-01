@@ -1206,7 +1206,7 @@ function myProject() {
     return `<tr><td>${p.projectNo}</td><td>${esc(myPart.partName)}</td><td>${esc(p.teamName)}</td><td>${p.objectWeek}</td>
           <td>${p.startDate ? ymd(p.startDate) : '모집중'}</td><td>${p.startDate ? ymd(p.expectedEndDate) : '모집중'}</td>
           <td>${p.myPartNo === 1 ? `<div class="dropdown status-dd"><button type="button" class="status-select" data-bs-toggle="dropdown" data-bs-display="static">${STATUS_OPT.find(s => s[0] === p.projectStatus)[1]}</button><div class="dropdown-menu status-menu">${STATUS_OPT.map(([v, t]) => `<button type="button" class="dropdown-item ${p.projectStatus === v ? 'active' : ''}" data-status="${p.projectNo}" data-value="${v}">${t}</button>`).join('')}</div></div>` : STATUS_OPT.find(s => s[0] === p.projectStatus)[1]}</td>
-          <td>${count}</td><td style="padding:0.5em"><button class="btn btn-secondary btn-sm" style="width:70px" data-pms="${p.projectNo}"><span style="font-size:13px">상세보기</span></button></td>
+          <td>${count}</td><td style="padding:0.5em"><button class="btn btn-secondary btn-sm pms-btn" data-pms="${p.projectNo}">상세보기</button></td>
           <td>${p.projectStatus === 'CLOSED' ? ymd(p.lastClosingDate) : '미완료'}</td></tr>`;
   }).join('')}</tbody></table></div>
     <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
