@@ -1038,18 +1038,15 @@ function pageMyPage() {
   ({ '1': myInfoEdit, '2': myProject, '3': () => myPost('myPost'), '4': () => myPost('myBookMark') })[S.mypageTab]();
   watchMyPageFit();
 }
-/* 마이페이지: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록
-   1단계 여백 압축(.compact) → 그래도 넘치면 2단계 본문 비율 축소(zoom, 최소 0.6) */
+/* 마이페이지: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록 본문 비율 축소(zoom, 최소 0.6)
+   배율은 가장 긴 프로필 탭 기준 → 네 탭 모두 같은 크기로 보인다 */
 function fitMyPage() {
   const mp = $('.mypage');
   if (!mp || fitMyPage.busy) return;
   fitMyPage.busy = true; /* 동기 재진입 방지 (관찰 대상 크기는 최종 상태가 같으면 다시 통지되지 않음) */
   mp.style.zoom = ''; mp.style.marginTop = '';
-  /* flex 로 늘어난 높이가 아닌 '내용 높이' 기준 하단 위치 */
-  mp.style.flex = '0 0 auto';
-  const r = mp.getBoundingClientRect();
-  mp.style.flex = '';
-  const top = r.top + window.scrollY, bottom = r.bottom + window.scrollY;
+  const top = mp.getBoundingClientRect().top + window.scrollY;
+  const bottom = myPageBottom(mp);
   /* 넘치면 디자인 비율을 유지한 채 본문 전체를 같은 비율로 축소 (브라우저 배율과 무관하게 같은 모양) */
   if (bottom > window.innerHeight + 1) {
     const apply = s => {
@@ -1060,12 +1057,28 @@ function fitMyPage() {
     let s = Math.max(0.6, (window.innerHeight - top) / (bottom - top));
     apply(s);
     /* 2차 보정: 반올림·여백 오차로 남은 몇 px 까지 맞춘다 */
-    mp.style.flex = '0 0 auto';
-    const b2 = mp.getBoundingClientRect().bottom + window.scrollY;
-    mp.style.flex = '';
+    const b2 = myPageBottom(mp);
     if (b2 > window.innerHeight + 0.5) apply(Math.max(0.6, s * (window.innerHeight - top) / (b2 - top)));
   }
   fitMyPage.busy = false;
+}
+/* 프로필 탭이 열려 있다고 가정한 '내용 높이' 기준 하단 위치 (flex 로 늘어난 높이 제외)
+   다른 탭이면 보이지 않는 프로필 폼을 잠시 넣어 높이 차이만큼 더한다 */
+function myPageBottom(mp) {
+  mp.style.flex = '0 0 auto';
+  let bottom = mp.getBoundingClientRect().bottom + window.scrollY;
+  const pane = $('#mypane');
+  if (S.mypageTab !== '1' && pane) {
+    const probe = document.createElement('div');
+    probe.style.cssText = `position:absolute; visibility:hidden; display:flow-root; left:0; top:0; width:${pane.clientWidth}px`;
+    probe.innerHTML = profileFormHtml(me()).replace(/ id="[^"]*"/g, '');
+    mp.appendChild(probe);
+    const extra = probe.getBoundingClientRect().height - pane.getBoundingClientRect().height;
+    probe.remove();
+    if (extra > 0) bottom += extra;
+  }
+  mp.style.flex = '';
+  return bottom;
 }
 function watchMyPageFit() {
   const pane = $('#mypane');
@@ -1084,10 +1097,8 @@ function watchMyPageFit() {
   if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(schedule);
   fitMyPage();
 }
-function myInfoEdit() {
-  const u = me();
-  let newImg = null;
-  $('#mypane').innerHTML = `<form class="info-form" onsubmit="return false">
+function profileFormHtml(u) {
+  return `<form class="info-form" onsubmit="return false">
     <div class="profile-edit-wrap"><input type="file" accept="image/*" style="display:none" id="fileInp">
       <img class="profile" id="profImg" src="${avatar(u)}" style="cursor:pointer" alt=""><img src="assets/free-icon-pencil.png" class="profile-pencil" alt=""></div>
     <div class="mb-3"><label class="lbl">닉&nbsp;&nbsp;네&nbsp;&nbsp;임</label>
@@ -1103,6 +1114,11 @@ function myInfoEdit() {
     <div class="row mb-3"><div class="col-6"><button class="btn btn-outline-primary w-100" data-reset>초기화</button></div><div class="col-6"><button class="btn btn-secondary w-100" data-save>저장</button></div></div>
     <div class="mb-3"><button class="btn btn-outline-danger w-100" data-withdraw>회원탈퇴</button></div>
   </form>`;
+}
+function myInfoEdit() {
+  const u = me();
+  let newImg = null;
+  $('#mypane').innerHTML = profileFormHtml(u);
   const f = n => $(`[name=${n}]`), v = (k, on) => $(`[data-v=${k}]`).classList.toggle('on', on);
   const nReg = /^[a-zA-Z가-힣][a-zA-Z가-힣0-9]{0,9}$/;
   const pReg = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\-])(?=.*[A-Z]).{9,}$/;
