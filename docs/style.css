@@ -351,7 +351,7 @@ body { zoom: var(--z); }
 .mypage > #mypane.center::before { content: ''; flex: 1 1 0; max-height: 40px; }
 .mypage > #mypane.center::after { content: ''; flex: 1 1 0; }
 /* 기본은 얇은 회색 기준선, 선택한 탭만 굵은 검은 밑줄 */
-.mypage-tabs { width: 500px; margin: 10px auto; border-bottom: 1px solid #d0d0d0; }
+.mypage-tabs { width: 500px; margin: 10px auto 0; border-bottom: 1px solid #d0d0d0; }
 .mypage-tabs .nav-link { color: #6c757d; font-size: 18px; padding: 10px 0; width: 125px; border: 0; border-bottom: 3px solid transparent; border-radius: 0; margin-bottom: -1px; background: none; }
 .mypage-tabs .nav-link:hover { color: #212529; border-bottom-color: #d0d0d0; }
 .mypage-tabs .nav-link.active { color: black; background: none; border-bottom-color: black; }
@@ -371,7 +371,7 @@ body { zoom: var(--z); }
 .coggle-checks { padding: 0 4px; font-size: 14px; display: flex; gap: 10px; align-items: center; height: 38px; margin-right: 4px; white-space: nowrap; }
 .coggle-checks label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
 /* 마이페이지 목록 상단 줄 높이 고정 (제목이 있는 프로젝트 탭 기준) → 탭·코글 선택과 무관하게 표 시작 위치 동일 */
-.mypost-wrap .list-bar { min-height: 68px; align-items: flex-end; }
+.mypost-wrap .list-bar { min-height: 75px; align-items: flex-end; margin-top: 0; } /* 표 시작 위치를 코끼리·맘모스·코글 목록과 동일하게 */
 /* 전체 상태 select: 편집 가능한 칸임을 알 수 있는 작은 박스 + ▾ */
 .status-select {
   appearance: none; height: 26px; min-width: 64px; padding: 0 22px 0 10px; font-size: 13px; vertical-align: middle;

@@ -1030,7 +1030,7 @@ function pageCoggleWrite(editNo) {
 function pageMyPage() {
   if (!isLogin()) { go('/'); openLogin(); return; }
   const tabs = [['1', '프로필'], ['2', '프로젝트'], ['3', '게시글'], ['4', '북마크']];
-  app().innerHTML = `<div class="mypage"><div><h1><b> My Page</b></h1><br/></div>
+  app().innerHTML = `<div class="mypage"><div><h1><b> My Page</b></h1></div>
     <ul class="nav nav-tabs mypage-tabs">${tabs.map(([k, t]) => `<li class="nav-item"><a class="nav-link ${S.mypageTab === k ? 'active' : ''}" href="javascript:void(0)" data-mt="${k}">${t}</a></li>`).join('')}</ul>
     <div class="tab-content" id="mypane"></div></div>`;
   $$('[data-mt]').forEach(a => a.addEventListener('click', () => { S.mypageTab = a.dataset.mt; store.set('activeTab', a.dataset.mt); closePms(); pageMyPage(); }));
@@ -1180,10 +1180,10 @@ function myPost(tabType) {
         ${rows.map(r => `<tr><td>${r.recruitNo}</td><td><a href="#/${r.category}-detail/${r.recruitNo}" ${r.category === 'cokkiri' ? `data-tip="${r.recruitNo}"` : ''}>${esc(r.title)}</a></td>
           <td>${ymd(r.firstRegDate)}</td><td>${ymd(r.lastModDate || r.firstRegDate)}</td><td>${r.bookmarkedBy.length}</td><td>${r.views}</td></tr>`).join('')}</tbody></table>`;
   $('#mypane').innerHTML = `<div class="mypost-wrap">
-    <div class="list-bar" style="margin-top:20px"><span class="list-count">${list.length}개</span>
+    <div class="list-bar"><span class="list-count">${list.length}개</span>
       <div class="list-bar-right">${st.type === 'Coggle' ? `<div class="coggle-checks">${[['T', 'TechQue'], ['C', 'Carrier'], ['D', 'DevLife']].map(([v, t]) => `<label><input type="checkbox" data-cc="${v}" ${st.cats.includes(v) ? 'checked' : ''}> ${t}</label>`).join('')}</div>` : ''}<select class="form-select" style="width:110px" data-type>
         ${[['Cokkiri', '코끼리'], ['Mammoth', '맘모스'], ['Coggle', '코글']].map(([v, t]) => `<option value="${v}" ${st.type === v ? 'selected' : ''}>${t}</option>`).join('')}</select>${searchGroupHtml(kw)}</div></div>
-    <div class="table-area" style="margin:20px auto">${table}</div>
+    <div class="table-area" style="margin:12px auto 20px">${table}</div>
     <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
   $('[data-type]').addEventListener('change', e => { st.type = e.target.value; st.page = 1; if (st.type === 'Coggle') st.cats = ['T', 'C', 'D']; myPost(tabType); });
   $$('[data-cc]').forEach(cb => cb.addEventListener('change', () => { st.cats = $$('[data-cc]').filter(x => x.checked).map(x => x.dataset.cc); st.page = 1; myPost(tabType); }));
@@ -1197,9 +1197,9 @@ function myProject() {
   const list = MY_PROJECTS.filter(p => !st.keyword || p.teamName.includes(st.keyword));
   const { rows, pageInfo } = paginate(list, st.page);
   $('#mypane').innerHTML = `<div class="mypost-wrap">
-    <div class="list-bar" style="margin-top:20px"><div class="list-title"><h1 style="font-size:2rem;margin:0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span></div>
+    <div class="list-bar"><div class="list-title"><h1 style="font-size:2rem;margin:0"><b>프로젝트</b></h1><span class="list-count">${list.length}개</span></div>
       <div class="list-bar-right">${searchGroupHtml(st.keyword)}</div></div>
-    <div class="table-area" style="margin:20px auto"><table class="table t-project"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
+    <div class="table-area" style="margin:12px auto 20px"><table class="table t-project"><thead><tr><th>No</th><th>담당파트</th><th>프로젝트(팀)명</th><th>목표 기간(주)</th><th>최초 시작 일자</th>
       <th>종료 예정 일자</th><th>전체 상태</th><th>개인 상태</th><th>인원 현황</th><th>최종 종료 일자</th></tr></thead><tbody>
       ${rows.map(p => {
     const myPart = p.parts.find(x => x.partNo === p.myPartNo);
