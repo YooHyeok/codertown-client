@@ -1189,18 +1189,19 @@ function myProject() {
     const count = p.parts.reduce((a, x) => a + x.users.filter(u => u.personalStatus === 'JOIN').length, 0);
     return `<tr><td>${p.projectNo}</td><td>${esc(myPart.partName)}</td><td>${esc(p.teamName)}</td><td>${p.objectWeek}</td>
           <td>${p.startDate ? ymd(p.startDate) : '모집중'}</td><td>${p.startDate ? ymd(p.expectedEndDate) : '모집중'}</td>
-          <td>${p.myPartNo === 1 ? `<select class="status-select" data-status="${p.projectNo}">${STATUS_OPT.map(([v, t]) => `<option value="${v}" ${p.projectStatus === v ? 'selected' : ''}>${t}</option>`).join('')}</select>` : STATUS_OPT.find(s => s[0] === p.projectStatus)[1]}</td>
+          <td>${p.myPartNo === 1 ? `<div class="dropdown status-dd"><button type="button" class="status-select" data-bs-toggle="dropdown" data-bs-display="static">${STATUS_OPT.find(s => s[0] === p.projectStatus)[1]}</button><div class="dropdown-menu status-menu">${STATUS_OPT.map(([v, t]) => `<button type="button" class="dropdown-item ${p.projectStatus === v ? 'active' : ''}" data-status="${p.projectNo}" data-value="${v}">${t}</button>`).join('')}</div></div>` : STATUS_OPT.find(s => s[0] === p.projectStatus)[1]}</td>
           <td>${count}</td><td style="padding:0.5em"><button class="btn btn-secondary btn-sm" style="width:70px" data-pms="${p.projectNo}"><span style="font-size:13px">상세보기</span></button></td>
           <td>${p.projectStatus === 'CLOSED' ? ymd(p.lastClosingDate) : '미완료'}</td></tr>`;
   }).join('')}</tbody></table></div>
     <div class="pager">${pagerHtml(list.length, pageInfo)}</div></div>`;
   bindSearch($('#mypane'), k => { st.keyword = k; st.page = 1; myProject(); });
   bindPager($('#mypane'), pageInfo, p => { st.page = p; myProject(); });
-  $$('[data-status]').forEach(s => s.addEventListener('change', () => {
+  $$('[data-status]').forEach(s => s.addEventListener('click', () => {
     const p = MY_PROJECTS.find(x => x.projectNo == s.dataset.status);
-    p.projectStatus = s.value;
-    if (s.value === 'RUN' && !p.startDate) { p.startDate = nowIso(); const d = new Date(); d.setDate(d.getDate() + p.objectWeek * 7); p.expectedEndDate = d.toISOString(); }
-    if (s.value === 'CLOSED') p.lastClosingDate = nowIso();
+    if (p.projectStatus === s.dataset.value) return;
+    p.projectStatus = s.dataset.value;
+    if (s.dataset.value === 'RUN' && !p.startDate) { p.startDate = nowIso(); const d = new Date(); d.setDate(d.getDate() + p.objectWeek * 7); p.expectedEndDate = d.toISOString(); }
+    if (s.dataset.value === 'CLOSED') p.lastClosingDate = nowIso();
     myProject();
   }));
   $$('[data-pms]').forEach(b => b.addEventListener('click', () => {

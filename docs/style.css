@@ -366,6 +366,12 @@ body { zoom: var(--z); }
   background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23666' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 7px center / 10px;
 }
 .status-select:hover { border-color: rgb(104, 97, 236); }
+/* 기본 select 팝업은 배율(zoom)에서 위치가 어긋나므로 직접 그린 목록: 박스 바로 아래, 같은 폭, 가운데 정렬 */
+.status-dd { display: inline-block; position: relative; vertical-align: middle; }
+.status-dd .status-select { line-height: 24px; }
+.status-menu { min-width: 100%; padding: 4px 0; margin-top: 2px !important; font-size: 13px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.status-menu .dropdown-item { text-align: center; padding: 3px 0; font-size: 13px; }
+.status-menu .dropdown-item.active, .status-menu .dropdown-item:active { background: rgb(104, 97, 236); color: #fff; }
 
 /* 표 정렬 규칙: 번호·분류·날짜·버튼=가운데 / 긴 텍스트=왼쪽 / 수치=오른쪽 */
 .table-area th, .table-area td { vertical-align: middle; }
