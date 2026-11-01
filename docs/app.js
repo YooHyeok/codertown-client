@@ -1038,47 +1038,27 @@ function pageMyPage() {
   ({ '1': myInfoEdit, '2': myProject, '3': () => myPost('myPost'), '4': () => myPost('myBookMark') })[S.mypageTab]();
   watchMyPageFit();
 }
-/* 마이페이지: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록 본문 비율 축소(zoom, 최소 0.6)
-   배율은 가장 긴 프로필 탭 기준 → 네 탭 모두 같은 크기로 보인다 */
+/* 마이페이지: 푸터 구분선이 스크롤 직전 브라우저 끝선에 오도록, 넘치면 프로필 폼만 비율 축소(zoom, 최소 0.6)
+   제목·탭·목록은 축소하지 않는다 → 탭과 무관하게, 코끼리·맘모스·코글 목록과 같은 크기·위치 */
 function fitMyPage() {
   const mp = $('.mypage');
   if (!mp || fitMyPage.busy) return;
+  const form = $('#mypane > .info-form');
+  if (!form) return;
   fitMyPage.busy = true; /* 동기 재진입 방지 (관찰 대상 크기는 최종 상태가 같으면 다시 통지되지 않음) */
-  mp.style.zoom = ''; mp.style.marginTop = '';
-  const top = mp.getBoundingClientRect().top + window.scrollY;
-  const bottom = myPageBottom(mp);
-  /* 넘치면 디자인 비율을 유지한 채 본문 전체를 같은 비율로 축소 (브라우저 배율과 무관하게 같은 모양) */
-  if (bottom > window.innerHeight + 1) {
-    const apply = s => {
-      mp.style.zoom = s;
-      /* zoom 은 margin 도 줄이므로 헤더 아래 시작 위치(top)를 그대로 유지하도록 보정 */
-      mp.style.marginTop = (top / zoomFactor() / s) + 'px';
-    };
-    let s = Math.max(0.6, (window.innerHeight - top) / (bottom - top));
-    apply(s);
+  form.style.zoom = '';
+  /* flex 로 늘어난 높이가 아닌 '내용 높이' 기준 하단 위치 */
+  const bottom = () => { mp.style.flex = '0 0 auto'; const b = mp.getBoundingClientRect().bottom + window.scrollY; mp.style.flex = ''; return b; };
+  const over = bottom() - window.innerHeight;
+  if (over > 1) {
+    const h = form.getBoundingClientRect().height;
+    let s = Math.max(0.6, (h - over) / h);
+    form.style.zoom = s;
     /* 2차 보정: 반올림·여백 오차로 남은 몇 px 까지 맞춘다 */
-    const b2 = myPageBottom(mp);
-    if (b2 > window.innerHeight + 0.5) apply(Math.max(0.6, s * (window.innerHeight - top) / (b2 - top)));
+    const over2 = bottom() - window.innerHeight;
+    if (over2 > 0.5) form.style.zoom = Math.max(0.6, s * (h * s - over2) / (h * s));
   }
   fitMyPage.busy = false;
-}
-/* 프로필 탭이 열려 있다고 가정한 '내용 높이' 기준 하단 위치 (flex 로 늘어난 높이 제외)
-   다른 탭이면 보이지 않는 프로필 폼을 잠시 넣어 높이 차이만큼 더한다 */
-function myPageBottom(mp) {
-  mp.style.flex = '0 0 auto';
-  let bottom = mp.getBoundingClientRect().bottom + window.scrollY;
-  const pane = $('#mypane');
-  if (S.mypageTab !== '1' && pane) {
-    const probe = document.createElement('div');
-    probe.style.cssText = `position:absolute; visibility:hidden; display:flow-root; left:0; top:0; width:${pane.clientWidth}px`;
-    probe.innerHTML = profileFormHtml(me()).replace(/ id="[^"]*"/g, '');
-    mp.appendChild(probe);
-    const extra = probe.getBoundingClientRect().height - pane.getBoundingClientRect().height;
-    probe.remove();
-    if (extra > 0) bottom += extra;
-  }
-  mp.style.flex = '';
-  return bottom;
 }
 function watchMyPageFit() {
   const pane = $('#mypane');

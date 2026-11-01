@@ -177,17 +177,16 @@ body { zoom: var(--z); }
 .page-list { width: 1200px; text-align: left; margin: 80px auto 0; padding: 30px 30px 32px; }
 .page-detail { width: 100%; text-align: left; margin: 50px auto; padding: 30px; }
 .page-write { text-align: left; margin: 50px auto; padding: 30px; }
-.list-heading { margin: 0 auto; display: flex; }
+.list-heading { margin: 0 auto; display: flex; height: 108px; } /* 높이 고정: 배율(zoom)에서도 마이페이지와 표 위치가 정확히 같도록 */
 .list-heading h1 { margin: 30px 0; }
 .list-heading span { display: flex; padding-top: 50px; }
 /* 목록 툴바: 왼쪽 개수 / 오른쪽 select + 검색 (높이 38px 통일) */
 .list-bar { display: flex; align-items: center; gap: 12px; margin: 40px 0 12px; }
 .list-bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .list-count { color: gray; white-space: nowrap; align-self: flex-end; line-height: 1; padding-bottom: 2px; } /* 개수는 아래 구분선 쪽으로 붙임 */
-/* 마이페이지 프로젝트: 제목 아래에 개수 (개수 위치는 다른 목록과 같은 왼쪽 아래) */
-.list-title { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.list-title .list-count { align-self: flex-start; }
-.list-bar:has(.list-title) .list-bar-right { align-self: flex-end; } /* 검색창도 아래 구분선 쪽에 맞춤 */
+/* 마이페이지 프로젝트: 제목은 개수 위 여백에 띄움 → 툴바 높이가 다른 목록과 같아 검색창·표 위치 동일 */
+.list-title { position: relative; align-self: flex-end; }
+.list-title h1 { position: absolute; left: 0; bottom: calc(100% + 6px); white-space: nowrap; }
 .search-group .input-group { flex-wrap: nowrap; }
 .search-group .form-control { box-shadow: none; width: 200px; }
 .search-group .btn { width: 38px; border: 0.1px solid lightgray; display: flex; align-items: center; }
@@ -351,7 +350,8 @@ body { zoom: var(--z); }
 .mypage > #mypane.center::before { content: ''; flex: 1 1 0; max-height: 40px; }
 .mypage > #mypane.center::after { content: ''; flex: 1 1 0; }
 /* 기본은 얇은 회색 기준선, 선택한 탭만 굵은 검은 밑줄 */
-.mypage-tabs { width: 500px; margin: 10px auto 0; border-bottom: 1px solid #d0d0d0; }
+.mypage > div:first-child { height: 56px; } /* 제목 영역 높이 고정 (배율에서도 목록과 같은 위치) */
+.mypage-tabs { width: 500px; height: 50px; margin: 10px auto 0; border-bottom: 1px solid #d0d0d0; flex-wrap: nowrap; }
 .mypage-tabs .nav-link { color: #6c757d; font-size: 18px; padding: 10px 0; width: 125px; border: 0; border-bottom: 3px solid transparent; border-radius: 0; margin-bottom: -1px; background: none; }
 .mypage-tabs .nav-link:hover { color: #212529; border-bottom-color: #d0d0d0; }
 .mypage-tabs .nav-link.active { color: black; background: none; border-bottom-color: black; }
@@ -371,7 +371,7 @@ body { zoom: var(--z); }
 .coggle-checks { padding: 0 4px; font-size: 14px; display: flex; gap: 10px; align-items: center; height: 38px; margin-right: 4px; white-space: nowrap; }
 .coggle-checks label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
 /* 마이페이지 목록 상단 줄 높이 고정 (제목이 있는 프로젝트 탭 기준) → 탭·코글 선택과 무관하게 표 시작 위치 동일 */
-.mypost-wrap .list-bar { min-height: 75px; align-items: flex-end; margin-top: 0; } /* 표 시작 위치를 코끼리·맘모스·코글 목록과 동일하게 */
+.mypost-wrap .list-bar { margin-top: 32px; } /* 탭 밑줄 → 툴바 간격: 검색창·표 시작 위치를 코끼리·맘모스·코글 목록과 동일하게 */
 /* 전체 상태 select: 편집 가능한 칸임을 알 수 있는 작은 박스 + ▾ */
 .status-select {
   appearance: none; height: 26px; min-width: 64px; padding: 0 22px 0 10px; font-size: 13px; vertical-align: middle;
