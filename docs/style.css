@@ -458,7 +458,8 @@ body { zoom: var(--z); }
   justify-content: center; align-items: center; cursor: pointer; color: white;
   box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.15) 0px 8px 30px;
 }
-.dm-btn .bi { font-size: 28px; }
+.dm-btn .bi { font-size: 28px; display: block; width: 1em; height: 1em; line-height: 1; }
+.dm-btn .bi::before { display: block; vertical-align: 0; transform: translateY(-0.035em); }
 .dm-btn.off { background: linear-gradient(rgba(247, 247, 248, 0.9) 0%, rgba(247, 247, 248, 0.9) 100%); color: rgba(0, 0, 0, 0.6); }
 .dm-badge { position: absolute; bottom: 35px; right: -5px; }
 .dm-frame {
