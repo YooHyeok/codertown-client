@@ -594,13 +594,8 @@ body { zoom: var(--z); }
 .ct-toast.error .ico { color: #e74c3c; } .ct-toast.error .bar { background: #e74c3c; }
 .ct-toast.default .ico { color: #6861ec; } .ct-toast.default .bar { background: linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55); }
 
-/* 목업 안내 배지 + 폰트 선택 (헤더 바로 아래) */
-/* 헤더 아래 우측(프로필 쪽): MOCK 안내 → 그 아래 폰트 select */
+/* 헤더 아래 우측(프로필 쪽): 폰트 미리보기 select */
 .mock-bar { position: fixed; right: 16px; top: 88px; z-index: 90; /* 헤더(98) 드롭다운 아래로 */ display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.mock-ribbon {
-  background: rgba(104, 97, 236, .9); color: white;
-  font-size: 12px; padding: 2px 10px; border-radius: 10px; font-family: 'Pretendard-Regular';
-}
 .font-switch {
   height: 26px; font-size: 13px; padding: 0 8px; border: 1px solid rgb(104, 97, 236); border-radius: 13px;
   background: white; color: #333; outline: none;
